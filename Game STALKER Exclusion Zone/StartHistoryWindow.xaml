@@ -1,0 +1,22 @@
+﻿<Window x:Class="Game_STALKER_Exclusion_Zone.StartHistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Game_STALKER_Exclusion_Zone"
+        mc:Ignorable="d"
+        Title="StartHistoryWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel Margin="20" >
+            <Label Content="Предыстория" FontSize="30" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+            <Label Content="    Вы путешественник и искатель, по-другому сталкер. Вы прибыли в опасное" FontSize="20"/>
+            <Label Content="место на земле, не поддающееся законам физики и логики, где радиация" FontSize="20"/>
+            <Label Content="именила прроду и животных до неузнаваемости" FontSize="20"/>
+            <Label Content="    Вам надо найти уникальную вещь, артефакт, магическую вещь, дающую " FontSize="20"/>
+            <Label Content="возможность излечивать самые сложные болезни и травмы. Нужен вам этот " FontSize="20"/>
+            <Label Content="предмет дабы вылечить близкого вам родтсвенника." FontSize="20"/>
+            <Label Content="" FontSize="20"/>
+            <Button x:Name="OKButton" Content="Понятно" FontSize="20" Width="200" Click="OKButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

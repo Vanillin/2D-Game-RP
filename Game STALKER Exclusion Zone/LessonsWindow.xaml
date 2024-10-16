@@ -1,0 +1,51 @@
+﻿<Window x:Class="Game_STALKER_Exclusion_Zone.LessonsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Game_STALKER_Exclusion_Zone"
+        mc:Ignorable="d"
+        Title="LessonsWindow" WindowState="Maximized" Height="1024" Width="1900">
+    <Grid Margin="20,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="130"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <Label Content="   Всё управление осуществляется иключительно через мышку" FontSize="30"/>
+            <Label Content="   Меню и Карта с заданиями открываются по нажатию соответствующих кнопок справа-сверху экрана" FontSize="30"/>
+            <Separator />
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Grid.Column="0">
+                <Label Content="   Движение осуществляется по нажатию на свободную клетку " FontSize="30"/>
+                <Label Content="левой кнопкой мыши" FontSize="30"/>
+            </StackPanel>
+            <StackPanel Grid.Row="0" Grid.Column="1">
+                <Label Content="   Действия осуществляются по нажатию на предмет/существо " FontSize="30"/>
+                <Label Content="правой кнопкой мыши (открывается меню действий)" FontSize="30"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="0">
+                <Label Content="   У вашего персонажа существует инвентарь. Используйте" FontSize="30"/>
+                <Label Content="имеющийся предмет нажав на него" FontSize="30"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="1">
+                <Label Content="   Для удобства можно включить отображение радиуса атаки" FontSize="30"/>
+                <Label Content="вашего оружия и отображение видимости противников. Для" FontSize="30"/>
+                <Label Content="этого нажмите на иконку вашего оружия и брони соответственно." FontSize="30"/>
+            </StackPanel>
+        </Grid>
+        <StackPanel Grid.Row="2">
+            <Button x:Name="OKButton" Content="Понятно" FontSize="30" Width="300" Click="OKButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

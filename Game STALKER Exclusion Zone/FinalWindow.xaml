@@ -1,0 +1,22 @@
+﻿<Window x:Class="Game_STALKER_Exclusion_Zone.FinalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Game_STALKER_Exclusion_Zone"
+        mc:Ignorable="d"
+        Title="FinalWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel Margin="20" >
+            <Label Content="Финал" FontSize="30" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+            <Label Content="    Ваш поход увенчался успехом. Необходимый артефакт был найден." FontSize="20"/>
+            <Label Content="Вы успешно выбрались из закрытой Зоны, не попавшись патрулям. Вашему" FontSize="20"/>
+            <Label Content="родственнику вскоре стало лучше." FontSize="20"/>
+            <Label Content="" FontSize="20"/>
+            <Label Content="" FontSize="20"/>
+            <Label Content="" FontSize="20"/>
+            <Label Content="" FontSize="20"/>
+            <Button x:Name="OKButton" Content="Конец" FontSize="20" Width="200" Click="OKButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

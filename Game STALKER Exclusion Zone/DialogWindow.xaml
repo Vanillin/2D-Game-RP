@@ -1,0 +1,44 @@
+﻿<Window x:Class="Game_STALKER_Exclusion_Zone.DialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Game_STALKER_Exclusion_Zone"
+        mc:Ignorable="d"
+        Title="DialogWindow" Height="700" Width="1000">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="125*"/>
+            <ColumnDefinition Width="123*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Border BorderBrush="Black" BorderThickness="2" Grid.ColumnSpan="2">
+            <Grid Height="80" Background="LightGray">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="1" Margin="0,5">
+                    <Label x:Name="NamePerson" FontSize="20" Content="Name: "/>
+                    <Label x:Name="FractionPerson" FontSize="20" Content="Fraction:"/>
+                </StackPanel>
+                <Image x:Name="PicturePerson" Grid.Column="0" Height="80" Width="200"/>
+                <Image x:Name="PicturePlayer" Grid.Column="3" Height="80" Width="200"/>
+                <StackPanel Grid.Column="2" Margin="0,5">
+                    <Label x:Name="NamePlayer" FontSize="20" Content="Name: "/>
+                    <Label x:Name="FractionPlayer" FontSize="20" Content="Fraction:"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <ScrollViewer Grid.Row="1" Margin="0,10,0,0" Grid.ColumnSpan="2">
+            <StackPanel x:Name="DialogWin">
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

@@ -1,0 +1,32 @@
+﻿<Window x:Class="Game_STALKER_Exclusion_Zone.CreateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Game_STALKER_Exclusion_Zone"
+        mc:Ignorable="d"
+        Title="CreateWindow" WindowState="Maximized" Height="1024" Width="1900">
+    <Canvas x:Name="BackGround">
+        <StackPanel x:Name="StartPanel" Width="800" Height="600" Canvas.Left="520" Canvas.Top="200" >
+            <Label Content="Создание Персонажа" FontSize="30" HorizontalAlignment="Center"/>
+            <Separator />
+            <!--<Label Content="Выберите иконку" FontSize="20"/>-->
+            <Grid Width="700" Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <RadioButton x:Name="RadioButMen" Grid.Column="0" GroupName="Genders" Margin="5,5,5,0"/>
+                <Button x:Name="ImageMen" HorizontalAlignment="Left" Grid.Column="1" Height="100" Width="200" Click="ImageMen_Click"/>
+                <RadioButton x:Name="RadioButWoman" Grid.Column="2" GroupName="Genders" Margin="5,5,5,0"/>
+                <Button x:Name="ImageWoman" HorizontalAlignment="Left" Grid.Column="3" Height="100" Width="200" Click="ImageWoman_Click"/>
+            </Grid>
+            <Label Content="Введите имя персонажа" FontSize="20" Margin="10,20,10,0"/>
+            <TextBox x:Name="TextBoxNamePlayer" Height="50" FontSize="20" Margin="10,0,10,0" MaxLength="20"/>
+
+            <Button x:Name="ButtonStart" Content="Начать игру" Height="50" FontSize="20" Margin="10,30" Click="ButtonStart_Click"/>
+        </StackPanel>
+    </Canvas>
+</Window>
