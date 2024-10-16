@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<AidFirstKid xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Cost>500</Cost>
+  <Healthing>20</Healthing>
+</AidFirstKid>
