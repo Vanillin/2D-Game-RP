@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+<ArrayOfPhrase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Phrase>
+    <Index>Привет11</Index>
+    <Dialog>Приветствую.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Привет12</Index>
+    <Dialog>Здравствуй.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Привет21</Index>
+    <Dialog>Привет, Сталкер.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Привет22</Index>
+    <Dialog>Ну привет.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Привет31</Index>
+    <Dialog>Здравствуй, Сталкер.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Привет32</Index>
+    <Dialog>Здравствуй.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Привет41</Index>
+    <Dialog>Здоров.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Привет42</Index>
+    <Dialog>И тебе не хворать.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ЧтоНового1</Index>
+    <Dialog>Можешь рассказать, что нового произошло?</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ЧтоНового21</Index>
+    <Dialog>А фиг его знает. Что-то да произошло, но не здесь.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ЧтоНового22</Index>
+    <Dialog>Тут всё тихо. Как и вчера, и позавчера... и позапозавчера...</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ЧтоНового23</Index>
+    <Dialog>Я не в курсе последних событий. Жив, и на том спасибо.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ЧтоНового24</Index>
+    <Dialog>Сходи к торговцу, он побольше моего знать должен.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ГлавныйКвестСталкер1</Index>
+    <Dialog>Знаешь, где можно найти артефакт Жабий пузырь?</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ГлавныйКвестСталкер21</Index>
+    <Dialog>Слышал про таком, но не более. К торговцу сходи спроси.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ГлавныйКвестСталкер22</Index>
+    <Dialog>Ходят слухи, что этот артефакт любят кровососы. Больше ничего не знаю.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ГлавныйКвестСталкер23</Index>
+    <Dialog>Впервые о таком слышу. Извиняй.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ГлавныйКвест1</Index>
+    <Dialog>Я ищу артефакт Жабий пузырь. Знаешь, где можно найти такой?</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ГлавныйКвест2</Index>
+    <Dialog>Знаю. Поможешь мне в одном деле, и информация твоя.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ГлавныйКвест3</Index>
+    <Dialog>Хм, что надо делать?</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ГлавныйКвест4</Index>
+    <Dialog>На старом заводе засели наёмники. Надо от них избавиться. Только смотри аккуратней, они вооружены серьёзно. \nСоветую закупиться у меня хорошеньким оружием, тебе скидочку сделаю.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ГлавныйКвест51</Index>
+    <Dialog>По рукам.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ГлавныйКвест52</Index>
+    <Dialog>Не, спасибо. Сам найду.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ГлавныйКвест6</Index>
+    <Dialog>Отправляю тебе безопасный путь до завода. Пойдёшь на восток.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ГлавныйКвест7</Index>
+    <Dialog>Наёмники тебя больше не побеспокоят.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ГлавныйКвест8</Index>
+    <Dialog>Отлично. Значит, слушай, по поводу твоего артика. Здесь он, недалеко, на болотах. Схрон там должен быть одного жмурика, \nбольше ничего не знаю. Тропку до болот скину тебе в ПДА.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>КвестПоискРужья1</Index>
+    <Dialog>Тебе нужна какая-нибудь помощь?</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>КвестПоискРужья2</Index>
+    <Dialog>Да, нужна. Вчера ходил по артефакты да в аномалию электрическую угодил. \nРужьё своё уронил, лезть за ним - себе дороже. Сможешь вернуть?</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>КвестПоискРужья31</Index>
+    <Dialog>Без проблем. Показывай, куда идти.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>КвестПоискРужья32</Index>
+    <Dialog>Извиняй, времени нету.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>КвестПоискРужья4</Index>
+    <Dialog>Супер. Сейчас тебе тропку покажу до аномалии, где-то там должно быть ружьё. Уверен.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>КвестПоискРужья5</Index>
+    <Dialog>Нашел я твоё ружьё. Держи.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>КвестПоискРужья6</Index>
+    <Dialog>Большое спасибо тебе. Денек у меня мало, держи ещё припасов в дорогу.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ТорговляСталкер1</Index>
+    <Dialog>Есть что на продажу?</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ТорговляСталкер21</Index>
+    <Dialog>У самого карман пуст. Это тебе к торговцу надо.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ТорговляСталкер22</Index>
+    <Dialog>Мне нечего тебе путного предложить.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Торговля1</Index>
+    <Dialog>Есть что на продажу?</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Торговля2</Index>
+    <Dialog>Конечно. Что хочешь приобрести?</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Торговля3</Index>
+    <Dialog>Ничего не надо.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Торговля4</Index>
+    <Dialog>У тебя не хватает.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Торговля5</Index>
+    <Dialog>Держи. Что нибудь ещё?</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Продажа1</Index>
+    <Dialog>Покупаешь части тел мутантов?</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Продажа2</Index>
+    <Dialog>А что у тебя?</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Продажа3</Index>
+    <Dialog>Ничего.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Продажа4</Index>
+    <Dialog>Приноси, куплю.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>Продажа5</Index>
+    <Dialog>Пригодиться.</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ТорговляАптечка</Index>
+    <Dialog>Аптечку</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ТорговляАрмейскаяАптечка</Index>
+    <Dialog>Армейскую аптечку</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ТорговляАК74</Index>
+    <Dialog>АК74у</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ТорговляХлеб</Index>
+    <Dialog>Буханку</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ТорговляМП5</Index>
+    <Dialog>МП5</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ТорговляТоз34</Index>
+    <Dialog>Тоз</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ТорговляКонсерва</Index>
+    <Dialog>Консерву</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ПродажаХвост</Index>
+    <Dialog>Хвост слепой собаки</Dialog>
+  </Phrase>
+  <Phrase>
+    <Index>ПродажаШкура</Index>
+    <Dialog>Шкура кровососа</Dialog>
+  </Phrase>
+</ArrayOfPhrase>

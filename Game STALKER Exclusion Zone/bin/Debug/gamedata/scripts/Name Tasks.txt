@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<ArrayOfTask xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Task>
+    <SystemName>ГлавныйКвест</SystemName>
+    <Name>Найти артефакт Жабий пузырь</Name>
+    <SecondName>Мне нужно найти артефакт Жабий пузырь 
+в Зоне и вернуться обратно живым</SecondName>
+    <CordOnMapX>-1</CordOnMapX>
+    <CordOnMapY>-1</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>СпроситьСталкеров</SystemName>
+    <Name>Расспросить сталкеров</Name>
+    <SecondName>Кто-то из сталкеров наверняка знает о 
+таком артефакте</SecondName>
+    <CordOnMapX>0.58</CordOnMapX>
+    <CordOnMapY>0.14</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>ПереходЗавод</SystemName>
+    <Name>Отправиться на Завод</Name>
+    <SecondName>Услуга за услугу: найти и убить 
+наёмников на заводе и узнать об артефакте</SecondName>
+    <CordOnMapX>0.58</CordOnMapX>
+    <CordOnMapY>0.18</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>УбитьНаёмниковЗавод</SystemName>
+    <Name>Уничтожить наёмников</Name>
+    <SecondName>Теперь дело за малым - убить всех 
+наймитов</SecondName>
+    <CordOnMapX>0.52</CordOnMapX>
+    <CordOnMapY>0.65</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>ВыполненКвестУбитьНаёмниковЗавод</SystemName>
+    <Name>Вернуться к Борису</Name>
+    <SecondName>Надо вернуться к Борису и узнать про 
+артефакт</SecondName>
+    <CordOnMapX>0.58</CordOnMapX>
+    <CordOnMapY>0.14</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>ПереходТопи</SystemName>
+    <Name>Отправиться в Топи</Name>
+    <SecondName>Артефакт должен быть где-то на Топях</SecondName>
+    <CordOnMapX>0.51</CordOnMapX>
+    <CordOnMapY>0.14</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>НайтиАртефакт</SystemName>
+    <Name>Найти артефакт</Name>
+    <SecondName>Надо обыскать окрестности, он должен 
+быть где-то здесь</SecondName>
+    <CordOnMapX>0.15</CordOnMapX>
+    <CordOnMapY>0.22</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>Финал</SystemName>
+    <Name>Покинуть Зону</Name>
+    <SecondName>Артефакт у меня, пора возвращаться</SecondName>
+    <CordOnMapX>0.58</CordOnMapX>
+    <CordOnMapY>0.08</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>ПереходАномалии</SystemName>
+    <Name>Перейти на аномальную поляну</Name>
+    <SecondName>Сталкер попросил найти его фамильное 
+ружьё. Оно должно быть где-то на аномальной поляне</SecondName>
+    <CordOnMapX>0.65</CordOnMapX>
+    <CordOnMapY>0.14</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>НайтиФамильноеРужьё</SystemName>
+    <Name>Найти фамильное ружьё</Name>
+    <SecondName>Ружьё должно валяться где-то здесь</SecondName>
+    <CordOnMapX>0.91</CordOnMapX>
+    <CordOnMapY>0.23</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>ВыполненКвестНайтиФамильноеРужьё</SystemName>
+    <Name>Вернуться к сталкеру</Name>
+    <SecondName>Ружьё у меня, можно возвращаться за 
+наградой</SecondName>
+    <CordOnMapX>0.58</CordOnMapX>
+    <CordOnMapY>0.14</CordOnMapY>
+  </Task>
+</ArrayOfTask>

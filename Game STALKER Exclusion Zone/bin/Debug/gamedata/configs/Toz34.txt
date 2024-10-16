@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<Toz34 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Damage>40</Damage>
+  <Radius>6</Radius>
+  <Cost>1200</Cost>
+</Toz34>

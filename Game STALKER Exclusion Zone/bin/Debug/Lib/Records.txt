@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<ArrayOfPlayer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">  
+  <Player>
+    <fraction>Одиночка</fraction>
+    <name>Иван Тропник</name>
+    <coord>
+      <X>13</X>
+      <Y>3</Y>
+    </coord>
+    <gun xsi:type="Obrez">
+      <damage>50</damage>
+      <radius>3</radius>
+      <name>obrez</name>
+      <cost>1500</cost>
+    </gun>
+    <health>100</health>
+    <picture>player3</picture>
+    <InventoryList>
+      <Item xsi:type="Apteka">
+        <picture>apteka</picture>
+        <health>30</health>
+        <cost>350</cost>
+      </Item>
+    </InventoryList>
+    <FriendFranction>
+      <string>Одиночка</string>
+    </FriendFranction>
+    <money>250</money>
+    <kills>3</kills>
+  </Player>
+  <Player>
+    <fraction>Одиночка</fraction>
+    <name>sb1204</name>
+    <coord>
+      <X>13</X>
+      <Y>3</Y>
+    </coord>
+    <gun xsi:type="Obrez">
+      <damage>50</damage>
+      <radius>3</radius>
+      <name>obrez</name>
+      <cost>1500</cost>
+    </gun>
+    <health>10</health>
+    <picture>player2</picture>
+    <InventoryList />
+    <FriendFranction>
+      <string>Одиночка</string>
+      <string>Торговец</string>
+    </FriendFranction>
+    <money>6300</money>
+    <kills>3</kills>
+  </Player>
+  <Player>
+    <fraction>Одиночка</fraction>
+    <name>test</name>
+    <coord>
+      <X>7</X>
+      <Y>2</Y>
+    </coord>
+    <gun xsi:type="Obrez">
+      <damage>50</damage>
+      <radius>3</radius>
+      <name>obrez</name>
+      <cost>1500</cost>
+    </gun>
+    <health>100</health>
+    <picture>player2</picture>
+    <InventoryList>
+      <Item xsi:type="Apteka">
+        <picture>apteka</picture>
+        <health>30</health>
+        <cost>350</cost>
+      </Item>
+      <Item xsi:type="Apteka">
+        <picture>apteka</picture>
+        <health>30</health>
+        <cost>350</cost>
+      </Item>
+    </InventoryList>
+    <FriendFranction>
+      <string>Одиночка</string>
+      <string>Торговец</string>
+    </FriendFranction>
+    <money>1300</money>
+    <kills>0</kills>
+  </Player>
+</ArrayOfPlayer>
