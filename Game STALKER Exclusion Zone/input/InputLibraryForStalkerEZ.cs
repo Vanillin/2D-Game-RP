@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Windows.Input;
 using System.Xml.Serialization;
-using LibraryForStalkerEZ;
 
-namespace InputLibraryForStalkerEZ
+namespace Game_STALKER_Exclusion_Zone
 {
     public class Information
     {
@@ -45,7 +45,7 @@ namespace InputLibraryForStalkerEZ
         private static Task[] ReadTasks(string nameTask)
         {
             Task[] tas;
-            using (var file = new FileStream(Path.Combine("gamedata/scripts", nameTask + ".txt"), FileMode.Open))
+            using (var file = new FileStream(Path.Combine(ConfigurationManager.AppSettings["Scripts"], nameTask + ".txt"), FileMode.Open))
             {
                 var xml = new XmlSerializer(typeof(Task[]), new Type[] { typeof(Task) });
                 tas = (Task[])xml.Deserialize(file);
@@ -55,7 +55,7 @@ namespace InputLibraryForStalkerEZ
         private static Phrase[] ReadPhrases(string namePhrase)
         {
             Phrase[] phrase;
-            using (var file = new FileStream(Path.Combine("gamedata/scripts", namePhrase + ".txt"), FileMode.Open))
+            using (var file = new FileStream(Path.Combine(ConfigurationManager.AppSettings["Scripts"], namePhrase + ".txt"), FileMode.Open))
             {
                 var xml = new XmlSerializer(typeof(Phrase[]), new Type[] { typeof(Phrase) });
                 phrase = (Phrase[])xml.Deserialize(file);
@@ -65,7 +65,7 @@ namespace InputLibraryForStalkerEZ
         private static string[,] CreateLocation(string nameloca)
         {
             string[] loca;
-            using (var file = new FileStream(Path.Combine("gamedata/levels", nameloca + ".txt"), FileMode.Open))
+            using (var file = new FileStream(Path.Combine(ConfigurationManager.AppSettings["Levels"], nameloca + ".txt"), FileMode.Open))
             {
                 var xml = new XmlSerializer(typeof(string[]));
                 loca = (string[])xml.Deserialize(file);

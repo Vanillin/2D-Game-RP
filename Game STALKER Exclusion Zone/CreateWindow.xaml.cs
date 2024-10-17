@@ -1,5 +1,4 @@
-﻿using LibraryForStalkerEZ;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -24,7 +23,7 @@ namespace Game_STALKER_Exclusion_Zone
         public CreateWindow()
         {
             InitializeComponent();
-            Icon = new BitmapImage(new Uri("gamedata/textures/icon.png", UriKind.Relative));
+            Icon = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["Textures"], $"icon.png"), UriKind.Relative));
 
             Image men = new Image
             {

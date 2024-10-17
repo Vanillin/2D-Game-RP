@@ -1,6 +1,4 @@
-﻿using InputLibraryForStalkerEZ;
-using LibraryForStalkerEZ;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Windows;
@@ -51,7 +49,7 @@ namespace Game_STALKER_Exclusion_Zone
             this.Person = Person;
             this.Owner = mainWindow;
             InitializeComponent();
-            Icon = new BitmapImage(new Uri("gamedata/textures/icon.png", UriKind.Relative));
+            Icon = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["Textures"], $"icon.png"), UriKind.Relative));
             CreatePersones();
             StartDialog();
         }

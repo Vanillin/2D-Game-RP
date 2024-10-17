@@ -1,6 +1,4 @@
-﻿using InputLibraryForStalkerEZ;
-using LibraryForStalkerEZ;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -90,7 +88,7 @@ namespace Game_STALKER_Exclusion_Zone
             pixelSY = int.Parse(Map.Width.ToString()) / (sizeY + 2);
             pixelIX = (int.Parse(InventoryPlayer.Height.ToString()) - pixelIOtstX) / (inventX);
             pixelIY = (int.Parse(InventoryPlayer.Width.ToString()) - pixelIOtstY) / (inventY);
-            Icon = new BitmapImage(new Uri("gamedata/textures/icon.png", UriKind.Relative));
+            Icon = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["Textures"], $"icon.png"), UriKind.Relative));
         }
         public void Init(string PlayerName, PlayerGender Gender)
         {

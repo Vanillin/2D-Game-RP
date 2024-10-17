@@ -50,12 +50,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="InputLibraryForStalkerEZ">
-      <HintPath>bin\Debug\Lib\InputLibraryForStalkerEZ.dll</HintPath>
-    </Reference>
-    <Reference Include="LibraryForStalkerEZ">
-      <HintPath>bin\Debug\Lib\LibraryForStalkerEZ.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -84,9 +78,11 @@
     <Compile Include="FinalWindow.xaml.cs">
       <DependentUpon>FinalWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="input\InputLibraryForStalkerEZ.cs" />
     <Compile Include="LessonsWindow.xaml.cs">
       <DependentUpon>LessonsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="library\LibraryStalker.cs" />
     <Compile Include="MenuWindow.xaml.cs">
       <DependentUpon>MenuWindow.xaml</DependentUpon>
     </Compile>
@@ -157,6 +153,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -179,161 +176,143 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\levels\Air Boloto.txt" />
-    <Resource Include="bin\Debug\gamedata\levels\Air Hab.txt" />
-    <Resource Include="bin\Debug\gamedata\levels\Air Zavod.txt" />
-    <Resource Include="bin\Debug\gamedata\levels\Earth Boloto.txt" />
-    <Resource Include="bin\Debug\gamedata\levels\Earth Hab.txt" />
-    <Resource Include="bin\Debug\gamedata\levels\Earth Zavod.txt" />
-    <Resource Include="bin\Debug\gamedata\scripts\Name Tasks.txt" />
-    <Resource Include="bin\Debug\gamedata\textures\icon.png" />
-    <Resource Include="bin\Debug\gamedata\textures\items\AidFirstKid.png" />
-    <Resource Include="bin\Debug\gamedata\textures\items\Ak74ukorot.png" />
-    <Resource Include="bin\Debug\gamedata\textures\items\CombezNaemnik.png" />
-    <Resource Include="bin\Debug\gamedata\textures\items\CombezStalker.png" />
-    <Resource Include="bin\Debug\gamedata\textures\items\emptyitem.png" />
-    <Resource Include="bin\Debug\gamedata\textures\items\KurtkaStalker.png" />
-    <Resource Include="bin\Debug\gamedata\textures\items\Toz34.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\1.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\123.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\1231.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\1232.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\2.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\3.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\4.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\5.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\а.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\в.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\д.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\з.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\к.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\о.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\п.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\р.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\с.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\т.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\ф.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\х.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\ю.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\я.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\DealerBoris-map.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\DealerBoris.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\NaemnikHard-map.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\NaemnikHard.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\NaemnikMedium-map.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\NaemnikMedium.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\PlayerMan-map.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\PlayerMan.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\PlayerWoman-map.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\PlayerWoman.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\StalkerMedium-map.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\StalkerMedium.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\StalkerSmall-map.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\StalkerSmall.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\1.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\13.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\14.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\15.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\16.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\1625646548_14-phonoteka-org-p-stalker-novichok-art-krasivo-16.jpg" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\1625650871_63-phonoteka-org-p-stalker-nayomniki-art-krasivo-63.jpg" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\1626121691_18-kartinkin-com-p-krovosos-stalker-kontsept-art-art-krasivo-20.jpg" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\1626121765_24-kartinkin-com-p-krovosos-stalker-kontsept-art-art-krasivo-26.jpg" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\1638966785_32-abrakadabra-fun-p-stalker-novichok-art-33.jpg" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\1638966830_14-abrakadabra-fun-p-stalker-novichok-art-14.jpg" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\1638966861_27-abrakadabra-fun-p-stalker-novichok-art-27.jpg" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\1638966864_5-abrakadabra-fun-p-stalker-novichok-art-5.jpg" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\17.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\18.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\19.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\2.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\20.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\21.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\22.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\24.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\26.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\26514_m.jpg" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\28.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\2Rgt5JU8UzE.jpg" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\5.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\6.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\7.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\8.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\9.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113532.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113750.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113817.png" />
-    <Resource Include="bin\Debug\gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113953.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\configs\AidFirstKid.txt" />
-    <Resource Include="bin\Debug\gamedata\configs\Ak74ukorot.txt" />
-    <Resource Include="bin\Debug\gamedata\configs\ArtefKrovKamnya.txt" />
-    <Resource Include="bin\Debug\gamedata\configs\Clutch.txt" />
-    <Resource Include="bin\Debug\gamedata\configs\CombezNaemnik.txt" />
-    <Resource Include="bin\Debug\gamedata\configs\CombezStalker.txt" />
-    <Resource Include="bin\Debug\gamedata\configs\KurtkaStalker.txt" />
-    <Resource Include="bin\Debug\gamedata\configs\Toz34.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\textures\map\е.png" />
-    <Resource Include="bin\Debug\gamedata\textures\map\у.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\textures\items\KvestGun.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\textures\player\DealerBoris-mapdead.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\NaemnikHard-mapdead.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\NaemnikMedium-mapdead.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\PlayerMan-mapdead.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\PlayerWoman-mapdead.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\StalkerMedium-mapdead.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\StalkerSmall-mapdead.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\textures\player\Box-map.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\textures\player\Bag-map.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\textures\player\MutantCrovosos-map.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\MutantSobaka-map.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\textures\items\ExoCombezNaemnik.png" />
-    <Resource Include="bin\Debug\gamedata\textures\items\MutantSkin.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\textures\player\MutantCrovosos-mapdead.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\MutantSobaka-mapdead.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\textures\menu.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\textures\map.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\textures\items\ArmyAidFirstKid.png" />
-    <Resource Include="bin\Debug\gamedata\textures\items\ArtZabiiPuzir.png" />
-    <Resource Include="bin\Debug\gamedata\textures\items\Banknote.png" />
-    <Resource Include="bin\Debug\gamedata\textures\items\Bread.png" />
-    <Resource Include="bin\Debug\gamedata\textures\items\MP5.png" />
-    <Resource Include="bin\Debug\gamedata\textures\items\Stew.png" />
-    <Resource Include="bin\Debug\gamedata\textures\items\TailDog.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\textures\player\StalkerZelen-map.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\StalkerZelen-mapdead.png.png" />
-    <Resource Include="bin\Debug\gamedata\textures\player\StalkerZelen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\textures\kvest.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bin\Debug\gamedata\scripts\Name Phrases.txt" />
+    <Resource Include="gamedata\configs\AidFirstKid.txt" />
+    <Resource Include="gamedata\configs\Ak74ukorot.txt" />
+    <Resource Include="gamedata\configs\ArtefKrovKamnya.txt" />
+    <Resource Include="gamedata\configs\Clutch.txt" />
+    <Resource Include="gamedata\configs\CombezNaemnik.txt" />
+    <Resource Include="gamedata\configs\CombezStalker.txt" />
+    <Resource Include="gamedata\configs\KurtkaStalker.txt" />
+    <Resource Include="gamedata\configs\Toz34.txt" />
+    <Resource Include="gamedata\configs\ВСЁ ЭТО НЕ ИСПОЛЬЗУЕТСЯ.txt" />
+    <Resource Include="gamedata\levels\Air Boloto.txt" />
+    <Resource Include="gamedata\levels\Air Electr.txt" />
+    <Resource Include="gamedata\levels\Air Hab.txt" />
+    <Resource Include="gamedata\levels\Air Zavod.txt" />
+    <Resource Include="gamedata\levels\Earth Boloto.txt" />
+    <Resource Include="gamedata\levels\Earth Electr.txt" />
+    <Resource Include="gamedata\levels\Earth Hab.txt" />
+    <Resource Include="gamedata\levels\Earth Zavod.txt" />
+    <Resource Include="gamedata\scripts\Name Phrases.txt" />
+    <Resource Include="gamedata\scripts\Name Tasks.txt" />
+    <Resource Include="gamedata\scripts\Список фраз.txt" />
+    <Resource Include="gamedata\textures\icon.png" />
+    <Resource Include="gamedata\textures\items\AidFirstKid.png" />
+    <Resource Include="gamedata\textures\items\Ak74ukorot.png" />
+    <Resource Include="gamedata\textures\items\ArmyAidFirstKid.png" />
+    <Resource Include="gamedata\textures\items\ArtZabiiPuzir.png" />
+    <Resource Include="gamedata\textures\items\Banknote.png" />
+    <Resource Include="gamedata\textures\items\Bread.png" />
+    <Resource Include="gamedata\textures\items\CombezNaemnik.png" />
+    <Resource Include="gamedata\textures\items\CombezStalker.png" />
+    <Resource Include="gamedata\textures\items\emptyitem.png" />
+    <Resource Include="gamedata\textures\items\ExoCombezNaemnik.png" />
+    <Resource Include="gamedata\textures\items\KurtkaStalker.png" />
+    <Resource Include="gamedata\textures\items\KvestGun.png" />
+    <Resource Include="gamedata\textures\items\MP5.png" />
+    <Resource Include="gamedata\textures\items\MutantSkin.png" />
+    <Resource Include="gamedata\textures\items\Stew.png" />
+    <Resource Include="gamedata\textures\items\TailDog.png" />
+    <Resource Include="gamedata\textures\items\Toz34.png" />
+    <Resource Include="gamedata\textures\kvest.png" />
+    <Resource Include="gamedata\textures\map.png" />
+    <Resource Include="gamedata\textures\map\1.png" />
+    <Resource Include="gamedata\textures\map\123.png" />
+    <Resource Include="gamedata\textures\map\1231.png" />
+    <Resource Include="gamedata\textures\map\1232.png" />
+    <Resource Include="gamedata\textures\map\2.png" />
+    <Resource Include="gamedata\textures\map\3.png" />
+    <Resource Include="gamedata\textures\map\4.png" />
+    <Resource Include="gamedata\textures\map\5.png" />
+    <Resource Include="gamedata\textures\map\а.png" />
+    <Resource Include="gamedata\textures\map\б1.png" />
+    <Resource Include="gamedata\textures\map\б2.png" />
+    <Resource Include="gamedata\textures\map\в.png" />
+    <Resource Include="gamedata\textures\map\д.png" />
+    <Resource Include="gamedata\textures\map\е.png" />
+    <Resource Include="gamedata\textures\map\з.png" />
+    <Resource Include="gamedata\textures\map\з1.png" />
+    <Resource Include="gamedata\textures\map\з2.png" />
+    <Resource Include="gamedata\textures\map\к.png" />
+    <Resource Include="gamedata\textures\map\о.png" />
+    <Resource Include="gamedata\textures\map\п.png" />
+    <Resource Include="gamedata\textures\map\р.png" />
+    <Resource Include="gamedata\textures\map\с.png" />
+    <Resource Include="gamedata\textures\map\т.png" />
+    <Resource Include="gamedata\textures\map\т1.png" />
+    <Resource Include="gamedata\textures\map\т2.png" />
+    <Resource Include="gamedata\textures\map\т3.png" />
+    <Resource Include="gamedata\textures\map\у.png" />
+    <Resource Include="gamedata\textures\map\ф.png" />
+    <Resource Include="gamedata\textures\map\х.png" />
+    <Resource Include="gamedata\textures\map\ю.png" />
+    <Resource Include="gamedata\textures\map\ю1_Пристань чистая.png" />
+    <Resource Include="gamedata\textures\map\я.png" />
+    <Resource Include="gamedata\textures\menu.png" />
+    <Resource Include="gamedata\textures\player\Bag-map.png" />
+    <Resource Include="gamedata\textures\player\Box-map.png" />
+    <Resource Include="gamedata\textures\player\DealerBoris-map.png" />
+    <Resource Include="gamedata\textures\player\DealerBoris-mapdead.png" />
+    <Resource Include="gamedata\textures\player\DealerBoris.png" />
+    <Resource Include="gamedata\textures\player\MutantCrovosos-map.png" />
+    <Resource Include="gamedata\textures\player\MutantCrovosos-mapdead.png" />
+    <Resource Include="gamedata\textures\player\MutantSobaka-map.png" />
+    <Resource Include="gamedata\textures\player\MutantSobaka-mapdead.png" />
+    <Resource Include="gamedata\textures\player\NaemnikHard-map.png" />
+    <Resource Include="gamedata\textures\player\NaemnikHard-mapdead.png" />
+    <Resource Include="gamedata\textures\player\NaemnikHard.png" />
+    <Resource Include="gamedata\textures\player\NaemnikMedium-map.png" />
+    <Resource Include="gamedata\textures\player\NaemnikMedium-mapdead.png" />
+    <Resource Include="gamedata\textures\player\NaemnikMedium.png" />
+    <Resource Include="gamedata\textures\player\PlayerMan-map.png" />
+    <Resource Include="gamedata\textures\player\PlayerMan-mapdead.png" />
+    <Resource Include="gamedata\textures\player\PlayerMan.png" />
+    <Resource Include="gamedata\textures\player\PlayerWoman-map.png" />
+    <Resource Include="gamedata\textures\player\PlayerWoman-mapdead.png" />
+    <Resource Include="gamedata\textures\player\PlayerWoman.png" />
+    <Resource Include="gamedata\textures\player\StalkerMedium-map.png" />
+    <Resource Include="gamedata\textures\player\StalkerMedium-mapdead.png" />
+    <Resource Include="gamedata\textures\player\StalkerMedium.png" />
+    <Resource Include="gamedata\textures\player\StalkerSmall-map.png" />
+    <Resource Include="gamedata\textures\player\StalkerSmall-mapdead.png" />
+    <Resource Include="gamedata\textures\player\StalkerSmall.png" />
+    <Resource Include="gamedata\textures\player\StalkerZelen-map.png" />
+    <Resource Include="gamedata\textures\player\StalkerZelen-mapdead.png.png" />
+    <Resource Include="gamedata\textures\player\StalkerZelen.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\1.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\13.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\14.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\15.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\16.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\1625646548_14-phonoteka-org-p-stalker-novichok-art-krasivo-16.jpg" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\1625650871_63-phonoteka-org-p-stalker-nayomniki-art-krasivo-63.jpg" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\1626121691_18-kartinkin-com-p-krovosos-stalker-kontsept-art-art-krasivo-20.jpg" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\1626121765_24-kartinkin-com-p-krovosos-stalker-kontsept-art-art-krasivo-26.jpg" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\1638966785_32-abrakadabra-fun-p-stalker-novichok-art-33.jpg" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\1638966830_14-abrakadabra-fun-p-stalker-novichok-art-14.jpg" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\1638966861_27-abrakadabra-fun-p-stalker-novichok-art-27.jpg" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\1638966864_5-abrakadabra-fun-p-stalker-novichok-art-5.jpg" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\17.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\18.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\19.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\2.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\20.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\21.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\22.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\24.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\26.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\26514_m.jpg" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\28.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\2Rgt5JU8UzE.jpg" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\5.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\6.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\7.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\8.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\9.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113532.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113750.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113817.png" />
+    <Resource Include="gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113953.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

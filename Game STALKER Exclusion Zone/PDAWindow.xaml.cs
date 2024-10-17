@@ -1,6 +1,4 @@
-﻿using LibraryForStalkerEZ;
-using InputLibraryForStalkerEZ;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +24,7 @@ namespace Game_STALKER_Exclusion_Zone
         public PDAWindow(Player player)
         {
             InitializeComponent();
-            Icon = new BitmapImage(new Uri("gamedata/textures/icon.png", UriKind.Relative)); 
+            Icon = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["Textures"], $"icon.png"), UriKind.Relative));
 
             Image PDAMapBack = new Image()
             {

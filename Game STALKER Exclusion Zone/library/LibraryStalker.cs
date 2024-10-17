@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
-namespace LibraryForStalkerEZ
+namespace Game_STALKER_Exclusion_Zone
 {
     public enum NPSIntellect
     {
