@@ -50,8 +50,8 @@ namespace Game_STALKER_Exclusion_Zone
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
 
-                StartHistoryWindow startHistoryWindow = new StartHistoryWindow();
-                startHistoryWindow.ShowDialog();
+                //StartHistoryWindow startHistoryWindow = new StartHistoryWindow();
+                //startHistoryWindow.ShowDialog();
 
                 this.Close();
                 ((MenuWindow)this.Owner).Close();

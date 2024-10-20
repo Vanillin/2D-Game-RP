@@ -6,14 +6,15 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7198255E-F5B7-47F7-82AF-7BAEA66E8984}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Game_STALKER_Exclusion_Zone</RootNamespace>
-    <AssemblyName>Game STALKER Exclusion Zone</AssemblyName>
+    <RootNamespace>TwoD_Game_RP</RootNamespace>
+    <AssemblyName>2D-Game-RP</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,7 +27,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -78,11 +78,23 @@
     <Compile Include="FinalWindow.xaml.cs">
       <DependentUpon>FinalWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="input\InputLibraryForStalkerEZ.cs" />
+    <Compile Include="input\Clothes.cs" />
+    <Compile Include="input\Guns.cs" />
+    <Compile Include="input\Serializers.cs" />
+    <Compile Include="input\Items.cs" />
+    <Compile Include="input\Skelets.cs" />
     <Compile Include="LessonsWindow.xaml.cs">
       <DependentUpon>LessonsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="library\LibraryStalker.cs" />
+    <Compile Include="library\ActionSystem.cs" />
+    <Compile Include="library\BilateralQueue.cs" />
+    <Compile Include="library\DialogSystem.cs" />
+    <Compile Include="library\ItemSystem.cs" />
+    <Compile Include="library\PlayerSystem.cs" />
+    <Compile Include="library\LocationSystem.cs" />
+    <Compile Include="library\MovementSystem.cs" />
+    <Compile Include="library\SkeletSystem.cs" />
+    <Compile Include="library\TaskSystem.cs" />
     <Compile Include="MenuWindow.xaml.cs">
       <DependentUpon>MenuWindow.xaml</DependentUpon>
     </Compile>
@@ -314,5 +326,6 @@
     <Resource Include="gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113817.png" />
     <Resource Include="gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113953.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -17,7 +17,8 @@
                 <StackPanel Margin="5">
                     <!--<Label x:Name="NameLocation" Content="Локация: Неизвестная пустота неизведанного и неизученного. Серьёзно, тут ничего нет." FontSize="20"/>
                     <Label x:Name="Task" Content="Задание: Начать игру" FontSize="20"/>-->
-                    <Canvas x:Name="Map" Background="Gray" Width="1485" Height="990"> <!--31+2 * 19+3 )) * 45-->
+                    <Canvas x:Name="Map" Background="Gray" Width="1485" Height="990" 
+                            MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseRightButtonDown="Map_MouseRightButtonDown"> <!--31+2 * 19+3 )) * 45-->
 
                     </Canvas>
                 </StackPanel>

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Xml.Serialization;
+using TwoD_Game_RP;
 
 namespace Game_STALKER_Exclusion_Zone
 {
@@ -31,17 +32,10 @@ namespace Game_STALKER_Exclusion_Zone
         const double pixelIOtstX = 50;
         const double pixelIOtstY = 20;
 
-        Image[,] LayerEarth = new Image[sizeX, sizeY];
-        Image[,] LayerPerson = new Image[sizeX, sizeY];
-        Image[,] LayerAir = new Image[sizeX, sizeY];
-        Button[,] LayerButtons = new Button[sizeX, sizeY];
-
         public List<Location> Locations = new List<Location>();
         public Player player;
         public string NameCurrentLocation = "";
 
-        List<string> BlocksGoingOnMap = new Information().BlocksToGoing;
-        List<string> BlocksWatchOnMap = new Information().BlocksToWatch;
         List<string> RandomNamePerson = new Information().NameRandom;
         List<string> RandomSecondNamePerson = new Information().NicknameRandom;
 
@@ -52,16 +46,12 @@ namespace Game_STALKER_Exclusion_Zone
         bool ToSeePlayer = false;
         bool ToSeeEnemy = false;
 
-        public void Serialize()
+        private static readonly int CountTimeAnimation = 200;
+        private DispatcherTimer timerReloadAnimation = new DispatcherTimer()
         {
-            Ak74ukorot a = new Ak74ukorot();
-            Toz34 b = new Toz34();
-            Clutch c = new Clutch();
-            AidFirstKid d = new AidFirstKid();
-            KurtkaStalker f = new KurtkaStalker();
-            CombezStalker g = new CombezStalker();
-            CombezNaemnik h = new CombezNaemnik();
-        }
+            Interval = TimeSpan.FromMilliseconds(CountTimeAnimation)
+        };
+
         public Task FindTask(string Systemname)
         {
             for (int i = 0; i < TasksInGame.Length; i++)
@@ -75,6 +65,9 @@ namespace Game_STALKER_Exclusion_Zone
         }
         public MainWindow()
         {
+            Time = 0;
+            timerReloadAnimation.Tick += TimerAnimation_Tick;
+            timerReloadAnimation.IsEnabled = true;
 
             ButtonNormal.Setters.Add(new Setter { Property = Button.OpacityProperty, Value = 0.01 });
             ButtonNormal.Setters.Add(new Setter { Property = Button.BackgroundProperty, Value = Brushes.White });
@@ -82,14 +75,84 @@ namespace Game_STALKER_Exclusion_Zone
             //ButtonCheck.Setters.Add(new Setter { Property = Button.BackgroundProperty, Value = Brushes.Red });
 
             InitializeComponent();
-            //Serialize();
 
             pixelSX = int.Parse(Map.Height.ToString()) / (sizeX + 3);
             pixelSY = int.Parse(Map.Width.ToString()) / (sizeY + 2);
             pixelIX = (int.Parse(InventoryPlayer.Height.ToString()) - pixelIOtstX) / (inventX);
             pixelIY = (int.Parse(InventoryPlayer.Width.ToString()) - pixelIOtstY) / (inventY);
-            Icon = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["Textures"], $"icon.png"), UriKind.Relative));
+            Icon = new BitmapImage(new Uri( Path.Combine(ConfigurationManager.AppSettings["Textures"], $"icon.png"), UriKind.Relative));
         }
+
+        private int Time;
+        private void TimerAnimation_Tick(object sender, EventArgs e)
+        {
+            NamePlayer.Content = $"{Time}";  
+            Time++;  
+
+            DoActionAll();
+            CreateLocation(Locations.Find(x => x.SystemName == NameCurrentLocation));
+
+            //MakeMovePersonIntellect();
+            //if (selectLevel != null)
+            //    selectLevel.TakeNextPictureLevel();
+
+        }
+        private void DoActionAll()
+        {
+            Location current = Locations.Find(X => X.SystemName == NameCurrentLocation);
+            foreach (var v in current.Lives)
+            {
+                if (v.PeekGlobalAction() == null) continue;
+                if (v.PeekAction() == null) v.CreateActions(v.PeekGlobalAction().CreateActions(v, current.GrafLocToMove));
+                v.PeekAction().CompleteAction(v, current);
+                v.RemoveAction();
+                while (v.PeekAction() != null && v.PeekAction().IsSystem)
+                {
+                    v.PeekAction().CompleteAction(v, current); 
+                    v.RemoveAction();
+                }
+
+            }
+        }
+
+        /*
+         
+        private static readonly int CountTimePlayer = 25;
+        private static IPictureCell deadFloor = new StaticPicCell("Image/system/deadFloor.png", 0);
+        private static IPictureCell step = new StaticPicCell("Image/system/step.png", 0);
+        private static IPictureCell goal = new StaticPicCell("Image/system/goal.png", 0);
+        private static IPictureCell final = new StaticPicCell("Image/system/final.png", 0);
+                
+        private GamePoint PointView;
+        private CanvasToDisplay canvas;
+        private string nameLastLevel;
+        private GameLevel selectLevel;
+        private Player Player = null;
+        private int HeigthPole;
+        private int WightPole;
+        public MainWindow()
+        {
+            InitializeComponent();
+            SizeCanvasChanged();
+            selectLevel = null;
+            canvas = new CanvasToDisplay(CanvasPole);
+
+            timerReloadAnimation.Tick += TimerAnimation_Tick;
+            timerReloadAnimation.IsEnabled = true;
+        }
+        
+        private void DoActionPlayer()
+        {
+            if (selectLevel == null) return;
+            selectLevel.DoActionSubject(Player);
+
+            if (selectLevel.Transitions.ContainsKey(Player.PointOnGraf))
+            {
+                FinishLevel(selectLevel.Transitions[Player.PointOnGraf]);
+            }
+            canvas.ChangePointWatch((Player.Point.H, Player.Point.W));
+        }        
+         */
         public void Init(string PlayerName, PlayerGender Gender)
         {
             AddInformationPlayer(PlayerName, Gender, 7, 2, new Toz34(), new KurtkaStalker(), 1300, new List<Item>() { { new AidFirstKid() }, { new AidFirstKid() } });
@@ -98,15 +161,15 @@ namespace Game_STALKER_Exclusion_Zone
 
             ReadInformationLocation("hab");
 
-            CreateLayersLocation();
-            DisplayLocationOnMap();
-            ReloadPlayerInformation();
+            TimerAnimation_Tick(null, null);
+            //CreateLocation(Locations.Find(x => x.SystemName == NameCurrentLocation));
+            //ReloadPlayerInformation();
         }
 
         private void ReadInformationLocation(string name) 
         {
-            if (Locations.Exists(x => x.SystemName == NameCurrentLocation))
-                Locations.Find(x => x.SystemName == NameCurrentLocation).Signs[(int)player.Cord.X, (int)player.Cord.Y] = null;
+            //if (Locations.Exists(x => x.SystemName == NameCurrentLocation))
+            //    Locations.Find(x => x.SystemName == NameCurrentLocation).Signs[(int)player.Cord.X, (int)player.Cord.Y] = null;
             //сброс персонажа при переходе
 
             string LastLocation = NameCurrentLocation;
@@ -114,156 +177,59 @@ namespace Game_STALKER_Exclusion_Zone
 
             if (!Locations.Exists(x => x.SystemName == name))
             {
-                Graf grafMove = new Graf();
-                Graf grafWatch = new Graf();
-                string publicname = null;
-                string[,] location = null;
-                string[,] air = null;
                 if (name == "hab") //создание информации о локации
                 {
-                    publicname = new Information().NameLocationHab;
-                    location = new Information().LocationHab;
-                    air = new Information().AirHab;
+                    Locations.Add(Information.GetLocationHub());
                 }
                 else if (name == "zavod")
                 {
-                    publicname = new Information().NameLocationZavod;
-                    location = new Information().LocationZavod;
-                    air = new Information().AirZavod;
+                    Locations.Add(Information.GetLocationZavod());
                 }
                 else if (name == "boloto")
                 {
-                    publicname = new Information().NameLocationBoloto;
-                    location = new Information().LocationBoloto;
-                    air = new Information().AirBoloto;
+                    Locations.Add(Information.GetLocationBoloto());
                 }
                 else if (name == "electr")
                 {
-                    publicname = new Information().NameLocationElectr;
-                    location = new Information().LocationElectr;
-                    air = new Information().AirElectr;
-                }
-                string[,] signs = new string[sizeX, sizeY]; //создание препятствий и укрытий
-                for (int i = 0; i < sizeX; i++)
-                {
-                    for (int j = 0; j < sizeY; j++)
-                    {
-                        if (!BlocksGoingOnMap.Contains(location[i, j]) && !BlocksWatchOnMap.Contains(location[i, j])) signs[i, j] = "block";
-                        else if (BlocksGoingOnMap.Contains(location[i, j]) && !BlocksWatchOnMap.Contains(location[i, j])) signs[i, j] = "shelter";
-                        else if (!BlocksGoingOnMap.Contains(location[i, j]) && BlocksWatchOnMap.Contains(location[i, j])) signs[i, j] = "window";
-
-                        if (air[i, j].ToString() == "о") signs[i, j] = "window";
-                        else if (air[i, j].ToString() == "е") signs[i, j] = "anomaly";
-
-                        if (signs[i, j] != "block" && signs[i, j] != "window")
-                            grafMove.Vertexes.Add(new Vertex(new Point(i, j)));
-                        if (signs[i, j] != "block" && signs[i, j] != "shelter")
-                            grafWatch.Vertexes.Add(new Vertex(new Point(i, j)));
-                    }
+                    Locations.Add(Information.GetLocationBoloto());
                 }
 
-                if (name == "zavod") //создание переходов и установка персонажа
-                {
-                    for (int i = 3; i < 6; i++)
-                    {
-                        signs[i, 0] = "trans-hab";
-                        air[i, 0] = "х";
-                    }
-                    player.Cord = new Point(4, 1);
-                }
-                if (name == "boloto")
-                {
-                    for (int i = 14; i < 17; i++)
-                    {
-                        signs[18, i] = "trans-hab";
-                        air[18, i] = "х";
-                    }
-                    player.Cord = new Point(17, 15);
-                }
-                if (name == "electr")
-                {
-                    for (int i = 6; i < 9; i++)
-                    {
-                        signs[0, i] = "trans-hab";
-                        air[0, i] = "х";
-                    }
-                    player.Cord = new Point(1, 7);
-                }
-
-                for (int i = 0; i < sizeX; i++) //создание графа
-                {
-                    for (int j = 0; j < sizeY; j++)
-                    {
-                        if (grafMove.Find(new Point(i, j)) != null)
-                        {
-                            Vertex v = grafMove.Find(new Point(i, j));
-                            if (grafMove.Find(new Point(i - 1, j)) != null)
-                                v.Near.Add(grafMove.Find(new Point(i - 1, j)));
-                            if (grafMove.Find(new Point(i + 1, j)) != null)
-                                v.Near.Add(grafMove.Find(new Point(i + 1, j)));
-                            if (grafMove.Find(new Point(i, j - 1)) != null)
-                                v.Near.Add(grafMove.Find(new Point(i, j - 1)));
-                            if (grafMove.Find(new Point(i, j + 1)) != null)
-                                v.Near.Add(grafMove.Find(new Point(i, j + 1)));
-                        }
-                    }
-                }
-                for (int i = 0; i < sizeX; i++)
-                {
-                    for (int j = 0; j < sizeY; j++)
-                    {
-                        if (grafWatch.Find(new Point(i, j)) != null)
-                        {
-                            Vertex v = grafWatch.Find(new Point(i, j));
-                            if (grafWatch.Find(new Point(i - 1, j)) != null)
-                                v.Near.Add(grafWatch.Find(new Point(i - 1, j)));
-                            if (grafWatch.Find(new Point(i + 1, j)) != null)
-                                v.Near.Add(grafWatch.Find(new Point(i + 1, j)));
-                            if (grafWatch.Find(new Point(i, j - 1)) != null)
-                                v.Near.Add(grafWatch.Find(new Point(i, j - 1)));
-                            if (grafWatch.Find(new Point(i, j + 1)) != null)
-                                v.Near.Add(grafWatch.Find(new Point(i, j + 1)));
-                        }
-                    }
-                }
-
-                string[,] signsLives = new string[sizeX, sizeY]; //расстановка людей
-                Locations.Add(new Location(publicname, name, signs, location, air, grafMove, grafWatch, signsLives)); //локация сформирована
+                //if (name == "zavod") //создание переходов и установка персонажа
+                //{
+                //    for (int i = 3; i < 6; i++)
+                //    {
+                //        signs[i, 0] = "trans-hab";
+                //        air[i, 0] = "х";
+                //    }
+                //    player.Cord = new Point(4, 1);
+                //}
+                //if (name == "boloto")
+                //{
+                //    for (int i = 14; i < 17; i++)
+                //    {
+                //        signs[18, i] = "trans-hab";
+                //        air[18, i] = "х";
+                //    }
+                //    player.Cord = new Point(17, 15);
+                //}
+                //if (name == "electr")
+                //{
+                //    for (int i = 6; i < 9; i++)
+                //    {
+                //        signs[0, i] = "trans-hab";
+                //        air[0, i] = "х";
+                //    }
+                //    player.Cord = new Point(1, 7);
+                //}
+                
                 AddPlayer((int)player.Cord.X, (int)player.Cord.Y);
 
-                if (name == "hab")
-                {
-                    AddStalkerSmall(9, 13, new Toz34(), NPSIntellect.StandAgressive, new List<Item>() { new Bread() });
-                    AddStalkerZelen(3, 24, new Ak74ukorot(), NPSIntellect.StandPassive);
-                    AddStalkerSmall(11, 14, new Toz34(), NPSIntellect.RandomPassive, new List<Item>() { new Banknote() });
-                    AddDealerBoris(14, 3, new Toz34(), NPSIntellect.StandPassive);
-                    AddStalkerSmall(10, 15, new Toz34(), NPSIntellect.RandomPassive, new List<Item>() { new AidFirstKid() });
-                    AddStalkerMedium(11, 4, new Ak74ukorot(), NPSIntellect.StandPassive, new List<Item>() { new Banknote(), new Bread() });
-                    AddStalkerMedium(10, 26, new Ak74ukorot(), NPSIntellect.StandPassive, new List<Item>() { new ArmyAidFirstKid() });
-                    AddBox("BagHab", "Bag", 16, 20, 1000, new List<Item>() { new Banknote(), new AidFirstKid(), new ArmyAidFirstKid() });
-                }
-                else if (name == "zavod")
-                {
-                    AddNaemnikMedium(1, 23, new Ak74ukorot(), NPSIntellect.RandomPassive, new List<Item>() { new Banknote(), new Bread() });
-                    AddNaemnikHard(11, 28, new Ak74ukorot(), NPSIntellect.StandAgressive, new List<Item>() { new Banknote(), new ArmyAidFirstKid() });
-                    AddNaemnikMedium(16, 18, new Ak74ukorot(), NPSIntellect.StandAgressive, new List<Item>() { new Stew() });
-                    AddNaemnikHard(11, 13, new Ak74ukorot(), NPSIntellect.StandAgressive, new List<Item>() { new Banknote(), new AidFirstKid() });
-                    AddNaemnikMedium(9, 27, new Ak74ukorot(), NPSIntellect.StandAgressive, new List<Item>() { new AidFirstKid() });
-
-                    AddMutantSobaka(14, 10, new List<Item>() { new TailDog() });
-                    AddMutantSobaka(13, 12, new List<Item>() { new TailDog() });
-                    AddMutantSobaka(16, 13, new List<Item>() { new TailDog() });
-                    AddMutantSobaka(15, 14, new List<Item>() { new TailDog() });
-                }
-                else if (name == "boloto")
-                {
-                    AddBox("Schron", "Box", 4, 5, 600, new List<Item> { new ArtZabiiPuzir(), new Banknote(), new Banknote(), new MP5() });
-                }
-                else if (name == "electr")
-                {
-                    AddBox("LostBag", "Bag", 9, 15, 500, new List<Item> { new KvestGun(), new Banknote(), new TailDog()});
-                }
-
+                StalkerSmall stalker = new StalkerSmall(RandomNamePerson[0], RandomSecondNamePerson[0], new Ak74ukorot(), NPSIntellect.StandAgressive, new Point(0, 0), 0,
+                    new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
+                Locations.Find(X => X.SystemName == NameCurrentLocation).AddCell(stalker.picture, 1, 0, 0);
+                Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Add(stalker);
+                stalker.EnqueueDownGlobalAction(new ActionMove(new Point(0, 7), true));
+                stalker.EnqueueDownGlobalAction(new ActionMove(new Point(0, 0), true));
                 return;
             }
 
@@ -287,7 +253,7 @@ namespace Game_STALKER_Exclusion_Zone
                 MakeMovePerson(player, new Point(1, 7));
             //player.Cord = new Point(1, 7);
 
-            Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[(int)player.Cord.X, (int)player.Cord.Y] = "player";
+            //Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[(int)player.Cord.X, (int)player.Cord.Y] = "player";
         }
         //-------------------------------------------------------------------------------Add
         private void AddInformationPlayer(string PlayerName, PlayerGender gender, int x, int y, Gun gun, Cloth cloth, int money, List<Item> inventory)
@@ -299,15 +265,18 @@ namespace Game_STALKER_Exclusion_Zone
         private void AddPlayer(int x, int y)
         {
             Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Add(player);
-            Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] = "player";
+
+            Locations.Find(X => X.SystemName == NameCurrentLocation).AddCell(player.picture, 1, x, y);
+            //Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] = "player";
 
             player.OblSee = Locations.Find(X => X.SystemName == NameCurrentLocation).GrafLocToWatch.SearchSee(player.Cord, 9);
         }
         private void AddBox(string Name, string SystemName, int x, int y, int money, List<Item> listitems)
         {
             SkeletBox Box = new SkeletBox(Name, SystemName, new Point(x, y), money, listitems);
-            Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
-                $"item{Name}{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            //Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
+            //    $"item{Name}{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            Locations.Find(X => X.SystemName == NameCurrentLocation).AddCell(Box.picture, 1, x, y);
             Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Add(Box);
         }
         private void AddStalkerSmall(int x, int y, Gun gun, NPSIntellect intel, List<Item> inventory)
@@ -316,8 +285,9 @@ namespace Game_STALKER_Exclusion_Zone
             int numb2 = rand.Next(0, RandomSecondNamePerson.Count - 1);
             StalkerSmall stalker = new StalkerSmall(RandomNamePerson[numb1], RandomSecondNamePerson[numb2], null, intel, new Point(x, y), 0,
                 inventory, new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
-            Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
-                $"stalker{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            //Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
+            //    $"stalker{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            Locations.Find(X => X.SystemName == NameCurrentLocation).AddCell(stalker.picture, 1, x, y);
             Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Add(stalker);
 
             stalker.TakeGun(gun, Locations.Find(X => X.SystemName == NameCurrentLocation));
@@ -329,8 +299,9 @@ namespace Game_STALKER_Exclusion_Zone
             int numb2 = rand.Next(0, RandomSecondNamePerson.Count - 1);
             StalkerMedium stalker = new StalkerMedium(RandomNamePerson[numb1], RandomSecondNamePerson[numb2], null, intel, new Point(x, y), 0,
                 inventory, new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
-            Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
-                $"stalker{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            //Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
+            //    $"stalker{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            Locations.Find(X => X.SystemName == NameCurrentLocation).AddCell(stalker.picture, 1, x, y);
             Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Add(stalker);
 
             stalker.TakeGun(gun, Locations.Find(X => X.SystemName == NameCurrentLocation));
@@ -342,8 +313,9 @@ namespace Game_STALKER_Exclusion_Zone
             int numb2 = rand.Next(0, RandomSecondNamePerson.Count - 1);
             NaemnikMedium naemnik = new NaemnikMedium(RandomNamePerson[numb1], RandomSecondNamePerson[numb2], null, intel, new Point(x, y), 0,
                 inventory, new List<NPSGroup>() { { NPSGroup.Naemnik }, { NPSGroup.Box } });
-            Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
-                $"naemnik{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            //Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
+            //    $"naemnik{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            Locations.Find(X => X.SystemName == NameCurrentLocation).AddCell(naemnik.picture, 1, x, y);
             Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Add(naemnik);
 
             naemnik.TakeGun(gun, Locations.Find(X => X.SystemName == NameCurrentLocation));
@@ -355,8 +327,9 @@ namespace Game_STALKER_Exclusion_Zone
             int numb2 = rand.Next(0, RandomSecondNamePerson.Count - 1);
             NaemnikHard naemnik = new NaemnikHard(RandomNamePerson[numb1], RandomSecondNamePerson[numb2], null, intel, new Point(x, y), 0,
                 inventory, new List<NPSGroup>() { { NPSGroup.Naemnik }, { NPSGroup.Box } });
-            Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
-                $"naemnik{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            //Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
+            //    $"naemnik{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            Locations.Find(X => X.SystemName == NameCurrentLocation).AddCell(naemnik.picture, 1, x, y);
             Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Add(naemnik);
 
             naemnik.TakeGun(gun, Locations.Find(X => X.SystemName == NameCurrentLocation));
@@ -366,8 +339,9 @@ namespace Game_STALKER_Exclusion_Zone
         {
             MutantSobaka mutant = new MutantSobaka(new Point(x, y),
                 inventory, new List<NPSGroup>() { { NPSGroup.Mutant }, { NPSGroup.Box } });
-            Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
-                $"mutant{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            //Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
+            //    $"mutant{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            Locations.Find(X => X.SystemName == NameCurrentLocation).AddCell(mutant.picture, 1, x, y);
             Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Add(mutant);
 
             mutant.OblSee = Locations.Find(X => X.SystemName == NameCurrentLocation).GrafLocToWatch.SearchSee(mutant.Cord, 11);
@@ -376,8 +350,9 @@ namespace Game_STALKER_Exclusion_Zone
         {
             MutantCrovosos mutant = new MutantCrovosos(new Point(x, y),
                 inventory, new List<NPSGroup>() { { NPSGroup.Mutant }, { NPSGroup.Box } });
-            Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
-                $"mutant{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            //Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
+            //    $"mutant{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            Locations.Find(X => X.SystemName == NameCurrentLocation).AddCell(mutant.picture, 1, x, y);
             Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Add(mutant);
 
             mutant.OblSee = Locations.Find(X => X.SystemName == NameCurrentLocation).GrafLocToWatch.SearchSee(mutant.Cord, 11);
@@ -386,8 +361,9 @@ namespace Game_STALKER_Exclusion_Zone
         {
             DealerBoris dealer = new DealerBoris(null, intel, new Point(x, y),
                 new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
-            Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
-                $"dealer{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            //Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
+            //    $"dealer{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            Locations.Find(X => X.SystemName == NameCurrentLocation).AddCell(dealer.picture, 1, x, y);
             Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Add(dealer);
 
             dealer.TakeGun(gun, Locations.Find(X => X.SystemName == NameCurrentLocation));
@@ -397,8 +373,9 @@ namespace Game_STALKER_Exclusion_Zone
         {
             StalkerZelen zelen = new StalkerZelen(null, intel, new Point(x, y),
                 new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
-            Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
-                $"dealer{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            //Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] =
+            //    $"dealer{Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Count + 1}";
+            Locations.Find(X => X.SystemName == NameCurrentLocation).AddCell(zelen.picture, 1, x, y);
             Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Add(zelen);
 
             zelen.TakeGun(gun, Locations.Find(X => X.SystemName == NameCurrentLocation));
@@ -410,170 +387,61 @@ namespace Game_STALKER_Exclusion_Zone
         }
 
         //-------------------------------------------------------------------------------Reload Create
-        //using (var file = new FileStream(Path.Combine(ConfigurationManager.AppSettings["SaveRecord"], "Records.txt"), FileMode.Open))
-        //{
-        //    var xml = new XmlSerializer(typeof(List<Player>), new Type[] { typeof(Player), typeof(Gun), typeof(Obrez), typeof(AK), typeof(Apteka) });
-        //    records = (List<Player>)xml.Deserialize(file);
-        //}
-        private void CreateLayerEarth(Location currentLoc)
+        
+        private void CreateLocation(Location location)
         {
-            for (int i = 0; i < sizeX; i++)
+            Map.Children.Clear();
+            for (int i = 0; i < location.Height; i++)
             {
-                for (int j = 0; j < sizeY; j++)
+                for (int j = 0; j < location.Width; j++)
                 {
-                    Image image = new Image()
+                    foreach (var v in location.GetListLocationCell(i, j))
                     {
-                        Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"{currentLoc.Blocks[i, j]}.png"), UriKind.Relative)),
-                        Width = pixelSY,
-                        Height = pixelSX,
-                    };
-                    Canvas.SetLeft(image, pixelSY + pixelSY * j);
-                    Canvas.SetTop(image, pixelSX + pixelSX * i);
-                    LayerEarth[i, j] = image;
-                }
-            }
-        }
-        private void CreateLayerAir(Location currentLoc)
-        {
-            for (int i = 0; i < sizeX; i++)
-            {
-                for (int j = 0; j < sizeY; j++)
-                {
-                    Image image = new Image();
-                    if (currentLoc.Air[i, j].ToString() != "-")
-                    {
-                        image = new Image()
+                        Image image = new Image()
                         {
-                            Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"{currentLoc.Air[i, j]}.png"), UriKind.Relative)),
+                            Source = new BitmapImage(new Uri(v.Picture(), UriKind.Relative)),
                             Width = pixelSY,
                             Height = pixelSX,
                         };
-                    }
-                    Canvas.SetLeft(image, pixelSY + pixelSY * j);
-                    Canvas.SetTop(image, pixelSX + pixelSX * i);
-                    LayerAir[i, j] = image;
-                }
-            }
-        }
-        private void CreateLayerPerson(Location currentLoc)
-        {
-            for (int i = 0; i < sizeX; i++)
-            {
-                for (int j = 0; j < sizeY; j++)
-                {
-                    LayerPerson[i, j] = new Image();
-                }
-            }
-            Image playermap = new Image()
-            {
-                Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{player.SystemName}-map.png"), UriKind.Relative)),
-                Width = pixelSY,
-                Height = pixelSX,
-            };
-            Canvas.SetLeft(playermap, pixelSY + pixelSY * player.Cord.Y);
-            Canvas.SetTop(playermap, pixelSX + pixelSX * player.Cord.X);
-            LayerPerson[(int)player.Cord.X, (int)player.Cord.Y] = playermap;
-            foreach (Skelet people in currentLoc.Lives)
-            {
-                Image image;
-                if (!people.IsAlive)
-                {
-                    image = new Image()
-                    {
-                        Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{people.SystemName}-mapdead.png"), UriKind.Relative)),
-                    };
-                }
-                else
-                {
-                    image = new Image()
-                    {
-                        Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{people.SystemName}-map.png"), UriKind.Relative)),
-                    };
-                }
-                image.Width = pixelSY;
-                image.Height = pixelSX;
-                Canvas.SetLeft(image, pixelSY + pixelSY * people.Cord.Y);
-                Canvas.SetTop(image, pixelSX + pixelSX * people.Cord.X);
-                LayerPerson[(int)people.Cord.X, (int)people.Cord.Y] = image;
-            }
-        }
-        private void CreateLayerButton()
-        {
-            for (int i = 0; i < sizeX; i++)
-            {
-                for (int j = 0; j < sizeY; j++)
-                {
-                    Button button = new Button();
-                    button.Style = ButtonNormal;
-
-                    button.Tag = $"{i} {j}";
-                    button.Click += ClickLeftButtonMap;
-                    button.MouseRightButtonDown += ClickRightButtonMap;
-                    button.Width = pixelSY;
-                    button.Height = pixelSX;
-                    Canvas.SetLeft(button, pixelSY + pixelSY * j);
-                    Canvas.SetTop(button, pixelSX + pixelSX * i);
-
-                    LayerButtons[i, j] = button;
-                }
-            }
-            if (ToSeePlayer)
-            {
-                List<Point> around = Locations.Find(x => x.SystemName == NameCurrentLocation).Lives.Find(x => x.Cord == player.Cord).OblAttack;
-                if (around.Count == 0)
-                {
-                    NamePlayer.Content = $"Имя: {Locations.Find(x => x.SystemName == NameCurrentLocation).SignsLives[(int)player.Cord.X, (int)player.Cord.Y]}";
-                }
-                foreach (Point point in around)
-                {
-                    LayerButtons[(int)point.X, (int)point.Y].Background = Brushes.Red;
-                    LayerButtons[(int)point.X, (int)point.Y].Opacity += 0.11;
-                }
-            }
-            if (ToSeeEnemy)
-            {
-                foreach (Skelet enemy in Locations.Find(x => x.SystemName == NameCurrentLocation).Lives)
-                {
-                    if (!(enemy is Player) && enemy.IsAlive == true)
-                    {
-                        List<Point> around = Locations.Find(x => x.SystemName == NameCurrentLocation).Lives.Find(x => x.Cord == enemy.Cord).OblSee;
-                        foreach (Point point in around)
-                        {
-                            LayerButtons[(int)point.X, (int)point.Y].Background = Brushes.Red;
-                            LayerButtons[(int)point.X, (int)point.Y].Opacity += 0.10;
-                        }
+                        Canvas.SetLeft(image, pixelSY + pixelSY * j);
+                        Canvas.SetTop(image, pixelSX + pixelSX * i);
+                        Map.Children.Add(image);
                     }
                 }
             }
-        }
-        private void DisplayLocationOnMap()
-        {
-            Map.Children.Clear();
-            for (int i = 0; i < sizeX; i++)
-            {
-                for (int j = 0; j < sizeY; j++)
-                {
-                    Image image = LayerEarth[i, j];
-                    Map.Children.Add(image);
 
-                    image = LayerPerson[i, j];
-                    Map.Children.Add(image);
+            return;
 
-                    image = LayerAir[i, j];
-                    Map.Children.Add(image);
+            //if (ToSeePlayer)
+            //{
+            //    List<Point> around = Locations.Find(x => x.SystemName == NameCurrentLocation).Lives.Find(x => x.Cord == player.Cord).OblAttack;
+            //    if (around.Count == 0)
+            //    {
+            //        NamePlayer.Content = $"Имя: {Locations.Find(x => x.SystemName == NameCurrentLocation).SignsLives[(int)player.Cord.X, (int)player.Cord.Y]}";
+            //    }
+            //    foreach (Point point in around)
+            //    {
+            //        LayerButtons[(int)point.X, (int)point.Y].Background = Brushes.Red;
+            //        LayerButtons[(int)point.X, (int)point.Y].Opacity += 0.11;
+            //    }
+            //}
+            //if (ToSeeEnemy)
+            //{
+            //    foreach (Skelet enemy in Locations.Find(x => x.SystemName == NameCurrentLocation).Lives)
+            //    {
+            //        if (!(enemy is Player) && enemy.IsAlive == true)
+            //        {
+            //            List<Point> around = Locations.Find(x => x.SystemName == NameCurrentLocation).Lives.Find(x => x.Cord == enemy.Cord).OblSee;
+            //            foreach (Point point in around)
+            //            {
+            //                LayerButtons[(int)point.X, (int)point.Y].Background = Brushes.Red;
+            //                LayerButtons[(int)point.X, (int)point.Y].Opacity += 0.10;
+            //            }
+            //        }
+            //    }
+            //}
+        }        
 
-                    Button button = LayerButtons[i, j];
-                    Map.Children.Add(button);
-                }
-            }
-        }
-        private void CreateLayersLocation()
-        {
-            CreateLayerEarth(Locations.Find(x => x.SystemName == NameCurrentLocation));
-            CreateLayerPerson(Locations.Find(x => x.SystemName == NameCurrentLocation));
-            CreateLayerAir(Locations.Find(x => x.SystemName == NameCurrentLocation));
-            CreateLayerButton();
-        }
         private void ReloadPlayerInformation()
         {
             if (!player.IsAlive) EndGame();
@@ -613,8 +481,8 @@ namespace Game_STALKER_Exclusion_Zone
 
                         for (int i = 5; i < 8; i++)
                         {
-                            Locations.Find(x => x.SystemName == "hab").Signs[i, 0] = "trans-final";
-                            Locations.Find(x => x.SystemName == "hab").Air[i, 0] = "х";
+                            //Locations.Find(x => x.SystemName == "hab").Signs[i, 0] = "trans-final";
+                            //Locations.Find(x => x.SystemName == "hab").Air[i, 0] = "х";
                         }
 
                         AddMutantCrovosos(7, 21, new List<Item>() { new MutantSkin() });
@@ -691,73 +559,72 @@ namespace Game_STALKER_Exclusion_Zone
         //-------------------------------------------------------------------------------Move
         private void MakeMovePerson(Skelet Person, Point point)
         {
-            int x = (int)point.X; int y = (int)point.Y;
-            if (x >= sizeX || x < 0 || y < 0 || y >= sizeY)
-            {
-                return;
-            }
+            Location current = Locations.Find(x => x.SystemName == NameCurrentLocation);
+            current.GetListLocationCell((int)Person.Cord.X, (int)Person.Cord.Y).RemoveLocationCell(Person.picture);
+            current.GetListLocationCell((int)point.X, (int)point.Y).AddLocationCell(Person.picture, 1);
+            Person.Cord = new Point(point.X, point.Y);
 
-            int cordX = (int)Person.Cord.X;
-            int cordY = (int)Person.Cord.Y;
-            if (Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] != null)
-            {
-                if (Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Find(X => X.Cord == new Point(x, y)).IsAlive == false)
-                {
-                    (Person.Cord, Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Find(X => X.Cord == new Point(x, y)).Cord) =
-                        (Locations.Find(X => X.SystemName == NameCurrentLocation).Lives.Find(X => X.Cord == new Point(x, y)).Cord, Person.Cord);
-                    (Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[(int)Person.Cord.X, (int)Person.Cord.Y],
-                        Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y]) =
-                        (Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y],
-                        Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[(int)Person.Cord.X, (int)Person.Cord.Y]);
-                }
-            }
-            else if (Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y] == null ||
-                Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y] == "shelter")
-            {
-                Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] = Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[cordX, cordY];
-                Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[cordX, cordY] = null;
-                Person.Going(new Point(x, y), Locations.Find(X => X.SystemName == NameCurrentLocation));
-            }
-            else if (Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y] == "anomaly")
-            {
-                Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] = Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[cordX, cordY];
-                Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[cordX, cordY] = null;
-                Person.Going(new Point(x, y), Locations.Find(X => X.SystemName == NameCurrentLocation));
-                Person.Damaging(30);
-            }
-            else if (Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y].Split('-')[0] == "trans" && Person is Player)
-            {
-                if (player.Tasks.Contains(FindTask("ПереходЗавод")) &&
-                    Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y].Split('-')[1] == "zavod")
-                {
-                    player.Tasks.Remove(FindTask("ПереходЗавод"));
-                    player.CompliteTasks.Add(FindTask("ПереходЗавод"));
-                    player.Tasks.Add(FindTask("УбитьНаёмниковЗавод"));
-                }
-                else if (player.Tasks.Contains(FindTask("ПереходТопи")) &&
-                    Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y].Split('-')[1] == "boloto")
-                {
-                    player.Tasks.Remove(FindTask("ПереходТопи"));
-                    player.CompliteTasks.Add(FindTask("ПереходТопи"));
-                    player.Tasks.Add(FindTask("НайтиАртефакт"));
-                }
-                else if (player.Tasks.Contains(FindTask("ПереходАномалии")) &&
-                    Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y].Split('-')[1] == "electr")
-                {
-                    player.Tasks.Remove(FindTask("ПереходАномалии"));
-                    player.CompliteTasks.Add(FindTask("ПереходАномалии"));
-                    player.Tasks.Add(FindTask("НайтиФамильноеРужьё"));
-                }
+            return;
 
-                Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[(int)Person.Cord.X, (int)Person.Cord.Y] = null;
+            //int x = (int)point.X; int y = (int)point.Y;
+            //if (x >= sizeX || x < 0 || y < 0 || y >= sizeY)
+            //{
+            //    return;
+            //}
 
-                if (Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y].Split('-')[1] == "final")
-                {
-                    EndGame();
-                }
+            //int cordX = (int)Person.Cord.X;
+            //int cordY = (int)Person.Cord.Y;
+            //if (Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] != null)
+            //{
 
-                MoveToLocation(Person, Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y].Split('-')[1]);
-            }
+            //}
+            //else if (Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y] == null ||
+            //    Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y] == "shelter")
+            //{
+            //    Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] = Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[cordX, cordY];
+            //    Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[cordX, cordY] = null;
+            //    Person.Going(new Point(x, y), Locations.Find(X => X.SystemName == NameCurrentLocation));
+            //}
+            //else if (Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y] == "anomaly")
+            //{
+            //    Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] = Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[cordX, cordY];
+            //    Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[cordX, cordY] = null;
+            //    Person.Going(new Point(x, y), Locations.Find(X => X.SystemName == NameCurrentLocation));
+            //    Person.Damaging(30);
+            //}
+            //else if (Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y].Split('-')[0] == "trans" && Person is Player)
+            //{
+            //    if (player.Tasks.Contains(FindTask("ПереходЗавод")) &&
+            //        Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y].Split('-')[1] == "zavod")
+            //    {
+            //        player.Tasks.Remove(FindTask("ПереходЗавод"));
+            //        player.CompliteTasks.Add(FindTask("ПереходЗавод"));
+            //        player.Tasks.Add(FindTask("УбитьНаёмниковЗавод"));
+            //    }
+            //    else if (player.Tasks.Contains(FindTask("ПереходТопи")) &&
+            //        Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y].Split('-')[1] == "boloto")
+            //    {
+            //        player.Tasks.Remove(FindTask("ПереходТопи"));
+            //        player.CompliteTasks.Add(FindTask("ПереходТопи"));
+            //        player.Tasks.Add(FindTask("НайтиАртефакт"));
+            //    }
+            //    else if (player.Tasks.Contains(FindTask("ПереходАномалии")) &&
+            //        Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y].Split('-')[1] == "electr")
+            //    {
+            //        player.Tasks.Remove(FindTask("ПереходАномалии"));
+            //        player.CompliteTasks.Add(FindTask("ПереходАномалии"));
+            //        player.Tasks.Add(FindTask("НайтиФамильноеРужьё"));
+            //    }
+
+            //    Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[(int)Person.Cord.X, (int)Person.Cord.Y] = null;
+
+            //    if (Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y].Split('-')[1] == "final")
+            //    {
+            //        EndGame();
+            //    }
+
+            //    MoveToLocation(Person, Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y].Split('-')[1]);
+            //}
         }
         private void MoveToLocation(Skelet Person, string nameLoc)
         {
@@ -766,7 +633,7 @@ namespace Game_STALKER_Exclusion_Zone
                 return;
             }
             ReadInformationLocation(nameLoc);
-            CreateLayersLocation();
+            //CreateLayersLocation();
         }
         private void MakeMovePersonIntellect()
         {
@@ -778,8 +645,8 @@ namespace Game_STALKER_Exclusion_Zone
                 }
 
                 Skelet Enemy = null;
-                if (Person.LastSeeEnemy == null || Person.LastSeeEnemy.IsAlive == false || 
-                    Locations.Find(x => x.SystemName == NameCurrentLocation).Signs[(int)Person.LastSeeEnemy.Cord.X, (int)Person.LastSeeEnemy.Cord.Y] == "shelter")
+                if (Person.LastSeeEnemy == null || Person.LastSeeEnemy.IsAlive == false )//|| 
+                //    Locations.Find(x => x.SystemName == NameCurrentLocation).Signs[(int)Person.LastSeeEnemy.Cord.X, (int)Person.LastSeeEnemy.Cord.Y] == "shelter")
                 {
                     Enemy = CheckPlayer(Person);
                     Person.LastSeeEnemy = Enemy;
@@ -807,12 +674,11 @@ namespace Game_STALKER_Exclusion_Zone
             }
             ReloadPlayerInformation();
         }
-        private Point CreatePath(Skelet person, Point point)
+        private Point? CreatePath(Skelet person, Point point)
         {
             int cordX = (int)point.X;
             int cordY = (int)point.Y;
             Location current = Locations.Find(x => x.SystemName == NameCurrentLocation);
-            Point retur = new Point();
 
             List<Vertex[]> deleted = new List<Vertex[]>(); //псевдоудаление из графа (перекидывание в хранилище)
             foreach (Skelet pers in Locations.Find(x => x.SystemName == NameCurrentLocation).Lives)
@@ -853,7 +719,7 @@ namespace Game_STALKER_Exclusion_Zone
 
             if (points == null)
             {
-                return retur;
+                return null;
             }
             return points.First();
         }
@@ -927,8 +793,8 @@ namespace Game_STALKER_Exclusion_Zone
         private void IntellectDoRandom(Skelet Person)
         {
             Point Last = Person.LastGoingPoint;
-            if (Last == new Point(-1,-1) || Last == Person.Cord ||
-                Locations.Find(x => x.SystemName == NameCurrentLocation).SignsLives[(int)Last.X, (int)Last.Y] != null)
+            if (Last == new Point(-1,-1) || Last == Person.Cord) //||
+               // Locations.Find(x => x.SystemName == NameCurrentLocation).SignsLives[(int)Last.X, (int)Last.Y] != null)
             {
                 List<Point> RandomPoints = new List<Point>();
                 {                    
@@ -948,15 +814,15 @@ namespace Game_STALKER_Exclusion_Zone
                             int X = (int)Person.Cord.X + i;
                             int Y = (int)Person.Cord.Y + j;
 
-                            bool trans = (Locations.Find(x => x.SystemName == NameCurrentLocation).Signs[X, Y] != null
-                                && Locations.Find(x => x.SystemName == NameCurrentLocation).Signs[X, Y].Split('-')[0] == "trans");
+                            //bool trans = (Locations.Find(x => x.SystemName == NameCurrentLocation).Signs[X, Y] != null
+                            //    && Locations.Find(x => x.SystemName == NameCurrentLocation).Signs[X, Y].Split('-')[0] == "trans");
 
-                            if ((Locations.Find(x => x.SystemName == NameCurrentLocation).SignsLives[X, Y] == null) &&
-                                (Locations.Find(x => x.SystemName == NameCurrentLocation).Signs[X, Y] != "block") &&
-                                (Locations.Find(x => x.SystemName == NameCurrentLocation).Signs[X, Y] != "window") && !trans)
-                            {
-                                RandomPoints.Add(new Point(X, Y));
-                            }
+                            //if ((Locations.Find(x => x.SystemName == NameCurrentLocation).SignsLives[X, Y] == null) &&
+                            //    (Locations.Find(x => x.SystemName == NameCurrentLocation).Signs[X, Y] != "block") &&
+                            //    (Locations.Find(x => x.SystemName == NameCurrentLocation).Signs[X, Y] != "window") && !trans)
+                            //{
+                            //    RandomPoints.Add(new Point(X, Y));
+                            //}
                         }
                     }
                 }
@@ -1044,6 +910,11 @@ namespace Game_STALKER_Exclusion_Zone
         }
 
         //-------------------------------------------------------------------------------Click
+
+        private void Map_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            /////////////////=====================Событие клика левой кнопки, ловим корды и обрабатываем индексы и вызываем ClickRightButtonMap
+        }
         private void ClickRightButtonMap(object sender, RoutedEventArgs e) 
         {
             //Menu save = null;
@@ -1158,13 +1029,15 @@ namespace Game_STALKER_Exclusion_Zone
             }
             player.Money += people.Money;
 
-            current.SignsLives[cordX, cordY] = null;
+            //current.SignsLives[cordX, cordY] = null;
             current.Lives.Remove(people);
 
             MakeMovePersonIntellect();
-            CreateLayerPerson(current);
-            DisplayLocationOnMap();
-            ReloadPlayerInformation();
+            //CreateLayerPerson(current);
+            //DisplayLocationOnMap();
+            TimerAnimation_Tick(null, null);
+            //CreateLocation(current);
+            //ReloadPlayerInformation();
         }
 
         private void MenuPersonDialog_Click(object sender, RoutedEventArgs e) 
@@ -1203,8 +1076,10 @@ namespace Game_STALKER_Exclusion_Zone
             }
 
             MakeMovePersonIntellect();
-            CreateLayerPerson(Locations.Find(x => x.SystemName == NameCurrentLocation));
-            DisplayLocationOnMap();
+            //CreateLayerPerson(Locations.Find(x => x.SystemName == NameCurrentLocation));
+            //DisplayLocationOnMap();
+            TimerAnimation_Tick(null, null);
+            //CreateLocation(Locations.Find(x => x.SystemName == NameCurrentLocation));
         }
         private void MenuPersonInformation_Click(object sender, RoutedEventArgs e) 
         {
@@ -1214,69 +1089,17 @@ namespace Game_STALKER_Exclusion_Zone
             int cordY = int.Parse(cord[1]);
             Skelet people = Locations.Find(x => x.SystemName == NameCurrentLocation).Lives.Find(x => x.Cord == new Point(cordX, cordY));
         }
-        private void ClickLeftButtonMap(object sender, RoutedEventArgs e)
+        private void Map_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Button button = (Button)sender;
-            string[] cord = button.Tag.ToString().Split();
-            int cordX = int.Parse(cord[0]);
-            int cordY = int.Parse(cord[1]);
+            Point pointMouse = e.GetPosition(Map);
+            (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSX)-1, (int)Math.Truncate(pointMouse.Y / pixelSY)-1);
             Location current = Locations.Find(x => x.SystemName == NameCurrentLocation);
-            List<Point> points = new List<Point>();
-
-            if (current.SignsLives[cordX, cordY] == "player")
+            if (!current.GetListLocationCell(H, W).IsBlock)
             {
-                MakeMovePersonIntellect();
-                CreateLayerPerson(Locations.Find(x => x.SystemName == NameCurrentLocation));
-                CreateLayerButton();
-                DisplayLocationOnMap();
+                player.EnqueueUpGlobalAction(new ActionMove(new Point(H, W), false));
+
+                //случай перехода на новую локацию или застревания где-либо
             }
-            else if (current.SignsLives[cordX, cordY] != null)
-            {
-                return;
-            }
-            else if (current.Signs[cordX, cordY] != "block" && current.Signs[cordX, cordY] != "window")
-            {
-                while (player.Cord != new Point(cordX, cordY)) //просчёт пути
-                {
-                    Point p = CreatePath(player, new Point(cordX, cordY));
-                    if (p == new Point())
-                    {
-                        break;
-                    }
-
-                    //Point memory = player.Cord;
-                    string mamory = NameCurrentLocation;
-
-                    MakeMovePerson(player, p);
-                    MakeMovePersonIntellect();
-
-                    CreateLayerPerson(Locations.Find(x => x.SystemName == NameCurrentLocation));
-                    CreateLayerButton();
-                    DisplayLocationOnMap();
-
-                    //Thread.Sleep(100);
-                    Refresh();
-
-                    if (/*player.Cord == memory || */mamory != NameCurrentLocation) //случай перехода на новую локацию или застревания где-либо
-                        break;
-
-                    //NamePlayer.Content = "";         //отладчик пути 
-                    //foreach (Point p in points) 
-                    //{
-                    //    NamePlayer.Content += $"{p.X}-{p.Y}";
-                    //}
-                }
-            }
-            else // ОТЛАДЧИК
-            {
-                // что-то новое))))))))))))))))))
-                //NamePlayer.Content = current.Signs[cordX, cordY];
-            }
-        }
-        private void Refresh() //(для перерисовки)
-        {
-            Action EmptyDelegate = delegate () { };
-            this.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);
         }
         private void ItemBut_Click(object sender, RoutedEventArgs e)
         {
@@ -1315,11 +1138,11 @@ namespace Game_STALKER_Exclusion_Zone
             player.Tasks.Add(FindTask("ПереходТопи"));
             for (int i = 16; i < 19; i++)
             {
-                Locations.Find(x => x.SystemName == "hab").Signs[0, i] = "trans-boloto";
-                Locations.Find(x => x.SystemName == "hab").Air[0, i] = "х";
+                //Locations.Find(x => x.SystemName == "hab").Signs[0, i] = "trans-boloto";
+                //Locations.Find(x => x.SystemName == "hab").Air[0, i] = "х";
             }
-            CreateLayerEarth(Locations.Find(x => x.SystemName == "hab"));
-            CreateLayerAir(Locations.Find(x => x.SystemName == "hab"));
+            //CreateLayerEarth(Locations.Find(x => x.SystemName == "hab"));
+            //CreateLayerAir(Locations.Find(x => x.SystemName == "hab"));
         }
         public void TakeTaskKillNaemnik()
         {
@@ -1328,11 +1151,11 @@ namespace Game_STALKER_Exclusion_Zone
             player.Tasks.Add(FindTask("ПереходЗавод"));
             for (int i = 8; i < 11; i++)
             {
-                Locations.Find(x => x.SystemName == "hab").Signs[i, 30] = "trans-zavod";
-                Locations.Find(x => x.SystemName == "hab").Air[i, 30] = "х";
+                //Locations.Find(x => x.SystemName == "hab").Signs[i, 30] = "trans-zavod";
+                //Locations.Find(x => x.SystemName == "hab").Air[i, 30] = "х";
             }
-            CreateLayerEarth(Locations.Find(x => x.SystemName == "hab"));
-            CreateLayerAir(Locations.Find(x => x.SystemName == "hab"));
+            //CreateLayerEarth(Locations.Find(x => x.SystemName == "hab"));
+            //CreateLayerAir(Locations.Find(x => x.SystemName == "hab"));
         }
 
         public void TakeTaskSearchGun()
@@ -1340,11 +1163,11 @@ namespace Game_STALKER_Exclusion_Zone
             player.Tasks.Add(FindTask("ПереходАномалии"));
             for (int i = 9; i < 12; i++)
             {
-                Locations.Find(x => x.SystemName == "hab").Signs[18, i] = "trans-electr";
-                Locations.Find(x => x.SystemName == "hab").Air[18, i] = "х";
+                //Locations.Find(x => x.SystemName == "hab").Signs[18, i] = "trans-electr";
+                //Locations.Find(x => x.SystemName == "hab").Air[18, i] = "х";
             }
-            CreateLayerEarth(Locations.Find(x => x.SystemName == "hab"));
-            CreateLayerAir(Locations.Find(x => x.SystemName == "hab"));
+            //CreateLayerEarth(Locations.Find(x => x.SystemName == "hab"));
+            //CreateLayerAir(Locations.Find(x => x.SystemName == "hab"));
         }
         public void TakeRewardTaskSearchGun()
         {
@@ -1396,16 +1219,14 @@ namespace Game_STALKER_Exclusion_Zone
             ToSeeEnemy = !ToSeeEnemy;
             ToSeePlayer = false;
 
-            CreateLayerButton();
-            DisplayLocationOnMap();
+            //CreateLocation(Locations.Find(x => x.SystemName == NameCurrentLocation));
         }
         private void GunPlayer_Click(object sender, RoutedEventArgs e)
         {
             ToSeePlayer = !ToSeePlayer;
             ToSeeEnemy = false;
 
-            CreateLayerButton();
-            DisplayLocationOnMap();
+            //CreateLocation(Locations.Find(x => x.SystemName == NameCurrentLocation));
         }
         private void Menu_Click(object sender, RoutedEventArgs e)
         {
@@ -1415,51 +1236,5 @@ namespace Game_STALKER_Exclusion_Zone
             menu.ShowDialog();
         }
 
-        //-------------------СТАРОЕ
-        //private void MenuStartNewGame_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Init("abc", PlayerGender.Man);
-
-        //    //StartWindow stw = new StartWindow();
-        //    //stw.Owner = this;
-        //    //stw.ShowDialog();
-        //}
-        //private void MenuSave_Click(object sender, RoutedEventArgs e)
-        //{
-        //    List<Player> records = new List<Player>();
-        //    if (File.Exists(ConfigurationManager.AppSettings["SaveRecord"]))
-        //    {
-        //        using (var file = new FileStream(ConfigurationManager.AppSettings["SaveRecord"], FileMode.Open))
-        //        {
-        //            var xml = new XmlSerializer(typeof(List<Player>), new Type[] { typeof(Player), typeof(Gun), typeof(Toz34), typeof(Ak74ukorot), typeof(AidFirstKid) });
-        //            records = (List<Player>)xml.Deserialize(file);
-        //        }
-        //    }
-        //    records.RemoveAll(x => x.Name == player.Name);
-        //    records.Add(player);
-        //    using (var file = new FileStream(ConfigurationManager.AppSettings["SaveRecord"], FileMode.Create))
-        //    {
-        //        var xml = new XmlSerializer(typeof(List<Player>), new Type[] { typeof(Player), typeof(Gun), typeof(Toz34), typeof(Ak74ukorot), typeof(AidFirstKid) });
-        //        xml.Serialize(file, records);
-        //    }
-        //}
-        //private void MenuRecords_Click(object sender, RoutedEventArgs e) //delete
-        //{
-        //    //if (File.Exists(ConfigurationManager.AppSettings["SaveRecord"]))
-        //    //{
-        //    //    this.IsEnabled = false;
-        //    //    RecordsWindow recw = new RecordsWindow();
-        //    //    recw.Closing += Window_Closing;
-        //    //    recw.Show();
-        //    //}
-        //}
-        //private void MenuExit_Click(object sender, RoutedEventArgs e)
-        //{
-        //    this.Close();
-        //}
-        //private void MenuProgramming_Click(object sender, RoutedEventArgs e) //для отладки, программрования
-        //{
-        //    //MoveToLocation(player, "boloto");
-        //}
     }
 }
