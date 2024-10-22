@@ -61,7 +61,11 @@ namespace Game_STALKER_Exclusion_Zone
         }
         public List<Point> SearchWidth(Point start, Point finish)
         {
-            if (start == finish)
+            return SearchWidthWithoutSomePoint(start, finish, new List<Point>(0));
+        }
+        public List<Point> SearchWidthWithoutSomePoint(Point start, Point finish, List<Point> deletedpoints)
+        {
+            if (start == finish || deletedpoints.Contains(start) || deletedpoints.Contains(finish))
             {
                 return null;
             }
@@ -89,6 +93,10 @@ namespace Game_STALKER_Exclusion_Zone
                 Vertex Now = Que.Dequeue();
                 foreach (Vertex v in Now.Near)
                 {
+                    if (deletedpoints.Contains(v.Cord))
+                    {
+                        continue;
+                    }
                     if ((PartStart.Contains(Now) && PartFinish.Contains(v)) ||
                             (PartStart.Contains(v) && PartFinish.Contains(Now)))
                     {

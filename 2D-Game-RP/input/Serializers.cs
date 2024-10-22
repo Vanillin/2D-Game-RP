@@ -10,8 +10,8 @@ namespace Game_STALKER_Exclusion_Zone
 {
     public class Information
     {
-        public static List<string> Blocks = new List<string> { "д", "о", "с", "у", "ф", "я"};
-        public static List<string> NotWatch = new List<string> { "д", "к", "с", "у", "ф", "я" };
+        public static List<string> Blocks = new List<string> { "д", "о", "с", "я", "ю", "а" }; //{ "д", "о", "с", "у", "ф", "я"};
+        public static List<string> NotWatch = new List<string> { "д", "к", "с", "ю", "я" };
 
         public List<string> NameRandom = new List<string>
         {
@@ -23,63 +23,31 @@ namespace Game_STALKER_Exclusion_Zone
             "Тухлый", "Трезвый", "Лопух", "Шустрый", "Крематорий",
             "Пёс", "Повар", "Лимон", "Табуретка", "Снайпер", "Козырь"
         };
-        const int sizeX = 19;
-        const int sizeY = 31;
 
         public Task[] TasksInGame = ReadTasks("Name Tasks");
         public Phrase[] PhraseInGame = ReadPhrases("Name Phrases");
 
-        private static Location Hub;
-        private static Location Zavod;
-        private static Location Boloto;
-        private static Location Electr;
+        /*
+        0 - земля
+        1 - люди ящики
+        2 - аномалии
+        3 - деревья 
+        4 - системные знаки
+        */
 
-        public static Location GetLocationHub()
+        private static Location Garden;
+        public static Location GetGardenLocation()
         {
-            if (Hub == null) {
-                Hub = new Location("Деревня сталкеров", "hab", sizeX, sizeY);
-                Hub.AddLayerCells(CreateLocation("Earth Hab"), 0);
-                Hub.AddLayerCells(CreateLocation("Air Hab"), 3);
-                Hub.CreateGrafMove();
-                Hub.CreateGrafWatch(); 
-            }
-            return Hub;
-        }
-        public static Location GetLocationZavod()
-        {
-            if (Zavod == null)
+            if (Garden == null)
             {
-                Zavod = new Location("Заброшенный завод", "zavod", sizeX, sizeY);
-                Zavod.AddLayerCells(CreateLocation("Earth Zavod"), 0);
-                Zavod.AddLayerCells(CreateLocation("Air Zavod"), 3);
-                Zavod.CreateGrafMove();
-                Zavod.CreateGrafWatch();
+                Garden = new Location("Двор", "Garden", 21, 26);
+                Garden.AddLayerCells(CreateLocation("GardenLayer1"), 0);
+                Garden.AddLayerCells(CreateLocation("GardenLayer2"), 3);
+                Garden.CreateGrafWatch();
+                Garden.CreateGrafMove();
+                Garden.UpdateDisplay();
             }
-            return Zavod;
-        }
-        public static Location GetLocationBoloto()
-        {
-            if (Boloto == null)
-            {
-                Boloto = new Location("Топи", "boloto", sizeX, sizeY);
-                Boloto.AddLayerCells(CreateLocation("Earth Boloto"), 0);
-                Boloto.AddLayerCells(CreateLocation("Air Boloto"), 3);
-                Boloto.CreateGrafMove();
-                Boloto.CreateGrafWatch();
-            }
-            return Boloto;
-        }
-        public static Location GetLocationElectr()
-        {
-            if (Electr == null)
-            {
-                Electr = new Location("Поле Электр", "electr", sizeX, sizeY);
-                Electr.AddLayerCells(CreateLocation("Earth Electr"), 0);
-                Electr.AddLayerCells(CreateLocation("Air Electr"), 3);
-                Electr.CreateGrafMove();
-                Electr.CreateGrafWatch();
-            }
-            return Electr;
+            return Garden;
         }
 
         private static Task[] ReadTasks(string nameTask)
@@ -104,26 +72,48 @@ namespace Game_STALKER_Exclusion_Zone
         }
         private static IPictureCell[,] CreateLocation(string nameloca)
         {
-            string[] loca;
+            ReadLocation rl;
             using (var file = new FileStream(Path.Combine(ConfigurationManager.AppSettings["Levels"], nameloca + ".txt"), FileMode.Open))
             {
-                var xml = new XmlSerializer(typeof(string[]));
-                loca = (string[])xml.Deserialize(file);
+                var xml = new XmlSerializer(typeof(ReadLocation));
+                rl = (ReadLocation)xml.Deserialize(file);
             }
-
-            int x = loca.Length;
-            int y = loca[0].Length;
-            IPictureCell[,] retur = new IPictureCell[x, y];
-            for (int i = 0; i < x; i++)
+            IPictureCell[,] retur = new IPictureCell[rl.height, rl.wight];
+            Dictionary<char, string> dict = new Dictionary<char, string>();
+            foreach (var v in rl.description) { dict.Add(v.Item1[0], v.Item2); }
+            for (int i = 0; i < rl.height; i++)
             {
-                for (int j = 0; j < y; j++)
+                for (int j = 0; j < rl.wight; j++)
                 {
-                    if (loca[i][j] == '-' || loca[i][j] == ' ') continue;
-                    retur[i, j] = new StaticPicCell(   Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"{loca[i][j]}.png")   );
+                    char pict = rl.location[i][j];
+                    if (dict.ContainsKey(pict))
+                    {
+                        retur[i,j] = new StaticPicCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"{dict[pict]}.png"));
+                    }
                 }
-            }         
-
+            }
             return retur;
         }
+        public static void Serialization()
+        {
+            ReadLocation rl = new ReadLocation();
+            rl.height = 5;
+            rl.wight = 3;
+            rl.location = new string[] { "abc", "abc", "abc", "abc", "abc" };
+            rl.description = new List<(string, string)> { ("a", "aaa"), ("b", "aaa"), ("c", "aaa") };
+
+            using (var file = new FileStream("serialization.txt", FileMode.Create))
+            {
+                var xml = new XmlSerializer(typeof(ReadLocation));
+                xml.Serialize(file, rl);
+            }
+        }
+    }
+    public class ReadLocation
+    {
+        public int height;
+        public int wight;
+        public string[] location;
+        public List<(string c, string s)> description;
     }
 }

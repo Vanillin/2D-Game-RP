@@ -8,16 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using TwoD_Game_RP.library;
 
 namespace Game_STALKER_Exclusion_Zone
 {
     public class Location
     {
+        private int maxDepth;
         private ListLocationCell[,] Cells;
         private  Graf grafLocToMove;
         private Graf grafLocToWatch;
         public int Height { get; }
         public int Width { get; }
+        public int MaxDepth => maxDepth;
 
         public readonly string Name;
         public readonly string SystemName;
@@ -37,11 +40,12 @@ namespace Game_STALKER_Exclusion_Zone
                 else return this.grafLocToWatch;
             }
         }
-
-        public List<Skelet> Lives = new List<Skelet>();
+        public List<Skelet> Lives;
+        private DBDisplay display;
 
         public Location(string name, string systemName, int height, int width)
         {
+            maxDepth = 0;
             Cells = new ListLocationCell[height, width];
             for( int i  = 0; i < height; i++ )
             {
@@ -57,6 +61,11 @@ namespace Game_STALKER_Exclusion_Zone
             grafLocToMove = null;
             grafLocToWatch = null;
             Lives = new List<Skelet>();
+            display = new DBDisplay(height, width, 6);
+        }
+        public void Display(Canvas canvas, double size)
+        {
+            display.Display(canvas, size);
         }
         public void CreateGrafMove()
         {
@@ -127,30 +136,28 @@ namespace Game_STALKER_Exclusion_Zone
                 }
             }
         }
+        public void UpdateDisplay()
+        {
+            display.Update(Cells);
+        }
         public void AddCell(IPictureCell cell, int index, int heightInd, int weightInd)
         {
             Cells[heightInd, weightInd].AddLocationCell(cell, index);
+            display.Update(Cells, heightInd, weightInd);
         }
         public void RemoveCell(IPictureCell cell, int heightInd, int weightInd)
         {
             Cells[heightInd, weightInd].RemoveLocationCell(cell);
+            display.Update(Cells, heightInd, weightInd);
         }
-        public ListLocationCell GetListLocationCell(int heightInd, int weightInd)
+        public bool GetIsBlockCell(int heightInd, int weightInd)
+        {
+            return Cells[heightInd, weightInd].IsBlock;
+        }
+        public IEnumerable<IPictureCell> GetEnumerableCell(int heightInd, int weightInd)
         {
             return Cells[heightInd, weightInd];
         }
-
-        //public Location(string name, string systemName, string[,] signs, string[,] blocks, string[,] air, Graf grafmove, Graf grafwatch, string[,] signsLives)
-        //{
-        //    this.SystemName = systemName;
-        //    this.Name = name;
-        //    this.Signs = signs;
-        //    this.Blocks = blocks;
-        //    this.Air = air;
-        //    this.GrafLocToMove = grafmove;
-        //    this.GrafLocToWatch = grafwatch;
-        //    this.SignsLives = signsLives;
-        //}
     }    
 
     internal class LocationCell
@@ -166,21 +173,25 @@ namespace Game_STALKER_Exclusion_Zone
         }
     }
 
-    public class ListLocationCell : IEnumerable<IPictureCell>
+    internal class ListLocationCell : IEnumerable<IPictureCell>
     {
+        int count;
         LocationCell head;
         bool isBlock;
         bool isWatch;
         public bool IsBlock => isBlock;
         public bool IsWatch => isWatch;
+        public int Count => count;
         public ListLocationCell(IPictureCell pictureCell, int index)
         {
+            this.count = 0;
             this.head = new LocationCell(pictureCell, index);
             this.isBlock = false;
             this.isWatch = true;
         }
         public ListLocationCell()
         {
+            this.count = 0;
             this.head = null;
             this.isBlock = false;
             this.isWatch = true;
@@ -209,6 +220,7 @@ namespace Game_STALKER_Exclusion_Zone
         }
         public void AddLocationCell(IPictureCell pictureCell, int index)
         {
+            count++;
             var addcell = new LocationCell(pictureCell, index);
             AnalyzeOnBlock(pictureCell);
             AnalyzeOnWatch(pictureCell);
@@ -244,6 +256,7 @@ namespace Game_STALKER_Exclusion_Zone
         public void RemoveLocationCell(IPictureCell pictureCell)
         {
             if (head == null) { return; }
+            count--;
             if (head.pictureCell == pictureCell)
             {
                 head = head.next;

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<ReadLocation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <height>21</height>  <wight>26</wight>
+  <location>
+    <string>....rrrrrrrrrrrrrrrrr.....</string>
+    <string>....rrrrrrrrrrrrrrrrr.....</string>
+    <string>..................tt......</string>
+    <string>................tttt......</string>
+    <string>rr..............ttttt.....</string>
+    <string>rr...............ttt..rrrr</string>
+    <string>rr....................rrrr</string>
+    <string>rr....................rrrr</string>
+    <string>rr....................rrrr</string>
+    <string>rr....................rrrr</string>
+    <string>rr....................rrrr</string>
+    <string>rr....................rrrr</string>
+    <string>rr..........ttt.......rrrr</string>
+    <string>............tttt......rrrr</string>
+    <string>...........ttttt......rrrr</string>
+    <string>...........ttttt..........</string>
+    <string>............ttt...........</string>
+    <string>..........................</string>
+    <string>................rrrrrrrrrr</string>
+    <string>................rrrrrrrrrr</string>
+    <string>................rrrrrrrrrr</string>
+  </location>
+  <description>
+    <ValueTupleOfStringString>
+      <Item1>r</Item1>      
+      <Item2>г</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>t</Item1>      
+      <Item2>5</Item2>
+    </ValueTupleOfStringString>
+  </description>
+</ReadLocation>

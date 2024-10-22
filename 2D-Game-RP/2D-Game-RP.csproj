@@ -89,6 +89,7 @@
     <Compile Include="library\ActionSystem.cs" />
     <Compile Include="library\BilateralQueue.cs" />
     <Compile Include="library\DialogSystem.cs" />
+    <Compile Include="library\DisplaySystem.cs" />
     <Compile Include="library\ItemSystem.cs" />
     <Compile Include="library\PlayerSystem.cs" />
     <Compile Include="library\LocationSystem.cs" />
@@ -326,6 +327,12 @@
     <Resource Include="gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113817.png" />
     <Resource Include="gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113953.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\г.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\levels\GardenLayer1.txt" />
+    <Resource Include="gamedata\levels\GardenLayer2.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<ReadLocation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <height>21</height>  <wight>26</wight>
+  <location>
+    <string>.,,,#...............#!,,,,</string>
+    <string>,,,,#####---###@@@###,!,,.</string>
+    <string>.,,!....eeeee.........,!,,</string>
+    <string>,,!.....e...e...........!,</string>
+    <string>##................o.....,!</string>
+    <string>.#....................####</string>
+    <string>.@....................#...</string>
+    <string>.@....................#...</string>
+    <string>.@....................#...</string>
+    <string>.#.....w..............#...</string>
+    <string>.#....w.w.............#...</string>
+    <string>.#!!!!---!!!!.........#...</string>
+    <string>##.....w.....!,,......#...</string>
+    <string>......w.w.....!,,,....#...</string>
+    <string>.....www.....o.!,.....####</string>
+    <string>qqqqqqwww.......!........!</string>
+    <string>qqqqqqqqqww......!.......!</string>
+    <string>qqqqqqqqqqqq.....!.......!</string>
+    <string>....qqqqqqqqq...##########</string>
+    <string>.......qqqqqqq..#.........</string>
+    <string>.........qqqqq..#.........</string>
+  </location>
+  <description>
+    <ValueTupleOfStringString>
+      <Item1>#</Item1>     <Item2>с</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>,</Item1>      <Item2>к</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>!</Item1>      <Item2>ю</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>@</Item1>      <Item2>а</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>-</Item1>      <Item2>я</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>e</Item1>      <Item2>у</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>o</Item1>      <Item2>д</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>q</Item1>      <Item2>ф</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>w</Item1>      <Item2>з</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>.</Item1>      <Item2>т</Item2>
+    </ValueTupleOfStringString>
+  </description>
+</ReadLocation>

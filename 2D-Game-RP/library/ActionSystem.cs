@@ -249,8 +249,8 @@ namespace Maze_runner_Library
         }
         public void CompleteAction(Skelet skelet, Location location)
         {
-            location.GetListLocationCell((int)skelet.Cord.X, (int)skelet.Cord.Y).RemoveLocationCell(skelet.picture);
-            location.GetListLocationCell((int)Point.X, (int)Point.Y).AddLocationCell(skelet.picture, 1);
+            location.RemoveCell(skelet.picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+            location.AddCell(skelet.picture, 1, (int)Point.X, (int)Point.Y);
             skelet.Cord = new Point(Point.X, Point.Y);
         }
 
@@ -258,10 +258,11 @@ namespace Maze_runner_Library
         {
             List<IAction> retur = new List<IAction>();
             var path = graf.SearchWidth(skelet.Cord, Point);
-            foreach (var v in path)
-            {
-                retur.Add(new ActionMove(v, false));
-            }
+            if (path != null)
+                foreach (var v in path)
+                {
+                    retur.Add(new ActionMove(v, false));
+                }
             retur.Add(new ActionDelete());
             return retur;
         }
