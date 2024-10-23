@@ -10,10 +10,10 @@ namespace Game_STALKER_Exclusion_Zone
 {
     public class Information
     {
-        public static List<string> Blocks = new List<string> { "New/glass", "New/floorWood"};  //{ "д", "о", "с", "у", "ф", "я"};
-        public static List<string> NotWatch = new List<string> { "New/floorWood" };  //{ "д", "к", "с", "ю", "я" };
+        public static List<string> Blocks = new List<string> { "brickWall", "glass", "ю"};  //{ "д", "о", "с", "у", "ф", "я"};
+        public static List<string> NotWatch = new List<string> { "brickWall1", "brickWall2", "brickWall3", "ю" };  //{ "д", "к", "с", "ю", "я" };
 
-    public List<string> NameRandom = new List<string>
+        public List<string> NameRandom = new List<string>
         {
             "Петя", "Колян", "Митя", "Дэн", "Витя", "Гога",
             "Петя", "Колян", "Митя", "Дэн", "Витя", "Гога"
@@ -24,8 +24,20 @@ namespace Game_STALKER_Exclusion_Zone
             "Пёс", "Повар", "Лимон", "Табуретка", "Снайпер", "Козырь"
         };
 
-        public Task[] TasksInGame = ReadTasks("Name Tasks");
+        public static Task[] TasksInGame = ReadTasks("Name Tasks");
         public Phrase[] PhraseInGame = ReadPhrases("Name Phrases");
+
+        public static Task FindTask(string Systemname)
+        {
+            for (int i = 0; i < TasksInGame.Length; i++)
+            {
+                if (TasksInGame[i].SystemName == Systemname)
+                {
+                    return TasksInGame[i];
+                }
+            }
+            throw new Exception("Не найдено задание по системному имени");
+        }
 
         /*
         0 - земля

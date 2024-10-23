@@ -73,9 +73,9 @@ namespace Game_STALKER_Exclusion_Zone
                 AddButton("Торговля1");
                 AddButton("Продажа1");
 
-                if (Player.Tasks.Contains(((MainWindow)this.Owner).FindTask("СпроситьСталкеров")))
+                if (Player.Tasks.Contains(Information.FindTask("СпроситьСталкеров")))
                     AddButton("ГлавныйКвест1");
-                if (Player.Tasks.Contains(((MainWindow)this.Owner).FindTask("ВыполненКвестУбитьНаёмниковЗавод"))) //------------ВыполненКвестУбитьНаёмниковЗавод
+                if (Player.Tasks.Contains(Information.FindTask("ВыполненКвестУбитьНаёмниковЗавод"))) //------------ВыполненКвестУбитьНаёмниковЗавод
                     AddButton("ГлавныйКвест7");
             }
             if (Person is StalkerZelen)
@@ -83,10 +83,10 @@ namespace Game_STALKER_Exclusion_Zone
                 AddButton("ГлавныйКвестСталкер1");
                 AddButton("ЧтоНового1");
 
-                if (!Player.Tasks.Contains(((MainWindow)this.Owner).FindTask("ПереходАномалии")) &&
-                    !Player.CompliteTasks.Contains(((MainWindow)this.Owner).FindTask("ПереходАномалии")))
+                if (!Player.Tasks.Contains(Information.FindTask("ПереходАномалии")) &&
+                    !Player.CompliteTasks.Contains(Information.FindTask("ПереходАномалии")))
                     AddButton("КвестПоискРужья1");
-                if (Player.Tasks.Contains(((MainWindow)this.Owner).FindTask("ВыполненКвестНайтиФамильноеРужьё")))
+                if (Player.Tasks.Contains(Information.FindTask("ВыполненКвестНайтиФамильноеРужьё")))
                     AddButton("КвестПоискРужья5");
 
             }

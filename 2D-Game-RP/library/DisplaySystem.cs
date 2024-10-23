@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -104,7 +105,7 @@ namespace TwoD_Game_RP.library
                 }
             }
         }
-        public void Display(Canvas canvas, double size)
+        public void Display(Canvas canvas, double size, List<UIElement> SystemObj)
         {
             canvas.Children.Clear();
             for (int i = 0; i < height; i++)
@@ -122,6 +123,9 @@ namespace TwoD_Game_RP.library
                     }
                 }
             }
+            if (SystemObj != null)
+                foreach (var obj in SystemObj)
+                    canvas.Children.Add(obj);
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using TwoD_Game_RP;
 using TwoD_Game_RP.library;
 
 namespace Game_STALKER_Exclusion_Zone
@@ -63,9 +64,9 @@ namespace Game_STALKER_Exclusion_Zone
             Lives = new List<Skelet>();
             display = new DBDisplay(height, width, 6);
         }
-        public void Display(Canvas canvas, double size)
+        public void Display(Canvas canvas, double size, List<UIElement> systemObj)
         {
-            display.Display(canvas, size);
+            display.Display(canvas, size, systemObj);
         }
         public void CreateGrafMove()
         {
@@ -154,6 +155,10 @@ namespace Game_STALKER_Exclusion_Zone
         {
             return Cells[heightInd, weightInd].IsBlock;
         }
+        public bool GetIsWatchCell(int heightInd, int weightInd)
+        {
+            return Cells[heightInd, weightInd].IsWatch;
+        }
         public IEnumerable<IPictureCell> GetEnumerableCell(int heightInd, int weightInd)
         {
             return Cells[heightInd, weightInd];
@@ -200,22 +205,27 @@ namespace Game_STALKER_Exclusion_Zone
         private void AnalyzeOnWatch(IPictureCell picture)
         {
             if (!isWatch) return;
-            var elements = picture.Picture().Split(new char[] { '/', '\\', '.' }, StringSplitOptions.RemoveEmptyEntries);
-            string sign = elements[elements.Length - 2];
-            if (Information.NotWatch.Contains(sign))
+            SubstringSearch ss = SubstringSearch.Creating();
+            foreach (var v in Information.NotWatch)
             {
-                isWatch = false;
+                if (ss.CheckSubstring(picture.Picture(), v))
+                {
+                    isWatch = false;
+                    return;
+                }
             }
         }
         private void AnalyzeOnBlock(IPictureCell picture)
         {
             if (isBlock) return;
-            var elements = picture.Picture().Split(new char[] { '/', '\\', '.' }, StringSplitOptions.RemoveEmptyEntries);
-            string sign = elements[elements.Length - 2];
-
-            if (Information.Blocks.Contains(sign))
+            SubstringSearch ss = SubstringSearch.Creating();
+            foreach (var v in Information.Blocks)
             {
-                isBlock = true;
+                if (ss.CheckSubstring(picture.Picture(), v))
+                {
+                    isBlock = true;
+                    return;
+                }
             }
         }
         public void AddLocationCell(IPictureCell pictureCell, int index)
