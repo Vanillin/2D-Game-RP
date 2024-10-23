@@ -2,50 +2,35 @@
 <ReadLocation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <description>
     <ValueTupleOfStringString>
-      <Item1>e</Item1>     <Item2>New\grass</Item2>
+      <Item1>w</Item1>     <Item2>New\floorBeton1</Item2>
     </ValueTupleOfStringString>
     <ValueTupleOfStringString>
-      <Item1>r</Item1>     <Item2>New\floorBeton</Item2>
-    </ValueTupleOfStringString>
-    <ValueTupleOfStringString>
-      <Item1>d</Item1>     <Item2>New\floorBeton1</Item2>
-    </ValueTupleOfStringString>
-    <ValueTupleOfStringString>
-      <Item1>g</Item1>     <Item2>New\floorBeton3</Item2>
-    </ValueTupleOfStringString>
-    <ValueTupleOfStringString>
-      <Item1>t</Item1>     <Item2>New\floorBeton4</Item2>
-    </ValueTupleOfStringString>
-    <ValueTupleOfStringString>
-      <Item1>w</Item1>     <Item2>New\floorWood</Item2>
-    </ValueTupleOfStringString>
-    <ValueTupleOfStringString>
-      <Item1>f</Item1>     <Item2>New\grass</Item2>
+      <Item1>n</Item1>     <Item2>New\floorBeton3</Item2>
     </ValueTupleOfStringString>
   </description>
   <height>21</height>  <wight>26</wight>
   <location>
-    <string>...[####@@###@@#[.........</string>
+    <string>...##############.........</string>
     <string>...#..#....#....#.........</string>
     <string>...#.......#....#.........</string>
     <string>...#..#....#....#.........</string>
     <string>...#..#....###.##.........</string>
-    <string>...trrrrr.rw....#.........</string>
-    <string>...#.......r....#.........</string>
+    <string>...#########....#.........</string>
+    <string>...#.......#....#.........</string>
     <string>...#............#.........</string>
-    <string>...#.......r....e%%%%%%%%.</string>
-    <string>..eeeeee#.#eeeeee.......%.</string>
-    <string>.e......................%.</string>
-    <string>#e......................%.</string>
-    <string>.e......................%.</string>
-    <string>.e......................%.</string>
-    <string>.e...........f#.#eeeeeeee#</string>
-    <string>.e...........e...r....#..#</string>
-    <string>.e%%%%%%.%%%%e........#..#</string>
-    <string>ee...........e...r....#..#</string>
-    <string>.............e...r.......#</string>
-    <string>.............e...r....#..#</string>
-    <string>.............e###d########</string>
+    <string>...#.......#....#%%%%%%%%.</string>
+    <string>..%######.#w#####.......%.</string>
+    <string>.%......................%.</string>
+    <string>##......................%.</string>
+    <string>.#......................%.</string>
+    <string>.#......................%.</string>
+    <string>.#...........##.#n########</string>
+    <string>.#...........#...#....#..#</string>
+    <string>.#%%%%%%.%%%%#........#..#</string>
+    <string>##...........#...#....#..#</string>
+    <string>.............#...#.......#</string>
+    <string>.............#...#....#..#</string>
+    <string>.............#############</string>
   </location>
   <rotation>
     <string>..........................</string>

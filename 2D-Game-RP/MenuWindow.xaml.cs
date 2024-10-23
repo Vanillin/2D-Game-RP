@@ -51,10 +51,18 @@ namespace Game_STALKER_Exclusion_Zone
 
         private void MenuStartNewGame_Click(object sender, RoutedEventArgs e)
         {
-            CreateWindow createWindow = new CreateWindow();
-            createWindow.Owner = this;
-            //this.Close();
-            createWindow.ShowDialog();
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            //StartHistoryWindow startHistoryWindow = new StartHistoryWindow();
+            //startHistoryWindow.ShowDialog();
+            this.Close();
+            //((MenuWindow)this.Owner).Close();
+            mainWindow.Init("1", PlayerGender.Man);
+
+            //CreateWindow createWindow = new CreateWindow();
+            //createWindow.Owner = this;
+            ////this.Close();
+            //createWindow.ShowDialog();
         }
 
         private void MenuContinue_Click(object sender, RoutedEventArgs e)

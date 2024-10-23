@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace TwoD_Game_RP.library
@@ -67,13 +68,24 @@ namespace TwoD_Game_RP.library
                     images[h, w, depth] = new Image()
                     {
                         Source = new BitmapImage(new Uri(pict.Picture(), UriKind.Relative)),
-                        Tag = pict.Picture()
                     };
+                    if (pict.Rotate90 || pict.Rotate180 || pict.Rotate270)
+                        if (pict.Rotate90 || pict.Rotate180)
+                            if (pict.Rotate90) images[h, w, depth].Tag = new KeyValuePair<string, int>(pict.Picture(), 90);
+                            else images[h, w, depth].Tag = new KeyValuePair<string, int>(pict.Picture(), 180);
+                        else images[h, w, depth].Tag = new KeyValuePair<string, int>(pict.Picture(), 270);
+                    else images[h, w, depth].Tag = new KeyValuePair<string, int>(pict.Picture(), 0);
                 }
-                else if (images[h, w, depth].Tag.ToString() != pict.Picture())
+                else if (( (KeyValuePair<string, int>) images[h, w, depth].Tag ).Key != pict.Picture())
                 {
                     images[h, w, depth].Source = new BitmapImage(new Uri(pict.Picture(), UriKind.Relative));
-                    images[h, w, depth].Tag = pict.Picture();
+
+                    if (pict.Rotate90 || pict.Rotate180 || pict.Rotate270)
+                        if (pict.Rotate90 || pict.Rotate180)
+                            if (pict.Rotate90) images[h, w, depth].Tag = new KeyValuePair<string, int>(pict.Picture(), 90);
+                            else images[h, w, depth].Tag = new KeyValuePair<string, int>(pict.Picture(), 180);
+                        else images[h, w, depth].Tag = new KeyValuePair<string, int>(pict.Picture(), 270);
+                    else images[h, w, depth].Tag = new KeyValuePair<string, int>(pict.Picture(), 0);
                 }
                 depth++;
             }
@@ -105,6 +117,7 @@ namespace TwoD_Game_RP.library
                         images[i,j,k].Height = size;
                         Canvas.SetLeft(images[i, j, k], size + size * j);
                         Canvas.SetTop(images[i, j, k], size + size * i);
+                        images[i, j, k].RenderTransform = new RotateTransform(  ((KeyValuePair<string, int>)images[i,j,k].Tag).Value  , size/2, size/2);
                         canvas.Children.Add(images[i, j, k]);
                     }
                 }

@@ -10,10 +10,10 @@ namespace Game_STALKER_Exclusion_Zone
 {
     public class Information
     {
-        public static List<string> Blocks = new List<string> { "д", "о", "с", "я", "ю", "а" }; //{ "д", "о", "с", "у", "ф", "я"};
-        public static List<string> NotWatch = new List<string> { "д", "к", "с", "ю", "я" };
+        public static List<string> Blocks = new List<string> { "New/glass", "New/floorWood"};  //{ "д", "о", "с", "у", "ф", "я"};
+        public static List<string> NotWatch = new List<string> { "New/floorWood" };  //{ "д", "к", "с", "ю", "я" };
 
-        public List<string> NameRandom = new List<string>
+    public List<string> NameRandom = new List<string>
         {
             "Петя", "Колян", "Митя", "Дэн", "Витя", "Гога",
             "Петя", "Колян", "Митя", "Дэн", "Витя", "Гога"
@@ -42,7 +42,9 @@ namespace Game_STALKER_Exclusion_Zone
             {
                 Garden = new Location("Двор", "Garden", 21, 26);
                 Garden.AddLayerCells(CreateLocation("GardenLayer1"), 0);
-                Garden.AddLayerCells(CreateLocation("GardenLayer2"), 3);
+                Garden.AddLayerCells(CreateLocation("GardenLayer2"), 0);
+                Garden.AddLayerCells(CreateLocation("GardenLayer3"), 0);
+                Garden.AddLayerCells(CreateLocation("GardenLayer4"), 0);
                 Garden.CreateGrafWatch();
                 Garden.CreateGrafMove();
                 Garden.UpdateDisplay();
@@ -89,6 +91,12 @@ namespace Game_STALKER_Exclusion_Zone
                     if (dict.ContainsKey(pict))
                     {
                         retur[i,j] = new StaticPicCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"{dict[pict]}.png"));
+                        switch (rl.rotation[i][j])
+                        {
+                            case '1': retur[i, j].Rotate90 = true; break;
+                            case '2': retur[i, j].Rotate180 = true; break;
+                            case '3': retur[i, j].Rotate270 = true; break;
+                        }
                     }
                 }
             }
@@ -101,6 +109,7 @@ namespace Game_STALKER_Exclusion_Zone
             rl.wight = 3;
             rl.location = new string[] { "abc", "abc", "abc", "abc", "abc" };
             rl.description = new List<(string, string)> { ("a", "aaa"), ("b", "aaa"), ("c", "aaa") };
+            rl.rotation = new List<string> { "111", "222" };
 
             using (var file = new FileStream("serialization.txt", FileMode.Create))
             {
@@ -111,9 +120,10 @@ namespace Game_STALKER_Exclusion_Zone
     }
     public class ReadLocation
     {
+        public List<(string c, string s)> description;
         public int height;
         public int wight;
         public string[] location;
-        public List<(string c, string s)> description;
+        public List<string> rotation;
     }
 }

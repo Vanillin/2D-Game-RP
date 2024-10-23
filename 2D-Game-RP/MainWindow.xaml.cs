@@ -41,7 +41,7 @@ namespace Game_STALKER_Exclusion_Zone
         bool ToSeePlayer = false;
         bool ToSeeEnemy = false;
 
-        private static readonly int CountTimeAnimation = 200;
+        private static readonly int CountTimeAnimation = 700;
         private DispatcherTimer timerReloadAnimation = new DispatcherTimer()
         {
             Interval = TimeSpan.FromMilliseconds(CountTimeAnimation)
@@ -150,7 +150,7 @@ namespace Game_STALKER_Exclusion_Zone
          */
         public void Init(string PlayerName, PlayerGender Gender)
         {
-            AddInformationPlayer(PlayerName, Gender, 5, 5, new Toz34(), new KurtkaStalker(), 1300, new List<Item>() { { new AidFirstKid() }, { new AidFirstKid() } });
+            AddInformationPlayer(PlayerName, Gender, 20, 0, new Toz34(), new KurtkaStalker(), 1300, new List<Item>() { { new AidFirstKid() }, { new AidFirstKid() } });
             player.Tasks.Add(FindTask("ГлавныйКвест"));
             player.Tasks.Add(FindTask("СпроситьСталкеров"));
 
@@ -176,12 +176,12 @@ namespace Game_STALKER_Exclusion_Zone
 
                 AddPlayer((int)player.Cord.X, (int)player.Cord.Y);
 
-                StalkerSmall stalker = new StalkerSmall(RandomNamePerson[0], RandomSecondNamePerson[0], new Ak74ukorot(), NPSIntellect.StandAgressive, new Point(5, 6), 0,
-                    new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
-                CurrentLocation.AddCell(stalker.picture, 1, (int)stalker.Cord.X, (int)stalker.Cord.Y);
-                CurrentLocation.Lives.Add(stalker);
-                stalker.EnqueueDownGlobalAction(new ActionMove(new Point(5, 8), true));
-                stalker.EnqueueDownGlobalAction(new ActionMove(new Point(5, 6), true));
+                //StalkerSmall stalker = new StalkerSmall(RandomNamePerson[0], RandomSecondNamePerson[0], new Ak74ukorot(), NPSIntellect.StandAgressive, new Point(5, 6), 0,
+                //    new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
+                //CurrentLocation.AddCell(stalker.picture, 1, (int)stalker.Cord.X, (int)stalker.Cord.Y);
+                //CurrentLocation.Lives.Add(stalker);
+                //stalker.EnqueueDownGlobalAction(new ActionMove(new Point(5, 8), true));
+                //stalker.EnqueueDownGlobalAction(new ActionMove(new Point(5, 6), true));
 
             }
             pixelSize = Math.Min( Map.Height / (CurrentLocation.Height + 2) , Map.Width / (CurrentLocation.Width + 3));
