@@ -10,8 +10,8 @@ namespace Game_STALKER_Exclusion_Zone
 {
     public class Information
     {
-        public static List<string> Blocks = new List<string> { "brickWall", "glass", "ю"};  //{ "д", "о", "с", "у", "ф", "я"};
-        public static List<string> NotWatch = new List<string> { "brickWall1", "brickWall2", "brickWall3", "ю" };  //{ "д", "к", "с", "ю", "я" };
+        public static List<string> Blocks = new List<string> { "Wall", "Window"};  //{ "д", "о", "с", "у", "ф", "я"};
+        public static List<string> NotWatch = new List<string> { "Wall" };  //{ "д", "к", "с", "ю", "я" };
 
         public List<string> NameRandom = new List<string>
         {
@@ -53,10 +53,10 @@ namespace Game_STALKER_Exclusion_Zone
             if (Garden == null)
             {
                 Garden = new Location("Двор", "Garden", 21, 26);
-                Garden.AddLayerCells(CreateLocation("GardenLayer1"), 0);
-                Garden.AddLayerCells(CreateLocation("GardenLayer2"), 0);
-                Garden.AddLayerCells(CreateLocation("GardenLayer3"), 0);
-                Garden.AddLayerCells(CreateLocation("GardenLayer4"), 0);
+                Garden.AddLayerCells(CreateLocation("GardenFloors"), 0);
+                Garden.AddLayerCells(CreateLocation("GardenFloors2"), 0);
+                Garden.AddLayerCells(CreateLocation("GardenFloors3"), 0);
+                Garden.AddLayerCells(CreateLocation("GardenWalls"), 0);
                 Garden.CreateGrafWatch();
                 Garden.CreateGrafMove();
                 Garden.UpdateDisplay();

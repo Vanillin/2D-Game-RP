@@ -153,6 +153,7 @@ namespace Game_STALKER_Exclusion_Zone
         }
         public bool GetIsBlockCell(int heightInd, int weightInd)
         {
+            if (Cells[heightInd, weightInd] == null) return true;
             return Cells[heightInd, weightInd].IsBlock;
         }
         public bool GetIsWatchCell(int heightInd, int weightInd)

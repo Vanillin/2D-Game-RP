@@ -335,18 +335,14 @@
     <Resource Include="gamedata\levels\GardenLayer1.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\textures\map\New\earth.png" />
     <Resource Include="gamedata\textures\map\New\floorBeton.png" />
     <Resource Include="gamedata\textures\map\New\floorStone.png" />
     <Resource Include="gamedata\textures\map\New\floorWood.png" />
-    <Resource Include="gamedata\textures\map\New\glass.png" />
-    <Resource Include="gamedata\textures\map\New\grass.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\New\brickWall1.png" />
     <Resource Include="gamedata\textures\map\New\brickWall2.png" />
     <Resource Include="gamedata\textures\map\New\brickWall3.png" />
-    <Resource Include="gamedata\textures\map\New\brickWallGlass.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\New\floorWood12.png" />
@@ -373,6 +369,26 @@
   <ItemGroup>
     <Resource Include="gamedata\levels\GardenLayer2.txt" />
     <Resource Include="gamedata\levels\GardenLayer3.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\New\brickDoor.png" />
+    <Resource Include="gamedata\textures\map\New\brickWindow.png" />
+    <Resource Include="gamedata\textures\map\New\floorEarth.png" />
+    <Resource Include="gamedata\textures\map\New\floorGrass.png" />
+    <Resource Include="gamedata\textures\map\New\treeWall.png" />
+    <Resource Include="gamedata\textures\map\New\woodZaborDoor.png" />
+    <Resource Include="gamedata\textures\map\New\woodZaborWall1.png" />
+    <Resource Include="gamedata\textures\map\New\woodZaborWall2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\New\floorGrass12.png" />
+    <Resource Include="gamedata\textures\map\New\floorGrass13.png" />
+    <Resource Include="gamedata\textures\map\New\floorGrass24.png" />
+    <Resource Include="gamedata\textures\map\New\floorGrass3.png" />
+    <Resource Include="gamedata\textures\map\New\floorGrass4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\New\floorGrass34.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

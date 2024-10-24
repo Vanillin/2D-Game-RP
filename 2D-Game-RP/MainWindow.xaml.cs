@@ -116,22 +116,22 @@ namespace Game_STALKER_Exclusion_Zone
 
                 //создание переходов
 
-                CurrentLocation.Lives.Add(player);
-                CurrentLocation.AddCell(player.picture, 1, (int)player.Cord.X, (int)player.Cord.Y);
+                //CurrentLocation.Lives.Add(player);
+                //CurrentLocation.AddCell(player.picture, 1, (int)player.Cord.X, (int)player.Cord.Y);
 
-                Point p = new Point(12, 10);
+                //Point p = new Point(12, 10);
 
-                StalkerSmall stalker = new StalkerSmall("a", "a", null, NPSIntellect.StandAgressive, p, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
-                CurrentLocation.AddCell(stalker.picture, 1, (int)stalker.Cord.X, (int)stalker.Cord.Y);
-                CurrentLocation.Lives.Add(stalker);
-                stalker.EnqueueDownGlobalAction(new ActionMove(new Point(12, 11), true));
-                stalker.EnqueueDownGlobalAction(new ActionMove(new Point(12, 10), true));
+                //StalkerSmall stalker = new StalkerSmall("a", "a", null, NPSIntellect.StandAgressive, p, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
+                //CurrentLocation.AddCell(stalker.picture, 1, (int)stalker.Cord.X, (int)stalker.Cord.Y);
+                //CurrentLocation.Lives.Add(stalker);
+                //stalker.EnqueueDownGlobalAction(new ActionMove(new Point(12, 11), true));
+                //stalker.EnqueueDownGlobalAction(new ActionMove(new Point(12, 10), true));
 
-                Point p2 = new Point(12, 6);
+                //Point p2 = new Point(12, 6);
 
-                StalkerSmall stalker2 = new StalkerSmall("a", "a", null, NPSIntellect.StandAgressive, p2, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
-                CurrentLocation.AddCell(stalker2.picture, 1, (int)stalker2.Cord.X, (int)stalker2.Cord.Y);
-                CurrentLocation.Lives.Add(stalker2);
+                //StalkerSmall stalker2 = new StalkerSmall("a", "a", null, NPSIntellect.StandAgressive, p2, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
+                //CurrentLocation.AddCell(stalker2.picture, 1, (int)stalker2.Cord.X, (int)stalker2.Cord.Y);
+                //CurrentLocation.Lives.Add(stalker2);
             }
             pixelSize = Math.Min( Map.Height / (CurrentLocation.Height + 2) , Map.Width / (CurrentLocation.Width + 3));
             //выставление начальной позиции при переходе на локации
@@ -321,6 +321,7 @@ namespace Game_STALKER_Exclusion_Zone
             SystemObj = new List<UIElement>();
             Point pointMouse = e.GetPosition(Map);
             (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSize) - 1, (int)Math.Truncate(pointMouse.Y / pixelSize) - 1);
+            if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
             if (!CurrentLocation.GetIsBlockCell(H, W))
             {
                 player.EnqueueUpGlobalAction(new ActionMove(new Point(H, W), false));
@@ -333,6 +334,7 @@ namespace Game_STALKER_Exclusion_Zone
             SystemObj = new List<UIElement>();
             Point pointMouse = e.GetPosition(Map);
             (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSize) - 1, (int)Math.Truncate(pointMouse.Y / pixelSize) - 1);
+            if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
             Skelet people = CurrentLocation.Lives.Find(x => x.Cord == new Point(H, W));
             if (people != null && !(people is Player))
             {
