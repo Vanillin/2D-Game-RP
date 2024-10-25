@@ -173,8 +173,6 @@ namespace Game_STALKER_Exclusion_Zone
         }
         public List<Point> SearchSee(Point start, int count)
         {
-            return new List<Point>();
-
             List<Point> retur = new List<Point>();
             Point startVert = Find(start).Cord;
 
@@ -276,6 +274,131 @@ namespace Game_STALKER_Exclusion_Zone
                                 SavedObject.Add(new double[2] { MaxNewAngle, MinNewAngle });
                             }
                         }
+                    }
+                }
+            }
+            return retur;
+        }
+        public List<Point> SearchSeeWithBlocks(Point start, int count, int minX, int minY, int maxX, int maxY)
+        {
+            List<Point> retur = new List<Point>();
+            Point startVert = Find(start).Cord;
+
+            if (startVert == null)
+            {
+                throw new Exception($"В графе отсутствует точка ({startVert.X},{startVert.Y})");
+            }
+
+            Dictionary<Point, int> Length = new Dictionary<Point, int> { { startVert, 0 } };
+            Queue<Point> Que = new Queue<Point>();
+            retur.Add(startVert);
+            Que.Enqueue(startVert);
+
+            List<double[]> SavedObject = new List<double[]>(); //0 - max //1 - min
+            bool KeyPI = true;
+
+            while (Que.Count > 0)
+            {
+                Point Now = Que.Dequeue();
+
+                List<Point> Near = new List<Point>() {new Point(Now.X+1, Now.Y), new Point(Now.X, Now.Y+1),
+                    new Point(Now.X - 1, Now.Y), new Point(Now.X, Now.Y-1) };
+                foreach (Point p in Near)
+                {
+                    if (!Length.ContainsKey(p))
+                    {
+                        if (Length[Now] + 1 > count)
+                        {
+                            return retur;
+                        }
+                        if (p.Y < minY || p.Y >= maxY || p.X < minX || p.X >= maxX)
+                        {
+                            continue;
+                        }
+
+                        double CurX = p.X - start.X;
+                        double CurY = p.Y - start.Y;
+                        List<double> Angles = new List<double> { Math.Atan2(CurX +0.5, CurY +0.5), Math.Atan2(CurX +0.5, CurY -0.5),
+                            Math.Atan2(CurX -0.5, CurY +0.5), Math.Atan2(CurX -0.5, CurY -0.5) };
+
+                        bool FinalKey = false;
+                        foreach (var v in Angles)
+                        {
+                            bool RadianKey = true;
+                            foreach (double[] o in SavedObject)
+                            {
+                                if (o[0] > v && v > o[1])
+                                {
+                                    RadianKey = false;
+                                    break;
+                                }
+                            }
+                            FinalKey = FinalKey || RadianKey;
+                            if (FinalKey)
+                            {
+                                break;
+                            }
+                        }
+                        
+                        if (FinalKey) //добавляет все видимые точки
+                        {
+                            if (this.Vertexes.Find(X => X.Cord == p) != null)
+                            {
+                                Length.Add(p, Length[Now] + 1);
+                                Que.Enqueue(p);
+                                retur.Add(p);
+                                continue; //нет смысла обрабатывать преграду, так как уже не стена
+                            }
+                            if (!retur.Contains(p))
+                                retur.Add(p);
+                        }
+
+                        //if (this.Vertexes.Find(X => X.Cord == p) != null) continue;
+
+                        double MaxNewAngle = Angles.Max();
+                        double MinNewAngle = Angles.Min();
+
+                        if (Math.Atan2(CurX, CurY) == Math.PI)
+                        {
+                            if (KeyPI)
+                            {
+                                SavedObject.Add(new double[2] { Math.Atan2(CurX - 0.5, CurY + 0.5), -3.2 });
+                                SavedObject.Add(new double[2] { 3.2, Math.Atan2(CurX + 0.5, CurY + 0.5) });
+                                KeyPI = false;
+                            }
+                            continue;
+                        }
+
+                        bool AddNewAngle = true;
+                        foreach (double[] o in SavedObject)
+                        {
+
+                            if (AddNewAngle)
+                            {
+                                bool MaxInside = (o[0] > MaxNewAngle && MaxNewAngle > o[1]);
+                                bool MinInside = (o[0] > MinNewAngle && MinNewAngle > o[1]);
+
+                                if (MaxInside && MinInside)
+                                {
+                                    AddNewAngle = false;
+                                }
+                                else if (MaxInside && !MinInside)
+                                {
+                                    o[1] = MinNewAngle;
+                                    AddNewAngle = false;
+                                }
+                                else if (!MaxInside && MinInside)
+                                {
+                                    o[0] = MaxNewAngle;
+                                    AddNewAngle = false;
+                                }
+                            }
+                        }
+                        if (AddNewAngle)
+                        {
+                            SavedObject.Add(new double[2] { MaxNewAngle, MinNewAngle });
+                        }
+
                     }
                 }
             }

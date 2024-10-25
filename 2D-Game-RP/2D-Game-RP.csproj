@@ -390,5 +390,8 @@
   <ItemGroup>
     <Resource Include="gamedata\textures\map\New\floorGrass34.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\System\Ramka.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -81,7 +81,31 @@ namespace Game_STALKER_Exclusion_Zone
             DoActionAll();
             //if (ToSeePlayer)
             //if (ToSeeEnemy)
-            CurrentLocation.Display(Map, pixelSize, SystemObj);
+            if (ToSeePlayer)
+            {
+                var OblSee = CurrentLocation.GrafLocToWatch.SearchSeeWithBlocks(player.Cord, 7, 0, 0, CurrentLocation.Height, CurrentLocation.Width);
+                //var SystemRamka = new StaticPicCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"System\\Ramka.png"));
+                //foreach (var v in OblSee)
+                //{
+                //    CurrentLocation.AddCell(SystemRamka, 4, (int)v.X, (int)v.Y);
+
+                //    //Image newIm = new Image()
+                //    //{
+                //    //    Source = new BitmapImage(new Uri(pict.Picture(), UriKind.Relative)),
+                //    //    Tag = new KeyValuePair<string, int>(pict.Picture(), 0)
+                //    //};
+                //}
+                CurrentLocation.DisplayToPoints(OblSee, Map, pixelSize, SystemObj);
+                //foreach (var v in OblSee)
+                //{
+                //    CurrentLocation.RemoveCell(SystemRamka, (int)v.X, (int)v.Y);
+                //    //сделать потом более грамотное (выборочное) удаление и добавление новых системных изображений
+                //}
+            }
+            else
+            {
+                CurrentLocation.Display(Map, pixelSize, SystemObj);
+            }
 
             //selectLevel.TakeNextPictureLevel();
         }
@@ -116,8 +140,8 @@ namespace Game_STALKER_Exclusion_Zone
 
                 //создание переходов
 
-                //CurrentLocation.Lives.Add(player);
-                //CurrentLocation.AddCell(player.picture, 1, (int)player.Cord.X, (int)player.Cord.Y);
+                CurrentLocation.Lives.Add(player);
+                CurrentLocation.AddCell(player.picture, 1, (int)player.Cord.X, (int)player.Cord.Y);
 
                 //Point p = new Point(12, 10);
 
