@@ -83,7 +83,8 @@ namespace Game_STALKER_Exclusion_Zone
             //if (ToSeeEnemy)
             if (ToSeePlayer)
             {
-                var OblSee = CurrentLocation.GrafLocToWatch.SearchSeeWithBlocks(player.Cord, 7, 0, 0, CurrentLocation.Height, CurrentLocation.Width);
+                var OblSee = CurrentLocation.GrafLocToWatch.SearchSeeInCircleWithBlocks(player.Cord, 7, 0, 0, CurrentLocation.Height, CurrentLocation.Width);
+                //var OblSee = CurrentLocation.GrafLocToWatch.SearchSeeWithBlocks(player.Cord, 7, 0, 0, CurrentLocation.Height, CurrentLocation.Width);
                 //var SystemRamka = new StaticPicCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"System\\Ramka.png"));
                 //foreach (var v in OblSee)
                 //{
