@@ -72,6 +72,10 @@ namespace Game_STALKER_Exclusion_Zone
         {
             display.DisplayToPoints(displayPoints, canvas, size, systemObj);
         }
+        public void DisplayToPointsWithBorder(List<Point> displayPoints, Point LeftUpCorner, Canvas canvas, double size, List<UIElement> systemObj)
+        {
+            display.DisplayToPointsWithBorder(displayPoints, LeftUpCorner, canvas, size, systemObj);
+        }
         public void CreateGrafMove()
         {
             grafLocToMove = new Graf();

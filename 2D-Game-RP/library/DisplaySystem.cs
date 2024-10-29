@@ -149,5 +149,26 @@ namespace TwoD_Game_RP.library
                 foreach (var obj in SystemObj)
                     canvas.Children.Add(obj);
         }
+        public void DisplayToPointsWithBorder(List<Point> displayPoints, Point LeftUpCorner, Canvas canvas, double size, List<UIElement> SystemObj)
+        {
+            canvas.Children.Clear();
+            foreach (var v in displayPoints)
+            {
+                int i = (int)v.X;
+                int j = (int)v.Y;
+                for (int k = 0; k < depths[i, j]; k++)
+                {
+                    images[i, j, k].Width = size;
+                    images[i, j, k].Height = size;
+                    Canvas.SetLeft(images[i, j, k], size + size * (j - LeftUpCorner.Y));
+                    Canvas.SetTop(images[i, j, k], size + size * (i - LeftUpCorner.X));
+                    images[i, j, k].RenderTransform = new RotateTransform(((KeyValuePair<string, int>)images[i, j, k].Tag).Value, size / 2, size / 2);
+                    canvas.Children.Add(images[i, j, k]);
+                }
+            }
+            if (SystemObj != null)
+                foreach (var obj in SystemObj)
+                    canvas.Children.Add(obj);
+        }
     }
 }

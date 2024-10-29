@@ -26,6 +26,10 @@ namespace Game_STALKER_Exclusion_Zone
         public double pixelIY;
         const double pixelIOtstX = 50;
         const double pixelIOtstY = 20;
+
+        Point LeftUpCorner;
+        int sizeGamePoleH;
+        int sizeGamePoleW;
         double pixelSize;
 
         public Player player;
@@ -38,6 +42,19 @@ namespace Game_STALKER_Exclusion_Zone
         {
             Interval = TimeSpan.FromMilliseconds(CountTimeAnimation)
         };
+        private void ChangeSizeGamePole(int height, int wight, Point player)
+        {
+            if (height % 2 == 0 && height!=CurrentLocation.Height) throw new Exception("Размеры поля должны быть нечетными!");
+            if (wight % 2 == 0 && wight != CurrentLocation.Width) throw new Exception("Размеры поля должны быть нечетными!");
+            sizeGamePoleH = height;
+            sizeGamePoleW = wight;
+            pixelSize = Math.Min(Map.Height / (sizeGamePoleH + 2), Map.Width / (sizeGamePoleW + 2));
+            LeftUpCorner = new Point(player.X - (height - 1) / 2, player.Y - (wight - 1) / 2);
+            if (LeftUpCorner.X < 0) LeftUpCorner.X = 0;
+            if (LeftUpCorner.Y < 0) LeftUpCorner.Y = 0;
+            if (LeftUpCorner.X > CurrentLocation.Height - sizeGamePoleH) LeftUpCorner.X = CurrentLocation.Height - sizeGamePoleH;
+            if (LeftUpCorner.Y > CurrentLocation.Width - sizeGamePoleW) LeftUpCorner.Y = CurrentLocation.Width - sizeGamePoleW;
+        }
         public MainWindow()
         {
             //Information.Serialization();
@@ -83,7 +100,11 @@ namespace Game_STALKER_Exclusion_Zone
             //if (ToSeeEnemy)
             if (ToSeePlayer)
             {
-                var OblSee = CurrentLocation.GrafLocToWatch.SearchSeeInCircleWithBlocks(player.Cord, 7, 0, 0, CurrentLocation.Height, CurrentLocation.Width);
+                int oblsee = 7;
+                ChangeSizeGamePole(oblsee*2+1, oblsee * 2 + 1, player.Cord);
+                var OblSee = CurrentLocation.GrafLocToWatch.SearchSeeInCircleWithBlocks(player.Cord, oblsee, 
+                    Math.Max((int)player.Cord.X- oblsee, 0), Math.Max((int)player.Cord.Y - oblsee, 0),
+                    Math.Min((int)player.Cord.X + oblsee + 1, CurrentLocation.Height), Math.Min((int)player.Cord.Y + oblsee + 1, CurrentLocation.Width));
                 //var OblSee = CurrentLocation.GrafLocToWatch.SearchSeeWithBlocks(player.Cord, 7, 0, 0, CurrentLocation.Height, CurrentLocation.Width);
                 //var SystemRamka = new StaticPicCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"System\\Ramka.png"));
                 //foreach (var v in OblSee)
@@ -96,7 +117,7 @@ namespace Game_STALKER_Exclusion_Zone
                 //    //    Tag = new KeyValuePair<string, int>(pict.Picture(), 0)
                 //    //};
                 //}
-                CurrentLocation.DisplayToPoints(OblSee, Map, pixelSize, SystemObj);
+                CurrentLocation.DisplayToPointsWithBorder(OblSee, LeftUpCorner, Map, pixelSize, SystemObj);
                 //foreach (var v in OblSee)
                 //{
                 //    CurrentLocation.RemoveCell(SystemRamka, (int)v.X, (int)v.Y);
@@ -105,6 +126,7 @@ namespace Game_STALKER_Exclusion_Zone
             }
             else
             {
+                ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
                 CurrentLocation.Display(Map, pixelSize, SystemObj);
             }
 
@@ -158,7 +180,8 @@ namespace Game_STALKER_Exclusion_Zone
                 //CurrentLocation.AddCell(stalker2.picture, 1, (int)stalker2.Cord.X, (int)stalker2.Cord.Y);
                 //CurrentLocation.Lives.Add(stalker2);
             }
-            pixelSize = Math.Min( Map.Height / (CurrentLocation.Height + 2) , Map.Width / (CurrentLocation.Width + 3));
+            ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
+            //pixelSize = Math.Min( Map.Height / (CurrentLocation.Height + 2) , Map.Width / (CurrentLocation.Width + 2));
             //выставление начальной позиции при переходе на локации
         }
 
@@ -346,6 +369,7 @@ namespace Game_STALKER_Exclusion_Zone
             SystemObj = new List<UIElement>();
             Point pointMouse = e.GetPosition(Map);
             (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSize) - 1, (int)Math.Truncate(pointMouse.Y / pixelSize) - 1);
+            (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X);
             if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
             if (!CurrentLocation.GetIsBlockCell(H, W))
             {
@@ -359,6 +383,7 @@ namespace Game_STALKER_Exclusion_Zone
             SystemObj = new List<UIElement>();
             Point pointMouse = e.GetPosition(Map);
             (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSize) - 1, (int)Math.Truncate(pointMouse.Y / pixelSize) - 1);
+            (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X);
             if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
             Skelet people = CurrentLocation.Lives.Find(x => x.Cord == new Point(H, W));
             if (people != null && !(people is Player))
