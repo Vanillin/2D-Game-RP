@@ -5,86 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Game_STALKER_Exclusion_Zone"
         mc:Ignorable="d"
-        Title="Game STALKER" WindowState="Maximized" Height="1024" Width="1900">
+        Title="Game STALKER" WindowState="Maximized" Height="720" Width="1280" Icon="gamedata\textures\icon.png">
 
-    <StackPanel >
+    <Viewbox>        <!--Stretch="Uniform"-->
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition />
+                <ColumnDefinition Width="880"/>
+                <ColumnDefinition Width="400"/>
             </Grid.ColumnDefinitions>
-            <Border BorderBrush="Black" BorderThickness="2" Grid.Column="0">
-                <StackPanel Margin="5">
-                    <!--<Label x:Name="NameLocation" Content="Локация: Неизвестная пустота неизведанного и неизученного. Серьёзно, тут ничего нет." FontSize="20"/>
-                    <Label x:Name="Task" Content="Задание: Начать игру" FontSize="20"/>-->
-                    <Canvas x:Name="Map" Background="Gray" Width="1485" Height="990" 
-                            MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseRightButtonDown="Map_MouseRightButtonDown"> <!--31+2 * 19+3 )) * 45-->
-
-                    </Canvas>
-                </StackPanel>
+            <Border BorderBrush="Black" BorderThickness="2" Grid.Column="0" Padding="5">
+                <Canvas x:Name="Map" Background="Gray"
+                            MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseRightButtonDown="Map_MouseRightButtonDown">
+                </Canvas>
             </Border>
-            <Border BorderBrush="Black" BorderThickness="2" Grid.Column="1">
-                <StackPanel>                
-                    <Grid Height="100">
+            <Border BorderBrush="Black" BorderThickness="2" Grid.Column="1" Padding="5">
+                <StackPanel>
+                    <Grid Height="50">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" FontSize="50" Content="ПДА" Click="PDA_Click">
-                            
+                        <Button Grid.Column="0" Click="PDA_Click">
+                            <Viewbox> <Label Content="ПДА" FontSize="20"/> </Viewbox>
                         </Button>
-                        <Button Grid.Column="1" FontSize="50" Content="МЕНЮ" Click="Menu_Click" >
-
+                        <Button Grid.Column="1" Click="Menu_Click">
+                            <Viewbox> <Label Content="МЕНЮ" FontSize="20"/> </Viewbox>
                         </Button>
                     </Grid>
                     <StackPanel Margin="10,10" Width="Auto">
-                        <!--<Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>-->
-                            <StackPanel Grid.Column="0">
-                                <Image x:Name="PicturePlayer" VerticalAlignment="Top"  Grid.Column="1" Height="100" Width="300" Margin="0,20"/>
-                                <Label x:Name="NamePlayer" FontSize="20" Content="Имя: "/>
-                                <Label x:Name="FractionPlayer" FontSize="20" Content="Фракция:"/>
-                                <Label x:Name="MoneyPlayer" FontSize="20" Content="Деньги: "/>
-                            </StackPanel>
-                            
-                        <!--</Grid>-->
-                        <ProgressBar x:Name="HealthPlayer" Height="40" Margin="0,5,0,0" Width="Auto" Background="DarkGray"/>
-                        <Button x:Name="ArmorPlayer" Height="150" Width="Auto" Margin="0,10" Click="ArmorPlayer_Click"/>
-                        <Button x:Name="GunPlayer" Height="150" Width="Auto" Margin="0,10" Click="GunPlayer_Click"/>
-                        <Canvas x:Name="InventoryPlayer" Height="250" Width="370" Background="Gray">
+                        <StackPanel Grid.Column="0">
+                            <Image x:Name="PicturePlayer" VerticalAlignment="Top"  Grid.Column="1" Height="100" Width="300" Margin="0,20"/>
+                            <Label x:Name="NamePlayer" FontSize="20" Content="Имя: "/>
+                            <Label x:Name="FractionPlayer" FontSize="20" Content="Фракция:"/>
+                            <Label x:Name="MoneyPlayer" FontSize="20" Content="Деньги: "/>
+                        </StackPanel>
+
+                        <ProgressBar x:Name="HealthPlayer" Height="20" Margin="0,5,0,0" Width="Auto" Background="DarkGray"/>
+                        <Button x:Name="ArmorPlayer" Height="80" Width="Auto" Margin="0,5" Click="ArmorPlayer_Click"/>
+                        <Button x:Name="GunPlayer" Height="80" Width="Auto" Margin="0,5" Click="GunPlayer_Click"/>
+                        <Canvas x:Name="InventoryPlayer" Height="180" Width="370" Background="Gray">
 
                         </Canvas>
                     </StackPanel>
-                
-                <!--<Border BorderBrush="Black" BorderThickness="2">
-                    <StackPanel Margin="10,10">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0">
-                                <Label x:Name="NamePerson" FontSize="20" Content="Имя: "/>
-                                <Label x:Name="FractionPerson" FontSize="20" Content="Фракция:"/>
-                            </StackPanel>
-                            <Image x:Name="PicturePerson" Grid.Column="1" Height="80" Width="200"/>
-                        </Grid>
-                        <ProgressBar x:Name="HealthPerson" Height="40" Margin="0,10" Width="Auto" Background="DarkGray"/>
-                        <Image x:Name="GunPerson" Height="100" Width="Auto"/>
-                    </StackPanel>
-                </Border>-->
-                <!--<Border BorderBrush="Black" BorderThickness="2" Height="200">
-                    <StackPanel Margin="10,10">
-                        <Grid>
-
-                        </Grid>
-                    </StackPanel>
-                </Border>-->
                 </StackPanel>
             </Border>
         </Grid>
-    </StackPanel>
+    </Viewbox>
 </Window>

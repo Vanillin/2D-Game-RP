@@ -24,18 +24,6 @@ namespace Game_STALKER_Exclusion_Zone
         public MenuWindow()
         {
             InitializeComponent();
-            Icon = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["Textures"], $"icon.png"), UriKind.Relative));
-
-            Image MenuBack = new Image()
-            {
-                Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["Textures"], $"menu.png"), UriKind.Relative)),
-                Stretch = Stretch.Fill,
-            };
-            MenuBack.Width = 1940;
-            MenuBack.Height = 1024; 
-            Canvas.SetLeft(MenuBack, 0);
-            Canvas.SetTop(MenuBack, 0);
-            BackGround.Children.Add(MenuBack);
 
             MenuContinue.IsEnabled = false;
         }

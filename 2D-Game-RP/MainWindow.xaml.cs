@@ -48,7 +48,7 @@ namespace Game_STALKER_Exclusion_Zone
             if (wight % 2 == 0 && wight != CurrentLocation.Width) throw new Exception("Размеры поля должны быть нечетными!");
             sizeGamePoleH = height;
             sizeGamePoleW = wight;
-            pixelSize = Math.Min(Map.Height / (sizeGamePoleH + 2), Map.Width / (sizeGamePoleW + 2));
+            pixelSize = Math.Min(Map.ActualHeight / (sizeGamePoleH + 2), Map.ActualWidth / (sizeGamePoleW + 2));
             LeftUpCorner = new Point(player.X - (height - 1) / 2, player.Y - (wight - 1) / 2);
             if (LeftUpCorner.X < 0) LeftUpCorner.X = 0;
             if (LeftUpCorner.Y < 0) LeftUpCorner.Y = 0;
@@ -67,7 +67,6 @@ namespace Game_STALKER_Exclusion_Zone
 
             pixelIX = (int.Parse(InventoryPlayer.Height.ToString()) - pixelIOtstX) / (inventX);
             pixelIY = (int.Parse(InventoryPlayer.Width.ToString()) - pixelIOtstY) / (inventY);
-            Icon = new BitmapImage(new Uri( Path.Combine(ConfigurationManager.AppSettings["Textures"], $"icon.png"), UriKind.Relative));
         }
         public void Init(string PlayerName, PlayerGender Gender)
         {
