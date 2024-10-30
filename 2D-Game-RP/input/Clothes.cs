@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Game_STALKER_Exclusion_Zone
+namespace TwoD_Game_RP
 {
     public enum Clothes
     {
@@ -15,24 +15,24 @@ namespace Game_STALKER_Exclusion_Zone
     }
     public class KurtkaStalker : Cloth
     {
-        public KurtkaStalker() : base("Куртка сталкера-новичка", "KurtkaStalker", 500, 5, NPSGroup.Stalker) { }
+        public KurtkaStalker() : base("Куртка сталкера-новичка", "KurtkaStalker", 500, 5, NPSGroup.Stalker, 3, 2) { }
     }
     public class CombezStalker : Cloth
     {
-        public CombezStalker() : base("Сталкерский комбинезон Заря", "CombezStalker", 500, 10, NPSGroup.Stalker) { }
+        public CombezStalker() : base("Сталкерский комбинезон Заря", "CombezStalker", 500, 10, NPSGroup.Stalker, 3, 2) { }
     }
     public class CombezNaemnik : Cloth
     {
-        public CombezNaemnik() : base("Комбинезон наёмника", "CombezNaemnik", 500, 10, NPSGroup.Naemnik) { }
+        public CombezNaemnik() : base("Комбинезон наёмника", "CombezNaemnik", 500, 10, NPSGroup.Naemnik, 3, 2) { }
     }
     public class ExoCombezNaemnik : Cloth
     {
-        public ExoCombezNaemnik() : base("Экзоскелет наёмника", "ExoCombezNaemnik", 500, 20, NPSGroup.Naemnik) { }
+        public ExoCombezNaemnik() : base("Экзоскелет наёмника", "ExoCombezNaemnik", 500, 20, NPSGroup.Naemnik, 3, 2) { }
     }
     public class MutantSkinCloth : Cloth
     {
         public override void Using(Skelet skelet)
         { }
-        public MutantSkinCloth() : base("Шкура мутанта", "MutantSkin", 0, 0, NPSGroup.Mutant) { }
+        public MutantSkinCloth() : base("Шкура мутанта", "MutantSkin", 0, 0, NPSGroup.Mutant, 1, 1) { }
     }
 }

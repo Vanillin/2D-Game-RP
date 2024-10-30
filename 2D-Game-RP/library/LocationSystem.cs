@@ -8,10 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using TwoD_Game_RP;
-using TwoD_Game_RP.library;
 
-namespace Game_STALKER_Exclusion_Zone
+namespace TwoD_Game_RP
 {
     public class Location
     {
@@ -353,28 +351,28 @@ namespace Game_STALKER_Exclusion_Zone
             toWatch = new Graf(this.thirdLayerBlock, false, rows, columns);
             this.methods = new LocationMethods();
         }
-        public void AddSubject(Subject subject, GamePoint cord)
+        public void AddSubject(Subject subject, Point cord)
         {
             methods.AddSubject(subject, cord, this);
         }
-        public void DeleteSubject(Subject subject, GamePoint cord)
+        public void DeleteSubject(Subject subject, Point cord)
         {
             methods.DeleteSubject(subject, cord, this);
         }
-        public void GoingSubject(Subject subject, GamePoint cord)
+        public void GoingSubject(Subject subject, Point cord)
         {
             methods.GoingSubject(subject, cord, this);
         }
     }
     public interface ILocationMethods
     {
-        void AddSubject(Subject subject, GamePoint cord, Location location);
-        void DeleteSubject(Subject subject, GamePoint cord, Location location);
-        void GoingSubject(Subject subject, GamePoint cord, Location location);
+        void AddSubject(Subject subject, Point cord, Location location);
+        void DeleteSubject(Subject subject, Point cord, Location location);
+        void GoingSubject(Subject subject, Point cord, Location location);
     }
     public class LocationMethods : ILocationMethods
     {
-        public void AddSubject(Subject subject, GamePoint cord, Location location)
+        public void AddSubject(Subject subject, Point cord, Location location)
         {
             location.Subjects.Add(subject);
             if (location.SecondLayerCreature[cord.H, cord.W] != null)
@@ -385,18 +383,18 @@ namespace Game_STALKER_Exclusion_Zone
             location.SecondLayerCreature[cord.H, cord.W] = subject;
             location.ToMove.Find(cord).Busy = true;
         }
-        public void DeleteSubject(Subject subject, GamePoint cord, Location location)
+        public void DeleteSubject(Subject subject, Point cord, Location location)
         {
-            location.Subjects.RemoveAll(X => X.GamePoint.H == cord.H && X.GamePoint.W == cord.W);
+            location.Subjects.RemoveAll(X => X.Point.H == cord.H && X.Point.W == cord.W);
             location.SecondLayerCreature[cord.H, cord.W] = null;
         }
-        public void GoingSubject(Subject subject, GamePoint cord, Location location)
+        public void GoingSubject(Subject subject, Point cord, Location location)
         {
             if (location.Subjects.Contains(subject) && location.SecondLayerCreature[cord.H, cord.W] == null)
             {
-                location.SecondLayerCreature[subject.GamePoint.H, subject.GamePoint.W] = null;
-                location.ToMove.Find(subject.GamePoint).Busy = false;
-                subject.GamePoint = cord;
+                location.SecondLayerCreature[subject.Point.H, subject.Point.W] = null;
+                location.ToMove.Find(subject.Point).Busy = false;
+                subject.Point = cord;
                 location.SecondLayerCreature[cord.H, cord.W] = subject;
                 location.ToMove.Find(cord).Busy = true;
             }

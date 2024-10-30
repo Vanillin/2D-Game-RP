@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Game_STALKER_Exclusion_Zone
+namespace TwoD_Game_RP
 {
     public class StalkerSmall : Skelet
     {

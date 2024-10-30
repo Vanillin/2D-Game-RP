@@ -5,7 +5,7 @@ using System.Configuration;
 using System.Linq;
 using System.Windows;
 
-namespace Game_STALKER_Exclusion_Zone
+namespace TwoD_Game_RP
 {    
     public enum PlayerGender
     {

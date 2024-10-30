@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using System.Configuration;
 using System.Windows.Controls.Primitives;
 
-namespace Game_STALKER_Exclusion_Zone
+namespace TwoD_Game_RP
 {
     /// <summary>
     /// Логика взаимодействия для PDAWindow.xaml

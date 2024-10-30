@@ -116,10 +116,10 @@ namespace Maze_runner_Library
     /// </summary>
     internal class ActionTeleport : IActions
     {
-        public GamePoint Point { get; set; }
-        public GamePoint PointOnGraf { get; set; }
+        public Point Point { get; set; }
+        public Point PointOnGraf { get; set; }
         public double Angle { get; set; }
-        public ActionTeleport(GamePoint point, GamePoint pointOnGraf, double angle)
+        public ActionTeleport(Point point, Point pointOnGraf, double angle)
         {
             Point = point;
             Angle = angle;

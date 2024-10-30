@@ -13,15 +13,13 @@ using System.Windows.Threading;
 using System.Xml.Serialization;
 using TwoD_Game_RP;
 
-namespace Game_STALKER_Exclusion_Zone
+namespace TwoD_Game_RP
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        const int inventX = 4;
-        const int inventY = 7;
         public double pixelIX;
         public double pixelIY;
         const double pixelIOtstX = 50;
@@ -65,11 +63,29 @@ namespace Game_STALKER_Exclusion_Zone
             timerReloadAnimation.Tick += TimerAnimation_Tick;
             timerReloadAnimation.IsEnabled = true;
 
-            pixelIX = (int.Parse(InventoryPlayer.Height.ToString()) - pixelIOtstX) / (inventX);
-            pixelIY = (int.Parse(InventoryPlayer.Width.ToString()) - pixelIOtstY) / (inventY);
+            int x = 12;
+            int y = 8;
+
+            AddInformationPlayer("a", PlayerGender.Man, x, y, new Toz34(), new KurtkaStalker(), 1300, new List<Item>() { { new AidFirstKid() }, { new AidFirstKid() } });
+            player.Tasks.Add(Information.FindTask("ГлавныйКвест"));
+            player.Tasks.Add(Information.FindTask("СпроситьСталкеров"));
+
+            GoToLocation("Garden");
+            TimerAnimation_Tick(null, null);
+
+            pixelIX = (int.Parse(InventoryPlayer.Height.ToString()) - pixelIOtstX) / (player.InventoryList.MaxSizeH);
+            pixelIY = (int.Parse(InventoryPlayer.Width.ToString()) - pixelIOtstY) / (player.InventoryList.MaxSizeW);
         }
-        public void Init(string PlayerName, PlayerGender Gender)
+        public MainWindow(string PlayerName, PlayerGender Gender)
         {
+            //Information.Serialization();
+
+            InitializeComponent();
+            Time = 0;
+            SystemObj = new List<UIElement>();
+            timerReloadAnimation.Tick += TimerAnimation_Tick;
+            timerReloadAnimation.IsEnabled = true;
+
             int x = 12;
             int y = 8;
 
@@ -79,6 +95,9 @@ namespace Game_STALKER_Exclusion_Zone
 
             GoToLocation("Garden");
             TimerAnimation_Tick(null, null);
+
+            pixelIX = (int.Parse(InventoryPlayer.Height.ToString()) - pixelIOtstX) / (player.InventoryList.MaxSizeH);
+            pixelIY = (int.Parse(InventoryPlayer.Width.ToString()) - pixelIOtstY) / (player.InventoryList.MaxSizeW);
         }
         private void AddInformationPlayer(string PlayerName, PlayerGender gender, int x, int y, Gun gun, Cloth cloth, int money, List<Item> inventory)
         {
@@ -216,58 +235,61 @@ namespace Game_STALKER_Exclusion_Zone
         }
         private void CreateAndReloadInventory()
         {
-            int indi = 0; int indj = 0;
-            InventoryPlayer.Children.Clear();
+            //int indi = 0; int indj = 0;
+            //InventoryPlayer.Children.Clear();
 
-            foreach (Item item in player.InventoryList)
-            {
-                Button itemBut = new Button();
-                itemBut.Tag = item.SystemName;
-                itemBut.Click += ItemBut_Click;
-                itemBut.Width = pixelIY;
-                itemBut.Height = pixelIX;
-                Canvas.SetLeft(itemBut, pixelIOtstY / 2 + pixelIY * indj);
-                Canvas.SetTop(itemBut, pixelIOtstX / 2 + pixelIX * indi);
+            //foreach (Item item in player.InventoryList.ReferenceItem.Keys)
+            //{
+            //    foreach (Point point in player.InventoryList.ReferenceItem[item])
+            //    {
+            //        Button itemBut = new Button();
+            //        itemBut.Tag = item.SystemName;
+            //        itemBut.Click += ItemBut_Click;
+            //        itemBut.Width = pixelIY;
+            //        itemBut.Height = pixelIX;
+            //        Canvas.SetLeft(itemBut, pixelIOtstY / 2 + pixelIY * indj);
+            //        Canvas.SetTop(itemBut, pixelIOtstX / 2 + pixelIX * indi);
 
-                Image image = new Image()
-                {
-                    Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"],
-                    $"{item.SystemName}.png"), UriKind.Relative)),
-                };
-                itemBut.Content = image;
+            //        Image image = new Image()
+            //        {
+            //            Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"],
+            //            $"{item.SystemName}.png"), UriKind.Relative)),
+            //        };
+            //        itemBut.Content = image;
 
-                InventoryPlayer.Children.Add(itemBut);
+            //        InventoryPlayer.Children.Add(itemBut);
 
-                indj++;
-                if (indj >= inventY)
-                {
-                    indj = 0; indi++;
-                }
-            }
+            //        indj++;
+            //        if (indj >= inventY)
+            //        {
+            //            indj = 0; indi++;
+            //        }
+            //    }                
+            //}
 
-            while (indi < inventX)
-            {
-                Button itemEmp = new Button();
-                itemEmp.Width = pixelIY;
-                itemEmp.Height = pixelIX;
-                Canvas.SetLeft(itemEmp, pixelIOtstY / 2 + pixelIY * indj);
-                Canvas.SetTop(itemEmp, pixelIOtstX / 2 + pixelIX * indi);
+            //while (indi < inventX)
+            //{
+            //    Button itemEmp = new Button();
+            //    itemEmp.Width = pixelIY;
+            //    itemEmp.Height = pixelIX;
+            //    Canvas.SetLeft(itemEmp, pixelIOtstY / 2 + pixelIY * indj);
+            //    Canvas.SetTop(itemEmp, pixelIOtstX / 2 + pixelIX * indi);
 
-                Image imageBut = new Image()
-                {
-                    Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"],
-                    "emptyitem.png"), UriKind.Relative)),
-                };
-                itemEmp.Content = imageBut;
+            //    Image imageBut = new Image()
+            //    {
+            //        Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"],
+            //        "emptyitem.png"), UriKind.Relative)),
+            //    };
+            //    itemEmp.Content = imageBut;
 
-                InventoryPlayer.Children.Add(itemEmp);
+            //    InventoryPlayer.Children.Add(itemEmp);
 
-                indj++;
-                if (indj >= inventY)
-                {
-                    indj = 0; indi++;
-                }
-            }
+            //    indj++;
+            //    if (indj >= inventY)
+            //    {
+            //        indj = 0; indi++;
+            //    }
+            //}
         }
 
         //-------------------------------------------------------------------------------Move
@@ -452,9 +474,12 @@ namespace Game_STALKER_Exclusion_Zone
             Button button = (Button)sender;
             Skelet people = (Skelet)button.Tag;
 
-            foreach (Item item in people.InventoryList)
+            foreach (Item item in people.InventoryList.ReferenceItem.Keys)
             {
-                AddItem(item);
+                for (int i = 0; i < people.InventoryList.ReferenceItem[item].Count; i++)
+                {
+                    AddItem(item);
+                }
             }
             player.Money += people.Money;
 
@@ -487,19 +512,19 @@ namespace Game_STALKER_Exclusion_Zone
                 return;
             }
 
-            foreach(Item item1 in player.InventoryList)
-            {
-                if (item.Tag.ToString() == item1.SystemName)
-                {
-                    item1.Using(player);
-                    if (item1 is Gun)
-                    {
-                        player.TakeGun((Gun)item1, CurrentLocation );
-                    }
-                    player.InventoryList.Remove(player.InventoryList.Find(x => x.SystemName == item.Tag.ToString()));
-                    break;
-                }
-            }
+            //foreach(Item item1 in player.InventoryList)
+            //{
+            //    if (item.Tag.ToString() == item1.SystemName)
+            //    {
+            //        item1.Using(player);
+            //        if (item1 is Gun)
+            //        {
+            //            player.TakeGun((Gun)item1);
+            //        }
+            //        player.InventoryList.Remove(player.InventoryList.Find(x => x.SystemName == item.Tag.ToString()));
+            //        break;
+            //    }
+            //}
 
             ReloadPlayerInformation();
         }
@@ -530,14 +555,15 @@ namespace Game_STALKER_Exclusion_Zone
         }
         public bool SellThing(Item item)
         {
-            Item it = player.InventoryList.Find(X => X.SystemName == item.SystemName);
-            if (it == null) return false;
-            else
-            {
-                player.Money += it.Cost;
-                player.InventoryList.Remove(it);
-                return true;
-            }            
+            return true;
+            //Item it = player.InventoryList.Find(X => X.SystemName == item.SystemName);
+            //if (it == null) return false;
+            //else
+            //{
+            //    player.Money += it.Cost;
+            //    player.InventoryList.Remove(it);
+            //    return true;
+            //}            
         }
         //-------------------------------------------------------------------------------Window
         private void EndGame()

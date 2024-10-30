@@ -6,7 +6,7 @@ using System.Windows.Input;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace Game_STALKER_Exclusion_Zone
+namespace TwoD_Game_RP
 {
     public class Information
     {

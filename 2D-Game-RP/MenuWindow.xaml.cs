@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Linq;
 
-namespace Game_STALKER_Exclusion_Zone
+namespace TwoD_Game_RP
 {
     /// <summary>
     /// Логика взаимодействия для MenuWindow.xaml
@@ -39,13 +39,12 @@ namespace Game_STALKER_Exclusion_Zone
 
         private void MenuStartNewGame_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
+            MainWindow mainWindow = new MainWindow("1", PlayerGender.Man);
             mainWindow.Show();
             //StartHistoryWindow startHistoryWindow = new StartHistoryWindow();
             //startHistoryWindow.ShowDialog();
             this.Close();
             //((MenuWindow)this.Owner).Close();
-            mainWindow.Init("1", PlayerGender.Man);
 
             //CreateWindow createWindow = new CreateWindow();
             //createWindow.Owner = this;

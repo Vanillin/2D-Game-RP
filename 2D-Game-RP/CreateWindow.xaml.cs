@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Game_STALKER_Exclusion_Zone
+namespace TwoD_Game_RP
 {
     /// <summary>
     /// Логика взаимодействия для CreateWindow.xaml
@@ -47,7 +47,7 @@ namespace Game_STALKER_Exclusion_Zone
                     playerGender = PlayerGender.Woman;
                 }
 
-                MainWindow mainWindow = new MainWindow();
+                MainWindow mainWindow = new MainWindow(TextBoxNamePlayer.Text.ToString(), playerGender);
                 mainWindow.Show();
 
                 //StartHistoryWindow startHistoryWindow = new StartHistoryWindow();
@@ -55,8 +55,6 @@ namespace Game_STALKER_Exclusion_Zone
 
                 this.Close();
                 ((MenuWindow)this.Owner).Close();
-
-                mainWindow.Init(TextBoxNamePlayer.Text.ToString(), playerGender);
             }
         }
 

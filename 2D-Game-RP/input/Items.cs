@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Game_STALKER_Exclusion_Zone
+namespace TwoD_Game_RP
 {
     public enum Items
     {
@@ -25,7 +25,7 @@ namespace Game_STALKER_Exclusion_Zone
         {
             skelet.Healthing(Healthing);
         }
-        public AidFirstKid() : base("Аптечка первой помощи", "AidFirstKid", 500) { Healthing = 25; }
+        public AidFirstKid() : base("Аптечка первой помощи", "AidFirstKid", 500, 1, 1) { Healthing = 25; }
     }
     public class ArmyAidFirstKid : Item
     {
@@ -34,13 +34,13 @@ namespace Game_STALKER_Exclusion_Zone
         {
             skelet.Healthing(Healthing);
         }
-        public ArmyAidFirstKid() : base("Армейская аптечка первой помощи", "ArmyAidFirstKid", 800) { Healthing = 40; }
+        public ArmyAidFirstKid() : base("Армейская аптечка первой помощи", "ArmyAidFirstKid", 800, 1, 1) { Healthing = 40; }
     }
     public class ArtZabiiPuzir : Item
     {
         public override void Using(Skelet skelet)
         { }
-        public ArtZabiiPuzir() : base("Артефакт Жабий пузырь", "ArtZabiiPuzir", 5000) { }
+        public ArtZabiiPuzir() : base("Артефакт Жабий пузырь", "ArtZabiiPuzir", 5000, 1, 1) { }
     }
     public class Banknote : Item
     {
@@ -49,7 +49,7 @@ namespace Game_STALKER_Exclusion_Zone
             int plus = new Random().Next(3, 6);
             skelet.Money += plus * 100;
         }
-        public Banknote() : base("Стопка денег", "Banknote", 0) { }
+        public Banknote() : base("Стопка денег", "Banknote", 0, 1, 1) { }
     }
     public class Bread : Item
     {
@@ -58,7 +58,7 @@ namespace Game_STALKER_Exclusion_Zone
         {
             skelet.Healthing(Healthing);
         }
-        public Bread() : base("Хлеб", "Bread", 200) { Healthing = 10; }
+        public Bread() : base("Хлеб", "Bread", 200, 1, 1) { Healthing = 10; }
     }
     public class Stew : Item
     {
@@ -67,25 +67,25 @@ namespace Game_STALKER_Exclusion_Zone
         {
             skelet.Healthing(Healthing);
         }
-        public Stew() : base("Тушёнка", "Stew", 500) { Healthing = 20; }
+        public Stew() : base("Тушёнка", "Stew", 500, 1, 1) { Healthing = 20; }
     }
     public class KvestGun : Item
     {
         public override void Using(Skelet skelet)
         { }
 
-        public KvestGun() : base("Фамильное ружье", "KvestGun", 1000) { }
+        public KvestGun() : base("Фамильное ружье", "KvestGun", 1000, 1, 1) { }
     }
     public class MutantSkin : Item
     {
         public override void Using(Skelet skelet)
         { }
-        public MutantSkin() : base("Шкура кровососа", "MutantSkin", 800) { }
+        public MutantSkin() : base("Шкура кровососа", "MutantSkin", 800, 1, 1) { }
     }
     public class TailDog : Item
     {
         public override void Using(Skelet skelet)
         { }
-        public TailDog() : base("Хвост собаки", "TailDog", 500) { }
+        public TailDog() : base("Хвост собаки", "TailDog", 500, 1, 1) { }
     }
 }

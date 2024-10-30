@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using TwoD_Game_RP;
 
-namespace Game_STALKER_Exclusion_Zone
+namespace TwoD_Game_RP
 {
     public enum NPSGroup
     {
@@ -55,7 +55,7 @@ namespace Game_STALKER_Exclusion_Zone
         public Skelet LastSeeEnemy;
         public Point LastGoingPoint = new Point(-1, -1);
 
-        public List<Item> InventoryList;
+        public Inventory InventoryList;
         public int Money;
         public List<NPSGroup> FriendFranction;
 
@@ -140,7 +140,7 @@ namespace Game_STALKER_Exclusion_Zone
             this.Cloth = cloth;
             this.SystemName = systemname;
             this.Money = money;
-            this.InventoryList = inventoryList;
+            this.InventoryList = Inventory.Creating(4, 7, inventoryList);
             this.FriendFranction = friendFranction;
             this.MaxHealth = maxHealth;
             picture = new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{SystemName}-map.png"));
