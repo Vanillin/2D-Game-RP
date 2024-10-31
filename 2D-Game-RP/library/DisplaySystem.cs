@@ -106,7 +106,7 @@ namespace TwoD_Game_RP
                 }
             }
         }
-        public void Display(Canvas canvas, double size, List<UIElement> SystemObj)
+        public void Display(Canvas canvas, double size)
         {
             canvas.Children.Clear();
             for (int i = 0; i < height; i++)
@@ -115,18 +115,41 @@ namespace TwoD_Game_RP
                 {
                     for (int k = 0; k < depths[i, j]; k++)
                     {
-                        images[i,j,k].Width = size;
-                        images[i,j,k].Height = size;
+                        images[i, j, k].Width = size;
+                        images[i, j, k].Height = size;
                         Canvas.SetLeft(images[i, j, k], size + size * j);
                         Canvas.SetTop(images[i, j, k], size + size * i);
-                        images[i, j, k].RenderTransform = new RotateTransform(  ((KeyValuePair<string, int>)images[i,j,k].Tag).Value  , size/2, size/2);
+                        images[i, j, k].RenderTransform = new RotateTransform(((KeyValuePair<string, int>)images[i, j, k].Tag).Value, size / 2, size / 2);
                         canvas.Children.Add(images[i, j, k]);
                     }
                 }
             }
+        }
+        public void Display(Canvas canvas, double size, List<UIElement> SystemObj)
+        {
+            Display(canvas, size);
             if (SystemObj != null)
                 foreach (var obj in SystemObj)
                     canvas.Children.Add(obj);
+        }
+        public void DisplayInventory(Canvas canvas, double size, Dictionary<Item, List<Point>> Items)
+        {
+            Display(canvas, size);
+            foreach (var pair in Items)
+            {
+                foreach (var point in pair.Value)
+                {
+                    Image image = new Image()
+                    {
+                        Source = new BitmapImage(new Uri(pair.Key.Picture.Picture(), UriKind.Relative)),
+                        Width = size,
+                        Height = size
+                    };
+                    Canvas.SetLeft(image, size + size * point.Y);
+                    Canvas.SetTop(image, size + size * point.X);
+                    canvas.Children.Add(image);
+                }
+            }
         }
         public void DisplayToPoints(List<Point> displayPoints, Canvas canvas, double size, List<UIElement> SystemObj)
         {

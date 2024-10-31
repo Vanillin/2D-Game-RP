@@ -92,6 +92,7 @@
     <Compile Include="library\DisplaySystem.cs" />
     <Compile Include="library\InventorySystem.cs" />
     <Compile Include="library\ItemSystem.cs" />
+    <Compile Include="library\PicturesSystem.cs" />
     <Compile Include="library\PlayerSystem.cs" />
     <Compile Include="library\LocationSystem.cs" />
     <Compile Include="library\MovementSystem.cs" />

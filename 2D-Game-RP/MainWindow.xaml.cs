@@ -20,15 +20,14 @@ namespace TwoD_Game_RP
     /// </summary>
     public partial class MainWindow : Window
     {
-        public double pixelIX;
-        public double pixelIY;
-        const double pixelIOtstX = 50;
-        const double pixelIOtstY = 20;
-
         Point LeftUpCorner;
         int sizeGamePoleH;
         int sizeGamePoleW;
-        double pixelSize;
+        double pixelSizeGamePole;
+
+        int sizeInventH;
+        int sizeInventW;
+        double pixelSizeInvent;
 
         public Player player;
 
@@ -46,13 +45,22 @@ namespace TwoD_Game_RP
             if (wight % 2 == 0 && wight != CurrentLocation.Width) throw new Exception("Размеры поля должны быть нечетными!");
             sizeGamePoleH = height;
             sizeGamePoleW = wight;
-            pixelSize = Math.Min(Map.ActualHeight / (sizeGamePoleH + 2), Map.ActualWidth / (sizeGamePoleW + 2));
+            pixelSizeGamePole = Math.Min(Map.ActualHeight / (sizeGamePoleH + 2), Map.ActualWidth / (sizeGamePoleW + 2));
             LeftUpCorner = new Point(player.X - (height - 1) / 2, player.Y - (wight - 1) / 2);
             if (LeftUpCorner.X < 0) LeftUpCorner.X = 0;
             if (LeftUpCorner.Y < 0) LeftUpCorner.Y = 0;
             if (LeftUpCorner.X > CurrentLocation.Height - sizeGamePoleH) LeftUpCorner.X = CurrentLocation.Height - sizeGamePoleH;
             if (LeftUpCorner.Y > CurrentLocation.Width - sizeGamePoleW) LeftUpCorner.Y = CurrentLocation.Width - sizeGamePoleW;
         }
+        private void ChangeSizeInventoryPlayer(int height, int wight)
+        {            
+            sizeInventH = height;
+            sizeInventW = wight;
+            pixelSizeInvent = Math.Min(InventoryPlayer.ActualHeight / (sizeInventH + 2), InventoryPlayer.ActualWidth / (sizeInventW + 2));
+        }
+
+        int x = 12;
+        int y = 8;
         public MainWindow()
         {
             //Information.Serialization();
@@ -63,18 +71,13 @@ namespace TwoD_Game_RP
             timerReloadAnimation.Tick += TimerAnimation_Tick;
             timerReloadAnimation.IsEnabled = true;
 
-            int x = 12;
-            int y = 8;
-
-            AddInformationPlayer("a", PlayerGender.Man, x, y, new Toz34(), new KurtkaStalker(), 1300, new List<Item>() { { new AidFirstKid() }, { new AidFirstKid() } });
+            AddInformationPlayer("a", PlayerGender.Man, x, y, new Toz34(), new KurtkaStalker(), 1300, new List<Item>()
+                { { new AidFirstKid() }, { new AidFirstKid() }, { new Banknote() } });
             player.Tasks.Add(Information.FindTask("ГлавныйКвест"));
             player.Tasks.Add(Information.FindTask("СпроситьСталкеров"));
 
             GoToLocation("Garden");
             TimerAnimation_Tick(null, null);
-
-            pixelIX = (int.Parse(InventoryPlayer.Height.ToString()) - pixelIOtstX) / (player.InventoryList.MaxSizeH);
-            pixelIY = (int.Parse(InventoryPlayer.Width.ToString()) - pixelIOtstY) / (player.InventoryList.MaxSizeW);
         }
         public MainWindow(string PlayerName, PlayerGender Gender)
         {
@@ -86,18 +89,13 @@ namespace TwoD_Game_RP
             timerReloadAnimation.Tick += TimerAnimation_Tick;
             timerReloadAnimation.IsEnabled = true;
 
-            int x = 12;
-            int y = 8;
-
-            AddInformationPlayer(PlayerName, Gender, x, y, new Toz34(), new KurtkaStalker(), 1300, new List<Item>() { { new AidFirstKid() }, { new AidFirstKid() } });
+            AddInformationPlayer(PlayerName, Gender, x, y, new Toz34(), new KurtkaStalker(), 1300, new List<Item>()
+                { { new AidFirstKid() }, { new AidFirstKid() }, { new Banknote() } });
             player.Tasks.Add(Information.FindTask("ГлавныйКвест"));
             player.Tasks.Add(Information.FindTask("СпроситьСталкеров"));
 
             GoToLocation("Garden");
             TimerAnimation_Tick(null, null);
-
-            pixelIX = (int.Parse(InventoryPlayer.Height.ToString()) - pixelIOtstX) / (player.InventoryList.MaxSizeH);
-            pixelIY = (int.Parse(InventoryPlayer.Width.ToString()) - pixelIOtstY) / (player.InventoryList.MaxSizeW);
         }
         private void AddInformationPlayer(string PlayerName, PlayerGender gender, int x, int y, Gun gun, Cloth cloth, int money, List<Item> inventory)
         {
@@ -135,7 +133,7 @@ namespace TwoD_Game_RP
                 //    //    Tag = new KeyValuePair<string, int>(pict.Picture(), 0)
                 //    //};
                 //}
-                CurrentLocation.DisplayToPointsWithBorder(OblSee, LeftUpCorner, Map, pixelSize, SystemObj);
+                CurrentLocation.DisplayToPointsWithBorder(OblSee, LeftUpCorner, Map, pixelSizeGamePole, SystemObj);
                 //foreach (var v in OblSee)
                 //{
                 //    CurrentLocation.RemoveCell(SystemRamka, (int)v.X, (int)v.Y);
@@ -145,9 +143,11 @@ namespace TwoD_Game_RP
             else
             {
                 ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
-                CurrentLocation.Display(Map, pixelSize, SystemObj);
+                CurrentLocation.Display(Map, pixelSizeGamePole, SystemObj);
             }
 
+            ChangeSizeInventoryPlayer(7, 4);
+            player.DisplayInventory(InventoryPlayer, pixelSizeInvent);
             //selectLevel.TakeNextPictureLevel();
         }
         private void DoActionAll()
@@ -385,11 +385,27 @@ namespace TwoD_Game_RP
 
         //-------------------------------------------------------------------------------Click
 
+        private void InventoryPlayer_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Point pointMouse = e.GetPosition(InventoryPlayer);
+            (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSizeInvent) - 1, (int)Math.Truncate(pointMouse.Y / pixelSizeInvent) - 1);
+            Item item = player.InventoryList.SearchItem(H, W);
+            if (item != null)
+            {
+                item.Using(player);
+                player.InventoryList.Remove(item);
+            }
+        }
+
+        private void InventoryPlayer_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            
+        }
         private void Map_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             SystemObj = new List<UIElement>();
             Point pointMouse = e.GetPosition(Map);
-            (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSize) - 1, (int)Math.Truncate(pointMouse.Y / pixelSize) - 1);
+            (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSizeGamePole) - 1, (int)Math.Truncate(pointMouse.Y / pixelSizeGamePole) - 1);
             (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X);
             if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
             if (!CurrentLocation.GetIsBlockCell(H, W))
@@ -403,7 +419,7 @@ namespace TwoD_Game_RP
         {
             SystemObj = new List<UIElement>();
             Point pointMouse = e.GetPosition(Map);
-            (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSize) - 1, (int)Math.Truncate(pointMouse.Y / pixelSize) - 1);
+            (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSizeGamePole) - 1, (int)Math.Truncate(pointMouse.Y / pixelSizeGamePole) - 1);
             (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X);
             if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
             Skelet people = CurrentLocation.Lives.Find(x => x.Cord == new Point(H, W));
@@ -417,8 +433,8 @@ namespace TwoD_Game_RP
             bool ShelterKey = false; //(CurrentLocation.GetIsWatchCell((int)people.Cord.X, (int)people.Cord.Y));
 
             StackPanel menu = new StackPanel();
-            Canvas.SetLeft(menu, pixelSize + pixelSize * (people.Cord.Y + 1));
-            Canvas.SetTop(menu, pixelSize + pixelSize * people.Cord.X);
+            Canvas.SetLeft(menu, pixelSizeGamePole + pixelSizeGamePole * (people.Cord.Y + 1));
+            Canvas.SetTop(menu, pixelSizeGamePole + pixelSizeGamePole * people.Cord.X);
 
             Button Information = new Button()
             {
@@ -595,6 +611,5 @@ namespace TwoD_Game_RP
             menu.MenuInGame();
             menu.ShowDialog();
         }
-
     }
 }

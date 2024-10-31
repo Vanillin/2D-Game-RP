@@ -29,6 +29,21 @@ namespace TwoD_Game_RP
             this.maxSizeW = maxW;
             this.referenceItem = new Dictionary<Item, List<Point>>();
         }
+        public Item SearchItem(int H, int W)
+        {
+            foreach (var pair in referenceItem)
+            {
+                foreach (var point in  pair.Value)
+                {
+                    if (point.X <= H && H < point.X + pair.Key.SizeH &&
+                        point.Y <= W && W < point.Y + pair.Key.SizeW)
+                    {
+                        return pair.Key;
+                    }
+                }
+            }
+            return null;
+        }
         public static Inventory Creating(int maxH, int maxW, List<Item> list)
         {
             if (list.Count == 0)

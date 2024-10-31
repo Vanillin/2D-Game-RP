@@ -20,33 +20,47 @@
             </Border>
             <Border BorderBrush="Black" BorderThickness="2" Grid.Column="1" Padding="5">
                 <StackPanel>
-                    <Grid Height="50">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Click="PDA_Click">
-                            <Viewbox> <Label Content="ПДА" FontSize="20"/> </Viewbox>
-                        </Button>
-                        <Button Grid.Column="1" Click="Menu_Click">
-                            <Viewbox> <Label Content="МЕНЮ" FontSize="20"/> </Viewbox>
-                        </Button>
-                    </Grid>
-                    <StackPanel Margin="10,10" Width="Auto">
-                        <StackPanel Grid.Column="0">
-                            <Image x:Name="PicturePlayer" VerticalAlignment="Top"  Grid.Column="1" Height="100" Width="300" Margin="0,20"/>
-                            <Label x:Name="NamePlayer" FontSize="20" Content="Имя: "/>
-                            <Label x:Name="FractionPlayer" FontSize="20" Content="Фракция:"/>
-                            <Label x:Name="MoneyPlayer" FontSize="20" Content="Деньги: "/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="200"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Click="PDA_Click">
+                                <Viewbox>
+                                    <Label Content="ПДА" FontSize="20"/>
+                                </Viewbox>
+                            </Button>
+                            <Button Grid.Column="1" Click="Menu_Click">
+                                <Viewbox>
+                                    <Label Content="МЕНЮ" FontSize="20"/>
+                                </Viewbox>
+                            </Button>
+                        </Grid>                        
+                        <StackPanel Grid.Row="1" Margin="10,10" Width="Auto">
+                            <StackPanel Grid.Column="0">
+                                <Image x:Name="PicturePlayer" VerticalAlignment="Top"  Grid.Column="1" Height="100" Width="300" Margin="0,20"/>
+                                <Label x:Name="NamePlayer" FontSize="20" Content="Имя: "/>
+                                <Label x:Name="FractionPlayer" FontSize="20" Content="Фракция:"/>
+                                <Label x:Name="MoneyPlayer" FontSize="20" Content="Деньги: "/>
+                            </StackPanel>
+
+                            <ProgressBar x:Name="HealthPlayer" Height="20" Margin="0,5,0,0" Width="Auto" Background="DarkGray"/>
+                            <Button x:Name="ArmorPlayer" Height="80" Width="Auto" Margin="0,5" Click="ArmorPlayer_Click"/>
+                            <Button x:Name="GunPlayer" Height="80" Width="Auto" Margin="0,5" Click="GunPlayer_Click"/>
+                            
                         </StackPanel>
-
-                        <ProgressBar x:Name="HealthPlayer" Height="20" Margin="0,5,0,0" Width="Auto" Background="DarkGray"/>
-                        <Button x:Name="ArmorPlayer" Height="80" Width="Auto" Margin="0,5" Click="ArmorPlayer_Click"/>
-                        <Button x:Name="GunPlayer" Height="80" Width="Auto" Margin="0,5" Click="GunPlayer_Click"/>
-                        <Canvas x:Name="InventoryPlayer" Height="180" Width="370" Background="Gray">
-
-                        </Canvas>
-                    </StackPanel>
+                        <Border BorderBrush="Black" BorderThickness="2" Grid.Row="2" Padding="5">
+                            <Canvas x:Name="InventoryPlayer" Background="Gray"
+                                    MouseLeftButtonDown="InventoryPlayer_MouseLeftButtonDown" MouseRightButtonDown="InventoryPlayer_MouseRightButtonDown">
+                            </Canvas>
+                        </Border>
+                    </Grid>                    
                 </StackPanel>
             </Border>
         </Grid>

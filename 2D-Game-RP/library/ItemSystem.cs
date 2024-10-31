@@ -13,16 +13,18 @@ namespace TwoD_Game_RP
         public int Cost;
         public readonly int SizeH;
         public readonly int SizeW;
+        public IPictureCell Picture;
 
         public abstract void Using(Skelet skelet);
               
-        public Item(string name, string systemName, int cost, int sizeH, int sizeW)
+        public Item(string name, string systemName, int cost, int sizeH, int sizeW, IPictureCell picture)
         {
             this.Name = name;
             this.SystemName = systemName;
             this.Cost = cost;
             this.SizeH = sizeH;
             this.SizeW = sizeW;
+            Picture = picture;
         }
         public int CompareTo(Item other)
         {
@@ -50,8 +52,8 @@ namespace TwoD_Game_RP
         public int Damage;
         public int Radius;
 
-        public Gun(string name, string systemName, int damage, int radius, int cost, int sizeH, int sizeW)
-            : base(name, systemName, cost, sizeH, sizeW)
+        public Gun(string name, string systemName, int damage, int radius, int cost, int sizeH, int sizeW, IPictureCell pictureCell)
+            : base(name, systemName, cost, sizeH, sizeW, pictureCell)
         {
             this.Damage = damage;
             this.Radius = radius;
@@ -65,8 +67,8 @@ namespace TwoD_Game_RP
         public int Armor;
         public NPSGroup FractionCloth;
 
-        public Cloth(string name, string systemName, int cost, int armor, NPSGroup fractioncloth, int sizeH, int sizeW)
-            : base(name, systemName, cost, sizeH, sizeW)
+        public Cloth(string name, string systemName, int cost, int armor, NPSGroup fractioncloth, int sizeH, int sizeW, IPictureCell pictureCell)
+            : base(name, systemName, cost, sizeH, sizeW, pictureCell)
         {
             this.Armor = armor;
             this.FractionCloth = fractioncloth;

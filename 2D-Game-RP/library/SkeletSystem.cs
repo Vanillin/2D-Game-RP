@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using TwoD_Game_RP;
 
 namespace TwoD_Game_RP
@@ -56,6 +57,7 @@ namespace TwoD_Game_RP
         public Point LastGoingPoint = new Point(-1, -1);
 
         public Inventory InventoryList;
+        private DBDisplay InventoryDisplay;
         public int Money;
         public List<NPSGroup> FriendFranction;
 
@@ -140,7 +142,18 @@ namespace TwoD_Game_RP
             this.Cloth = cloth;
             this.SystemName = systemname;
             this.Money = money;
-            this.InventoryList = Inventory.Creating(4, 7, inventoryList);
+            this.InventoryList = Inventory.Creating(7, 4, inventoryList);
+            this.InventoryDisplay = new DBDisplay();
+            ListLocationCell[,] cell = new ListLocationCell[7, 4];
+            for ( int i = 0; i< 7; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    cell[i,j] = new ListLocationCell();
+                    cell[i, j].AddLocationCell(new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"], $"emptyitem.png")), 0);
+                }
+            }
+            this.InventoryDisplay.Update(cell);
             this.FriendFranction = friendFranction;
             this.MaxHealth = maxHealth;
             picture = new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{SystemName}-map.png"));
@@ -152,6 +165,10 @@ namespace TwoD_Game_RP
         private BilateralQueue<IAction> GlobalActions;
         private BilateralQueue<IAction> Actions;
 
+        public void DisplayInventory(Canvas canvas, double size)
+        {
+            InventoryDisplay.DisplayInventory(canvas, size, InventoryList.ReferenceItem);
+        }
         public IAction PeekGlobalAction()
         {
             if (GlobalActions.Count == 0) return null;
