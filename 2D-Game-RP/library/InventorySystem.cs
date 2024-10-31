@@ -59,9 +59,17 @@ namespace TwoD_Game_RP
         }
         public bool Add(Item item)
         {
-            var list = CreateListOnDictionary(referenceItem);
-            list.Add(item);
-            if (Is_Include(maxSizeH, maxSizeW, list, out Dictionary<Item, List<Point>> newReference))
+            Dictionary<Item, List<Point>> newReference = referenceItem;
+            if (newReference.ContainsKey(item))
+            {
+                newReference[item].Add(new Point());
+            }
+            else
+            {
+                newReference.Add(item, new List<Point>() { new Point() });
+            }
+
+            if (Is_Include(maxSizeH, maxSizeW, newReference, out newReference))
             {
                 referenceItem = newReference;
                 return true;
@@ -85,21 +93,11 @@ namespace TwoD_Game_RP
             {
                 referenceItem[item].RemoveAt(0);
             }
-            Is_Include(maxSizeH, maxSizeW, CreateListOnDictionary(referenceItem), out referenceItem);
+            Is_Include(maxSizeH, maxSizeW, referenceItem, out referenceItem);
         }
         public bool Contains(Item item)
         {
             return referenceItem.ContainsKey(item);
-        }
-        private List<Item> CreateListOnDictionary(Dictionary<Item, List<Point>> dict)
-        {
-            List<Item> list = new List<Item>();
-            foreach (var v in dict)
-            {
-                int count = v.Value.Count();
-                for (int i = 0; i < count; i++) list.Add(v.Key);
-            }
-            return list;
         }
         private static bool CheckSquareInInventory(int x1, int y1, int x2, int y2, bool[,] Contein)
         {
@@ -111,7 +109,51 @@ namespace TwoD_Game_RP
                 }
             }
             return true;
-        }        
+        }
+        private static bool Is_Include(int sizeH, int sizeW, Dictionary<Item, List<Point>> oldReference, out Dictionary<Item, List<Point>> newReference)
+        {
+            Dictionary<Item, List<Point>> save = new Dictionary<Item, List<Point>>();
+            bool[,] Contein = new bool[sizeH, sizeW];
+            int[] IndexContein = new int[sizeH];
+
+            foreach (var pair in oldReference)
+            {
+                for (int count = 0; count < pair.Value.Count; count++)
+                {
+                    bool ItemIsAdd = false;
+                    for (int i = 0; i < sizeH - pair.Key.SizeH + 1; i++)
+                    {
+                        if (ItemIsAdd)
+                        {
+                            while (IndexContein[i] < sizeW && Contein[i, IndexContein[i]]) IndexContein[i]++;
+                            continue;
+                        }
+                        for (int j = IndexContein[i]; j < sizeW - pair.Key.SizeW + 1; j++)
+                        {
+                            if (!ItemIsAdd && CheckSquareInInventory(i, j, i + pair.Key.SizeH, j + pair.Key.SizeW, Contein))
+                            {
+                                for (int Item = i; Item < i + pair.Key.SizeH; Item++)
+                                {
+                                    for (int jitem = j; jitem < j + pair.Key.SizeW; jitem++)
+                                    {
+                                        Contein[Item, jitem] = true;
+                                    }
+                                }
+                                if (save.ContainsKey(pair.Key)) save[pair.Key].Add(new Point(i, j));
+                                else save.Add(pair.Key, new List<Point> { new Point(i, j) });
+                                ItemIsAdd = true;
+                                i--;
+                                break;
+                            }
+                        }
+                    }
+                    newReference = null;
+                    if (!ItemIsAdd) return false;
+                }                
+            }
+            newReference = save;
+            return true;
+        }
         private static bool Is_Include(int sizeH, int sizeW, List<Item> list, out Dictionary<Item, List<Point>> newReference)
         {
             Dictionary<Item, List<Point>> save = new Dictionary<Item, List<Point>>();
