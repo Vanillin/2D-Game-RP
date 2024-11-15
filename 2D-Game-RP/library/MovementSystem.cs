@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace TwoD_Game_RP
 {
-    public class Vertex : IEnumerable, ICloneable
+    public class Vertex : IEnumerable
     {
         public Point Cord = new Point();
         public List<Vertex> Near = new List<Vertex>();
@@ -21,10 +21,6 @@ namespace TwoD_Game_RP
             Cord = point;
             Near = near;
         }
-        public object Clone()
-        {
-            return new Vertex(Cord, Near);
-        }
 
         public IEnumerator GetEnumerator()
         {
@@ -34,7 +30,7 @@ namespace TwoD_Game_RP
             }
         }
     }
-    public class Graf : IEnumerable, ICloneable
+    public class Graf : IEnumerable
     {
         public List<Vertex> Vertexes = new List<Vertex>();
         public Graf()
@@ -49,15 +45,6 @@ namespace TwoD_Game_RP
             {
                 yield return vertex;
             }
-        }
-        public object Clone()
-        {
-            List<Vertex> copy = new List<Vertex>();
-            foreach (var vertex in Vertexes)
-            {
-                copy.Add((Vertex)vertex.Clone());
-            }
-            return new Graf(copy);
         }
         public List<Point> SearchWidth(Point start, Point finish)
         {
@@ -138,39 +125,7 @@ namespace TwoD_Game_RP
                 }
             }
             return null;
-        }
-        List<Point> SearchAround(Point start, int count)
-        {
-            List<Point> retur = new List<Point>();
-            Vertex startVert = Find(start);
-
-            if (startVert == null)
-            {
-                throw new Exception($"В графе отсутствует точка ({startVert.Cord.X},{startVert.Cord.Y})");
-            }
-
-            Dictionary<Vertex, int> Length = new Dictionary<Vertex, int> { { startVert, 0 } };
-            Queue<Vertex> Que = new Queue<Vertex>();
-            Que.Enqueue(startVert);
-            while (Que.Count > 0)
-            {
-                Vertex Now = Que.Dequeue();
-                foreach (Vertex v in Now.Near)
-                {
-                    if (!Length.ContainsKey(v))
-                    {
-                        if (Length[Now] + 1 > count)
-                        {
-                            return retur;
-                        }
-                        Length.Add(v, Length[Now] + 1);
-                        retur.Add(v.Cord);
-                        Que.Enqueue(v);
-                    }
-                }
-            }
-            return retur;
-        }
+        }        
         public List<Point> SearchSee(Point start, int count)
         {
             List<Point> retur = new List<Point>();
@@ -413,6 +368,45 @@ namespace TwoD_Game_RP
                 return Math.Abs(a.X - b.X);
             }
             return Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2));
+        }
+        public List<Point> SearchSeeInCircle(Point start, int count, int minX, int minY, int maxX, int maxY)
+        {
+            List<Point> retur = new List<Point>();
+            Point startVert = Find(start).Cord;
+
+            if (startVert == null)
+            {
+                throw new Exception($"В графе отсутствует точка ({startVert.X},{startVert.Y})");
+            }
+
+            Queue<Point> Que = new Queue<Point>();
+            retur.Add(startVert);
+            Que.Enqueue(startVert);
+
+            while (Que.Count > 0)
+            {
+                Point Now = Que.Dequeue();
+
+                List<Point> Near = new List<Point>() {new Point(Now.X+1, Now.Y), new Point(Now.X, Now.Y+1),
+                    new Point(Now.X - 1, Now.Y), new Point(Now.X, Now.Y-1) };
+                foreach (Point p in Near)
+                {
+                    if (!retur.Contains(p))
+                    {
+                        if (CalculateLen(start, p) > count)
+                        {
+                            continue;
+                        }
+                        if (p.Y < minY || p.Y >= maxY || p.X < minX || p.X >= maxX)
+                        {
+                            continue;
+                        }
+                        retur.Add(p);
+                        Que.Enqueue(p);
+                    }
+                }
+            }
+            return retur;
         }
         public List<Point> SearchSeeInCircleWithBlocks(Point start, int count, int minX, int minY, int maxX, int maxY)
         {

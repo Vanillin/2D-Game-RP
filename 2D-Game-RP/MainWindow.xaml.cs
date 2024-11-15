@@ -84,6 +84,7 @@ namespace TwoD_Game_RP
             //Information.Serialization();
 
             InitializeComponent();
+            Information.CreateDarkenPicCell();
             Time = 0;
             SystemObj = new List<UIElement>();
             timerReloadAnimation.Tick += TimerAnimation_Tick;
@@ -133,7 +134,11 @@ namespace TwoD_Game_RP
                 //    //    Tag = new KeyValuePair<string, int>(pict.Picture(), 0)
                 //    //};
                 //}
-                CurrentLocation.DisplayToPointsWithBorder(OblSee, LeftUpCorner, Map, pixelSizeGamePole, SystemObj);
+                CurrentLocation.DisplayToPointsWithBorderAndView(OblSee, 
+                    CurrentLocation.GrafLocAll.SearchSeeInCircle(player.Cord, oblsee,
+                    Math.Max((int)player.Cord.X - oblsee, 0), Math.Max((int)player.Cord.Y - oblsee, 0),
+                    Math.Min((int)player.Cord.X + oblsee + 1, CurrentLocation.Height), Math.Min((int)player.Cord.Y + oblsee + 1, CurrentLocation.Width))
+                    , LeftUpCorner, Map, pixelSizeGamePole, SystemObj);
                 //foreach (var v in OblSee)
                 //{
                 //    CurrentLocation.RemoveCell(SystemRamka, (int)v.X, (int)v.Y);

@@ -38,6 +38,13 @@ namespace TwoD_Game_RP
             }
             throw new Exception("Не найдено задание по системному имени");
         }
+        public static void CreateDarkenPicCell()
+        {
+            if (DarkenPicCell.Taking() == null)
+            {
+                DarkenPicCell.Creating(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"System/Dark.png"));
+            }
+        }
 
         /*
         0 - земля
@@ -59,6 +66,7 @@ namespace TwoD_Game_RP
                 Garden.AddLayerCells(CreateLocation("GardenWalls"), 0);
                 Garden.CreateGrafWatch();
                 Garden.CreateGrafMove();
+                Garden.CreateGrafAll();
                 Garden.UpdateDisplay();
             }
             return Garden;

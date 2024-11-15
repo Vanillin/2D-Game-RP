@@ -15,7 +15,42 @@ namespace TwoD_Game_RP
         void NextPicture();
         void ReloadPictures();
     }
+    public class DarkenPicCell : IPictureCell
+    {
+        string picture;
+        public bool Rotate90 { get; set; }
+        public bool Rotate180 { get; set; }
+        public bool Rotate270 { get; set; }
+        private static DarkenPicCell darken;
+        private DarkenPicCell(string picture)
+        {
+            this.picture = picture;
+            Rotate90 = false;
+            Rotate180 = false;
+            Rotate270 = false;
+        }
+        public static DarkenPicCell Creating(string picture)
+        {
+            if (darken == null)
+            {
+                darken = new DarkenPicCell(picture);
+            }
+            return darken;
+        }
+        public static DarkenPicCell Taking()
+        {
+            return darken;
+        }
 
+        public void NextPicture()
+        { }
+        public string Picture()
+        {
+            return picture;
+        }
+        public void ReloadPictures()
+        { }
+    }
     public class StaticPicCell : IPictureCell
     {
         string picture;

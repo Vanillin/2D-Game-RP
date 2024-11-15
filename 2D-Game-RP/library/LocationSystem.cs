@@ -15,8 +15,9 @@ namespace TwoD_Game_RP
     {
         private int maxDepth;
         private ListLocationCell[,] Cells;
-        private  Graf grafLocToMove;
+        private Graf grafLocToMove;
         private Graf grafLocToWatch;
+        private Graf grafLocAll;
         public int Height { get; }
         public int Width { get; }
         public int MaxDepth => maxDepth;
@@ -37,6 +38,14 @@ namespace TwoD_Game_RP
             {
                 if (this.grafLocToWatch == null) { throw new Exception("Граф не создан"); }
                 else return this.grafLocToWatch;
+            }
+        }
+        public Graf GrafLocAll
+        {
+            get
+            {
+                if (this.grafLocAll == null) { throw new Exception("Граф не создан"); }
+                else return this.grafLocAll;
             }
         }
         public List<Skelet> Lives;
@@ -74,6 +83,25 @@ namespace TwoD_Game_RP
         {
             display.DisplayToPointsWithBorder(displayPoints, LeftUpCorner, canvas, size, systemObj);
         }
+        public void DisplayToPointsWithBorderAndView(List<Point> displayPointsView, List<Point> displayPointsAll, Point LeftUpCorner, Canvas canvas, double size, List<UIElement> systemObj)
+        {
+            foreach (var v in displayPointsAll)
+            {
+                if (displayPointsView.Contains(v))
+                {
+                    Cells[(int)v.X, (int)v.Y].ChangeHavingDark(false);
+                    Cells[(int)v.X, (int)v.Y].IsWasView = true;
+                    display.Update(Cells, (int)v.X, (int)v.Y);
+                }
+                else if (Cells[(int)v.X, (int)v.Y].IsWasView)
+                {
+                    displayPointsView.Add(v);
+                    Cells[(int)v.X, (int)v.Y].ChangeHavingDark(true);
+                    display.Update(Cells, (int)v.X, (int)v.Y);
+                }
+            }
+            display.DisplayToPointsWithBorder(displayPointsView, LeftUpCorner, canvas, size, systemObj);
+        }
         public void CreateGrafMove()
         {
             grafLocToMove = new Graf();
@@ -97,6 +125,30 @@ namespace TwoD_Game_RP
                     if (j-1>=0 && !Cells[i, j-1].IsBlock)
                     {
                         var left = grafLocToMove.Find(new Point(i, j-1));
+                        left.Near.Add(cur);
+                        cur.Near.Add(left);
+                    }
+                }
+            }
+        }
+        public void CreateGrafAll()
+        {
+            grafLocAll = new Graf();
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    var cur = new Vertex(new Point(i, j));
+                    grafLocAll.Vertexes.Add(cur);
+                    if (i - 1 >= 0)
+                    {
+                        var up = grafLocAll.Find(new Point(i - 1, j));
+                        up.Near.Add(cur);
+                        cur.Near.Add(up);
+                    }
+                    if (j - 1 >= 0)
+                    {
+                        var left = grafLocAll.Find(new Point(i, j - 1));
                         left.Near.Add(cur);
                         cur.Near.Add(left);
                     }
@@ -191,8 +243,10 @@ namespace TwoD_Game_RP
         LocationCell head;
         bool isBlock;
         bool isWatch;
+        bool isHaveDark;
         public bool IsBlock => isBlock;
         public bool IsWatch => isWatch;
+        public bool IsWasView { get; set; }
         public int Count => count;
         public ListLocationCell(IPictureCell pictureCell, int index)
         {
@@ -200,6 +254,8 @@ namespace TwoD_Game_RP
             this.head = new LocationCell(pictureCell, index);
             this.isBlock = false;
             this.isWatch = true;
+            this.IsWasView = false;
+            this.isHaveDark = false;
         }
         public ListLocationCell()
         {
@@ -207,8 +263,23 @@ namespace TwoD_Game_RP
             this.head = null;
             this.isBlock = false;
             this.isWatch = true;
+            this.IsWasView = false;
+            this.isHaveDark = false;
         }
-            
+        public void ChangeHavingDark(bool IsHaveDark)
+        {
+            if (IsHaveDark == this.isHaveDark) return;
+            if (IsHaveDark)
+            {
+                this.isHaveDark = true;
+                AddLocationCell(DarkenPicCell.Taking(), 4);
+            }
+            else
+            {
+                this.isHaveDark = false;
+                RemoveLocationCell(DarkenPicCell.Taking());
+            }
+        }
         private void AnalyzeOnWatch(IPictureCell picture)
         {
             if (!isWatch) return;

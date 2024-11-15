@@ -395,5 +395,8 @@
   <ItemGroup>
     <Resource Include="gamedata\textures\map\System\Ramka.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\System\Dark.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
