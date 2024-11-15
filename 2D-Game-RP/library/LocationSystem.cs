@@ -73,6 +73,11 @@ namespace TwoD_Game_RP
         }
         public void Display(Canvas canvas, double size, List<UIElement> systemObj)
         {
+            foreach (var v in Cells)
+            {
+                v.ChangeHavingDark(false);
+            }
+            display.Update(Cells);
             display.Display(canvas, size, systemObj);
         }
         public void DisplayToPoints(List<Point> displayPoints, Canvas canvas, double size, List<UIElement> systemObj)

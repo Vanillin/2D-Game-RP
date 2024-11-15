@@ -66,13 +66,15 @@ namespace TwoD_Game_RP
             //Information.Serialization();
 
             InitializeComponent();
+            Information.CreateDarkenPicCell();
             Time = 0;
             SystemObj = new List<UIElement>();
             timerReloadAnimation.Tick += TimerAnimation_Tick;
             timerReloadAnimation.IsEnabled = true;
 
             AddInformationPlayer("a", PlayerGender.Man, x, y, new Toz34(), new KurtkaStalker(), 1300, new List<Item>()
-                { { new AidFirstKid() }, { new AidFirstKid() }, { new Banknote() } });
+                //{ { new AidFirstKid() }, { new AidFirstKid() }, { new Banknote() } }
+                );
             player.Tasks.Add(Information.FindTask("ГлавныйКвест"));
             player.Tasks.Add(Information.FindTask("СпроситьСталкеров"));
 
@@ -91,7 +93,8 @@ namespace TwoD_Game_RP
             timerReloadAnimation.IsEnabled = true;
 
             AddInformationPlayer(PlayerName, Gender, x, y, new Toz34(), new KurtkaStalker(), 1300, new List<Item>()
-                { { new AidFirstKid() }, { new AidFirstKid() }, { new Banknote() } });
+                //{ { new AidFirstKid() }, { new AidFirstKid() }, { new Banknote() } }
+                );
             player.Tasks.Add(Information.FindTask("ГлавныйКвест"));
             player.Tasks.Add(Information.FindTask("СпроситьСталкеров"));
 
@@ -102,7 +105,7 @@ namespace TwoD_Game_RP
         {
             player = new Player(PlayerName, gender, new Point(x, y), gun, cloth, money, inventory,
                 new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
-            PicturePlayer.Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{player.SystemName}.png"), UriKind.Relative));
+            //PicturePlayer.Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{player.SystemName}.png"), UriKind.Relative));
         }
 
         private int Time;
@@ -219,10 +222,10 @@ namespace TwoD_Game_RP
         {
             if (!player.IsAlive) EndGame();
             NamePlayer.Content = $"Имя: {player.Name}";
-            FractionPlayer.Content = $"Фракция: {player.FractionString()}";
-            HealthPlayer.MaxHeight = 100;
-            HealthPlayer.Value = player.HealthInf();
-            MoneyPlayer.Content = $"Деньги: {player.Money}";
+            //FractionPlayer.Content = $"Фракция: {player.FractionString()}";
+            //HealthPlayer.MaxHeight = 100;
+            //HealthPlayer.Value = player.HealthInf();
+            //MoneyPlayer.Content = $"Деньги: {player.Money}";
 
             Image imageArmorPlayer = new Image()
             {
@@ -234,8 +237,8 @@ namespace TwoD_Game_RP
                 Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"],
                     $"{player.GunInf().SystemName}.png"), UriKind.Relative)),
             };
-            ArmorPlayer.Content = imageArmorPlayer;
-            GunPlayer.Content = imageGunPlayer;
+            //ArmorPlayer.Content = imageArmorPlayer;
+            //GunPlayer.Content = imageGunPlayer;
             CreateAndReloadInventory();
         }
         private void CreateAndReloadInventory()
@@ -596,14 +599,14 @@ namespace TwoD_Game_RP
         }
         private void PDA_Click(object sender, RoutedEventArgs e)
         {
-            PDAWindow pda = new PDAWindow(player);
-            pda.ShowDialog();
+            //PDAWindow pda = new PDAWindow(player);
+            //pda.ShowDialog();
         }
-        private void ArmorPlayer_Click(object sender, RoutedEventArgs e)
-        {
-            ToSeeEnemy = !ToSeeEnemy;
-            ToSeePlayer = false;
-        }
+        //private void ArmorPlayer_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ToSeeEnemy = !ToSeeEnemy;
+        //    ToSeePlayer = false;
+        //}
         private void GunPlayer_Click(object sender, RoutedEventArgs e)
         {
             ToSeePlayer = !ToSeePlayer;
@@ -611,10 +614,10 @@ namespace TwoD_Game_RP
         }
         private void Menu_Click(object sender, RoutedEventArgs e)
         {
-            MenuWindow menu = new MenuWindow();
-            menu.Owner = this;
-            menu.MenuInGame();
-            menu.ShowDialog();
+            //MenuWindow menu = new MenuWindow();
+            //menu.Owner = this;
+            //menu.MenuInGame();
+            //menu.ShowDialog();
         }
     }
 }
