@@ -182,6 +182,14 @@ namespace TwoD_Game_RP
                 GlobalActions.EnqueueInBack(v);
             }
         }
+        public void ClearGlobalActions()
+        {
+            GlobalActions.Clear();
+        }
+        public void ClearActions()
+        {
+            Actions.Clear();
+        }
         public void EnqueueUpGlobalAction(IAction action)
         {
             GlobalActions.EnqueueInFront(action);

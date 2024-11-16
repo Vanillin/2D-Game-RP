@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using System.Xml.Serialization;
-using TwoD_Game_RP;
 
 namespace TwoD_Game_RP
 {
@@ -34,14 +27,14 @@ namespace TwoD_Game_RP
         bool ToSeePlayer = false;
         bool ToSeeEnemy = false;
 
-        private static readonly int CountTimeAnimation = 500;
+        private static readonly int CountTimeAnimation = 200;
         private DispatcherTimer timerReloadAnimation = new DispatcherTimer()
         {
             Interval = TimeSpan.FromMilliseconds(CountTimeAnimation)
         };
         private void ChangeSizeGamePole(int height, int wight, Point player)
         {
-            if (height % 2 == 0 && height!=CurrentLocation.Height) throw new Exception("Размеры поля должны быть нечетными!");
+            if (height % 2 == 0 && height != CurrentLocation.Height) throw new Exception("Размеры поля должны быть нечетными!");
             if (wight % 2 == 0 && wight != CurrentLocation.Width) throw new Exception("Размеры поля должны быть нечетными!");
             sizeGamePoleH = height;
             sizeGamePoleW = wight;
@@ -53,7 +46,7 @@ namespace TwoD_Game_RP
             if (LeftUpCorner.Y > CurrentLocation.Width - sizeGamePoleW) LeftUpCorner.Y = CurrentLocation.Width - sizeGamePoleW;
         }
         private void ChangeSizeInventoryPlayer(int height, int wight)
-        {            
+        {
             sizeInventH = height;
             sizeInventW = wight;
             pixelSizeInvent = Math.Min(InventoryPlayer.ActualHeight / (sizeInventH + 2), InventoryPlayer.ActualWidth / (sizeInventW + 2));
@@ -73,7 +66,6 @@ namespace TwoD_Game_RP
             timerReloadAnimation.IsEnabled = true;
 
             AddInformationPlayer("a", PlayerGender.Man, x, y, new Toz34(), new KurtkaStalker(), 1300, new List<Item>()
-                //{ { new AidFirstKid() }, { new AidFirstKid() }, { new Banknote() } }
                 );
             player.Tasks.Add(Information.FindTask("ГлавныйКвест"));
             player.Tasks.Add(Information.FindTask("СпроситьСталкеров"));
@@ -93,7 +85,6 @@ namespace TwoD_Game_RP
             timerReloadAnimation.IsEnabled = true;
 
             AddInformationPlayer(PlayerName, Gender, x, y, new Toz34(), new KurtkaStalker(), 1300, new List<Item>()
-                //{ { new AidFirstKid() }, { new AidFirstKid() }, { new Banknote() } }
                 );
             player.Tasks.Add(Information.FindTask("ГлавныйКвест"));
             player.Tasks.Add(Information.FindTask("СпроситьСталкеров"));
@@ -110,22 +101,25 @@ namespace TwoD_Game_RP
 
         private int Time;
         private List<UIElement> SystemObj;
+        private int oblwatch = 8;
+        private int oblsee = 7;
         private void TimerAnimation_Tick(object sender, EventArgs e)
         {
-            NamePlayer.Content = $"{Time}";  
-            Time++;  
+            NamePlayer.Content = $"{Time}";
+            Time++;
 
             DoActionAll();
             //if (ToSeePlayer)
             //if (ToSeeEnemy)
             if (ToSeePlayer)
             {
-                int oblsee = 7;
-                ChangeSizeGamePole(oblsee*2+1, oblsee * 2 + 1, player.Cord);
-                var OblSee = CurrentLocation.GrafLocToWatch.SearchSeeInCircleWithBlocks(player.Cord, oblsee, 
-                    Math.Max((int)player.Cord.X- oblsee, 0), Math.Max((int)player.Cord.Y - oblsee, 0),
+                ChangeSizeGamePole(oblwatch * 2 + 1, oblwatch * 2 + 1, player.Cord);
+                var OblSee = CurrentLocation.GrafLocToWatch.SearchSeeInCircleWithBlocks(player.Cord, oblsee,
+                    Math.Max((int)player.Cord.X - oblsee, 0), Math.Max((int)player.Cord.Y - oblsee, 0),
                     Math.Min((int)player.Cord.X + oblsee + 1, CurrentLocation.Height), Math.Min((int)player.Cord.Y + oblsee + 1, CurrentLocation.Width));
-                //var OblSee = CurrentLocation.GrafLocToWatch.SearchSeeWithBlocks(player.Cord, 7, 0, 0, CurrentLocation.Height, CurrentLocation.Width);
+                var OblWatch = CurrentLocation.GrafLocToWatch.SearchSeeInCircle(player.Cord, oblwatch,
+                    Math.Max((int)player.Cord.X - oblwatch, 0), Math.Max((int)player.Cord.Y - oblwatch, 0),
+                    Math.Min((int)player.Cord.X + oblwatch + 1, CurrentLocation.Height), Math.Min((int)player.Cord.Y + oblwatch + 1, CurrentLocation.Width));
                 //var SystemRamka = new StaticPicCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"System\\Ramka.png"));
                 //foreach (var v in OblSee)
                 //{
@@ -137,11 +131,7 @@ namespace TwoD_Game_RP
                 //    //    Tag = new KeyValuePair<string, int>(pict.Picture(), 0)
                 //    //};
                 //}
-                CurrentLocation.DisplayToPointsWithBorderAndView(OblSee, 
-                    CurrentLocation.GrafLocAll.SearchSeeInCircle(player.Cord, oblsee,
-                    Math.Max((int)player.Cord.X - oblsee, 0), Math.Max((int)player.Cord.Y - oblsee, 0),
-                    Math.Min((int)player.Cord.X + oblsee + 1, CurrentLocation.Height), Math.Min((int)player.Cord.Y + oblsee + 1, CurrentLocation.Width))
-                    , LeftUpCorner, Map, pixelSizeGamePole, SystemObj);
+                CurrentLocation.DisplayToPointsWithBorderAndView(OblSee, OblWatch, LeftUpCorner, Map, pixelSizeGamePole, SystemObj);
                 //foreach (var v in OblSee)
                 //{
                 //    CurrentLocation.RemoveCell(SystemRamka, (int)v.X, (int)v.Y);
@@ -169,7 +159,7 @@ namespace TwoD_Game_RP
                 v.RemoveAction();
                 while (v.PeekAction() != null && v.PeekAction().IsSystem)
                 {
-                    v.PeekAction().CompleteAction(v, current); 
+                    v.PeekAction().CompleteAction(v, current);
                     v.RemoveAction();
                 }
 
@@ -178,7 +168,7 @@ namespace TwoD_Game_RP
 
         Location CurrentLocation;
         public List<Location> Locations = new List<Location>();
-        private void GoToLocation(string name) 
+        private void GoToLocation(string name)
         {
             //сброс персонажа при переходе из локации
 
@@ -192,19 +182,19 @@ namespace TwoD_Game_RP
                 CurrentLocation.Lives.Add(player);
                 CurrentLocation.AddCell(player.picture, 1, (int)player.Cord.X, (int)player.Cord.Y);
 
-                //Point p = new Point(12, 10);
+                Point p = new Point(12, 10);
 
-                //StalkerSmall stalker = new StalkerSmall("a", "a", null, NPSIntellect.StandAgressive, p, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
-                //CurrentLocation.AddCell(stalker.picture, 1, (int)stalker.Cord.X, (int)stalker.Cord.Y);
-                //CurrentLocation.Lives.Add(stalker);
-                //stalker.EnqueueDownGlobalAction(new ActionMove(new Point(12, 11), true));
-                //stalker.EnqueueDownGlobalAction(new ActionMove(new Point(12, 10), true));
+                StalkerSmall stalker = new StalkerSmall("a", "a", null, NPSIntellect.StandAgressive, p, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
+                CurrentLocation.AddCell(stalker.picture, 1, (int)stalker.Cord.X, (int)stalker.Cord.Y);
+                CurrentLocation.Lives.Add(stalker);
+                stalker.EnqueueDownGlobalAction(new ActionMove(new Point(12, 11), true));
+                stalker.EnqueueDownGlobalAction(new ActionMove(new Point(12, 10), true));
 
-                //Point p2 = new Point(12, 6);
+                Point p2 = new Point(12, 6);
 
-                //StalkerSmall stalker2 = new StalkerSmall("a", "a", null, NPSIntellect.StandAgressive, p2, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
-                //CurrentLocation.AddCell(stalker2.picture, 1, (int)stalker2.Cord.X, (int)stalker2.Cord.Y);
-                //CurrentLocation.Lives.Add(stalker2);
+                StalkerSmall stalker2 = new StalkerSmall("a", "a", null, NPSIntellect.StandAgressive, p2, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
+                CurrentLocation.AddCell(stalker2.picture, 1, (int)stalker2.Cord.X, (int)stalker2.Cord.Y);
+                CurrentLocation.Lives.Add(stalker2);
             }
             ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
             //pixelSize = Math.Min( Map.Height / (CurrentLocation.Height + 2) , Map.Width / (CurrentLocation.Width + 2));
@@ -217,7 +207,7 @@ namespace TwoD_Game_RP
         }
 
         //-------------------------------------------------------------------------------Reload Create
-        
+
         private void ReloadPlayerInformation()
         {
             if (!player.IsAlive) EndGame();
@@ -369,8 +359,8 @@ namespace TwoD_Game_RP
 
             //    MoveToLocation(Person, Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y].Split('-')[1]);
             //}
-        }        
-        
+        }
+
         private Skelet CheckPlayer(Skelet Person)
         {
             int leng = int.MaxValue;
@@ -407,7 +397,21 @@ namespace TwoD_Game_RP
 
         private void InventoryPlayer_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            
+
+        }
+        private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case System.Windows.Input.Key.W:
+                    { KeyDownToMove((int)player.Cord.X - 1, (int)player.Cord.Y); break; }
+                case System.Windows.Input.Key.A:
+                    { KeyDownToMove((int)player.Cord.X, (int)player.Cord.Y - 1); break; }
+                case System.Windows.Input.Key.S:
+                    { KeyDownToMove((int)player.Cord.X + 1, (int)player.Cord.Y); break; }
+                case System.Windows.Input.Key.D:
+                    { KeyDownToMove((int)player.Cord.X, (int)player.Cord.Y + 1); break; }
+            }
         }
         private void Map_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -415,9 +419,16 @@ namespace TwoD_Game_RP
             Point pointMouse = e.GetPosition(Map);
             (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSizeGamePole) - 1, (int)Math.Truncate(pointMouse.Y / pixelSizeGamePole) - 1);
             (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X);
+
+            KeyDownToMove(H, W);
+        }
+        private void KeyDownToMove(int H, int W)
+        {
             if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
             if (!CurrentLocation.GetIsBlockCell(H, W))
             {
+                player.ClearActions();
+                player.ClearGlobalActions();
                 player.EnqueueUpGlobalAction(new ActionMove(new Point(H, W), false));
 
                 //случай перехода на новую локацию или застревания где-либо
@@ -425,6 +436,7 @@ namespace TwoD_Game_RP
         }
         private void Map_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            return;
             SystemObj = new List<UIElement>();
             Point pointMouse = e.GetPosition(Map);
             (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSizeGamePole) - 1, (int)Math.Truncate(pointMouse.Y / pixelSizeGamePole) - 1);
@@ -493,7 +505,7 @@ namespace TwoD_Game_RP
             SystemObj.Add(menu);
 
         }
-        private void MenuPersonCheck_Click(object sender, RoutedEventArgs e) 
+        private void MenuPersonCheck_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
             Skelet people = (Skelet)button.Tag;
@@ -530,7 +542,7 @@ namespace TwoD_Game_RP
             Button item = (Button)sender;
             if (item.Tag.ToString() == new KvestGun().SystemName ||
                 item.Tag.ToString() == new MutantSkin().SystemName ||
-                item.Tag.ToString() == new TailDog().SystemName || 
+                item.Tag.ToString() == new TailDog().SystemName ||
                 item.Tag.ToString() == new ArtZabiiPuzir().SystemName)
             {
                 return;
@@ -619,5 +631,7 @@ namespace TwoD_Game_RP
             //menu.MenuInGame();
             //menu.ShowDialog();
         }
+
+
     }
 }
