@@ -1,12 +1,5 @@
-﻿using Game_STALKER_Exclusion_Zone;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Xml.Linq;
 
 namespace TwoD_Game_RP
 {
@@ -83,45 +76,16 @@ namespace Maze_runner_Library
         }
     }
     /// <summary>
-    /// Действие ожидания
-    /// </summary>
-    internal class ActionWait : IActions
-    {
-        public int Count { get; set; }
-        public ActionWait()
-        {
-            Count = 1;
-        }
-        public ActionWait(int count)
-        {
-            Count = count;
-        }
-
-        public bool TakeAction(Subject sub, Graf graf)
-        {
-            sub.ReloadAnimation();
-            return false;
-        }
-
-        public List<IActions> ConvertToLocalActions(Subject sub, Graf graf)
-        {
-            List<IActions> actions = new List<IActions>();
-            for (int i = 0; i < Count; i++)
-                actions.Add(new ActionWait());
-            return actions;
-        }
-    }
-    /// <summary>
     /// Действие телепортации
     /// </summary>
     internal class ActionTeleport : IActions
     {
-        public Point Point { get; set; }
-        public Point PointOnGraf { get; set; }
+        public GamePoint GamePoint { get; set; }
+        public GamePoint PointOnGraf { get; set; }
         public double Angle { get; set; }
-        public ActionTeleport(Point point, Point pointOnGraf, double angle)
+        public ActionTeleport(GamePoint point, GamePoint pointOnGraf, double angle)
         {
-            Point = point;
+            GamePoint = point;
             Angle = angle;
             PointOnGraf = pointOnGraf;
         }
@@ -136,7 +100,7 @@ namespace Maze_runner_Library
             graf.Vertexes[sub.PointOnGraf].Busy = false;
             sub.PointOnGraf = PointOnGraf;
             graf.Vertexes[sub.PointOnGraf].Busy = true;
-            sub.Point = Point;
+            sub.GamePoint = GamePoint;
             sub.Angle = Angle;
 
             sub.NextPicture();
@@ -231,33 +195,66 @@ namespace Maze_runner_Library
         {
             skelet.RemoveGlobalAction();
         }
-        public IEnumerable<IAction> CreateActions(Skelet skelet, Graf graf)
+        public IEnumerable<IAction> CreateActions(Skelet skelet, Location location)
         {
             throw new Exception("Its not Global Action");
+        }
+        public bool IsCanComplete(Skelet skelet, Location location)
+        {
+            return true;
+        }
+    }
+    internal class ActionWait : IAction
+    {
+        public int Count { get; set; }
+
+        public bool IsCycle { get; }
+
+        public bool IsSystem => false;
+
+        public ActionWait(int count, bool isCycle)
+        {
+            Count = count;
+            IsCycle = isCycle;
+        }
+        public bool IsCanComplete(Skelet skelet, Location location)
+        {
+            return true;
+        }
+        public void CompleteAction(Skelet skelet, Location location)
+        {
+            //waiting
+        }
+        public IEnumerable<IAction> CreateActions(Skelet skelet, Location location)
+        {
+            List<IAction> actions = new List<IAction>();  
+            for (int i = 0; i < Count; i++)
+            {
+                actions.Add(new ActionWait(0, false));
+            }
+            actions.Add(new ActionDelete());
+            return actions;
         }
     }
     public class ActionMove : IAction
     {
-        public Point Point { get; set; }
+        public GamePoint GamePoint { get; set; }
         public bool IsSystem => false;
         public bool IsCycle { get; }
 
-        public ActionMove(Point point, bool isCycle)
+        public ActionMove(GamePoint point, bool isCycle)
         {
-            Point = point;
+            GamePoint = point;
             IsCycle = isCycle;
         }
         public void CompleteAction(Skelet skelet, Location location)
         {
-            location.RemoveCell(skelet.picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-            location.AddCell(skelet.picture, 1, (int)Point.X, (int)Point.Y);
-            skelet.Cord = new Point(Point.X, Point.Y);
+            location.MoveLivesWithCell(skelet, GamePoint);
         }
-
-        public IEnumerable<IAction> CreateActions(Skelet skelet, Graf graf)
+        public IEnumerable<IAction> CreateActions(Skelet skelet, Location location)
         {
             List<IAction> retur = new List<IAction>();
-            var path = graf.SearchWidth(skelet.Cord, Point);
+            var path = location.GrafLocToMove.SearchWidthWithoutSomePoint(skelet.Cord, GamePoint, location.IsBusy);
             if (path != null)
                 foreach (var v in path)
                 {
@@ -266,13 +263,18 @@ namespace Maze_runner_Library
             retur.Add(new ActionDelete());
             return retur;
         }
+        public bool IsCanComplete(Skelet skelet, Location location)
+        {
+            return !location.IsCellBusy((int)GamePoint.X, (int)GamePoint.Y);
+        }
     }
 
     public interface IAction
     {
         bool IsCycle { get; }
         bool IsSystem { get; }
-        void CompleteAction(Skelet skelet, Location location); 
-        IEnumerable<IAction> CreateActions(Skelet skelet, Graf graf);
+        bool IsCanComplete(Skelet skelet, Location location);
+        void CompleteAction(Skelet skelet, Location location);
+        IEnumerable<IAction> CreateActions(Skelet skelet, Location location);
     }
 }

@@ -13,11 +13,11 @@ namespace TwoD_Game_RP
     {
         int maxSizeH;
         int maxSizeW;
-        Dictionary<Item, List<Point>> referenceItem;
-        public Dictionary<Item, List<Point>> ReferenceItem => referenceItem;
+        Dictionary<Item, List<GamePoint>> referenceItem;
+        public Dictionary<Item, List<GamePoint>> ReferenceItem => referenceItem;
         public int MaxSizeH => maxSizeH;
         public int MaxSizeW => maxSizeW;
-        private Inventory(int maxH, int maxW, Dictionary<Item, List<Point>> reference)
+        private Inventory(int maxH, int maxW, Dictionary<Item, List<GamePoint>> reference)
         {
             this.maxSizeH = maxH;
             this.maxSizeW = maxW;
@@ -27,7 +27,7 @@ namespace TwoD_Game_RP
         {
             this.maxSizeH = maxH;
             this.maxSizeW = maxW;
-            this.referenceItem = new Dictionary<Item, List<Point>>();
+            this.referenceItem = new Dictionary<Item, List<GamePoint>>();
         }
         public Item SearchItem(int H, int W)
         {
@@ -50,7 +50,7 @@ namespace TwoD_Game_RP
             {
                 return new Inventory(maxH, maxW);
             }
-            if (Is_Include(maxH, maxW, list, out Dictionary<Item, List<Point>> newReference))
+            if (Is_Include(maxH, maxW, list, out Dictionary<Item, List<GamePoint>> newReference))
             {
                 return new Inventory(maxH, maxW, newReference);
             }
@@ -59,14 +59,14 @@ namespace TwoD_Game_RP
         }
         public bool Add(Item item)
         {
-            Dictionary<Item, List<Point>> newReference = referenceItem;
+            Dictionary<Item, List<GamePoint>> newReference = referenceItem;
             if (newReference.ContainsKey(item))
             {
-                newReference[item].Add(new Point());
+                newReference[item].Add(null);
             }
             else
             {
-                newReference.Add(item, new List<Point>() { new Point() });
+                newReference.Add(item, new List<GamePoint>() { null });
             }
 
             if (Is_Include(maxSizeH, maxSizeW, newReference, out newReference))
@@ -110,9 +110,9 @@ namespace TwoD_Game_RP
             }
             return true;
         }
-        private static bool Is_Include(int sizeH, int sizeW, Dictionary<Item, List<Point>> oldReference, out Dictionary<Item, List<Point>> newReference)
+        private static bool Is_Include(int sizeH, int sizeW, Dictionary<Item, List<GamePoint>> oldReference, out Dictionary<Item, List<GamePoint>> newReference)
         {
-            Dictionary<Item, List<Point>> save = new Dictionary<Item, List<Point>>();
+            Dictionary<Item, List<GamePoint>> save = new Dictionary<Item, List<GamePoint>>();
             bool[,] Contein = new bool[sizeH, sizeW];
             int[] IndexContein = new int[sizeH];
 
@@ -139,8 +139,8 @@ namespace TwoD_Game_RP
                                         Contein[Item, jitem] = true;
                                     }
                                 }
-                                if (save.ContainsKey(pair.Key)) save[pair.Key].Add(new Point(i, j));
-                                else save.Add(pair.Key, new List<Point> { new Point(i, j) });
+                                if (save.ContainsKey(pair.Key)) save[pair.Key].Add(new GamePoint(i, j));
+                                else save.Add(pair.Key, new List<GamePoint> { new GamePoint(i, j) });
                                 ItemIsAdd = true;
                                 i--;
                                 break;
@@ -154,9 +154,9 @@ namespace TwoD_Game_RP
             newReference = save;
             return true;
         }
-        private static bool Is_Include(int sizeH, int sizeW, List<Item> list, out Dictionary<Item, List<Point>> newReference)
+        private static bool Is_Include(int sizeH, int sizeW, List<Item> list, out Dictionary<Item, List<GamePoint>> newReference)
         {
-            Dictionary<Item, List<Point>> save = new Dictionary<Item, List<Point>>();
+            Dictionary<Item, List<GamePoint>> save = new Dictionary<Item, List<GamePoint>>();
             bool[,] Contein = new bool[sizeH, sizeW];
             int[] IndexContein = new int[sizeH];
             list.Sort();
@@ -182,8 +182,8 @@ namespace TwoD_Game_RP
                                     Contein[Item, jitem] = true;
                                 }
                             }
-                            if (save.ContainsKey(item)) save[item].Add(new Point(i, j));
-                            else save.Add(item, new List<Point> { new Point(i, j) });
+                            if (save.ContainsKey(item)) save[item].Add(new GamePoint(i, j));
+                            else save.Add(item, new List<GamePoint> { new GamePoint(i, j) });
                             ItemIsAdd = true;
                             i--;
                             break;

@@ -97,6 +97,7 @@
     <Compile Include="library\LocationSystem.cs" />
     <Compile Include="library\MovementSystem.cs" />
     <Compile Include="library\SkeletSystem.cs" />
+    <Compile Include="library\SortedEnum.cs" />
     <Compile Include="library\SubstringSearch.cs" />
     <Compile Include="library\TaskSystem.cs" />
     <Compile Include="MenuWindow.xaml.cs">

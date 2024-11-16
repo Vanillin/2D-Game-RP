@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -18,6 +13,8 @@ namespace TwoD_Game_RP
         private Graf grafLocToMove;
         private Graf grafLocToWatch;
         private Graf grafLocAll;
+        private List<Skelet> lives;
+        public SortedEnum<GamePoint> IsBusy;
         public int Height { get; }
         public int Width { get; }
         public int MaxDepth => maxDepth;
@@ -48,14 +45,13 @@ namespace TwoD_Game_RP
                 else return this.grafLocAll;
             }
         }
-        public List<Skelet> Lives;
         private DBDisplay display;
 
         public Location(string name, string systemName, int height, int width)
         {
             maxDepth = 0;
             Cells = new ListLocationCell[height, width];
-            for( int i  = 0; i < height; i++ )
+            for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
@@ -68,8 +64,40 @@ namespace TwoD_Game_RP
             SystemName = systemName;
             grafLocToMove = null;
             grafLocToWatch = null;
-            Lives = new List<Skelet>();
+            lives = new List<Skelet>();
             display = new DBDisplay(height, width, 6);
+            IsBusy = new SortedEnum<GamePoint>();
+        }
+        public List<Skelet> GetLives()
+        {
+            return lives;
+        }
+        public void AddLivesWithCell(Skelet skelet)
+        {
+            
+            AddCell(skelet.picture, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+            IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+            lives.Add(skelet);
+        }
+        public void RemoveLivesWithCell(Skelet skelet)
+        {
+            RemoveLivesWithCell(skelet.picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+            IsBusy.Remove(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+            lives.Remove(skelet);
+        }
+        public Skelet FindLives(int heightInd, int weightInd)
+        {
+            return lives.Find(x => x.Cord == new GamePoint(heightInd, weightInd));
+        }
+        public void MoveLivesWithCell(Skelet skelet, GamePoint newPoint)
+        {
+            RemoveLivesWithCell(skelet.picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+            IsBusy.Remove(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+
+            skelet.Cord = newPoint;
+
+            AddCell(skelet.picture, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+            IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
         }
         public void Display(Canvas canvas, double size, List<UIElement> systemObj)
         {
@@ -80,15 +108,15 @@ namespace TwoD_Game_RP
             display.Update(Cells);
             display.Display(canvas, size, systemObj);
         }
-        public void DisplayToPoints(List<Point> displayPoints, Canvas canvas, double size, List<UIElement> systemObj)
+        public void DisplayToPoints(SortedEnum<GamePoint> displayPoints, Canvas canvas, double size, List<UIElement> systemObj)
         {
             display.DisplayToPoints(displayPoints, canvas, size, systemObj);
         }
-        public void DisplayToPointsWithBorder(List<Point> displayPoints, Point LeftUpCorner, Canvas canvas, double size, List<UIElement> systemObj)
+        public void DisplayToPointsWithBorder(SortedEnum<GamePoint> displayPoints, GamePoint LeftUpCorner, Canvas canvas, double size, List<UIElement> systemObj)
         {
             display.DisplayToPointsWithBorder(displayPoints, LeftUpCorner, canvas, size, systemObj);
         }
-        public void DisplayToPointsWithBorderAndView(List<Point> displayPointsView, List<Point> displayPointsAll, Point LeftUpCorner, Canvas canvas, double size, List<UIElement> systemObj)
+        public void DisplayToPointsWithBorderAndView(SortedEnum<GamePoint> displayPointsView, SortedEnum<GamePoint> displayPointsAll, GamePoint LeftUpCorner, Canvas canvas, double size, List<UIElement> systemObj)
         {
             foreach (var v in displayPointsAll)
             {
@@ -119,17 +147,17 @@ namespace TwoD_Game_RP
                         continue;
                     }
 
-                    var cur = new Vertex(new Point(i, j));
+                    var cur = new Vertex(new GamePoint(i, j));
                     grafLocToMove.Vertexes.Add(cur);
-                    if (i-1>=0 && !Cells[i-1, j].IsBlock)
+                    if (i - 1 >= 0 && !Cells[i - 1, j].IsBlock)
                     {
-                        var up = grafLocToMove.Find(new Point(i - 1, j));
+                        var up = grafLocToMove.Find(new GamePoint(i - 1, j));
                         up.Near.Add(cur);
                         cur.Near.Add(up);
                     }
-                    if (j-1>=0 && !Cells[i, j-1].IsBlock)
+                    if (j - 1 >= 0 && !Cells[i, j - 1].IsBlock)
                     {
-                        var left = grafLocToMove.Find(new Point(i, j-1));
+                        var left = grafLocToMove.Find(new GamePoint(i, j - 1));
                         left.Near.Add(cur);
                         cur.Near.Add(left);
                     }
@@ -143,17 +171,17 @@ namespace TwoD_Game_RP
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    var cur = new Vertex(new Point(i, j));
+                    var cur = new Vertex(new GamePoint(i, j));
                     grafLocAll.Vertexes.Add(cur);
                     if (i - 1 >= 0)
                     {
-                        var up = grafLocAll.Find(new Point(i - 1, j));
+                        var up = grafLocAll.Find(new GamePoint(i - 1, j));
                         up.Near.Add(cur);
                         cur.Near.Add(up);
                     }
                     if (j - 1 >= 0)
                     {
-                        var left = grafLocAll.Find(new Point(i, j - 1));
+                        var left = grafLocAll.Find(new GamePoint(i, j - 1));
                         left.Near.Add(cur);
                         cur.Near.Add(left);
                     }
@@ -172,22 +200,26 @@ namespace TwoD_Game_RP
                         continue;
                     }
 
-                    var cur = new Vertex(new Point(i, j));
+                    var cur = new Vertex(new GamePoint(i, j));
                     grafLocToWatch.Vertexes.Add(cur);
                     if (i - 1 >= 0 && Cells[i - 1, j].IsWatch)
                     {
-                        var up = grafLocToWatch.Find(new Point(i - 1, j));
+                        var up = grafLocToWatch.Find(new GamePoint(i - 1, j));
                         up.Near.Add(cur);
                         cur.Near.Add(up);
                     }
                     if (j - 1 >= 0 && Cells[i, j - 1].IsWatch)
                     {
-                        var left = grafLocToWatch.Find(new Point(i, j - 1));
+                        var left = grafLocToWatch.Find(new GamePoint(i, j - 1));
                         left.Near.Add(cur);
                         cur.Near.Add(left);
                     }
                 }
             }
+        }
+        public bool IsCellBusy(int heightInd, int weightInd)
+        {
+            return IsBusy.Contains(new GamePoint(heightInd, weightInd));
         }
         public void AddLayerCells(IPictureCell[,] cells, int index)
         {
@@ -195,24 +227,14 @@ namespace TwoD_Game_RP
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    if (cells[i,j] == null) continue;
-                    Cells[i, j].AddLocationCell(cells[i,j], index);
+                    if (cells[i, j] == null) continue;
+                    Cells[i, j].AddLocationCell(cells[i, j], index);
                 }
             }
         }
         public void UpdateDisplay()
         {
             display.Update(Cells);
-        }
-        public void AddCell(IPictureCell cell, int index, int heightInd, int weightInd)
-        {
-            Cells[heightInd, weightInd].AddLocationCell(cell, index);
-            display.Update(Cells, heightInd, weightInd);
-        }
-        public void RemoveCell(IPictureCell cell, int heightInd, int weightInd)
-        {
-            Cells[heightInd, weightInd].RemoveLocationCell(cell);
-            display.Update(Cells, heightInd, weightInd);
         }
         public bool GetIsBlockCell(int heightInd, int weightInd)
         {
@@ -223,11 +245,29 @@ namespace TwoD_Game_RP
         {
             return Cells[heightInd, weightInd].IsWatch;
         }
+        private void AddCell(IPictureCell cell, int index, int heightInd, int weightInd)
+        {
+            if (index == 1)
+                Cells[heightInd, weightInd].AddSkeletWithLocationCell(cell);
+            else
+                Cells[heightInd, weightInd].AddLocationCell(cell, index);
+            display.Update(Cells, heightInd, weightInd);
+        }
+        private void RemoveLivesWithCell(IPictureCell cell, int heightInd, int weightInd)
+        {
+            Cells[heightInd, weightInd].RemoveSkeletWithLocationCell(cell);
+            display.Update(Cells, heightInd, weightInd);
+        }
+        private void RemoveCell(IPictureCell cell, int heightInd, int weightInd)
+        {
+            Cells[heightInd, weightInd].RemoveLocationCell(cell);
+            display.Update(Cells, heightInd, weightInd);
+        }
         public IEnumerable<IPictureCell> GetEnumerableCell(int heightInd, int weightInd)
         {
             return Cells[heightInd, weightInd];
         }
-    }    
+    }
 
     internal class LocationCell
     {
@@ -249,6 +289,7 @@ namespace TwoD_Game_RP
         bool isBlock;
         bool isWatch;
         bool isHaveDark;
+        List<IPictureCell> PictureCellOn1;
         public bool IsBlock => isBlock;
         public bool IsWatch => isWatch;
         public bool IsWasView { get; set; }
@@ -261,6 +302,7 @@ namespace TwoD_Game_RP
             this.isWatch = true;
             this.IsWasView = false;
             this.isHaveDark = false;
+            PictureCellOn1 = new List<IPictureCell>();
         }
         public ListLocationCell()
         {
@@ -270,6 +312,25 @@ namespace TwoD_Game_RP
             this.isWatch = true;
             this.IsWasView = false;
             this.isHaveDark = false;
+            PictureCellOn1 = new List<IPictureCell>();
+        }
+        /*
+        0 - земля
+        1 - люди ящики
+        2 - аномалии
+        3 - деревья 
+        4 - системные знаки
+        */
+        public void AddSkeletWithLocationCell(IPictureCell pictureCell)
+        {
+            PictureCellOn1.Add(pictureCell);
+            if (!isHaveDark)
+                AddLocationCell(pictureCell, 1);
+        }
+        public void RemoveSkeletWithLocationCell(IPictureCell pictureCell)
+        {
+            PictureCellOn1.Remove(pictureCell);
+            RemoveLocationCell(pictureCell);
         }
         public void ChangeHavingDark(bool IsHaveDark)
         {
@@ -278,11 +339,19 @@ namespace TwoD_Game_RP
             {
                 this.isHaveDark = true;
                 AddLocationCell(DarkenPicCell.Taking(), 4);
+                foreach(var v in PictureCellOn1)
+                {
+                    RemoveLocationCell(v);
+                }
             }
             else
             {
                 this.isHaveDark = false;
                 RemoveLocationCell(DarkenPicCell.Taking());
+                foreach(var v in PictureCellOn1)
+                {
+                    AddLocationCell(v, 1);
+                }
             }
         }
         private void AnalyzeOnWatch(IPictureCell picture)
@@ -315,6 +384,7 @@ namespace TwoD_Game_RP
         {
             count++;
             var addcell = new LocationCell(pictureCell, index);
+
             AnalyzeOnBlock(pictureCell);
             AnalyzeOnWatch(pictureCell);
             if (head == null)
@@ -349,16 +419,18 @@ namespace TwoD_Game_RP
         public void RemoveLocationCell(IPictureCell pictureCell)
         {
             if (head == null) { return; }
-            count--;
             if (head.pictureCell == pictureCell)
             {
+                count--;
                 head = head.next;
+                return;
             }
             var current = head;
             while (current.next != null)
             {
                 if (current.next.pictureCell == pictureCell)
                 {
+                    count--;
                     current.next = current.next.next;
                     return;
                 }
@@ -427,28 +499,28 @@ namespace TwoD_Game_RP
             toWatch = new Graf(this.thirdLayerBlock, false, rows, columns);
             this.methods = new LocationMethods();
         }
-        public void AddSubject(Subject subject, Point cord)
+        public void AddSubject(Subject subject, GamePoint cord)
         {
             methods.AddSubject(subject, cord, this);
         }
-        public void DeleteSubject(Subject subject, Point cord)
+        public void DeleteSubject(Subject subject, GamePoint cord)
         {
             methods.DeleteSubject(subject, cord, this);
         }
-        public void GoingSubject(Subject subject, Point cord)
+        public void GoingSubject(Subject subject, GamePoint cord)
         {
             methods.GoingSubject(subject, cord, this);
         }
     }
     public interface ILocationMethods
     {
-        void AddSubject(Subject subject, Point cord, Location location);
-        void DeleteSubject(Subject subject, Point cord, Location location);
-        void GoingSubject(Subject subject, Point cord, Location location);
+        void AddSubject(Subject subject, GamePoint cord, Location location);
+        void DeleteSubject(Subject subject, GamePoint cord, Location location);
+        void GoingSubject(Subject subject, GamePoint cord, Location location);
     }
     public class LocationMethods : ILocationMethods
     {
-        public void AddSubject(Subject subject, Point cord, Location location)
+        public void AddSubject(Subject subject, GamePoint cord, Location location)
         {
             location.Subjects.Add(subject);
             if (location.SecondLayerCreature[cord.H, cord.W] != null)
@@ -459,18 +531,18 @@ namespace TwoD_Game_RP
             location.SecondLayerCreature[cord.H, cord.W] = subject;
             location.ToMove.Find(cord).Busy = true;
         }
-        public void DeleteSubject(Subject subject, Point cord, Location location)
+        public void DeleteSubject(Subject subject, GamePoint cord, Location location)
         {
-            location.Subjects.RemoveAll(X => X.Point.H == cord.H && X.Point.W == cord.W);
+            location.Subjects.RemoveAll(X => X.GamePoint.H == cord.H && X.GamePoint.W == cord.W);
             location.SecondLayerCreature[cord.H, cord.W] = null;
         }
-        public void GoingSubject(Subject subject, Point cord, Location location)
+        public void GoingSubject(Subject subject, GamePoint cord, Location location)
         {
             if (location.Subjects.Contains(subject) && location.SecondLayerCreature[cord.H, cord.W] == null)
             {
-                location.SecondLayerCreature[subject.Point.H, subject.Point.W] = null;
-                location.ToMove.Find(subject.Point).Busy = false;
-                subject.Point = cord;
+                location.SecondLayerCreature[subject.GamePoint.H, subject.GamePoint.W] = null;
+                location.ToMove.Find(subject.GamePoint).Busy = false;
+                subject.GamePoint = cord;
                 location.SecondLayerCreature[cord.H, cord.W] = subject;
                 location.ToMove.Find(cord).Busy = true;
             }

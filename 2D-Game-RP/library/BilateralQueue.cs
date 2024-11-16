@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TwoD_Game_RP
 {
-    public class BilateralQueue<T> : IEnumerable<T>, IEnumerable
+    public class BilateralQueue<T> : IEnumerable<T>
     {
         private int count;
 

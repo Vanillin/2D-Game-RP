@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Net.Mail;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -13,7 +14,7 @@ namespace TwoD_Game_RP
     /// </summary>
     public partial class MainWindow : Window
     {
-        Point LeftUpCorner;
+        GamePoint LeftUpCorner;
         int sizeGamePoleH;
         int sizeGamePoleW;
         double pixelSizeGamePole;
@@ -27,19 +28,19 @@ namespace TwoD_Game_RP
         bool ToSeePlayer = false;
         bool ToSeeEnemy = false;
 
-        private static readonly int CountTimeAnimation = 200;
+        private static readonly int CountTimeAnimation = 250;
         private DispatcherTimer timerReloadAnimation = new DispatcherTimer()
         {
             Interval = TimeSpan.FromMilliseconds(CountTimeAnimation)
         };
-        private void ChangeSizeGamePole(int height, int wight, Point player)
+        private void ChangeSizeGamePole(int height, int wight, GamePoint player)
         {
             if (height % 2 == 0 && height != CurrentLocation.Height) throw new Exception("Размеры поля должны быть нечетными!");
             if (wight % 2 == 0 && wight != CurrentLocation.Width) throw new Exception("Размеры поля должны быть нечетными!");
             sizeGamePoleH = height;
             sizeGamePoleW = wight;
             pixelSizeGamePole = Math.Min(Map.ActualHeight / (sizeGamePoleH + 2), Map.ActualWidth / (sizeGamePoleW + 2));
-            LeftUpCorner = new Point(player.X - (height - 1) / 2, player.Y - (wight - 1) / 2);
+            LeftUpCorner = new GamePoint(player.X - (height - 1) / 2, player.Y - (wight - 1) / 2);
             if (LeftUpCorner.X < 0) LeftUpCorner.X = 0;
             if (LeftUpCorner.Y < 0) LeftUpCorner.Y = 0;
             if (LeftUpCorner.X > CurrentLocation.Height - sizeGamePoleH) LeftUpCorner.X = CurrentLocation.Height - sizeGamePoleH;
@@ -94,14 +95,14 @@ namespace TwoD_Game_RP
         }
         private void AddInformationPlayer(string PlayerName, PlayerGender gender, int x, int y, Gun gun, Cloth cloth, int money, List<Item> inventory)
         {
-            player = new Player(PlayerName, gender, new Point(x, y), gun, cloth, money, inventory,
+            player = new Player(PlayerName, gender, new GamePoint(x, y), gun, cloth, money, inventory,
                 new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
             //PicturePlayer.Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{player.SystemName}.png"), UriKind.Relative));
         }
 
         private int Time;
         private List<UIElement> SystemObj;
-        private int oblwatch = 8;
+        private int oblwatch = 10;
         private int oblsee = 7;
         private void TimerAnimation_Tick(object sender, EventArgs e)
         {
@@ -151,10 +152,18 @@ namespace TwoD_Game_RP
         private void DoActionAll()
         {
             Location current = CurrentLocation;
-            foreach (var v in current.Lives)
+            foreach (var v in current.GetLives())
             {
                 if (v.PeekGlobalAction() == null) continue;
-                if (v.PeekAction() == null) v.CreateActions(v.PeekGlobalAction().CreateActions(v, current.GrafLocToMove));
+                if (v.PeekAction() == null) v.CreateActions(v.PeekGlobalAction().CreateActions(v, current));
+                
+                if (!v.PeekAction().IsCanComplete(v, current))
+                {
+                    v.ClearActions();
+                    v.CreateActions(v.PeekGlobalAction().CreateActions(v, current));
+                }
+                if (!v.PeekAction().IsCanComplete(v, current)) continue;
+
                 v.PeekAction().CompleteAction(v, current);
                 v.RemoveAction();
                 while (v.PeekAction() != null && v.PeekAction().IsSystem)
@@ -179,22 +188,21 @@ namespace TwoD_Game_RP
 
                 //создание переходов
 
-                CurrentLocation.Lives.Add(player);
-                CurrentLocation.AddCell(player.picture, 1, (int)player.Cord.X, (int)player.Cord.Y);
+                CurrentLocation.AddLivesWithCell(player);
 
-                Point p = new Point(12, 10);
+                GamePoint p = new GamePoint(12, 12);
 
                 StalkerSmall stalker = new StalkerSmall("a", "a", null, NPSIntellect.StandAgressive, p, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
-                CurrentLocation.AddCell(stalker.picture, 1, (int)stalker.Cord.X, (int)stalker.Cord.Y);
-                CurrentLocation.Lives.Add(stalker);
-                stalker.EnqueueDownGlobalAction(new ActionMove(new Point(12, 11), true));
-                stalker.EnqueueDownGlobalAction(new ActionMove(new Point(12, 10), true));
+                stalker.EnqueueDownGlobalAction(new ActionMove(new GamePoint(11, 16), true));
+                stalker.EnqueueDownGlobalAction(new ActionWait(4, true));
+                stalker.EnqueueDownGlobalAction(new ActionMove(new GamePoint(12, 12), true));
+                stalker.EnqueueDownGlobalAction(new ActionWait(4, true));
+                CurrentLocation.AddLivesWithCell(stalker);
 
-                Point p2 = new Point(12, 6);
+                GamePoint p2 = new GamePoint(12, 6);
 
                 StalkerSmall stalker2 = new StalkerSmall("a", "a", null, NPSIntellect.StandAgressive, p2, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
-                CurrentLocation.AddCell(stalker2.picture, 1, (int)stalker2.Cord.X, (int)stalker2.Cord.Y);
-                CurrentLocation.Lives.Add(stalker2);
+                CurrentLocation.AddLivesWithCell(stalker2);
             }
             ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
             //pixelSize = Math.Min( Map.Height / (CurrentLocation.Height + 2) , Map.Width / (CurrentLocation.Width + 2));
@@ -238,7 +246,7 @@ namespace TwoD_Game_RP
 
             //foreach (Item item in player.InventoryList.ReferenceItem.Keys)
             //{
-            //    foreach (Point point in player.InventoryList.ReferenceItem[item])
+            //    foreach (GamePoint point in player.InventoryList.ReferenceItem[item])
             //    {
             //        Button itemBut = new Button();
             //        itemBut.Tag = item.SystemName;
@@ -291,12 +299,12 @@ namespace TwoD_Game_RP
         }
 
         //-------------------------------------------------------------------------------Move
-        private void MakeMovePerson(Skelet Person, Point point)
+        private void MakeMovePerson(Skelet Person, GamePoint point)
         {
             //Location current = CurrentLocation;
             //current.RemoveCell(Person.picture, (int)Person.Cord.X, (int)Person.Cord.Y);
             //current.AddCell(Person.picture, 1, (int)Person.Cord.X, (int)Person.Cord.Y);
-            //Person.Cord = new Point(point.X, point.Y);
+            //Person.Cord = new GamePoint(point.X, point.Y);
 
             //return;
 
@@ -317,13 +325,13 @@ namespace TwoD_Game_RP
             //{
             //    Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] = Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[cordX, cordY];
             //    Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[cordX, cordY] = null;
-            //    Person.Going(new Point(x, y), Locations.Find(X => X.SystemName == NameCurrentLocation));
+            //    Person.Going(new GamePoint(x, y), Locations.Find(X => X.SystemName == NameCurrentLocation));
             //}
             //else if (Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y] == "anomaly")
             //{
             //    Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[x, y] = Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[cordX, cordY];
             //    Locations.Find(X => X.SystemName == NameCurrentLocation).SignsLives[cordX, cordY] = null;
-            //    Person.Going(new Point(x, y), Locations.Find(X => X.SystemName == NameCurrentLocation));
+            //    Person.Going(new GamePoint(x, y), Locations.Find(X => X.SystemName == NameCurrentLocation));
             //    Person.Damaging(30);
             //}
             //else if (Locations.Find(X => X.SystemName == NameCurrentLocation).Signs[x, y].Split('-')[0] == "trans" && Person is Player)
@@ -366,7 +374,7 @@ namespace TwoD_Game_RP
             int leng = int.MaxValue;
             Skelet personEnemy = null;
             Location current = CurrentLocation;
-            foreach (Skelet enemy in current.Lives)
+            foreach (Skelet enemy in current.GetLives())
             {
                 if (Person.OblSee.Contains(enemy.Cord) && (enemy.IsAlive) && (!Person.FriendFranction.Contains(enemy.FractionInf())))
                 {
@@ -429,7 +437,7 @@ namespace TwoD_Game_RP
             {
                 player.ClearActions();
                 player.ClearGlobalActions();
-                player.EnqueueUpGlobalAction(new ActionMove(new Point(H, W), false));
+                player.EnqueueUpGlobalAction(new ActionMove(new GamePoint(H, W), false));
 
                 //случай перехода на новую локацию или застревания где-либо
             }
@@ -442,7 +450,7 @@ namespace TwoD_Game_RP
             (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSizeGamePole) - 1, (int)Math.Truncate(pointMouse.Y / pixelSizeGamePole) - 1);
             (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X);
             if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
-            Skelet people = CurrentLocation.Lives.Find(x => x.Cord == new Point(H, W));
+            Skelet people = CurrentLocation.FindLives(H, W);
             if (people != null && !(people is Player))
             {
                 ClickOnSkelet(people);
@@ -519,8 +527,7 @@ namespace TwoD_Game_RP
             }
             player.Money += people.Money;
 
-            CurrentLocation.RemoveCell(people.picture, (int)people.Cord.X, (int)people.Cord.Y);
-            CurrentLocation.Lives.Remove(people);
+            CurrentLocation.RemoveLivesWithCell(people);
 
             TimerAnimation_Tick(null, null);
         }

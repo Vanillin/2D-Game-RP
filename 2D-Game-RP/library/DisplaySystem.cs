@@ -90,7 +90,7 @@ namespace TwoD_Game_RP
                     else images[h, w, depth].Tag = new KeyValuePair<string, int>(pict.Picture(), 0);
                 }
                 depth++;
-                if (depth > cell[h, w].Count) break;
+                if (depth >= cell[h, w].Count) break;
             }
             depths[h, w] = depth;
         }
@@ -133,7 +133,7 @@ namespace TwoD_Game_RP
                 foreach (var obj in SystemObj)
                     canvas.Children.Add(obj);
         }
-        public void DisplayInventory(Canvas canvas, double size, Dictionary<Item, List<Point>> Items)
+        public void DisplayInventory(Canvas canvas, double size, Dictionary<Item, List<GamePoint>> Items)
         {
             Display(canvas, size);
             foreach (var pair in Items)
@@ -152,7 +152,7 @@ namespace TwoD_Game_RP
                 }
             }
         }
-        public void DisplayToPoints(List<Point> displayPoints, Canvas canvas, double size, List<UIElement> SystemObj)
+        public void DisplayToPoints(SortedEnum<GamePoint> displayPoints, Canvas canvas, double size, List<UIElement> SystemObj)
         {
             canvas.Children.Clear();
             foreach (var v in displayPoints)
@@ -173,7 +173,7 @@ namespace TwoD_Game_RP
                 foreach (var obj in SystemObj)
                     canvas.Children.Add(obj);
         }
-        public void DisplayToPointsWithBorder(List<Point> displayPoints, Point LeftUpCorner, Canvas canvas, double size, List<UIElement> SystemObj)
+        public void DisplayToPointsWithBorder(SortedEnum<GamePoint> displayPoints, GamePoint LeftUpCorner, Canvas canvas, double size, List<UIElement> SystemObj)
         {
             canvas.Children.Clear();
             foreach (var v in displayPoints)

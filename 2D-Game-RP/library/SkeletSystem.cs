@@ -43,7 +43,7 @@ namespace TwoD_Game_RP
         private Cloth Cloth;
         public Cloth ClothIng() { return Cloth; }
         public NPSIntellect Intellect;
-        public Point Cord;
+        public GamePoint Cord;
         public bool IsAlive;
         public readonly string SystemName;
         private int Health;
@@ -51,10 +51,10 @@ namespace TwoD_Game_RP
         public int HealthInf() { return Health; }
         //public bool See;
 
-        public List<Point> OblSee = new List<Point>();
-        public List<Point> OblAttack = new List<Point>();
+        public SortedEnum<GamePoint> OblSee = new SortedEnum<GamePoint>();
+        public SortedEnum<GamePoint> OblAttack = new SortedEnum<GamePoint>();
         public Skelet LastSeeEnemy;
-        public Point LastGoingPoint = new Point(-1, -1);
+        public GamePoint LastGoingPoint = new GamePoint(-1, -1);
 
         public Inventory InventoryList;
         private DBDisplay InventoryDisplay;
@@ -85,7 +85,7 @@ namespace TwoD_Game_RP
                 Health = MaxHealth;
             }
         }
-        public void Going(Point point, Location location)
+        public void Going(GamePoint point, Location location)
         {
             Cord = point;
             foreach (Vertex vertex in location.GrafLocToWatch)
@@ -104,8 +104,8 @@ namespace TwoD_Game_RP
                     return;
                 }
             }
-            OblSee = new List<Point>();
-            OblAttack = new List<Point>();
+            OblSee = new SortedEnum<GamePoint>();
+            OblAttack = new SortedEnum<GamePoint>();
             return;
         }
 
@@ -127,7 +127,7 @@ namespace TwoD_Game_RP
             Cloth = cloth;
             Fraction = Cloth.FractionCloth;
         }
-        public Skelet(string name, string secondname, NPSGroup fraction, Gun gun, NPSIntellect intellect, Point coord,
+        public Skelet(string name, string secondname, NPSGroup fraction, Gun gun, NPSIntellect intellect, GamePoint coord,
             Cloth cloth, string systemname, int money, List<Item> inventoryList, List<NPSGroup> friendFranction, int maxHealth)
         {
             this.Name = name;

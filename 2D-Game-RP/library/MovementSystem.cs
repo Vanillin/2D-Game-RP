@@ -10,13 +10,13 @@ namespace TwoD_Game_RP
 {
     public class Vertex : IEnumerable
     {
-        public Point Cord = new Point();
+        public GamePoint Cord;
         public List<Vertex> Near = new List<Vertex>();
-        public Vertex(Point point)
+        public Vertex(GamePoint point)
         {
             Cord = point;
         }
-        private Vertex(Point point, List<Vertex> near)
+        private Vertex(GamePoint point, List<Vertex> near)
         {
             Cord = point;
             Near = near;
@@ -46,17 +46,17 @@ namespace TwoD_Game_RP
                 yield return vertex;
             }
         }
-        public List<Point> SearchWidth(Point start, Point finish)
+        public List<GamePoint> SearchWidth(GamePoint start, GamePoint finish)
         {
-            return SearchWidthWithoutSomePoint(start, finish, new List<Point>(0));
+            return SearchWidthWithoutSomePoint(start, finish, new SortedEnum<GamePoint>());
         }
-        public List<Point> SearchWidthWithoutSomePoint(Point start, Point finish, List<Point> deletedpoints)
+        public List<GamePoint> SearchWidthWithoutSomePoint(GamePoint start, GamePoint finish, SortedEnum<GamePoint> deletedpoints)
         {
-            if (start == finish || deletedpoints.Contains(start) || deletedpoints.Contains(finish))
+            if (start == finish || /*deletedpoints.Contains(start) ||*/ deletedpoints.Contains(finish))
             {
                 return null;
             }
-            List<Point> retur = new List<Point>();
+            List<GamePoint> retur = new List<GamePoint>();
             Vertex startVert = Find(start);
             Vertex finishVert = Find(finish);
 
@@ -126,18 +126,18 @@ namespace TwoD_Game_RP
             }
             return null;
         }        
-        public List<Point> SearchSee(Point start, int count)
+        public SortedEnum<GamePoint> SearchSee(GamePoint start, int count)
         {
-            List<Point> retur = new List<Point>();
-            Point startVert = Find(start).Cord;
+            SortedEnum<GamePoint> retur = new SortedEnum<GamePoint>();
+            GamePoint startVert = Find(start).Cord;
 
             if (startVert == null)
             {
                 throw new Exception($"В графе отсутствует точка ({startVert.X},{startVert.Y})");
             }
 
-            Dictionary<Point, int> Length = new Dictionary<Point, int> { { startVert, 0 } };
-            Queue<Point> Que = new Queue<Point>();
+            Dictionary<GamePoint, int> Length = new Dictionary<GamePoint, int> { { startVert, 0 } };
+            Queue<GamePoint> Que = new Queue<GamePoint>();
             Que.Enqueue(startVert);
 
             List<double[]> SavedObject = new List<double[]>(); //0 - max //1 - min
@@ -145,10 +145,10 @@ namespace TwoD_Game_RP
 
             while (Que.Count > 0)
             {
-                Point Now = Que.Dequeue();
-                List<Point> Near = new List<Point>() {new Point(Now.X+1, Now.Y), new Point(Now.X, Now.Y+1),
-                    new Point(Now.X - 1, Now.Y), new Point(Now.X, Now.Y-1) };
-                foreach (Point p in Near)
+                GamePoint Now = Que.Dequeue();
+                List<GamePoint> Near = new List<GamePoint>() {new GamePoint(Now.X+1, Now.Y), new GamePoint(Now.X, Now.Y+1),
+                    new GamePoint(Now.X - 1, Now.Y), new GamePoint(Now.X, Now.Y-1) };
+                foreach (GamePoint p in Near)
                 {
                     if (!Length.ContainsKey(p))
                     {
@@ -161,7 +161,7 @@ namespace TwoD_Game_RP
                         double CurY = p.Y - start.Y;
                         double NewAngle = Math.Atan2(CurX, CurY);
 
-                        if (this.Vertexes.Find(X => X.Cord == p) != null)
+                        if (this.Vertexes.Find(X => X.Cord.CompareTo(p) == 0) != null)
                         {
                             bool RadianKey = true;
                             foreach (double[] o in SavedObject)
@@ -234,18 +234,18 @@ namespace TwoD_Game_RP
             }
             return retur;
         }
-        public List<Point> SearchSeeWithBlocks(Point start, int count, int minX, int minY, int maxX, int maxY)
+        public SortedEnum<GamePoint> SearchSeeWithBlocks(GamePoint start, int count, int minX, int minY, int maxX, int maxY)
         {
-            List<Point> retur = new List<Point>();
-            Point startVert = Find(start).Cord;
+            SortedEnum<GamePoint> retur = new SortedEnum<GamePoint>();
+            GamePoint startVert = Find(start).Cord;
 
             if (startVert == null)
             {
                 throw new Exception($"В графе отсутствует точка ({startVert.X},{startVert.Y})");
             }
 
-            Dictionary<Point, int> Length = new Dictionary<Point, int> { { startVert, 0 } };
-            Queue<Point> Que = new Queue<Point>();
+            Dictionary<GamePoint, int> Length = new Dictionary<GamePoint, int> { { startVert, 0 } };
+            Queue<GamePoint> Que = new Queue<GamePoint>();
             retur.Add(startVert);
             Que.Enqueue(startVert);
 
@@ -254,11 +254,11 @@ namespace TwoD_Game_RP
 
             while (Que.Count > 0)
             {
-                Point Now = Que.Dequeue();
+                GamePoint Now = Que.Dequeue();
 
-                List<Point> Near = new List<Point>() {new Point(Now.X+1, Now.Y), new Point(Now.X, Now.Y+1),
-                    new Point(Now.X - 1, Now.Y), new Point(Now.X, Now.Y-1) };
-                foreach (Point p in Near)
+                List<GamePoint> Near = new List<GamePoint>() {new GamePoint(Now.X+1, Now.Y), new GamePoint(Now.X, Now.Y+1),
+                    new GamePoint(Now.X - 1, Now.Y), new GamePoint(Now.X, Now.Y-1) };
+                foreach (GamePoint p in Near)
                 {
                     if (!Length.ContainsKey(p))
                     {
@@ -297,7 +297,7 @@ namespace TwoD_Game_RP
                         
                         if (FinalKey) //добавляет все видимые точки
                         {
-                            if (this.Vertexes.Find(X => X.Cord == p) != null)
+                            if (this.Vertexes.Find(X => X.Cord.CompareTo(p) == 0) != null)
                             {
                                 Length.Add(p, Length[Now] + 1);
                                 Que.Enqueue(p);
@@ -357,7 +357,7 @@ namespace TwoD_Game_RP
             }
             return retur;
         }
-        private double CalculateLen(Point a, Point b)
+        private double CalculateLen(GamePoint a, GamePoint b)
         {
             if (a.X == b.X)
             {
@@ -369,27 +369,27 @@ namespace TwoD_Game_RP
             }
             return Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2));
         }
-        public List<Point> SearchSeeInCircle(Point start, int count, int minX, int minY, int maxX, int maxY)
+        public SortedEnum<GamePoint> SearchSeeInCircle(GamePoint start, int count, int minX, int minY, int maxX, int maxY)
         {
-            List<Point> retur = new List<Point>();
-            Point startVert = Find(start).Cord;
+            SortedEnum<GamePoint> retur = new SortedEnum<GamePoint>();
+            GamePoint startVert = Find(start).Cord;
 
             if (startVert == null)
             {
                 throw new Exception($"В графе отсутствует точка ({startVert.X},{startVert.Y})");
             }
 
-            Queue<Point> Que = new Queue<Point>();
+            Queue<GamePoint> Que = new Queue<GamePoint>();
             retur.Add(startVert);
             Que.Enqueue(startVert);
 
             while (Que.Count > 0)
             {
-                Point Now = Que.Dequeue();
+                GamePoint Now = Que.Dequeue();
 
-                List<Point> Near = new List<Point>() {new Point(Now.X+1, Now.Y), new Point(Now.X, Now.Y+1),
-                    new Point(Now.X - 1, Now.Y), new Point(Now.X, Now.Y-1) };
-                foreach (Point p in Near)
+                List<GamePoint> Near = new List<GamePoint>() {new GamePoint(Now.X+1, Now.Y), new GamePoint(Now.X, Now.Y+1),
+                    new GamePoint(Now.X - 1, Now.Y), new GamePoint(Now.X, Now.Y-1) };
+                foreach (GamePoint p in Near)
                 {
                     if (!retur.Contains(p))
                     {
@@ -408,17 +408,17 @@ namespace TwoD_Game_RP
             }
             return retur;
         }
-        public List<Point> SearchSeeInCircleWithBlocks(Point start, int count, int minX, int minY, int maxX, int maxY)
+        public SortedEnum<GamePoint> SearchSeeInCircleWithBlocks(GamePoint start, int count, int minX, int minY, int maxX, int maxY)
         {
-            List<Point> retur = new List<Point>();
-            Point startVert = Find(start).Cord;
+            SortedEnum<GamePoint> retur = new SortedEnum<GamePoint>();
+            GamePoint startVert = Find(start).Cord;
 
             if (startVert == null)
             {
                 throw new Exception($"В графе отсутствует точка ({startVert.X},{startVert.Y})");
             }
 
-            Queue<Point> Que = new Queue<Point>();
+            Queue<GamePoint> Que = new Queue<GamePoint>();
             retur.Add(startVert);
             Que.Enqueue(startVert);
 
@@ -427,11 +427,11 @@ namespace TwoD_Game_RP
 
             while (Que.Count > 0)
             {
-                Point Now = Que.Dequeue();
+                GamePoint Now = Que.Dequeue();
 
-                List<Point> Near = new List<Point>() {new Point(Now.X+1, Now.Y), new Point(Now.X, Now.Y+1),
-                    new Point(Now.X - 1, Now.Y), new Point(Now.X, Now.Y-1) };
-                foreach (Point p in Near)
+                List<GamePoint> Near = new List<GamePoint>() {new GamePoint(Now.X+1, Now.Y), new GamePoint(Now.X, Now.Y+1),
+                    new GamePoint(Now.X - 1, Now.Y), new GamePoint(Now.X, Now.Y-1) };
+                foreach (GamePoint p in Near)
                 {
                     if (!retur.Contains(p))
                     {
@@ -470,7 +470,7 @@ namespace TwoD_Game_RP
 
                         if (FinalKey) //добавляет все видимые точки
                         {
-                            if (this.Vertexes.Find(X => X.Cord == p) != null)
+                            if (this.Vertexes.Find(X => X.Cord.CompareTo(p)==0) != null)
                             {
                                 //Length.Add(p, Length[Now] + 1);
                                 Que.Enqueue(p);
@@ -530,16 +530,47 @@ namespace TwoD_Game_RP
             }
             return retur;
         }
-        public Vertex Find(Point point)
+        public Vertex Find(GamePoint point)
         {
             foreach (Vertex p in Vertexes)
             {
-                if (p.Cord == point)
+                if (p.Cord.CompareTo(point)==0)
                 {
                     return p;
                 }
             }
             return null;
+        }
+    }
+    public class GamePoint : IComparable<GamePoint>
+    {
+        public int X;
+        public int Y;
+        public GamePoint(int x, int y)
+        {
+            this.X = x;
+            this.Y = y;
+        }
+
+        public int CompareTo(GamePoint other)
+        {
+            if (X.CompareTo(other.X) < 0)
+            {
+                return -1;
+            }
+            if (X.CompareTo(other.X) > 0)
+            {
+                return 1;
+            }
+            if (Y.CompareTo(other.Y) < 0)
+            {
+                return -1;
+            }
+            if (Y.CompareTo(other.Y) > 0)
+            {
+                return 1;
+            }
+            return 0;
         }
     }
 }

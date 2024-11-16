@@ -134,7 +134,6 @@ namespace TwoD_Game_RP
                 if (IsTrue)
                 {
                     return true;
-                    i += Suffics[Suffics.Length - 1];
                 }
             }
             return false;

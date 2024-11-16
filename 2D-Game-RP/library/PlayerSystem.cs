@@ -21,7 +21,7 @@ namespace TwoD_Game_RP
         public readonly PlayerGender Gender;
 
 
-        public Player(string name, PlayerGender gender, Point coord, Gun gun, Cloth cloth, int money, List<Item> inventoryList, List<NPSGroup> friends) :
+        public Player(string name, PlayerGender gender, GamePoint coord, Gun gun, Cloth cloth, int money, List<Item> inventoryList, List<NPSGroup> friends) :
             base(name, "", NPSGroup.Stalker, gun, NPSIntellect.Non, coord, cloth, "Player" + gender, money, inventoryList, friends, 20000) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         {
             this.Kills = 0;
@@ -30,7 +30,7 @@ namespace TwoD_Game_RP
     }
     public class SkeletBox : Skelet
     {
-        public SkeletBox(string name, string systemname, Point coord, int money, List<Item> inventoryList) :
+        public SkeletBox(string name, string systemname, GamePoint coord, int money, List<Item> inventoryList) :
             base(name, "", NPSGroup.Box, null, NPSIntellect.Non, coord, null, systemname, money, inventoryList, null, 100)
         { }
     }
