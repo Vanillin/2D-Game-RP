@@ -5,40 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Game_STALKER_Exclusion_Zone"
         mc:Ignorable="d"
-        Title="DialogWindow" Height="700" Width="1000">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="125*"/>
-            <ColumnDefinition Width="123*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Border BorderBrush="Black" BorderThickness="2" Grid.ColumnSpan="2">
-            <Grid Height="80" Background="LightGray">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="1" Margin="0,5">
-                    <Label x:Name="NamePerson" FontSize="20" Content="Name: "/>
-                    <Label x:Name="FractionPerson" FontSize="20" Content="Fraction:"/>
-                </StackPanel>
-                <Image x:Name="PicturePerson" Grid.Column="0" Height="80" Width="200"/>
-                <Image x:Name="PicturePlayer" Grid.Column="3" Height="80" Width="200"/>
-                <StackPanel Grid.Column="2" Margin="0,5">
-                    <Label x:Name="NamePlayer" FontSize="20" Content="Name: "/>
-                    <Label x:Name="FractionPlayer" FontSize="20" Content="Fraction:"/>
-                </StackPanel>
+        Title="DialogWindow" Height="700" Width="800" Icon="gamedata\textures\icon.png">
+    <Viewbox>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="400"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="200" Height="Auto"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <StackPanel x:Name="StackTalk" Grid.Row="0">
+                    </StackPanel>
+                    <Canvas x:Name="InventoryPlayer" Grid.Row="1">
+                        
+                    </Canvas>
+                </Grid>
             </Grid>
-        </Border>
-        <ScrollViewer Grid.Row="1" Margin="0,10,0,0" Grid.ColumnSpan="2">
-            <StackPanel x:Name="DialogWin">
+            <ScrollViewer x:Name="ScrollView" Grid.Column="1" Height="600">
+                <StackPanel x:Name="DialogWin">
 
-            </StackPanel>
-        </ScrollViewer>
-    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Viewbox>        
 </Window>

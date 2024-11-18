@@ -66,7 +66,7 @@ namespace TwoD_Game_RP
             timerReloadAnimation.Tick += TimerAnimation_Tick;
             timerReloadAnimation.IsEnabled = true;
 
-            AddInformationPlayer("a", PlayerGender.Man, x, y, new Toz34(), new KurtkaStalker(), 1300, new List<Item>()
+            AddInformationPlayer("Герой", PlayerGender.Man, x, y, new Toz34(), new KurtkaStalker(), 1300, new List<Item>()
                 );
             player.Tasks.Add(Information.FindTask("ГлавныйКвест"));
             player.Tasks.Add(Information.FindTask("СпроситьСталкеров"));
@@ -192,7 +192,7 @@ namespace TwoD_Game_RP
 
                 GamePoint p = new GamePoint(12, 12);
 
-                StalkerSmall stalker = new StalkerSmall("a", "a", null, NPSIntellect.StandAgressive, p, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
+                StalkerSmall stalker = new StalkerSmall("Бегающий", "ф", null, NPSIntellect.StandAgressive, p, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
                 stalker.EnqueueDownGlobalAction(new ActionMove(new GamePoint(11, 16), true));
                 stalker.EnqueueDownGlobalAction(new ActionWait(4, true));
                 stalker.EnqueueDownGlobalAction(new ActionMove(new GamePoint(12, 12), true));
@@ -201,7 +201,7 @@ namespace TwoD_Game_RP
 
                 GamePoint p2 = new GamePoint(12, 6);
 
-                StalkerSmall stalker2 = new StalkerSmall("a", "a", null, NPSIntellect.StandAgressive, p2, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
+                StalkerSmall stalker2 = new StalkerSmall("Зависший", "ф", null, NPSIntellect.StandAgressive, p2, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
                 CurrentLocation.AddLivesWithCell(stalker2);
             }
             ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
@@ -444,7 +444,6 @@ namespace TwoD_Game_RP
         }
         private void Map_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            return;
             SystemObj = new List<UIElement>();
             Point pointMouse = e.GetPosition(Map);
             (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSizeGamePole) - 1, (int)Math.Truncate(pointMouse.Y / pixelSizeGamePole) - 1);
@@ -464,86 +463,90 @@ namespace TwoD_Game_RP
             Canvas.SetLeft(menu, pixelSizeGamePole + pixelSizeGamePole * (people.Cord.Y + 1));
             Canvas.SetTop(menu, pixelSizeGamePole + pixelSizeGamePole * people.Cord.X);
 
-            Button Information = new Button()
-            {
-                Content = "Информация",
-                Opacity = 0.6,
-            };
-            Information.Click += MenuPersonInformation_Click;
-            Information.Tag = people;
+            //Button Information = new Button()
+            //{
+            //    Content = "Информация",
+            //    Opacity = 0.6,
+            //};
+            //Information.Click += MenuPersonInformation_Click;
+            //Information.Tag = people;
 
             Button Dialog = new Button()
             {
                 Content = "Поговорить",
                 Opacity = 0.6,
+                FontSize = 10,
             };
             Dialog.Click += MenuPersonDialog_Click;
             Dialog.Tag = people;
 
-            Button Check = new Button()
-            {
-                Content = "Обыскать",
-                Opacity = 0.6,
-            };
-            Check.Click += MenuPersonCheck_Click;
-            Check.Tag = people;
+            //Button Check = new Button()
+            //{
+            //    Content = "Обыскать",
+            //    Opacity = 0.6,
+            //};
+            //Check.Click += MenuPersonCheck_Click;
+            //Check.Tag = people;
 
             double dx = Math.Abs(people.Cord.X - player.Cord.X);
             double dy = Math.Abs(people.Cord.Y - player.Cord.Y);
             bool Near = (dx <= 2 && dy <= 1) || (dx <= 1 && dy <= 2);
             if (ShelterKey || !Near)
             {
-                Check.IsEnabled = false;
+                //Check.IsEnabled = false;
                 Dialog.IsEnabled = false;
             }
             if (people.HealthInf() <= 0 || people.FractionInf() == NPSGroup.Box)
             {
-                menu.Children.Add(Check);
+                //menu.Children.Add(Check);
             }
             else if (!player.FriendFranction.Contains(people.FractionInf()))
             {
-                menu.Children.Add(Information);
+                //menu.Children.Add(Information);
             }
             else
             {
-                menu.Children.Add(Information);
-                menu.Children.Add(new Separator());
+                //menu.Children.Add(Information);
+                //menu.Children.Add(new Separator());
                 menu.Children.Add(Dialog);
             }
             SystemObj.Add(menu);
 
         }
-        private void MenuPersonCheck_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)sender;
-            Skelet people = (Skelet)button.Tag;
+        //private void MenuPersonCheck_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Button button = (Button)sender;
+        //    Skelet people = (Skelet)button.Tag;
 
-            foreach (Item item in people.InventoryList.ReferenceItem.Keys)
-            {
-                for (int i = 0; i < people.InventoryList.ReferenceItem[item].Count; i++)
-                {
-                    AddItem(item);
-                }
-            }
-            player.Money += people.Money;
+        //    foreach (Item item in people.InventoryList.ReferenceItem.Keys)
+        //    {
+        //        for (int i = 0; i < people.InventoryList.ReferenceItem[item].Count; i++)
+        //        {
+        //            AddItem(item);
+        //        }
+        //    }
+        //    player.Money += people.Money;
 
-            CurrentLocation.RemoveLivesWithCell(people);
+        //    CurrentLocation.RemoveLivesWithCell(people);
 
-            TimerAnimation_Tick(null, null);
-        }
+        //    TimerAnimation_Tick(null, null);
+        //}
         private void MenuPersonDialog_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
             Skelet people = (Skelet)button.Tag;
 
-            //DialogWindow dialog = new DialogWindow(player, people, this);
-            //dialog.ShowDialog();
+            DialogWindow dialog = new DialogWindow(player, people);
+            timerReloadAnimation.IsEnabled = false;
+            dialog.ShowDialog();
+            SystemObj = new List<UIElement>();
+            timerReloadAnimation.IsEnabled = true;
         }
-        private void MenuPersonInformation_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)sender;
-            Skelet people = (Skelet)button.Tag;
-        }
+        //private void MenuPersonInformation_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Button button = (Button)sender;
+        //    Skelet people = (Skelet)button.Tag;
+        //}
         private void ItemBut_Click(object sender, RoutedEventArgs e)
         {
             Button item = (Button)sender;

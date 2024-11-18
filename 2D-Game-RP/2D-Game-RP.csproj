@@ -210,7 +210,6 @@
     <Resource Include="gamedata\levels\Earth Electr.txt" />
     <Resource Include="gamedata\levels\Earth Hab.txt" />
     <Resource Include="gamedata\levels\Earth Zavod.txt" />
-    <Resource Include="gamedata\scripts\Name Phrases.txt" />
     <Resource Include="gamedata\scripts\Name Tasks.txt" />
     <Resource Include="gamedata\scripts\Список фраз.txt" />
     <Resource Include="gamedata\textures\icon.png" />
@@ -398,6 +397,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\System\Dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\scripts\Phrases_randStalker.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

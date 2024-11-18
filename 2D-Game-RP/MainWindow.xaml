@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Game_STALKER_Exclusion_Zone"
         mc:Ignorable="d"
-        Title="Game STALKER" WindowState="Maximized" Height="720" Width="1280" Icon="gamedata\textures\icon.png" KeyUp="Window_KeyUp">
+        Title="Game STALKER" WindowState="Maximized" Height="Auto" Width="Auto" Icon="gamedata\textures\icon.png" KeyUp="Window_KeyUp">
 
     <Viewbox>        <!--Stretch="Uniform"-->
         <Grid>

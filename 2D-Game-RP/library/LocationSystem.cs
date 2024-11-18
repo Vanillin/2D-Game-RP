@@ -87,7 +87,7 @@ namespace TwoD_Game_RP
         }
         public Skelet FindLives(int heightInd, int weightInd)
         {
-            return lives.Find(x => x.Cord == new GamePoint(heightInd, weightInd));
+            return lives.Find(x => x.Cord.CompareTo((heightInd, weightInd))==0);
         }
         public void MoveLivesWithCell(Skelet skelet, GamePoint newPoint)
         {

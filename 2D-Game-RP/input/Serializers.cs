@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Security.Cryptography;
 using System.Windows.Input;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -13,19 +14,18 @@ namespace TwoD_Game_RP
         public static List<string> Blocks = new List<string> { "Wall", "Window"};  //{ "д", "о", "с", "у", "ф", "я"};
         public static List<string> NotWatch = new List<string> { "Wall" };  //{ "д", "к", "с", "ю", "я" };
 
-        public List<string> NameRandom = new List<string>
-        {
-            "Петя", "Колян", "Митя", "Дэн", "Витя", "Гога",
-            "Петя", "Колян", "Митя", "Дэн", "Витя", "Гога"
-        };
-        public List<string> NicknameRandom = new List<string>
-        {
-            "Тухлый", "Трезвый", "Лопух", "Шустрый", "Крематорий",
-            "Пёс", "Повар", "Лимон", "Табуретка", "Снайпер", "Козырь"
-        };
+        //public List<string> NameRandom = new List<string>
+        //{
+        //    "Петя", "Колян", "Митя", "Дэн", "Витя", "Гога",
+        //    "Петя", "Колян", "Митя", "Дэн", "Витя", "Гога"
+        //};
+        //public List<string> NicknameRandom = new List<string>
+        //{
+        //    "Тухлый", "Трезвый", "Лопух", "Шустрый", "Крематорий",
+        //    "Пёс", "Повар", "Лимон", "Табуретка", "Снайпер", "Козырь"
+        //};
 
         public static Task[] TasksInGame = ReadTasks("Name Tasks");
-        public Phrase[] PhraseInGame = ReadPhrases("Name Phrases");
 
         public static Task FindTask(string Systemname)
         {
@@ -71,7 +71,10 @@ namespace TwoD_Game_RP
             }
             return Garden;
         }
-
+        public static Phrase[] GetPhrase(string sstemnameDialogPerson)
+        {
+            return ReadPhrases($"Phrases_{sstemnameDialogPerson}");
+        }
         private static Task[] ReadTasks(string nameTask)
         {
             Task[] tas;
@@ -124,18 +127,31 @@ namespace TwoD_Game_RP
         }
         public static void Serialization()
         {
-            ReadLocation rl = new ReadLocation();
-            rl.height = 5;
-            rl.wight = 3;
-            rl.location = new string[] { "abc", "abc", "abc", "abc", "abc" };
-            rl.description = new List<(string, string)> { ("a", "aaa"), ("b", "aaa"), ("c", "aaa") };
-            rl.rotation = new List<string> { "111", "222" };
+            Phrase rl = new Phrase();
+            rl.Index = "Ind";
+            rl.Dialog = "Dia";
+            rl.NextIndexes = new List<string>() { "Ind1", "Ind2" };
+
+            Phrase[] phrases = new Phrase[] { rl };
 
             using (var file = new FileStream("serialization.txt", FileMode.Create))
             {
-                var xml = new XmlSerializer(typeof(ReadLocation));
-                xml.Serialize(file, rl);
+                var xml = new XmlSerializer(typeof(Phrase[]), new Type[] { typeof(Phrase) });
+                xml.Serialize(file, phrases);
             }
+
+            //ReadLocation rl = new ReadLocation();
+            //rl.height = 5;
+            //rl.wight = 3;
+            //rl.location = new string[] { "abc", "abc", "abc", "abc", "abc" };
+            //rl.description = new List<(string, string)> { ("a", "aaa"), ("b", "aaa"), ("c", "aaa") };
+            //rl.rotation = new List<string> { "111", "222" };
+
+            //using (var file = new FileStream("serialization.txt", FileMode.Create))
+            //{
+            //    var xml = new XmlSerializer(typeof(ReadLocation));
+            //    xml.Serialize(file, rl);
+            //}
         }
     }
     public class ReadLocation

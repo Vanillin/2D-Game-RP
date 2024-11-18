@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<ArrayOfPhrase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Phrase>
+    <Index>start</Index>
+    <Dialog>ЭЭЭЭЭЭЭЭЭЭ</Dialog>
+    <NextIndexes>
+      <string>player</string>
+      <string>player2</string>
+    </NextIndexes>
+  </Phrase>
+  <Phrase>
+    <Index>Ind</Index>
+    <Dialog>Ой что это я</Dialog>
+    <NextIndexes>
+      <string>player</string>
+      <string>player2</string>
+    </NextIndexes>
+  </Phrase>
+  <Phrase>
+    <Index>player</Index>
+    <Dialog>Привет</Dialog>
+    <NextIndexes>
+      <string>Ind</string>
+    </NextIndexes>
+  </Phrase>
+  <Phrase>
+    <Index>player2</Index>
+    <Dialog>ЭЭЭЭЭЭ??</Dialog>
+    <NextIndexes>
+      <string>start</string>
+    </NextIndexes>
+  </Phrase>
+</ArrayOfPhrase>

@@ -542,7 +542,7 @@ namespace TwoD_Game_RP
             return null;
         }
     }
-    public class GamePoint : IComparable<GamePoint>
+    public class GamePoint : IComparable<GamePoint>, IComparable<(int X, int Y)>
     {
         public int X;
         public int Y;
@@ -553,6 +553,10 @@ namespace TwoD_Game_RP
         }
 
         public int CompareTo(GamePoint other)
+        {
+            return CompareTo((other.X, other.Y));
+        }
+        public int CompareTo((int X, int Y) other)
         {
             if (X.CompareTo(other.X) < 0)
             {
