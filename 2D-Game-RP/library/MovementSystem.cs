@@ -435,6 +435,12 @@ namespace TwoD_Game_RP
                 {
                     if (!retur.Contains(p))
                     {
+                        if (p.X == 12 && (p.Y == 1 || p.Y == 0))
+                        {
+                            int g = 76;
+                        }
+
+
                         if (CalculateLen(start, p) > count)
                         {
                             continue;
@@ -484,7 +490,7 @@ namespace TwoD_Game_RP
                         double MaxNewAngle = Angles.Max();
                         double MinNewAngle = Angles.Min();
 
-                        if (Math.Atan2(CurX, CurY) == Math.PI)
+                        if (CurX == 0 && CurY < 0) // Math.Atan2(CurX, CurY) == Math.PI)
                         {
                             if (KeyPI)
                             {
