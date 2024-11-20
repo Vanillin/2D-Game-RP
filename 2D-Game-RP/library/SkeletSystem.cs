@@ -16,6 +16,7 @@ namespace TwoD_Game_RP
         Naemnik,
         Mutant,
         Box,
+        Door,
     }
     public enum NPSIntellect
     {
@@ -38,13 +39,12 @@ namespace TwoD_Game_RP
             else if (Fraction is NPSGroup.Mutant) return "Мутант";
             else return "";
         }
-        private Gun Gun;
-        public Gun GunInf() { return Gun; }
-        private Cloth Cloth;
-        public Cloth ClothIng() { return Cloth; }
+        public Gun Gun;
+        public Cloth Cloth;
         public NPSIntellect Intellect;
         public GamePoint Cord;
         public bool IsAlive;
+        public bool IsClarity;
         public readonly string SystemName;
         private int Health;
         public int MaxHealth;
@@ -127,8 +127,8 @@ namespace TwoD_Game_RP
             Cloth = cloth;
             Fraction = Cloth.FractionCloth;
         }
-        public Skelet(string name, string secondname, NPSGroup fraction, Gun gun, NPSIntellect intellect, GamePoint coord,
-            Cloth cloth, string systemname, int money, List<Item> inventoryList, List<NPSGroup> friendFranction, int maxHealth)
+        public Skelet(string name, string secondname, NPSGroup fraction, Gun gun, NPSIntellect intellect, GamePoint coord, char rotate,
+            Cloth cloth, string systemname, int money, List<Item> inventoryList, List<NPSGroup> friendFranction, int maxHealth, bool isClarity)
         {
             this.Name = name;
             this.SecondName = secondname;
@@ -144,6 +144,7 @@ namespace TwoD_Game_RP
             this.Money = money;
             this.InventoryList = Inventory.Creating(7, 4, inventoryList);
             this.InventoryDisplay = new DBDisplay();
+            this.IsClarity = isClarity;
             ListLocationCell[,] cell = new ListLocationCell[7, 4];
             for ( int i = 0; i< 7; i++)
             {
@@ -157,6 +158,12 @@ namespace TwoD_Game_RP
             this.FriendFranction = friendFranction;
             this.MaxHealth = maxHealth;
             picture = new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{SystemName}-map.png"));
+            switch (rotate)
+            {
+                case '1': picture.Rotate90 = true; break;
+                case '2': picture.Rotate180 = true; break;
+                case '3': picture.Rotate270 = true; break;
+            }
 
             GlobalActions = new BilateralQueue<IAction>();
             Actions = new BilateralQueue<IAction>();

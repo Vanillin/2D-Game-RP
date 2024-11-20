@@ -53,7 +53,7 @@ namespace TwoD_Game_RP
             pixelSizeInvent = Math.Min(InventoryPlayer.ActualHeight / (sizeInventH + 2), InventoryPlayer.ActualWidth / (sizeInventW + 2));
         }
 
-        int x = 12;
+        int x = 14;
         int y = 8;
         public MainWindow()
         {
@@ -115,9 +115,15 @@ namespace TwoD_Game_RP
             if (ToSeePlayer)
             {
                 ChangeSizeGamePole(oblwatch * 2 + 1, oblwatch * 2 + 1, player.Cord);
-                var OblSee = CurrentLocation.GrafLocToWatch.SearchSeeInCircleWithBlocks(player.Cord, oblsee,
+                SortedEnum<GamePoint> deleted = new SortedEnum<GamePoint>();
+                foreach (var v in CurrentLocation.GetLives())
+                {
+                    if (!v.IsClarity) deleted.Add(v.Cord);
+                }
+                var OblSee = CurrentLocation.GrafLocToWatch.SearchSeeInCircleWithBlocksWithousSomePoint(player.Cord, oblsee,
                     Math.Max((int)player.Cord.X - oblsee, 0), Math.Max((int)player.Cord.Y - oblsee, 0),
-                    Math.Min((int)player.Cord.X + oblsee + 1, CurrentLocation.Height), Math.Min((int)player.Cord.Y + oblsee + 1, CurrentLocation.Width));
+                    Math.Min((int)player.Cord.X + oblsee + 1, CurrentLocation.Height), Math.Min((int)player.Cord.Y + oblsee + 1, CurrentLocation.Width),
+                    deleted);
                 var OblWatch = CurrentLocation.GrafLocToWatch.SearchSeeInCircle(player.Cord, oblwatch,
                     Math.Max((int)player.Cord.X - oblwatch, 0), Math.Max((int)player.Cord.Y - oblwatch, 0),
                     Math.Min((int)player.Cord.X + oblwatch + 1, CurrentLocation.Height), Math.Min((int)player.Cord.Y + oblwatch + 1, CurrentLocation.Width));
@@ -203,6 +209,14 @@ namespace TwoD_Game_RP
 
                 StalkerSmall stalker2 = new StalkerSmall("Зависший", "ф", null, NPSIntellect.StandAgressive, p2, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
                 CurrentLocation.AddLivesWithCell(stalker2);
+
+                CurrentLocation.AddLivesWithCell(new Door(new GamePoint(4, 14), '0'));
+                CurrentLocation.AddLivesWithCell(new Door(new GamePoint(5, 9), '0'));
+                CurrentLocation.AddLivesWithCell(new Door(new GamePoint(7, 11), '1'));
+                CurrentLocation.AddLivesWithCell(new Door(new GamePoint(9, 9), '0'));
+                CurrentLocation.AddLivesWithCell(new Door(new GamePoint(16, 8), '0'));
+                CurrentLocation.AddLivesWithCell(new Door(new GamePoint(14, 15), '0'));
+                CurrentLocation.AddLivesWithCell(new Door(new GamePoint(16, 17), '1'));
             }
             ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
             //pixelSize = Math.Min( Map.Height / (CurrentLocation.Height + 2) , Map.Width / (CurrentLocation.Width + 2));
@@ -225,16 +239,16 @@ namespace TwoD_Game_RP
             //HealthPlayer.Value = player.HealthInf();
             //MoneyPlayer.Content = $"Деньги: {player.Money}";
 
-            Image imageArmorPlayer = new Image()
-            {
-                Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"],
-                    $"{player.ClothIng().SystemName}.png"), UriKind.Relative)),
-            };
-            Image imageGunPlayer = new Image()
-            {
-                Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"],
-                    $"{player.GunInf().SystemName}.png"), UriKind.Relative)),
-            };
+            //Image imageArmorPlayer = new Image()
+            //{
+            //    Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"],
+            //        $"{player.ClothIng().SystemName}.png"), UriKind.Relative)),
+            //};
+            //Image imageGunPlayer = new Image()
+            //{
+            //    Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"],
+            //        $"{player.GunInf().SystemName}.png"), UriKind.Relative)),
+            //};
             //ArmorPlayer.Content = imageArmorPlayer;
             //GunPlayer.Content = imageGunPlayer;
             CreateAndReloadInventory();
@@ -450,18 +464,51 @@ namespace TwoD_Game_RP
             (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X);
             if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
             Skelet people = CurrentLocation.FindLives(H, W);
-            if (people != null && !(people is Player))
+            if (people == null) return;
+            if (people is Door)
+            {
+                ClickOnDoor(people);
+            }
+            else if (!(people is Player))
             {
                 ClickOnSkelet(people);
             }
+        }
+        private void ClickOnDoor(Skelet door)
+        {
+            bool ShelterKey = false; //(CurrentLocation.GetIsWatchCell((int)people.Cord.X, (int)people.Cord.Y));
+
+            StackPanel menu = new StackPanel();
+            Canvas.SetLeft(menu, pixelSizeGamePole + pixelSizeGamePole * (door.Cord.Y + 1 - LeftUpCorner.Y));
+            Canvas.SetTop(menu, pixelSizeGamePole + pixelSizeGamePole * (door.Cord.X - LeftUpCorner.X));
+
+            Button Open = new Button()
+            {
+                Content = "Открыть",
+                Opacity = 0.6,
+                FontSize = 10,
+            };
+            Open.Click += MenuDoorOpen_Click;
+            Open.Tag = door;
+
+            double dx = Math.Abs(door.Cord.X - player.Cord.X);
+            double dy = Math.Abs(door.Cord.Y - player.Cord.Y);
+            bool Near = (dx <= 2 && dy <= 1) || (dx <= 1 && dy <= 2);
+            if (ShelterKey || !Near)
+            {
+                Open.IsEnabled = false;
+            }
+            menu.Children.Add(Open);
+            SystemObj.Add(menu);
+
         }
         private void ClickOnSkelet(Skelet people)
         {
             bool ShelterKey = false; //(CurrentLocation.GetIsWatchCell((int)people.Cord.X, (int)people.Cord.Y));
 
             StackPanel menu = new StackPanel();
-            Canvas.SetLeft(menu, pixelSizeGamePole + pixelSizeGamePole * (people.Cord.Y + 1));
-            Canvas.SetTop(menu, pixelSizeGamePole + pixelSizeGamePole * people.Cord.X);
+            Canvas.SetLeft(menu, pixelSizeGamePole + pixelSizeGamePole * (people.Cord.Y + 1 - LeftUpCorner.Y));
+            Canvas.SetTop(menu, pixelSizeGamePole + pixelSizeGamePole * (people.Cord.X - LeftUpCorner.X));
 
             //Button Information = new Button()
             //{
@@ -512,6 +559,12 @@ namespace TwoD_Game_RP
             }
             SystemObj.Add(menu);
 
+        }
+        private void MenuDoorOpen_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            Skelet door = (Skelet)button.Tag;
+            CurrentLocation.RemoveLivesWithCell(door);
         }
         //private void MenuPersonCheck_Click(object sender, RoutedEventArgs e)
         //{

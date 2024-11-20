@@ -22,17 +22,11 @@ namespace TwoD_Game_RP
 
 
         public Player(string name, PlayerGender gender, GamePoint coord, Gun gun, Cloth cloth, int money, List<Item> inventoryList, List<NPSGroup> friends) :
-            base(name, "", NPSGroup.Stalker, gun, NPSIntellect.Non, coord, cloth, "Player" + gender, money, inventoryList, friends, 20000) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            base(name, "", NPSGroup.Stalker, gun, NPSIntellect.Non, coord, '0', cloth, "Player" + gender, money, inventoryList, friends, 20000, true) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         {
             this.Kills = 0;
             this.Gender = gender;
         }
-    }
-    public class SkeletBox : Skelet
-    {
-        public SkeletBox(string name, string systemname, GamePoint coord, int money, List<Item> inventoryList) :
-            base(name, "", NPSGroup.Box, null, NPSIntellect.Non, coord, null, systemname, money, inventoryList, null, 100)
-        { }
     }
 }
 

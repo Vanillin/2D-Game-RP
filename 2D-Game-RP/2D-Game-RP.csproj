@@ -293,7 +293,7 @@
     <Resource Include="gamedata\textures\player\StalkerSmall-mapdead.png" />
     <Resource Include="gamedata\textures\player\StalkerSmall.png" />
     <Resource Include="gamedata\textures\player\StalkerZelen-map.png" />
-    <Resource Include="gamedata\textures\player\StalkerZelen-mapdead.png.png" />
+    <Resource Include="gamedata\textures\player\StalkerZelen-mapdead.png" />
     <Resource Include="gamedata\textures\player\StalkerZelen.png" />
     <Resource Include="gamedata\textures\Оригиналы текстур\1.png" />
     <Resource Include="gamedata\textures\Оригиналы текстур\13.png" />
@@ -400,6 +400,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\scripts\Phrases_randStalker.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\player\woodZaborDoorSkelet-map.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

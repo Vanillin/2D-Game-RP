@@ -410,6 +410,10 @@ namespace TwoD_Game_RP
         }
         public SortedEnum<GamePoint> SearchSeeInCircleWithBlocks(GamePoint start, int count, int minX, int minY, int maxX, int maxY)
         {
+            return SearchSeeInCircleWithBlocksWithousSomePoint(start, count, minX, minY, maxX, maxY, new SortedEnum<GamePoint>());
+        }
+        public SortedEnum<GamePoint> SearchSeeInCircleWithBlocksWithousSomePoint(GamePoint start, int count, int minX, int minY, int maxX, int maxY, SortedEnum<GamePoint> deletedpoints)
+        {
             SortedEnum<GamePoint> retur = new SortedEnum<GamePoint>();
             GamePoint startVert = Find(start).Cord;
 
@@ -435,12 +439,6 @@ namespace TwoD_Game_RP
                 {
                     if (!retur.Contains(p))
                     {
-                        if (p.X == 12 && (p.Y == 1 || p.Y == 0))
-                        {
-                            int g = 76;
-                        }
-
-
                         if (CalculateLen(start, p) > count)
                         {
                             continue;
@@ -476,7 +474,7 @@ namespace TwoD_Game_RP
 
                         if (FinalKey) //добавляет все видимые точки
                         {
-                            if (this.Vertexes.Find(X => X.Cord.CompareTo(p)==0) != null)
+                            if (this.Vertexes.Find(X => X.Cord.CompareTo(p)==0) != null && !deletedpoints.Contains(p))
                             {
                                 //Length.Add(p, Length[Now] + 1);
                                 Que.Enqueue(p);
