@@ -14,34 +14,48 @@ namespace TwoD_Game_RP
     /// </summary>
     public partial class DialogWindow : Window
     {
-        Dictionary<string, Phrase> Phrase;
+        Dictionary<Skelet, Dictionary<string, Phrase>> AllPhrases;
         Player Player;
         Skelet Person;
         StackPanel DialogBtn;
 
         public DialogWindow(Player Player, Skelet Person)
         {
-            Phrase = new Dictionary<string, Phrase>();
+            AllPhrases = new Dictionary<Skelet, Dictionary<string, Phrase>>(2);
+
+            var personPhrases = new Dictionary<string, Phrase>();
             foreach (Phrase phrase in Information.GetPhrase("randStalker"))
             {
-                Phrase.Add(phrase.Index, phrase);
+                personPhrases.Add(phrase.Index, phrase);
             }
-            this.Player = Player;
+            AllPhrases.Add(Person, personPhrases);
             this.Person = Person;
+
+            var playerPhrases = new Dictionary<string, Phrase>();
+            foreach (Phrase phrase in Information.GetPhrase("player"))
+            {
+                playerPhrases.Add(phrase.Index, phrase);
+            }
+            AllPhrases.Add(Player, playerPhrases);
+            this.Player = Player;
+
             this.DialogBtn = new StackPanel();
             InitializeComponent();
 
             CreatePersones(Player);
             CreatePersones(Person);
             //Player.DisplayInventory(InventoryPlayer, 20);
-            CreateDialog("start");
+            CreateDialog("startTestDialog");
         }
-        private void CreateDialog(string index)
+        private void ClearDialog()
         {
             DialogWin.Children.Remove(DialogBtn);
             DialogBtn.Children.Clear();
-            AddDialog(Phrase[index].Dialog, "l");
-            foreach(var v in Phrase[index].NextIndexes)
+        }
+        private void CreateDialog(string index)
+        {
+            AddDialog(AllPhrases[Person][index].Dialog, "l");
+            foreach(var v in AllPhrases[Person][index].NextIndexes)
             {
                 AddButton(v);
             }
@@ -58,12 +72,13 @@ namespace TwoD_Game_RP
                 }
             }
             string index = ((Button)sender).Tag.ToString();
-            AddDialog(Phrase[index].Dialog, "r");
-            if (Phrase[index].NextIndexes.Count != 1)
+            AddDialog(AllPhrases[Player][index].Dialog, "r");
+            ClearDialog();
+            if (AllPhrases[Player][index].NextIndexes.Count == 1)
             {
-                throw new Exception("У фразы игрока должен быть только один последующий индекс диалога");
+                CreateDialog(AllPhrases[Player][index].NextIndexes[0]);
             }
-            CreateDialog(Phrase[index].NextIndexes[0]);
+            //throw new Exception("У фразы игрока должен быть только один последующий индекс диалога");
         }
         private void CreatePersones(Skelet skelet)
         {
@@ -99,7 +114,7 @@ namespace TwoD_Game_RP
             Button b = new Button()
             {
                 Tag = index,
-                Content = Phrase[index].Dialog,
+                Content = AllPhrases[Player][index].Dialog,
                 FontSize = 20,
                 Margin = new Thickness(0, 2, 0, 2),
             };

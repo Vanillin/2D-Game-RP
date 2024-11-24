@@ -1,33 +1,25 @@
 <?xml version="1.0"?>
 <ArrayOfPhrase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Phrase>
-    <Index>start</Index>
-    <Dialog>ЭЭЭЭЭЭЭЭЭЭ</Dialog>
+    <Index>startTestDialog</Index>
+    <Dialog>СтартТестДиалог</Dialog>
     <NextIndexes>
-      <string>player</string>
-      <string>player2</string>
+      <string>startPlayerDialog1</string>
+      <string>startPlayerDialog2</string>
     </NextIndexes>
   </Phrase>
   <Phrase>
-    <Index>Ind</Index>
-    <Dialog>Ой что это я</Dialog>
+    <Index>endTestDialog1</Index>
+    <Dialog>КонецТестДиалог1</Dialog>
     <NextIndexes>
-      <string>player</string>
-      <string>player2</string>
+      <string>endPlayerDialog</string>
     </NextIndexes>
   </Phrase>
   <Phrase>
-    <Index>player</Index>
-    <Dialog>Привет</Dialog>
+    <Index>endTestDialog2</Index>
+    <Dialog>КонецТестДиалог2</Dialog>
     <NextIndexes>
-      <string>Ind</string>
-    </NextIndexes>
-  </Phrase>
-  <Phrase>
-    <Index>player2</Index>
-    <Dialog>ЭЭЭЭЭЭ??</Dialog>
-    <NextIndexes>
-      <string>start</string>
+      <string>endPlayerDialog</string>
     </NextIndexes>
   </Phrase>
 </ArrayOfPhrase>

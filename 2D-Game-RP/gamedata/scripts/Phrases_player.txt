@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<ArrayOfPhrase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Phrase>
+    <Index>startPlayerDialog1</Index>
+    <Dialog>СтартГеройДиалог1</Dialog>
+    <NextIndexes>
+      <string>endTestDialog1</string>
+    </NextIndexes>
+  </Phrase>
+  <Phrase>
+    <Index>startPlayerDialog2</Index>
+    <Dialog>СтартГеройДиалог2</Dialog>
+    <NextIndexes>
+      <string>endTestDialog2</string>
+    </NextIndexes>
+  </Phrase>
+  <Phrase>
+    <Index>endPlayerDialog</Index>
+    <Dialog>КонецГеройДиалог</Dialog>
+    <NextIndexes>
+    </NextIndexes>
+  </Phrase>
+</ArrayOfPhrase>
