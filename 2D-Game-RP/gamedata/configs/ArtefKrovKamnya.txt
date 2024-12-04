@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<ArtefKrovKamnya xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Cost>5000</Cost>
-  <Healthing>100</Healthing>
-</ArtefKrovKamnya>

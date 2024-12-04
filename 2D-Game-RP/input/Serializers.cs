@@ -67,6 +67,14 @@ namespace TwoD_Game_RP
                 Garden.CreateGrafWatch();
                 Garden.CreateGrafMove();
                 Garden.CreateGrafAll();
+
+                Garden.AddBoxOrAnomalyWithCell(new Door(new GamePoint(4, 14), '0'));
+                Garden.AddBoxOrAnomalyWithCell(new Door(new GamePoint(5, 9), '0'));
+                Garden.AddBoxOrAnomalyWithCell(new Door(new GamePoint(7, 11), '1'));
+                Garden.AddBoxOrAnomalyWithCell(new Door(new GamePoint(9, 9), '0'));
+                Garden.AddBoxOrAnomalyWithCell(new Door(new GamePoint(14, 15), '0'));
+                Garden.AddBoxOrAnomalyWithCell(new Door(new GamePoint(16, 17), '1'));
+
                 Garden.UpdateDisplay();
             }
             return Garden;

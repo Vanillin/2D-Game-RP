@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<CombezStalker xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Armor>0.85</Armor>
-  <FractionCloth>Stalker</FractionCloth>
-</CombezStalker>

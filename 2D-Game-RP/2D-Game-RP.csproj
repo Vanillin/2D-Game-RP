@@ -92,6 +92,7 @@
     <Compile Include="library\DisplaySystem.cs" />
     <Compile Include="library\InventorySystem.cs" />
     <Compile Include="library\ItemSystem.cs" />
+    <Compile Include="library\LocationCellSystem.cs" />
     <Compile Include="library\PicturesSystem.cs" />
     <Compile Include="library\PlayerSystem.cs" />
     <Compile Include="library\LocationSystem.cs" />
@@ -193,43 +194,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\configs\AidFirstKid.txt" />
-    <Resource Include="gamedata\configs\Ak74ukorot.txt" />
-    <Resource Include="gamedata\configs\ArtefKrovKamnya.txt" />
-    <Resource Include="gamedata\configs\Clutch.txt" />
-    <Resource Include="gamedata\configs\CombezNaemnik.txt" />
-    <Resource Include="gamedata\configs\CombezStalker.txt" />
-    <Resource Include="gamedata\configs\KurtkaStalker.txt" />
-    <Resource Include="gamedata\configs\Toz34.txt" />
-    <Resource Include="gamedata\configs\ВСЁ ЭТО НЕ ИСПОЛЬЗУЕТСЯ.txt" />
-    <Resource Include="gamedata\levels\Air Boloto.txt" />
-    <Resource Include="gamedata\levels\Air Electr.txt" />
-    <Resource Include="gamedata\levels\Air Hab.txt" />
-    <Resource Include="gamedata\levels\Air Zavod.txt" />
-    <Resource Include="gamedata\levels\Earth Boloto.txt" />
-    <Resource Include="gamedata\levels\Earth Electr.txt" />
-    <Resource Include="gamedata\levels\Earth Hab.txt" />
-    <Resource Include="gamedata\levels\Earth Zavod.txt" />
     <Resource Include="gamedata\scripts\Name Tasks.txt" />
-    <Resource Include="gamedata\scripts\Список фраз.txt" />
     <Resource Include="gamedata\textures\icon.png" />
-    <Resource Include="gamedata\textures\items\AidFirstKid.png" />
-    <Resource Include="gamedata\textures\items\Ak74ukorot.png" />
-    <Resource Include="gamedata\textures\items\ArmyAidFirstKid.png" />
-    <Resource Include="gamedata\textures\items\ArtZabiiPuzir.png" />
-    <Resource Include="gamedata\textures\items\Banknote.png" />
-    <Resource Include="gamedata\textures\items\Bread.png" />
-    <Resource Include="gamedata\textures\items\CombezNaemnik.png" />
-    <Resource Include="gamedata\textures\items\CombezStalker.png" />
     <Resource Include="gamedata\textures\items\emptyitem.png" />
-    <Resource Include="gamedata\textures\items\ExoCombezNaemnik.png" />
-    <Resource Include="gamedata\textures\items\KurtkaStalker.png" />
-    <Resource Include="gamedata\textures\items\KvestGun.png" />
-    <Resource Include="gamedata\textures\items\MP5.png" />
-    <Resource Include="gamedata\textures\items\MutantSkin.png" />
-    <Resource Include="gamedata\textures\items\Stew.png" />
-    <Resource Include="gamedata\textures\items\TailDog.png" />
-    <Resource Include="gamedata\textures\items\Toz34.png" />
     <Resource Include="gamedata\textures\kvest.png" />
     <Resource Include="gamedata\textures\map.png" />
     <Resource Include="gamedata\textures\map\1.png" />
@@ -265,70 +232,6 @@
     <Resource Include="gamedata\textures\map\ю1_Пристань чистая.png" />
     <Resource Include="gamedata\textures\map\я.png" />
     <Resource Include="gamedata\textures\menu.png" />
-    <Resource Include="gamedata\textures\player\Bag-map.png" />
-    <Resource Include="gamedata\textures\player\Box-map.png" />
-    <Resource Include="gamedata\textures\player\DealerBoris-map.png" />
-    <Resource Include="gamedata\textures\player\DealerBoris-mapdead.png" />
-    <Resource Include="gamedata\textures\player\DealerBoris.png" />
-    <Resource Include="gamedata\textures\player\MutantCrovosos-map.png" />
-    <Resource Include="gamedata\textures\player\MutantCrovosos-mapdead.png" />
-    <Resource Include="gamedata\textures\player\MutantSobaka-map.png" />
-    <Resource Include="gamedata\textures\player\MutantSobaka-mapdead.png" />
-    <Resource Include="gamedata\textures\player\NaemnikHard-map.png" />
-    <Resource Include="gamedata\textures\player\NaemnikHard-mapdead.png" />
-    <Resource Include="gamedata\textures\player\NaemnikHard.png" />
-    <Resource Include="gamedata\textures\player\NaemnikMedium-map.png" />
-    <Resource Include="gamedata\textures\player\NaemnikMedium-mapdead.png" />
-    <Resource Include="gamedata\textures\player\NaemnikMedium.png" />
-    <Resource Include="gamedata\textures\player\PlayerMan-map.png" />
-    <Resource Include="gamedata\textures\player\PlayerMan-mapdead.png" />
-    <Resource Include="gamedata\textures\player\PlayerMan.png" />
-    <Resource Include="gamedata\textures\player\PlayerWoman-map.png" />
-    <Resource Include="gamedata\textures\player\PlayerWoman-mapdead.png" />
-    <Resource Include="gamedata\textures\player\PlayerWoman.png" />
-    <Resource Include="gamedata\textures\player\StalkerMedium-map.png" />
-    <Resource Include="gamedata\textures\player\StalkerMedium-mapdead.png" />
-    <Resource Include="gamedata\textures\player\StalkerMedium.png" />
-    <Resource Include="gamedata\textures\player\StalkerSmall-map.png" />
-    <Resource Include="gamedata\textures\player\StalkerSmall-mapdead.png" />
-    <Resource Include="gamedata\textures\player\StalkerSmall.png" />
-    <Resource Include="gamedata\textures\player\StalkerZelen-map.png" />
-    <Resource Include="gamedata\textures\player\StalkerZelen-mapdead.png" />
-    <Resource Include="gamedata\textures\player\StalkerZelen.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\1.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\13.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\14.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\15.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\16.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\1625646548_14-phonoteka-org-p-stalker-novichok-art-krasivo-16.jpg" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\1625650871_63-phonoteka-org-p-stalker-nayomniki-art-krasivo-63.jpg" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\1626121691_18-kartinkin-com-p-krovosos-stalker-kontsept-art-art-krasivo-20.jpg" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\1626121765_24-kartinkin-com-p-krovosos-stalker-kontsept-art-art-krasivo-26.jpg" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\1638966785_32-abrakadabra-fun-p-stalker-novichok-art-33.jpg" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\1638966830_14-abrakadabra-fun-p-stalker-novichok-art-14.jpg" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\1638966861_27-abrakadabra-fun-p-stalker-novichok-art-27.jpg" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\1638966864_5-abrakadabra-fun-p-stalker-novichok-art-5.jpg" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\17.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\18.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\19.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\2.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\20.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\21.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\22.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\24.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\26.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\26514_m.jpg" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\28.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\2Rgt5JU8UzE.jpg" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\5.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\6.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\7.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\8.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\9.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113532.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113750.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113817.png" />
-    <Resource Include="gamedata\textures\Оригиналы текстур\Снимок экрана 2023-06-17 113953.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\г.png" />
@@ -403,6 +306,45 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\player\woodZaborDoorSkelet-map.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\scripts\Phrases_Hero.txt" />
+    <Resource Include="gamedata\scripts\Phrases_Kristina.txt" />
+    <Resource Include="gamedata\scripts\Phrases_Maksim.txt" />
+    <Resource Include="gamedata\scripts\Phrases_Nura.txt" />
+    <Resource Include="gamedata\scripts\Phrases_player.txt" />
+    <Resource Include="gamedata\scripts\Phrases_RandPerson.txt" />
+    <Resource Include="gamedata\scripts\Phrases_Vanya.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\items\gun.png" />
+    <Resource Include="gamedata\textures\items\item.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\player\kristina-map.png" />
+    <Resource Include="gamedata\textures\player\kristina.png" />
+    <Resource Include="gamedata\textures\player\maksim-map.png" />
+    <Resource Include="gamedata\textures\player\maksim.png" />
+    <Resource Include="gamedata\textures\player\nura-map.png" />
+    <Resource Include="gamedata\textures\player\nura.png" />
+    <Resource Include="gamedata\textures\player\player-map.png" />
+    <Resource Include="gamedata\textures\player\player.png" />
+    <Resource Include="gamedata\textures\player\random-map.png" />
+    <Resource Include="gamedata\textures\player\random.png" />
+    <Resource Include="gamedata\textures\player\test-map.png" />
+    <Resource Include="gamedata\textures\player\test.png" />
+    <Resource Include="gamedata\textures\player\vanya-map.png" />
+    <Resource Include="gamedata\textures\player\vanya.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="gamedata\configs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\levels\GardenFloors.txt" />
+    <Resource Include="gamedata\levels\GardenFloors2.txt" />
+    <Resource Include="gamedata\levels\GardenFloors3.txt" />
+    <Resource Include="gamedata\levels\GardenLayer4.txt" />
+    <Resource Include="gamedata\levels\GardenWalls.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

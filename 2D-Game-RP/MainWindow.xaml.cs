@@ -66,7 +66,7 @@ namespace TwoD_Game_RP
             timerReloadAnimation.Tick += TimerAnimation_Tick;
             timerReloadAnimation.IsEnabled = true;
 
-            AddInformationPlayer("Герой", PlayerGender.Man, x, y, new Toz34(), new KurtkaStalker(), 1300, new List<Item>()
+            AddInformationPlayer("Герой", PlayerGender.Man, x, y, null,null, 1300, new List<Item>()
                 );
             player.Tasks.Add(Information.FindTask("ГлавныйКвест"));
             player.Tasks.Add(Information.FindTask("СпроситьСталкеров"));
@@ -85,7 +85,7 @@ namespace TwoD_Game_RP
             timerReloadAnimation.Tick += TimerAnimation_Tick;
             timerReloadAnimation.IsEnabled = true;
 
-            AddInformationPlayer(PlayerName, Gender, x, y, new Toz34(), new KurtkaStalker(), 1300, new List<Item>()
+            AddInformationPlayer(PlayerName, Gender, x, y, null,null, 1300, new List<Item>()
                 );
             player.Tasks.Add(Information.FindTask("ГлавныйКвест"));
             player.Tasks.Add(Information.FindTask("СпроситьСталкеров"));
@@ -198,7 +198,7 @@ namespace TwoD_Game_RP
 
                 GamePoint p = new GamePoint(12, 12);
 
-                StalkerSmall stalker = new StalkerSmall("Бегающий", "ф", null, NPSIntellect.StandAgressive, p, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
+                TestSkelet stalker = new TestSkelet("Бегающий", "ф", null, NPSIntellect.StandAgressive, p, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
                 stalker.EnqueueDownGlobalAction(new ActionMove(new GamePoint(11, 16), true));
                 stalker.EnqueueDownGlobalAction(new ActionWait(4, true));
                 stalker.EnqueueDownGlobalAction(new ActionMove(new GamePoint(12, 12), true));
@@ -207,16 +207,8 @@ namespace TwoD_Game_RP
 
                 GamePoint p2 = new GamePoint(12, 6);
 
-                StalkerSmall stalker2 = new StalkerSmall("Зависший", "ф", null, NPSIntellect.StandAgressive, p2, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
+                TestSkelet stalker2 = new TestSkelet("Зависший", "ф", null, NPSIntellect.StandAgressive, p2, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
                 CurrentLocation.AddLivesWithCell(stalker2);
-
-                CurrentLocation.AddLivesWithCell(new Door(new GamePoint(4, 14), '0'));
-                CurrentLocation.AddLivesWithCell(new Door(new GamePoint(5, 9), '0'));
-                CurrentLocation.AddLivesWithCell(new Door(new GamePoint(7, 11), '1'));
-                CurrentLocation.AddLivesWithCell(new Door(new GamePoint(9, 9), '0'));
-                CurrentLocation.AddLivesWithCell(new Door(new GamePoint(16, 8), '0'));
-                CurrentLocation.AddLivesWithCell(new Door(new GamePoint(14, 15), '0'));
-                CurrentLocation.AddLivesWithCell(new Door(new GamePoint(16, 17), '1'));
             }
             ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
             //pixelSize = Math.Min( Map.Height / (CurrentLocation.Height + 2) , Map.Width / (CurrentLocation.Width + 2));
@@ -564,7 +556,7 @@ namespace TwoD_Game_RP
         {
             Button button = (Button)sender;
             Skelet door = (Skelet)button.Tag;
-            CurrentLocation.RemoveLivesWithCell(door);
+            CurrentLocation.RemoveSkeletWithCell(door);
         }
         //private void MenuPersonCheck_Click(object sender, RoutedEventArgs e)
         //{
@@ -603,14 +595,7 @@ namespace TwoD_Game_RP
         private void ItemBut_Click(object sender, RoutedEventArgs e)
         {
             Button item = (Button)sender;
-            if (item.Tag.ToString() == new KvestGun().SystemName ||
-                item.Tag.ToString() == new MutantSkin().SystemName ||
-                item.Tag.ToString() == new TailDog().SystemName ||
-                item.Tag.ToString() == new ArtZabiiPuzir().SystemName)
-            {
-                return;
-            }
-
+            
             //foreach(Item item1 in player.InventoryList)
             //{
             //    if (item.Tag.ToString() == item1.SystemName)
