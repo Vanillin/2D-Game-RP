@@ -128,17 +128,18 @@ namespace TwoD_Game_RP
         }        
         public SortedEnum<GamePoint> SearchSee(GamePoint start, int count)
         {
+            //if (Find(start) == null)
+            //{
+            //    //throw new Exception($"В графе отсутствует точка ({start.X},{start.Y})");
+            //    return new SortedEnum<GamePoint>() { start };
+            //}
+            //GamePoint startVert = Find(start).Cord;
+
             SortedEnum<GamePoint> retur = new SortedEnum<GamePoint>();
-            GamePoint startVert = Find(start).Cord;
 
-            if (startVert == null)
-            {
-                throw new Exception($"В графе отсутствует точка ({startVert.X},{startVert.Y})");
-            }
-
-            Dictionary<GamePoint, int> Length = new Dictionary<GamePoint, int> { { startVert, 0 } };
+            Dictionary<GamePoint, int> Length = new Dictionary<GamePoint, int> { { start, 0 } };
             Queue<GamePoint> Que = new Queue<GamePoint>();
-            Que.Enqueue(startVert);
+            Que.Enqueue(start);
 
             List<double[]> SavedObject = new List<double[]>(); //0 - max //1 - min
             bool KeyPI = true;
@@ -236,18 +237,19 @@ namespace TwoD_Game_RP
         }
         public SortedEnum<GamePoint> SearchSeeWithBlocks(GamePoint start, int count, int minX, int minY, int maxX, int maxY)
         {
+            //if (Find(start) == null)
+            //{
+            //    //throw new Exception($"В графе отсутствует точка ({start.X},{start.Y})");
+            //    return new SortedEnum<GamePoint>() { start };
+            //}
+            //GamePoint startVert = Find(start).Cord;
+
             SortedEnum<GamePoint> retur = new SortedEnum<GamePoint>();
-            GamePoint startVert = Find(start).Cord;
 
-            if (startVert == null)
-            {
-                throw new Exception($"В графе отсутствует точка ({startVert.X},{startVert.Y})");
-            }
-
-            Dictionary<GamePoint, int> Length = new Dictionary<GamePoint, int> { { startVert, 0 } };
+            Dictionary<GamePoint, int> Length = new Dictionary<GamePoint, int> { { start, 0 } };
             Queue<GamePoint> Que = new Queue<GamePoint>();
-            retur.Add(startVert);
-            Que.Enqueue(startVert);
+            retur.Add(start);
+            Que.Enqueue(start);
 
             List<double[]> SavedObject = new List<double[]>(); //0 - max //1 - min
             bool KeyPI = true;
@@ -371,17 +373,18 @@ namespace TwoD_Game_RP
         }
         public SortedEnum<GamePoint> SearchSeeInCircle(GamePoint start, int count, int minX, int minY, int maxX, int maxY)
         {
-            SortedEnum<GamePoint> retur = new SortedEnum<GamePoint>();
-            GamePoint startVert = Find(start).Cord;
+            //if (Find(start) == null)
+            //{
+            //    //throw new Exception($"В графе отсутствует точка ({start.X},{start.Y})");
+            //    return new SortedEnum<GamePoint>() { start };
+            //}
+            //GamePoint startVert = Find(start).Cord;
 
-            if (startVert == null)
-            {
-                throw new Exception($"В графе отсутствует точка ({startVert.X},{startVert.Y})");
-            }
+            SortedEnum<GamePoint> retur = new SortedEnum<GamePoint>();
 
             Queue<GamePoint> Que = new Queue<GamePoint>();
-            retur.Add(startVert);
-            Que.Enqueue(startVert);
+            retur.Add(start);
+            Que.Enqueue(start);
 
             while (Que.Count > 0)
             {
@@ -414,17 +417,18 @@ namespace TwoD_Game_RP
         }
         public SortedEnum<GamePoint> SearchSeeInCircleWithBlocksWithousSomePoint(GamePoint start, int count, int minX, int minY, int maxX, int maxY, SortedEnum<GamePoint> deletedpoints)
         {
-            SortedEnum<GamePoint> retur = new SortedEnum<GamePoint>();
-            GamePoint startVert = Find(start).Cord;
+            //if (Find(start) == null)
+            //{
+            //    //throw new Exception($"В графе отсутствует точка ({start.X},{start.Y})");
+            //    return new SortedEnum<GamePoint>() { start };
+            //}
+            //GamePoint startVert = Find(start).Cord;
 
-            if (startVert == null)
-            {
-                throw new Exception($"В графе отсутствует точка ({startVert.X},{startVert.Y})");
-            }
+            SortedEnum<GamePoint> retur = new SortedEnum<GamePoint>();
 
             Queue<GamePoint> Que = new Queue<GamePoint>();
-            retur.Add(startVert);
-            Que.Enqueue(startVert);
+            retur.Add(start);
+            Que.Enqueue(start);
 
             List<double[]> SavedObject = new List<double[]>(); //0 - max //1 - min
             bool KeyPI = true;

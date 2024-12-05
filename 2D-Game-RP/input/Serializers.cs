@@ -11,8 +11,8 @@ namespace TwoD_Game_RP
 {
     public class Information
     {
-        public static List<string> Blocks = new List<string> { "Wall", "Window"};  //{ "д", "о", "с", "у", "ф", "я"};
-        public static List<string> NotWatch = new List<string> { "Wall" };  //{ "д", "к", "с", "ю", "я" };
+        public static List<string> Blocks = new List<string> { "Wall", "Window"};
+        public static List<string> NotWatch = new List<string> { "Wall", "Shrub" };
 
         //public List<string> NameRandom = new List<string>
         //{
@@ -64,7 +64,9 @@ namespace TwoD_Game_RP
                 Garden.AddLayerCells(CreateLocation("GardenFloors2"), 0);
                 Garden.AddLayerCells(CreateLocation("GardenFloors3"), 0);
                 Garden.AddLayerCells(CreateLocation("GardenWalls"), 0);
-                Garden.CreateGrafWatch();
+                Garden.AddLayerCells(CreateLocation("GardenObject1"), 0);
+                Garden.AddLayerCells(CreateLocation("GardenAir"), 3);
+                Garden.CreateGrafWatch(); 
                 Garden.CreateGrafMove();
                 Garden.CreateGrafAll();
 
