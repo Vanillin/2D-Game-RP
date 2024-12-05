@@ -95,8 +95,7 @@ namespace TwoD_Game_RP
         }
         private void AddInformationPlayer(string PlayerName, PlayerGender gender, int x, int y, Gun gun, Cloth cloth, int money, List<Item> inventory)
         {
-            player = new Player(PlayerName, gender, new GamePoint(x, y), gun, cloth, money, inventory,
-                new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
+            player = new Player(PlayerName, gender, new GamePoint(x, y), inventory);
             //PicturePlayer.Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{player.SystemName}.png"), UriKind.Relative));
         }
 
@@ -198,7 +197,7 @@ namespace TwoD_Game_RP
 
                 GamePoint p = new GamePoint(12, 12);
 
-                TestSkelet stalker = new TestSkelet("Бегающий", "ф", null, NPSIntellect.StandAgressive, p, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
+                TestSkelet stalker = new TestSkelet("Бегающий", "ф", NPSIntellect.StandAgressive, p, '0', new List<Item>());
                 stalker.EnqueueDownGlobalAction(new ActionMove(new GamePoint(11, 16), true));
                 stalker.EnqueueDownGlobalAction(new ActionWait(4, true));
                 stalker.EnqueueDownGlobalAction(new ActionMove(new GamePoint(12, 12), true));
@@ -207,8 +206,14 @@ namespace TwoD_Game_RP
 
                 GamePoint p2 = new GamePoint(12, 6);
 
-                TestSkelet stalker2 = new TestSkelet("Зависший", "ф", null, NPSIntellect.StandAgressive, p2, 0, new List<Item>(), new List<NPSGroup>() { { NPSGroup.Stalker }, { NPSGroup.Box } });
+                TestSkelet stalker2 = new TestSkelet("Зависший", "ф", NPSIntellect.StandAgressive, p2, '0', new List<Item>());
                 CurrentLocation.AddLivesWithCell(stalker2);
+
+
+                CurrentLocation.AddLivesWithCell(new Kristina(new GamePoint(6, 15), '1'));
+                CurrentLocation.AddLivesWithCell(new Maksim(new GamePoint(17, 21), '1'));
+                CurrentLocation.AddLivesWithCell(new Nura(new GamePoint(14, 0), '3'));
+                CurrentLocation.AddLivesWithCell(new Vanya(new GamePoint(19, 5), '0'));
             }
             ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
             //pixelSize = Math.Min( Map.Height / (CurrentLocation.Height + 2) , Map.Width / (CurrentLocation.Width + 2));
@@ -224,7 +229,7 @@ namespace TwoD_Game_RP
 
         private void ReloadPlayerInformation()
         {
-            if (!player.IsAlive) EndGame();
+            //if (!player.IsAlive) EndGame();
             NamePlayer.Content = $"Имя: {player.Name}";
             //FractionPlayer.Content = $"Фракция: {player.FractionString()}";
             //HealthPlayer.MaxHeight = 100;
@@ -375,25 +380,25 @@ namespace TwoD_Game_RP
             //}
         }
 
-        private Skelet CheckPlayer(Skelet Person)
-        {
-            int leng = int.MaxValue;
-            Skelet personEnemy = null;
-            Location current = CurrentLocation;
-            foreach (Skelet enemy in current.GetLives())
-            {
-                if (Person.OblSee.Contains(enemy.Cord) && (enemy.IsAlive) && (!Person.FriendFranction.Contains(enemy.FractionInf())))
-                {
-                    int between = current.GrafLocToWatch.SearchWidth(Person.Cord, enemy.Cord).Count;
-                    if (between < leng)
-                    {
-                        leng = between;
-                        personEnemy = enemy;
-                    }
-                }
-            }
-            return personEnemy;
-        }
+        //private Skelet CheckPlayer(Skelet Person)
+        //{
+        //    int leng = int.MaxValue;
+        //    Skelet personEnemy = null;
+        //    Location current = CurrentLocation;
+        //    foreach (Skelet enemy in current.GetLives())
+        //    {
+        //        if (Person.OblSee.Contains(enemy.Cord) && (enemy.IsAlive) && (!Person.FriendFranction.Contains(enemy.FractionInf())))
+        //        {
+        //            int between = current.GrafLocToWatch.SearchWidth(Person.Cord, enemy.Cord).Count;
+        //            if (between < leng)
+        //            {
+        //                leng = between;
+        //                personEnemy = enemy;
+        //            }
+        //        }
+        //    }
+        //    return personEnemy;
+        //}
 
         //-------------------------------------------------------------------------------Click
 
@@ -535,11 +540,11 @@ namespace TwoD_Game_RP
                 //Check.IsEnabled = false;
                 Dialog.IsEnabled = false;
             }
-            if (people.HealthInf() <= 0 || people.FractionInf() == NPSGroup.Box)
+            if (/*people.HealthInf() <= 0 ||*/ people.Fraction == NPSGroup.Box)
             {
                 //menu.Children.Add(Check);
             }
-            else if (!player.FriendFranction.Contains(people.FractionInf()))
+            else if (!player.FriendFranction.Contains(people.Fraction))
             {
                 //menu.Children.Add(Information);
             }
@@ -629,13 +634,14 @@ namespace TwoD_Game_RP
         }
         public bool BuyThing(Item item)
         {
-            if (player.Money < item.Cost) return false;
-            else
-            {
-                player.Money -= item.Cost;
-                player.InventoryList.Add(item);
-                return true;
-            }
+            return true;
+            //if (player.Money < item.Cost) return false;
+            //else
+            //{
+            //    player.Money -= item.Cost;
+            //    player.InventoryList.Add(item);
+            //    return true;
+            //}
         }
         public bool SellThing(Item item)
         {

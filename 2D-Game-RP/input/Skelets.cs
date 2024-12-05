@@ -7,22 +7,46 @@ using System.Windows;
 
 namespace TwoD_Game_RP
 {
+    public class Kristina : Skelet
+    {
+        public Kristina(GamePoint point, char rotate) :
+            base("Кристина", "", NPSGroup.People, NPSIntellect.Non, point, rotate, "Kristina", new List<Item>(), 3, 3, false)
+        { }
+    }
+    public class Maksim : Skelet
+    {
+        public Maksim(GamePoint point, char rotate) :
+            base("Максим", "", NPSGroup.People, NPSIntellect.Non, point, rotate, "Maksim", new List<Item>(), 3, 3, false)
+        { }
+    }
+    public class Nura : Skelet
+    {
+        public Nura(GamePoint point, char rotate) :
+            base("Баб Нюра", "", NPSGroup.People, NPSIntellect.Non, point, rotate, "Nura", new List<Item>(), 3, 3, false)
+        { }
+    }
+    public class Vanya : Skelet
+    {
+        public Vanya(GamePoint point, char rotate) :
+            base("Ванька", "", NPSGroup.People, NPSIntellect.Non, point, rotate, "Vanya", new List<Item>(), 3, 3, false)
+        { }
+    }
     public class TestSkelet : Skelet
     {
-        public TestSkelet(string name, string secondname, Gun gun, NPSIntellect intellect, GamePoint coord, int money, List<Item> inventoryList, List<NPSGroup> friends) :
-            base(name, secondname, NPSGroup.Stalker, gun, intellect, coord, '0', null, "test", money, inventoryList, friends, 100, true)
+        public TestSkelet(string name, string secondname, NPSIntellect intellect, GamePoint coord, char rotate, List<Item> inventoryList) :
+            base(name, secondname, NPSGroup.People, intellect, coord, rotate, "test", inventoryList, 3, 3, true)
         { }
     }
     public class Door : Skelet
     {
         public Door(GamePoint coord, char rotate) :
-            base("Двер", "Двер", NPSGroup.Door, null, NPSIntellect.Non, coord, rotate, null, "woodZaborDoorSkelet", 0, new List<Item>(0), new List<NPSGroup>(0), 1000, false)
+            base("Двер", "Двер", NPSGroup.Door, NPSIntellect.Non, coord, rotate, "woodZaborDoorSkelet", new List<Item>(0), 0, 0, false)
         { }
     }
-    public class SkeletBox : Skelet
+    public class Box : Skelet
     {
-        public SkeletBox(string name, string systemname, GamePoint coord, int money, List<Item> inventoryList) :
-            base(name, "", NPSGroup.Box, null, NPSIntellect.Non, coord, '0', null, systemname, money, inventoryList, null, 100, true)
+        public Box(string name, string systemname, GamePoint coord, char rotate, List<Item> inventoryList) :
+            base(name, "", NPSGroup.Box, NPSIntellect.Non, coord, rotate, systemname, inventoryList, 3, 3, true)
         { }
     }
 }

@@ -12,7 +12,7 @@ namespace TwoD_Game_RP
         public int Healthing { get; set; }
         public override void Using(Skelet skelet)
         {
-            skelet.Healthing(Healthing);
+            //skelet.Healthing(Healthing);
         }
         public SomeItem() : base("Вещь", "item", 500, 1, 1,
             new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"], $"item.png")))
