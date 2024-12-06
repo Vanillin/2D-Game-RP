@@ -1,16 +1,69 @@
-- Добрый вечер, меня зовут ... я следователь. Расследую убийство, которое произошло вчера ночью в соседнем доме. Вы можете ответить на мои вопросы?
-- Добрый вечер, следователь. Я безумно устал после работы, но так и быть отвечу на ваши вопросы. Только уже в своей квартире.
-- Хорошо пройдёмте. 
-- Так вот, о чём вы хотели меня спросить?
-- Знаете ли вы человека, которого вчера убили?
-- Мне бы для начала узнать кого убили...
-- Убили Кирилла, живёт напротив входа. 
-- Нет, не знаю Кирилла. Есть в том доме пару знакомых, но Кирилла не знаю. Вообще с первого этажа никого не знаю.
-- Ясно. А где вы были вчера ночью?
-- Дома, где же ещё. Как и все работаю днём, а вечером возвращаюсь домой. 
-- Вы что-нибудь слышали или замечали что-нибудь странное?
-- Вечером, когда я возвращался домой увидел у забора чей-то припаркованный велосипед. Меня это удивило - кто будет из жильцов оставлять велик на улице, 
-если его можно загнать в дом.
-- Думаете убийца приехал на этом велосипеде?
-- Откуда я знаю, просто сказал, что меня насторожило. Больше ничего подозрительного не происходило.
-- Ясно, спасибо огромное за помощь.
+<?xml version="1.0"?>
+<ArrayOfPhrase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Phrase>
+    <Index>dialogMaksimNight</Index>
+    <Dialog>...</Dialog>
+    <NextIndexes>
+      <string>dialogMaksimNight0</string>
+    </NextIndexes>
+  </Phrase>
+  <Phrase>
+    <Index>dialogMaksimNight1</Index>
+    <Dialog>Добрый вечер, следователь. Я безумно устал после работы, но так и быть отвечу на ваши вопросы. 
+Только уже в своей квартире.</Dialog>
+    <NextIndexes>
+      <string>dialogMaksimNight2</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogMaksimNight3</Index>
+    <Dialog>Так вот, о чём вы хотели меня спросить?</Dialog>
+    <NextIndexes>
+      <string>dialogMaksimNight4</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogMaksimNight5</Index>
+    <Dialog>Мне бы для начала узнать кого убили...</Dialog>
+    <NextIndexes>
+      <string>dialogMaksimNight6</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogMaksimNight7</Index>
+    <Dialog>Нет, не знаю Кирилла. Есть в том доме пару знакомых, но Кирилла не знаю. Вообще с первого этажа 
+никого не знаю.</Dialog>
+    <NextIndexes>
+      <string>dialogMaksimNight8</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogMaksimNight9</Index>
+    <Dialog>Дома, где же ещё. Как и все работаю днём, а вечером возвращаюсь домой. </Dialog>
+    <NextIndexes>
+      <string>dialogMaksimNight10</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogMaksimNight11</Index>
+    <Dialog>Вечером, когда я возвращался домой увидел у забора чей-то припаркованный велосипед. Меня это 
+удивило - кто будет из жильцов оставлять велик на улице, если его можно загнать в дом.</Dialog>
+    <NextIndexes>
+      <string>dialogMaksimNight12</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogMaksimNight13</Index>
+    <Dialog>Откуда я знаю, просто сказал, что меня насторожило. Больше ничего подозрительного не происходило.</Dialog>
+    <NextIndexes>
+      <string>dialogMaksimNight14</string>
+    </NextIndexes>
+  </Phrase>
+
+</ArrayOfPhrase>

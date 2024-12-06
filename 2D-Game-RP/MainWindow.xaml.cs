@@ -195,25 +195,29 @@ namespace TwoD_Game_RP
 
                 CurrentLocation.AddLivesWithCell(player);
 
-                GamePoint p = new GamePoint(12, 12);
+                //GamePoint p = new GamePoint(12, 12);
 
-                TestSkelet stalker = new TestSkelet("Бегающий", "ф", NPSIntellect.StandAgressive, p, '0', new List<Item>());
-                stalker.EnqueueDownGlobalAction(new ActionMove(new GamePoint(11, 16), true));
-                stalker.EnqueueDownGlobalAction(new ActionWait(4, true));
-                stalker.EnqueueDownGlobalAction(new ActionMove(new GamePoint(12, 12), true));
-                stalker.EnqueueDownGlobalAction(new ActionWait(4, true));
-                CurrentLocation.AddLivesWithCell(stalker);
+                //TestSkelet stalker = new TestSkelet("Бегающий", "ф", NPSIntellect.StandAgressive, p, '0', new List<Item>());
+                //stalker.EnqueueDownGlobalAction(new ActionMove(new GamePoint(11, 16), true));
+                //stalker.EnqueueDownGlobalAction(new ActionWait(4, true));
+                //stalker.EnqueueDownGlobalAction(new ActionMove(new GamePoint(12, 12), true));
+                //stalker.EnqueueDownGlobalAction(new ActionWait(4, true));
+                //CurrentLocation.AddLivesWithCell(stalker);
 
-                GamePoint p2 = new GamePoint(12, 6);
+                //GamePoint p2 = new GamePoint(12, 6);
 
-                TestSkelet stalker2 = new TestSkelet("Зависший", "ф", NPSIntellect.StandAgressive, p2, '0', new List<Item>());
-                CurrentLocation.AddLivesWithCell(stalker2);
+                //TestSkelet stalker2 = new TestSkelet("Зависший", "ф", NPSIntellect.StandAgressive, p2, '0', new List<Item>());
+                //CurrentLocation.AddLivesWithCell(stalker2);
 
 
                 CurrentLocation.AddLivesWithCell(new Kristina(new GamePoint(6, 15), '1'));
                 CurrentLocation.AddLivesWithCell(new Maksim(new GamePoint(17, 21), '1'));
                 CurrentLocation.AddLivesWithCell(new Nura(new GamePoint(14, 0), '3'));
-                CurrentLocation.AddLivesWithCell(new Vanya(new GamePoint(19, 5), '0'));
+
+                var vanya = new Vanya(new GamePoint(19, 5), '0');
+                vanya.EnqueueDownGlobalAction(new ActionMove(new GamePoint(19, 8), true));
+                vanya.EnqueueDownGlobalAction(new ActionMove(new GamePoint(19, 5), true));
+                CurrentLocation.AddLivesWithCell(vanya);
             }
             ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
             //pixelSize = Math.Min( Map.Height / (CurrentLocation.Height + 2) , Map.Width / (CurrentLocation.Width + 2));

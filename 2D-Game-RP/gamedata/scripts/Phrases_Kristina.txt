@@ -1,38 +1,135 @@
--Добрый день, меня зовут ... я следователь. Вчера вечером в соседней квартире произошло убийство. Что вы можете рассказать по этому поводу?
-Любая информация будет полезна.
--Добрый день, .... Меня зовут Кристина. Не хотите зайти на чашку чая?
--1-Буду рад
--Проходите. Садитесь, я сейчас налью. Что вы хотели спросить?
--2-Откажусь. Но вы же не откажетесь помочь мне в этом деле?
--Нет, конечно. Что вы хотели спросить?
--Давайте с простого, где вы были вчера?
--Я весь день провожу дома, домохозяйка.
-- Вы одна проживаете в этой квартире? 
-- Нет, с мужем. Он на заводе работает, по утрам уходит, по вечерам приходит. 
--А вчера вечером он что делал? 
-- Вчера его дома не было, Он позвонил, сказал на заводе предложили поработать в ночную смену за премию. Но он вроде нашел у кого можно 
-перекантоваться. Не думаю, что он двое суток смог проработать без сна.
--Все понятно. Вы вчера ничего подозрительного не слышали вчера в коридоре или у соседей?
--По правде сказать ничего не слышала. Узнала об убийстве только утром от соседей.
--Как вы думаете, кто может быть убийцей?
--Не поверите, сама думала по этому поводу. Кирилл вроде не имел заклятых врагов, все к нему относились по-доброму. Ну бывало мог с кем-то поругаться,
-но чтобы из-за этого убивать... Может это кто-то не из нашего двора был... Больше ничего по этому поводу сказать не могу.
--1- Все ясно, спасибо вам большое.
--2- Все ясно, спасибо вам большое. За чай отдельное спасибо, очень вкусный.
+<?xml version="1.0"?>
+<ArrayOfPhrase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Phrase>
+    <Index>dialogKristinaDay</Index>
+    <Dialog>...</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay0</string>
+    </NextIndexes>
+  </Phrase>
+  <Phrase>
+    <Index>dialogKristinaDay1</Index>
+    <Dialog>Добрый день, .... Меня зовут Кристина. Не хотите зайти на чашку чая?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay2</string>
+    </NextIndexes>
+  </Phrase>
 
-- Добрый вечер, Кристина. Подскажите, Николай вернулся?
-- Добрый вечер, ... . Нет, он не появлялся.
-- Он говорил когда вернется?
-- Я ему пыталась дозвониться, у него какие-то неполадки с телефоном, батарейка может села. Я не знаю во сколько он вернется.
-- Вы уверены, что вчера он не появлялся в этом доме?
-- Да, уверена. Если бы он даже мимо проходил, то зашел бы домой, а дома его не было. Почему вы так интересуетесь этим? 
-- У меня есть показания, его видели вчера вечером выбегающим из двора. 
-- Что вы говорите? Кто дал такие показания?
-- Внук бабушки Нюры из соседнего дома. Николай, выбегая, врезался в него и его велосипед. Прошу, расскажите все что знаете и думаете.
-- Вы правда думаете, что убийца Николай?
-- Я не могу ни подтвердить, ни опровергнуть. Чтобы дать точный ответ, надо поговорить с Николаем. 
-- Я уверена, что всему этому есть нормальное объяснение. Он звонил мне, сказал, чтобы я сообщила следователю то, что я вам сообщила. 
-Я уверена он не виновен, он ищет убийцу и пытается доказать свою невиновность! 
-- Что вы еще можете сказать? 
-- Больше ничего, оставьте меня наедине с собой. До свидания.
-- До свидания.
+  <Phrase>
+    <Index>dialogKristinaDay3</Index>
+    <Dialog>Нет, конечно. Что вы хотели спросить?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay4</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay5</Index>
+    <Dialog>Я весь день провожу дома, домохозяйка.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay6</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay7</Index>
+    <Dialog>Нет, с мужем. Он на заводе работает, по утрам уходит, по вечерам приходит.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay8</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay9</Index>
+    <Dialog>Вчера его дома не было, Он позвонил, сказал на заводе предложили поработать в ночную смену за премию. 
+Но он вроде нашел у кого можно перекантоваться. Не думаю, что он двое суток смог проработать без сна.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay10</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay11</Index>
+    <Dialog>По правде сказать ничего не слышала. Узнала об убийстве только утром от соседей.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay12</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay13</Index>
+    <Dialog>Не поверите, сама думала по этому поводу. Кирилл вроде не имел заклятых врагов, все к нему относились 
+по-доброму. Ну бывало мог с кем-то поругаться, но чтобы из-за этого убивать... Может это кто-то не из нашего 
+двора был... Больше ничего по этому поводу сказать не могу.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay14</string>
+    </NextIndexes>
+  </Phrase>
+  
+  <Phrase>
+    <Index>dialogKristinaNight</Index>
+    <Dialog>...</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight0</string>
+    </NextIndexes>
+  </Phrase>
+  <Phrase>
+    <Index>dialogKristinaNight1</Index>
+    <Dialog>Добрый вечер, ... . Нет, он не появлялся.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight2</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight3</Index>
+    <Dialog>Я ему пыталась дозвониться, у него какие-то неполадки с телефоном, батарейка может села. Я не знаю 
+во сколько он вернется.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight4</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight5</Index>
+    <Dialog>Да, уверена. Если бы он даже мимо проходил, то зашел бы домой, а дома его не было. Почему вы так 
+интересуетесь этим? </Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight6</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight7</Index>
+    <Dialog>Что вы говорите? Кто дал такие показания?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight8</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight9</Index>
+    <Dialog>Вы правда думаете, что убийца Николай?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight10</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight11</Index>
+    <Dialog>Я уверена, что всему этому есть нормальное объяснение. Он звонил мне, сказал, чтобы я сообщила 
+следователю то, что я вам сообщила. Я уверена он не виновен, он ищет убийцу и пытается доказать свою невиновность!</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight12</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight13</Index>
+    <Dialog>Больше ничего, оставьте меня наедине с собой. До свидания.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight14</string>
+    </NextIndexes>
+  </Phrase>
+
+</ArrayOfPhrase>

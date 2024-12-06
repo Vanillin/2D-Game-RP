@@ -81,6 +81,20 @@ namespace TwoD_Game_RP
             }
             return Garden;
         }
+        private static PhrasesStart phrasesStart;
+        public static string GetStartPhraseInDialog(string systemname)
+        {
+            if (phrasesStart == null)
+            {
+                using (var file = new FileStream(Path.Combine(ConfigurationManager.AppSettings["Scripts"], "Phrases.txt"), FileMode.Open))
+                {
+                    var xml = new XmlSerializer(typeof(PhrasesStart));
+                    phrasesStart = (PhrasesStart)xml.Deserialize(file);
+                }
+            }
+            //должна быть проверка логики и заданий
+            return phrasesStart.GetStartDialogs(systemname)[0];
+        }
         public static Phrase[] GetPhrase(string sstemnameDialogPerson)
         {
             return ReadPhrases($"Phrases_{sstemnameDialogPerson}");
@@ -137,18 +151,31 @@ namespace TwoD_Game_RP
         }
         public static void Serialization()
         {
-            Phrase rl = new Phrase();
-            rl.Index = "Ind";
-            rl.Dialog = "Dia";
-            rl.NextIndexes = new List<string>() { "Ind1", "Ind2" };
-
-            Phrase[] phrases = new Phrase[] { rl };
+            PhrasesStart phrasesStart = new PhrasesStart();
+            phrasesStart.values = new List<(string systemname, List<string> startdialogs)>()
+            {
+                ("Kristina",  new List<string> {"start1", "start2" }),
+                ("Maksim",  new List<string> {"start3", "start4" })
+            };
 
             using (var file = new FileStream("serialization.txt", FileMode.Create))
             {
-                var xml = new XmlSerializer(typeof(Phrase[]), new Type[] { typeof(Phrase) });
-                xml.Serialize(file, phrases);
+                var xml = new XmlSerializer(typeof(PhrasesStart));
+                xml.Serialize(file, phrasesStart);
             }
+
+            //Phrase rl = new Phrase();
+            //rl.Index = "Ind";
+            //rl.Dialog = "Dia";
+            //rl.NextIndexes = new List<string>() { "Ind1", "Ind2" };
+
+            //Phrase[] phrases = new Phrase[] { rl };
+
+            //using (var file = new FileStream("serialization.txt", FileMode.Create))
+            //{
+            //    var xml = new XmlSerializer(typeof(Phrase[]), new Type[] { typeof(Phrase) });
+            //    xml.Serialize(file, phrases);
+            //}
 
             //ReadLocation rl = new ReadLocation();
             //rl.height = 5;
@@ -164,6 +191,7 @@ namespace TwoD_Game_RP
             //}
         }
     }
+
     public class ReadLocation
     {
         public List<(string c, string s)> description;
@@ -171,5 +199,18 @@ namespace TwoD_Game_RP
         public int wight;
         public string[] location;
         public List<string> rotation;
+    }
+    public class PhrasesStart
+    {
+        public List<(string systemname, List<string> startdialogs)> values;
+        public List<string> GetStartDialogs(string systemname)
+        {
+            foreach (var v in values)
+            {
+                if (v.systemname == systemname)
+                    return v.startdialogs;
+            }
+            throw new Exception("Systemname не существует");
+        }
     }
 }

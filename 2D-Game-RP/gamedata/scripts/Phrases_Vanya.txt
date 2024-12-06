@@ -1,16 +1,51 @@
-- Ало.
-- Иван, добрый вечер. Меня зовут ... я работаю следователем. Расследую происшествие, которое произошло вчера ночью. 
-- Здравствуйте. А откуда вы узнали мой номер?
-- Мне баб Нюра передала, сказала ты можешь рассказать что-то полезное.
-( - Привет внучок. Я и правда ему дала твой номер. )
-- Хорошо, а что для вас будет полезным?
-- Ты видел вчера что-нибудь необычное? Кто-нибудь вёл себя неестественно?
-- Да я мало кого знаю. Пару мужчин у забора стояли, разговаривали. Ещё один мужчина бежал куда-то, в меня врезался, как только я приехал. Девушку 
-видел, она кота выгуливала. Больше ничего подозрительного не было.
-- Слушай, а сможешь описать того мужчину, который в тебя врезался? Откуда он бежал?
-- Я не видел откуда он бежал, просто из калитки вылетел. Он был высокий, молодой, но лысый, в ....... одежде.
-- Молодой, но лысый говоришь...
-( -1- У нас молодой и лысый только Николай, я всех знаю. Остальные уже старики. )
--1- Спасибо большое, Вань. Очень сильно помог.
--2- Спасибо большое, Вань. Поспрашиваю у жильцов про молодого и лысого мужчину.
-- Да не за что.
+<?xml version="1.0"?>
+<ArrayOfPhrase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Phrase>
+    <Index>dialogVanyaNight</Index>
+    <Dialog>Ало.</Dialog>
+    <NextIndexes>
+      <string>dialogVanyaNight1</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogVanyaNight2</Index>
+    <Dialog>Здравствуйте. А откуда вы узнали мой номер?</Dialog>
+    <NextIndexes>
+      <string>dialogVanyaNight3</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogVanyaNight4</Index>
+    <Dialog>Хорошо, а что для вас будет полезным?</Dialog>
+    <NextIndexes>
+      <string>dialogVanyaNight5</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogVanyaNight6</Index>
+    <Dialog>Да я мало кого знаю. Пару мужчин у забора стояли, разговаривали. Ещё один мужчина бежал куда-то, 
+в меня врезался, как только я приехал. Девушку видел, она кота выгуливала. Больше ничего подозрительного не было.</Dialog>
+    <NextIndexes>
+      <string>dialogVanyaNight7</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogVanyaNight8</Index>
+    <Dialog>Я не видел откуда он бежал, просто из калитки вылетел. Он был высокий, молодой, 
+но лысый, в ....... одежде.</Dialog>
+    <NextIndexes>
+      <string>dialogVanyaNight9</string>
+    </NextIndexes>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogVanyaNight10</Index>
+    <Dialog>Да не за что.</Dialog>
+    <NextIndexes>
+    </NextIndexes>
+  </Phrase>
+</ArrayOfPhrase>

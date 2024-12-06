@@ -260,13 +260,9 @@
     <Resource Include="gamedata\textures\map\System\Dark.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\scripts\Phrases_randStalker.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="gamedata\textures\player\woodZaborDoorSkelet-map.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\scripts\Phrases_Hero.txt" />
     <Resource Include="gamedata\scripts\Phrases_Kristina.txt" />
     <Resource Include="gamedata\scripts\Phrases_Maksim.txt" />
     <Resource Include="gamedata\scripts\Phrases_Nura.txt" />
@@ -344,6 +340,9 @@
   <ItemGroup>
     <Resource Include="gamedata\textures\map\Objects\kitchentable2Window.png" />
     <Resource Include="gamedata\textures\map\Objects\mail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\scripts\Phrases.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
