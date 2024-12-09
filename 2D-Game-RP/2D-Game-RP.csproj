@@ -355,5 +355,14 @@
   <ItemGroup>
     <Resource Include="gamedata\scripts\Tasks.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\player\trashSkelet-map.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\items\bloodpaper.png" />
+    <Resource Include="gamedata\textures\items\key.png" />
+    <Resource Include="gamedata\textures\items\notebook.png" />
+    <Resource Include="gamedata\textures\items\telephone.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

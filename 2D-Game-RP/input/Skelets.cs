@@ -43,6 +43,12 @@ namespace TwoD_Game_RP
             base("Двер", "Двер", NPSGroup.Door, NPSIntellect.Non, coord, rotate, "woodZaborDoorSkelet", new List<Item>(0), 0, 0, false)
         { }
     }
+    public class Trash : Skelet
+    {
+        public Trash(GamePoint coord, char rotate, List<Item> inventoryList) :
+            base("Мусорка", "Мусорка", NPSGroup.Box, NPSIntellect.Non, coord, rotate, "trashSkelet", inventoryList, 3, 3, true)
+        { }
+    }
     public class Box : Skelet
     {
         public Box(string name, string systemname, GamePoint coord, char rotate, List<Item> inventoryList) :

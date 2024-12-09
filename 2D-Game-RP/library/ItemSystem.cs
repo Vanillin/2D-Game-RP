@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,17 +15,15 @@ namespace TwoD_Game_RP
         public readonly int SizeH;
         public readonly int SizeW;
         public IPictureCell Picture;
-
-        public abstract void Using(Skelet skelet);
-              
-        public Item(string name, string systemName, int cost, int sizeH, int sizeW, IPictureCell picture)
+                      
+        public Item(string name, string systemName, int cost, int sizeH, int sizeW)
         {
             this.Name = name;
             this.SystemName = systemName;
             this.Cost = cost;
             this.SizeH = sizeH;
             this.SizeW = sizeW;
-            Picture = picture;
+            Picture = new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"], systemName + ".png"));
         }
         public int CompareTo(Item other)
         {
@@ -52,28 +51,23 @@ namespace TwoD_Game_RP
         public int Damage;
         public int Radius;
 
-        public Gun(string name, string systemName, int damage, int radius, int cost, int sizeH, int sizeW, IPictureCell pictureCell)
-            : base(name, systemName, cost, sizeH, sizeW, pictureCell)
+        public Gun(string name, string systemName, int damage, int radius, int cost, int sizeH, int sizeW)
+            : base(name, systemName, cost, sizeH, sizeW)
         {
             this.Damage = damage;
             this.Radius = radius;
         }
-
-        public override void Using(Skelet skelet)
-        { }
     }
     public abstract class Cloth : Item
     {
         public int Armor;
         public NPSGroup FractionCloth;
 
-        public Cloth(string name, string systemName, int cost, int armor, NPSGroup fractioncloth, int sizeH, int sizeW, IPictureCell pictureCell)
-            : base(name, systemName, cost, sizeH, sizeW, pictureCell)
+        public Cloth(string name, string systemName, int cost, int armor, NPSGroup fractioncloth, int sizeH, int sizeW)
+            : base(name, systemName, cost, sizeH, sizeW)
         {
             this.Armor = armor;
             this.FractionCloth = fractioncloth;
         }
-        public override void Using(Skelet skelet)
-        { }
     }
 }

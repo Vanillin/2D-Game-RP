@@ -92,12 +92,12 @@
     <string>...#s......-....#.........</string>
     <string>...#zs.....#ttkf#%%%%%%%%.</string>
     <string>.########-#######h.....h%.</string>
-    <string>.%h....r...hh......e..e.%.</string>
+    <string>.%h........hh......e..e.%.</string>
     <string>##h.e...................%.</string>
     <string>t#.....................h%.</string>
-    <string>c#...............r....hh%.</string>
+    <string>c#....................hh%.</string>
     <string>.#..........h##-##########</string>
-    <string>a#..il...rilh#g..#tktf#pb#</string>
+    <string>a#..il....ilh#g..#tktf#pb#</string>
     <string>x#%%%%%%-%%%%#g..-....#.u#</string>
     <string>##.hhh.......#...#tc..#..#</string>
     <string>...........e.#..s#t...-..#</string>

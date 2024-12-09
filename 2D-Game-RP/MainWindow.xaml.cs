@@ -67,6 +67,7 @@ namespace TwoD_Game_RP
             timerReloadAnimation.IsEnabled = true;
 
             AddInformationPlayer("Герой", PlayerGender.Man, x, y, null,null, 1300, new List<Item>()
+                { new Telephone(), new NoteBook()}
                 );
             player.Tasks.Add(Information.FindTask("startdialogNuraDay"));
             player.Tasks.Add(Information.FindTask("startdialogKristinaDay"));
@@ -217,6 +218,11 @@ namespace TwoD_Game_RP
                 CurrentLocation.AddLivesWithCell(new Kristina(new GamePoint(6, 15), '1'));
                 CurrentLocation.AddLivesWithCell(new Maksim(new GamePoint(17, 21), '1'));
                 CurrentLocation.AddLivesWithCell(new Nura(new GamePoint(14, 0), '3'));
+
+                CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(10, 7), '3', new List<Item>()));
+                CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(13, 17), '1', new List<Item>()));
+                CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(15, 9), '0', new List<Item>()
+                    { new Key(), new BloodPaper() }));
 
                 var vanya = new Vanya(new GamePoint(19, 5), '0');
                 vanya.EnqueueDownGlobalAction(new ActionMove(new GamePoint(19, 8), true));
@@ -417,8 +423,14 @@ namespace TwoD_Game_RP
             Item item = player.InventoryList.SearchItem(H, W);
             if (item != null)
             {
-                item.Using(player);
-                player.InventoryList.Remove(item);
+                if (item is Telephone)
+                {
+
+                }
+                else if (item is NoteBook)
+                {
+                    PDA_Click(null, null);
+                }
             }
         }
 
@@ -532,25 +544,25 @@ namespace TwoD_Game_RP
             Dialog.Click += MenuPersonDialog_Click;
             Dialog.Tag = people;
 
-            //Button Check = new Button()
-            //{
-            //    Content = "Обыскать",
-            //    Opacity = 0.6,
-            //};
-            //Check.Click += MenuPersonCheck_Click;
-            //Check.Tag = people;
+            Button Check = new Button()
+            {
+                Content = "Обыскать",
+                Opacity = 0.6,
+            };
+            Check.Click += MenuPersonCheck_Click;
+            Check.Tag = people;
 
             double dx = Math.Abs(people.Cord.X - player.Cord.X);
             double dy = Math.Abs(people.Cord.Y - player.Cord.Y);
             bool Near = (dx <= 2 && dy <= 1) || (dx <= 1 && dy <= 2);
             if (ShelterKey || !Near)
             {
-                //Check.IsEnabled = false;
+                Check.IsEnabled = false;
                 Dialog.IsEnabled = false;
             }
             if (/*people.HealthInf() <= 0 ||*/ people.Fraction == NPSGroup.Box)
             {
-                //menu.Children.Add(Check);
+                menu.Children.Add(Check);
             }
             else if (!player.FriendFranction.Contains(people.Fraction))
             {
@@ -571,24 +583,20 @@ namespace TwoD_Game_RP
             Skelet door = (Skelet)button.Tag;
             CurrentLocation.RemoveSkeletWithCell(door);
         }
-        //private void MenuPersonCheck_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Button button = (Button)sender;
-        //    Skelet people = (Skelet)button.Tag;
+        private void MenuPersonCheck_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            Skelet people = (Skelet)button.Tag;
 
-        //    foreach (Item item in people.InventoryList.ReferenceItem.Keys)
-        //    {
-        //        for (int i = 0; i < people.InventoryList.ReferenceItem[item].Count; i++)
-        //        {
-        //            AddItem(item);
-        //        }
-        //    }
-        //    player.Money += people.Money;
-
-        //    CurrentLocation.RemoveLivesWithCell(people);
-
-        //    TimerAnimation_Tick(null, null);
-        //}
+            foreach (Item item in people.InventoryList.ReferenceItem.Keys)
+            {
+                for (int i = 0; i < people.InventoryList.ReferenceItem[item].Count; i++)
+                {
+                    AddItem(item);
+                }
+            }
+            people.InventoryList.ReferenceItem.Clear();
+        }
         private void MenuPersonDialog_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;

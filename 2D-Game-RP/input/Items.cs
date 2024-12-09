@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TwoD_Game_RP
+﻿namespace TwoD_Game_RP
 {
     public class SomeItem : Item
     {
-        public int Healthing { get; set; }
-        public override void Using(Skelet skelet)
-        {
-            //skelet.Healthing(Healthing);
-        }
-        public SomeItem() : base("Вещь", "item", 500, 1, 1,
-            new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"], $"item.png")))
-        { }
+        public SomeItem() : base("Вещь", "item", 500, 1, 1) { }
+    }
+    public class Telephone : Item
+    {
+        public Telephone() : base("Телефон", "telephone", 0, 1, 1) { }
+    }
+    public class NoteBook : Item
+    {
+        public NoteBook() : base("Записная книжка", "notebook", 0, 1, 1) { }
+    }
+    public class Key : Item
+    {
+        public Key() : base("Ключ", "key", 0, 1, 1) { }
+    }
+    public class BloodPaper : Item
+    {
+        public BloodPaper() : base("Окровавленная салфетка", "bloodpaper", 0, 1, 1) { }
     }
 }
