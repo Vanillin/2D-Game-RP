@@ -2,50 +2,68 @@
 <ArrayOfPhrase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Phrase>
     <Index>dialogVanyaNight</Index>
+    <TaskToStart>startdialogVanyaNight</TaskToStart>
     <Dialog>Ало.</Dialog>
     <NextIndexes>
       <string>dialogVanyaNight1</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 
   <Phrase>
     <Index>dialogVanyaNight2</Index>
+    <TaskToStart></TaskToStart>
     <Dialog>Здравствуйте. А откуда вы узнали мой номер?</Dialog>
     <NextIndexes>
       <string>dialogVanyaNight3</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 
   <Phrase>
     <Index>dialogVanyaNight4</Index>
+    <TaskToStart></TaskToStart>
     <Dialog>Хорошо, а что для вас будет полезным?</Dialog>
     <NextIndexes>
       <string>dialogVanyaNight5</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 
   <Phrase>
     <Index>dialogVanyaNight6</Index>
+    <TaskToStart></TaskToStart>
     <Dialog>Да я мало кого знаю. Пару мужчин у забора стояли, разговаривали. Ещё один мужчина бежал куда-то, 
 в меня врезался, как только я приехал. Девушку видел, она кота выгуливала. Больше ничего подозрительного не было.</Dialog>
     <NextIndexes>
       <string>dialogVanyaNight7</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 
   <Phrase>
     <Index>dialogVanyaNight8</Index>
+    <TaskToStart></TaskToStart>
     <Dialog>Я не видел откуда он бежал, просто из калитки вылетел. Он был высокий, молодой, 
 но лысый, в ....... одежде.</Dialog>
     <NextIndexes>
       <string>dialogVanyaNight9</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 
   <Phrase>
     <Index>dialogVanyaNight10</Index>
+    <TaskToStart></TaskToStart>
     <Dialog>Да не за что.</Dialog>
     <NextIndexes>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 </ArrayOfPhrase>

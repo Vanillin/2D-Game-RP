@@ -68,8 +68,11 @@ namespace TwoD_Game_RP
 
             AddInformationPlayer("Герой", PlayerGender.Man, x, y, null,null, 1300, new List<Item>()
                 );
-            player.Tasks.Add(Information.FindTask("ГлавныйКвест"));
-            player.Tasks.Add(Information.FindTask("СпроситьСталкеров"));
+            player.Tasks.Add(Information.FindTask("startdialogNuraDay"));
+            player.Tasks.Add(Information.FindTask("startdialogKristinaDay"));
+            player.Tasks.Add(Information.FindTask("startdialogMaksimNight"));
+            //player.Tasks.Add(Information.FindTask("ГлавныйКвест"));
+            //player.Tasks.Add(Information.FindTask("СпроситьСталкеров"));
 
             GoToLocation("Garden");
             TimerAnimation_Tick(null, null);
@@ -87,8 +90,9 @@ namespace TwoD_Game_RP
 
             AddInformationPlayer(PlayerName, Gender, x, y, null,null, 1300, new List<Item>()
                 );
-            player.Tasks.Add(Information.FindTask("ГлавныйКвест"));
-            player.Tasks.Add(Information.FindTask("СпроситьСталкеров"));
+            player.Tasks.Add(Information.FindTask("startdialogMaksimNight"));
+            //player.Tasks.Add(Information.FindTask("ГлавныйКвест"));
+            //player.Tasks.Add(Information.FindTask("СпроситьСталкеров"));
 
             GoToLocation("Garden");
             TimerAnimation_Tick(null, null);
@@ -101,8 +105,8 @@ namespace TwoD_Game_RP
 
         private int Time;
         private List<UIElement> SystemObj;
-        private int oblwatch = 10;
-        private int oblsee = 7;
+        private int oblwatch = 8;
+        private int oblsee = 6;
         private void TimerAnimation_Tick(object sender, EventArgs e)
         {
             NamePlayer.Content = $"{Time}";
@@ -590,8 +594,8 @@ namespace TwoD_Game_RP
             Button button = (Button)sender;
             Skelet people = (Skelet)button.Tag;
 
-            DialogWindow dialog = new DialogWindow(player, people);
             timerReloadAnimation.IsEnabled = false;
+            DialogWindow dialog = new DialogWindow(player, people);
             dialog.ShowDialog();
             SystemObj = new List<UIElement>();
             timerReloadAnimation.IsEnabled = true;
@@ -624,18 +628,6 @@ namespace TwoD_Game_RP
 
         //-------------------------------------------------------------------------------InOtherWindow
 
-        public void TakeRewardTaskKillNaemnik()
-        {
-        }
-        public void TakeTaskKillNaemnik()
-        {
-        }
-        public void TakeTaskSearchGun()
-        {
-        }
-        public void TakeRewardTaskSearchGun()
-        {
-        }
         public bool BuyThing(Item item)
         {
             return true;
@@ -669,8 +661,8 @@ namespace TwoD_Game_RP
         }
         private void PDA_Click(object sender, RoutedEventArgs e)
         {
-            //PDAWindow pda = new PDAWindow(player);
-            //pda.ShowDialog();
+            PDAWindow pda = new PDAWindow(player);
+            pda.ShowDialog();
         }
         //private void ArmorPlayer_Click(object sender, RoutedEventArgs e)
         //{

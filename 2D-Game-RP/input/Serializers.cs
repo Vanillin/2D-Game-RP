@@ -1,7 +1,9 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Windows.Input;
 using System.Xml.Linq;
@@ -25,7 +27,7 @@ namespace TwoD_Game_RP
         //    "Пёс", "Повар", "Лимон", "Табуретка", "Снайпер", "Козырь"
         //};
 
-        public static Task[] TasksInGame = ReadTasks("Name Tasks");
+        public static Task[] TasksInGame = ReadTasks("Tasks");
 
         public static Task FindTask(string Systemname)
         {
@@ -82,7 +84,7 @@ namespace TwoD_Game_RP
             return Garden;
         }
         private static PhrasesStart phrasesStart;
-        public static string GetStartPhraseInDialog(string systemname)
+        public static List<string> GetStartPhrases(string systemname)
         {
             if (phrasesStart == null)
             {
@@ -92,8 +94,7 @@ namespace TwoD_Game_RP
                     phrasesStart = (PhrasesStart)xml.Deserialize(file);
                 }
             }
-            //должна быть проверка логики и заданий
-            return phrasesStart.GetStartDialogs(systemname)[0];
+            return phrasesStart.GetStartDialogs(systemname);
         }
         public static Phrase[] GetPhrase(string sstemnameDialogPerson)
         {

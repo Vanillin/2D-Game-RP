@@ -2,30 +2,40 @@
 <ArrayOfPhrase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Phrase>
     <Index>dialogNuraDay</Index>
+    <TaskToStart>startdialogNuraDay</TaskToStart>
     <Dialog>...</Dialog>
     <NextIndexes>
       <string>dialogNuraDay0</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
   <Phrase>
     <Index>dialogNuraDay1</Index>
+    <TaskToStart></TaskToStart>
     <Dialog>Здравствуй, мил человек. Меня баб Нюра все зовут. Ты извини, что в гости не приглашаю, у меня 
 с ногами проблемы. Ходить почти не могу. Сижу вот у окна, со всеми прохожими разговариваю.</Dialog>
     <NextIndexes>
       <string>dialogNuraDay2</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 
   <Phrase>
     <Index>dialogNuraDay3</Index>
+    <TaskToStart></TaskToStart>
     <Dialog>Соседка, Катенька, через дорогу каждый час-два навещает меня. Молодая, энергичная, ухаживает за мной.</Dialog>
     <NextIndexes>
       <string>dialogNuraDay4</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 
   <Phrase>
     <Index>dialogNuraDay5</Index>
+    <TaskToStart></TaskToStart>
     <Dialog>Знаю, что Кирилла убили, жалко его - хороший человек был. Приветливый всегда, мне вкусности иногда 
 заносил. Был при деньгах, но ни капельки на скрягу не походил, не такой он... был. Как-то раз он с работы пришёл 
 весь смурной, мы с ним почти до рассвета беседовали. Проблемы с работой у него были, уволить его хотели. 
@@ -33,71 +43,97 @@
     <NextIndexes>
       <string>dialogNuraDay6</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 
   <Phrase>
     <Index>dialogNuraDay7</Index>
+    <TaskToStart></TaskToStart>
     <Dialog>Да, он очень ею гордился. А недавно пришёл радостный и мне говорит, чтобы за него не переживала, 
 что решилась проблема. И вот напасть такая...</Dialog>
     <NextIndexes>
       <string>dialogNuraDay8</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 
   <Phrase>
     <Index>dialogNuraDay9</Index>
+    <TaskToStart></TaskToStart>
     <Dialog>Да кто ж знает.</Dialog>
     <NextIndexes>
       <string>dialogNuraDay10</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 
   <Phrase>
     <Index>dialogNuraDay11</Index>
+    <TaskToStart></TaskToStart>
     <Dialog>Ой, даже не знаю, милок. Я ж почти всегда у окна сижу, всех сожителей знаю. Не было тут незнакомцев 
 накануне, может проглядела случаем.</Dialog>
     <NextIndexes>
       <string>dialogNuraDay12</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 
   <Phrase>
     <Index>dialogNuraDay13</Index>
+    <TaskToStart></TaskToStart>
     <Dialog>Ты давай расследуй это дело. Не хорошо, что на земле такие люди плохие ходят.</Dialog>
     <NextIndexes>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 
   <Phrase>
     <Index>dialogNuraNight</Index>
+    <TaskToStart>startdialogNuraNight</TaskToStart>
     <Dialog>...</Dialog>
     <NextIndexes>
       <string>dialogNuraNight0</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
   <Phrase>
     <Index>dialogNuraNight1</Index>
+    <TaskToStart></TaskToStart>
     <Dialog>Добрый вечер, ... . Как проходит расследование?</Dialog>
     <NextIndexes>
       <string>dialogNuraNight2</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 
   <Phrase>
     <Index>dialogNuraNight3</Index>
+    <TaskToStart></TaskToStart>
     <Dialog>Велосипед говоришь. Так это ко мне внук вчера ночью приезжал, он редко приезжает, но каждый раз 
 всякие подарки привозит. Внучек у меня очень хороший.</Dialog>
     <NextIndexes>
       <string>dialogNuraNight4</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 
   <Phrase>
     <Index>dialogNuraNight5</Index>
+    <TaskToStart></TaskToStart>
     <Dialog>Да, конечно, держите.</Dialog>
     <NextIndexes>
       <string>dialogNuraNight6</string>
     </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
   </Phrase>
 
 </ArrayOfPhrase>

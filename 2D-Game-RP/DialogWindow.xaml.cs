@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Reflection;
-using System.Runtime.Remoting.Messaging;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -16,11 +15,12 @@ namespace TwoD_Game_RP
     public partial class DialogWindow : Window
     {
         Dictionary<string, (Phrase phrase, string skeletName)> AllPhrases;
-        StackPanel DialogBtn;
+        Player player;
 
         public DialogWindow(Player Player, Skelet Person)
         {
             AllPhrases = new Dictionary<string, (Phrase phrase, string skelet)>();
+            player = Player;
 
             foreach (Phrase phrase in Information.GetPhrase(Person.SystemName))
             {
@@ -31,27 +31,64 @@ namespace TwoD_Game_RP
                 AllPhrases.Add(phrase.Index, (phrase, Player.Name));
             }
 
-            this.DialogBtn = new StackPanel();
             InitializeComponent();
 
             CreatePersones(Player);
             CreatePersones(Person);
             //Player.DisplayInventory(InventoryPlayer, 20);
-            CreateDialog(Information.GetStartPhraseInDialog(Person.SystemName));
+            string str = GetStartPhraseInDialog(Player, Person);
+            if (str != null)
+            {
+                CreateDialog(str);
+            }
+            else
+            {
+                CreateClearDialog();
+            }
+        }
+        private string GetStartPhraseInDialog(Player Player, Skelet Person)
+        {
+            foreach (var startdialog in Information.GetStartPhrases(Person.SystemName))
+            {
+                foreach (var task in Player.Tasks)
+                {
+                    if (task.SystemName == AllPhrases[startdialog].phrase.TaskToStart)
+                        return startdialog;
+                }
+            }
+            return null;
+            //throw new Exception("Невозможно найти стартовый диалог");
         }
         private void ClearDialog()
         {
             DialogWin.Children.Remove(DialogBtn);
             DialogBtn.Children.Clear();
         }
+        private void CreateClearDialog()
+        {
+            DialogWin.Children.Add(new Label()
+            {
+                Content = "...",
+                FontSize = 16,
+                Background = new SolidColorBrush(Colors.DarkGray),
+                HorizontalAlignment = HorizontalAlignment.Left,
+            });
+            DialogWin.Children.Add(new Label()
+            {
+                Content = "...",
+                FontSize = 20,
+                Background = new SolidColorBrush(Colors.LightGray),
+                HorizontalAlignment = HorizontalAlignment.Left,
+            });
+            ScrollView.ScrollToEnd();
+        }
         private void CreateDialog(string index)
         {
             AddDialog(index, "l");
-            foreach(var v in AllPhrases[index].phrase.NextIndexes)
+            foreach (var v in AllPhrases[index].phrase.NextIndexes)
             {
                 AddButton(v);
             }
-            DialogWin.Children.Add(DialogBtn);
         }
         private void Question_Click(object sender, RoutedEventArgs e)
         {
@@ -117,6 +154,16 @@ namespace TwoD_Game_RP
         }
         private void AddDialog(string index, string side)
         {
+            Phrase phrase = AllPhrases[index].phrase;
+            foreach (var task in phrase.NewTasks)
+            {
+                player.Tasks.Add(Information.FindTask(task));
+            }
+            foreach (var task in phrase.EndingTasks)
+            {
+                player.Tasks.Remove(Information.FindTask(task));
+                player.CompliteTasks.Add(task);
+            }
             if (side == "r")
             {
                 DialogWin.Children.Add(new Label()
@@ -128,7 +175,7 @@ namespace TwoD_Game_RP
                 });
                 DialogWin.Children.Add(new Label()
                 {
-                    Content = AllPhrases[index].phrase.Dialog,
+                    Content = phrase.Dialog,
                     FontSize = 20,
                     Background = new SolidColorBrush(Colors.LightGray),
                     HorizontalAlignment = HorizontalAlignment.Right,
@@ -145,7 +192,7 @@ namespace TwoD_Game_RP
                 });
                 DialogWin.Children.Add(new Label()
                 {
-                    Content = AllPhrases[index].phrase.Dialog,
+                    Content = phrase.Dialog,
                     FontSize = 20,
                     Background = new SolidColorBrush(Colors.LightGray),
                     HorizontalAlignment = HorizontalAlignment.Left,

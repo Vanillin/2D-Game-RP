@@ -15,7 +15,7 @@ namespace TwoD_Game_RP
     public class Player : Skelet
     {
         public List<Task> Tasks { get; set; }
-        public List<Task> CompliteTasks { get; set; }
+        public List<string> CompliteTasks { get; set; }
         public PlayerGender Gender { get; }
 
         public Player(string name, PlayerGender gender, GamePoint coord, List<Item> inventoryList) :
@@ -23,7 +23,7 @@ namespace TwoD_Game_RP
         {
             this.Gender = gender; 
             Tasks = new List<Task>();
-            CompliteTasks = new List<Task>();
+            CompliteTasks = new List<string>();
         }
     }
     //public class Player : Skelet

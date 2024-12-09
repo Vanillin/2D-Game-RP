@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<ArrayOfTask xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Task>
+    <SystemName>startdialogMaksimNight</SystemName>
+    <Name>Поговорить с Максимом</Name>
+    <SecondName>Поговорить с Максимом</SecondName>
+    <CordOnMapX>0</CordOnMapX>
+    <CordOnMapY>0</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>startdialogKristinaDay</SystemName>
+    <Name>Поговорить с Кристиной</Name>
+    <SecondName>Поговорить с Кристиной</SecondName>
+    <CordOnMapX>0</CordOnMapX>
+    <CordOnMapY>0</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>startdialogKristinaNight</SystemName>
+    <Name>Поговорить с Кристиной</Name>
+    <SecondName>Поговорить с Кристиной</SecondName>
+    <CordOnMapX>0</CordOnMapX>
+    <CordOnMapY>0</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>startdialogNuraDay</SystemName>
+    <Name>Поговорить с баб Нюрой</Name>
+    <SecondName>Поговорить с баб Нюрой</SecondName>
+    <CordOnMapX>0</CordOnMapX>
+    <CordOnMapY>0</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>startdialogNuraNight</SystemName>
+    <Name>Поговорить с баб Нюрой</Name>
+    <SecondName>Поговорить с баб Нюрой</SecondName>
+    <CordOnMapX>0</CordOnMapX>
+    <CordOnMapY>0</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>startdialogVanyaNight</SystemName>
+    <Name>Поговорить с Ваней</Name>
+    <SecondName>Поговорить с Ваней</SecondName>
+    <CordOnMapX>0</CordOnMapX>
+    <CordOnMapY>0</CordOnMapY>
+  </Task>
+  <Task>
+    <SystemName>startfinaldialog</SystemName>
+    <Name>Позвоните по телефону</Name>
+    <SecondName>Позвоните по телефону</SecondName>
+    <CordOnMapX>0</CordOnMapX>
+    <CordOnMapY>0</CordOnMapY>
+  </Task>
+</ArrayOfTask>

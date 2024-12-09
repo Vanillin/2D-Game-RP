@@ -194,7 +194,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\scripts\Name Tasks.txt" />
     <Resource Include="gamedata\textures\icon.png" />
     <Resource Include="gamedata\textures\items\emptyitem.png" />
     <Resource Include="gamedata\textures\kvest.png" />
@@ -307,7 +306,6 @@
     <Resource Include="gamedata\textures\map\Objects\bench.png" />
     <Resource Include="gamedata\textures\map\Objects\bench2.png" />
     <Resource Include="gamedata\textures\map\Objects\chair.png" />
-    <Resource Include="gamedata\textures\map\Objects\treeup.png" />
     <Resource Include="gamedata\textures\map\Objects\treeup2.png" />
     <Resource Include="gamedata\textures\map\Objects\treeWall.png" />
   </ItemGroup>
@@ -343,6 +341,19 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\scripts\Phrases.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Objects\treeup1.png" />
+    <Resource Include="gamedata\textures\map\Objects\treeup3.png" />
+    <Resource Include="gamedata\textures\map\Objects\treeup4.png" />
+    <Resource Include="gamedata\textures\map\Objects\treeup5.png" />
+    <Resource Include="gamedata\textures\map\Objects\treeup6.png" />
+    <Resource Include="gamedata\textures\map\Objects\treeup7.png" />
+    <Resource Include="gamedata\textures\map\Objects\treeup8.png" />
+    <Resource Include="gamedata\textures\map\Objects\treeup9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\scripts\Tasks.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

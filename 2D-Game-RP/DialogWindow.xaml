@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Game_STALKER_Exclusion_Zone"
         mc:Ignorable="d"
-        Title="DialogWindow" Height="700" Width="1000" Icon="gamedata\textures\icon.png">
+        Title="DialogWindow" Height="Auto" Width="Auto" Icon="gamedata\textures\icon.png">
     <Viewbox>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1100"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <Grid>
@@ -25,11 +25,21 @@
                     </Canvas>
                 </Grid>
             </Grid>
-            <ScrollViewer x:Name="ScrollView" Grid.Column="1" Height="600">
-                <StackPanel x:Name="DialogWin">
+            <Grid Grid.Column="1" Height="700">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ScrollViewer x:Name="ScrollView" Grid.Row ="0">
+                    <StackPanel x:Name="DialogWin">
 
+                    </StackPanel>
+                </ScrollViewer>
+                <StackPanel x:Name="DialogBtn" Grid.Row="1">
+                    
                 </StackPanel>
-            </ScrollViewer>
+            </Grid>
+            
         </Grid>
     </Viewbox>        
 </Window>

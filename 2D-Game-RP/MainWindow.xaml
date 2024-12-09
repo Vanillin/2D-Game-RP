@@ -33,7 +33,7 @@
                             </Grid.ColumnDefinitions>
                             <Button Grid.Column="0" Click="PDA_Click">
                                 <Viewbox>
-                                    <Label Content="ПДА" FontSize="20"/>
+                                    <Label Content="ЗАДАЧИ" FontSize="20"/>
                                 </Viewbox>
                             </Button>
                             <Button Grid.Column="1" Click="Menu_Click">
