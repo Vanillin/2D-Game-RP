@@ -18,8 +18,8 @@ namespace TwoD_Game_RP
         public List<string> CompliteTasks { get; set; }
         public PlayerGender Gender { get; }
 
-        public Player(string name, PlayerGender gender, GamePoint coord, List<Item> inventoryList) :
-            base(name, "", NPSGroup.People, NPSIntellect.Non, coord, '0', "player", inventoryList, 3, 3, true) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  "Player" + gender
+        public Player(string name, PlayerGender gender, GamePoint coord, int inventoryHeight, int inventoryWight, List<Item> inventoryList) :
+            base(name, "", NPSGroup.People, NPSIntellect.Non, coord, '0', "player", inventoryList, inventoryHeight, inventoryWight, true) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  "Player" + gender
         {
             this.Gender = gender; 
             Tasks = new List<Task>();

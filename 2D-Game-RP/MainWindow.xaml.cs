@@ -4,6 +4,8 @@ using System.Configuration;
 using System.Net.Mail;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -19,8 +21,8 @@ namespace TwoD_Game_RP
         int sizeGamePoleW;
         double pixelSizeGamePole;
 
-        int sizeInventH;
-        int sizeInventW;
+        int sizeInventH = 2;
+        int sizeInventW = 6;
         double pixelSizeInvent;
 
         public Player player;
@@ -46,10 +48,8 @@ namespace TwoD_Game_RP
             if (LeftUpCorner.X > CurrentLocation.Height - sizeGamePoleH) LeftUpCorner.X = CurrentLocation.Height - sizeGamePoleH;
             if (LeftUpCorner.Y > CurrentLocation.Width - sizeGamePoleW) LeftUpCorner.Y = CurrentLocation.Width - sizeGamePoleW;
         }
-        private void ChangeSizeInventoryPlayer(int height, int wight)
+        private void ChangeSizeInventoryPlayer()
         {
-            sizeInventH = height;
-            sizeInventW = wight;
             pixelSizeInvent = Math.Min(InventoryPlayer.ActualHeight / (sizeInventH + 2), InventoryPlayer.ActualWidth / (sizeInventW + 2));
         }
 
@@ -100,7 +100,7 @@ namespace TwoD_Game_RP
         }
         private void AddInformationPlayer(string PlayerName, PlayerGender gender, int x, int y, Gun gun, Cloth cloth, int money, List<Item> inventory)
         {
-            player = new Player(PlayerName, gender, new GamePoint(x, y), inventory);
+            player = new Player(PlayerName, gender, new GamePoint(x, y), sizeInventH, sizeInventW, inventory);
             //PicturePlayer.Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{player.SystemName}.png"), UriKind.Relative));
         }
 
@@ -155,7 +155,7 @@ namespace TwoD_Game_RP
                 CurrentLocation.Display(Map, pixelSizeGamePole, SystemObj);
             }
 
-            ChangeSizeInventoryPlayer(7, 4);
+            ChangeSizeInventoryPlayer();
             player.DisplayInventory(InventoryPlayer, pixelSizeInvent);
             //selectLevel.TakeNextPictureLevel();
         }
@@ -588,6 +588,10 @@ namespace TwoD_Game_RP
             Button button = (Button)sender;
             Skelet people = (Skelet)button.Tag;
 
+            //timerReloadAnimation.IsEnabled = false;
+            //SystemObj = new List<UIElement>();
+            //CreateInventoryWindow(people);
+
             foreach (Item item in people.InventoryList.ReferenceItem.Keys)
             {
                 for (int i = 0; i < people.InventoryList.ReferenceItem[item].Count; i++)
@@ -603,10 +607,9 @@ namespace TwoD_Game_RP
             Skelet people = (Skelet)button.Tag;
 
             timerReloadAnimation.IsEnabled = false;
-            DialogWindow dialog = new DialogWindow(player, people);
-            dialog.ShowDialog();
             SystemObj = new List<UIElement>();
-            timerReloadAnimation.IsEnabled = true;
+            DialogWindow.Visibility = Visibility.Visible;
+            CreateWindowDialog(people);
         }
         //private void MenuPersonInformation_Click(object sender, RoutedEventArgs e)
         //{
@@ -690,6 +693,218 @@ namespace TwoD_Game_RP
             //menu.ShowDialog();
         }
 
+        //====================================================================================================================
+        //====================================================================================================================
+        //====================================================================================================================
+        //============================================       DIALOGWINDOW     ================================================
+        //====================================================================================================================
+        //====================================================================================================================
+        //====================================================================================================================
 
+        Dictionary<string, (Phrase phrase, string skeletName)> AllPhrases;
+        private void ExitDialogBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DialogWindow.Visibility = Visibility.Collapsed; 
+            DialogStackPanel.Children.Clear();
+            DialogBtn.Children.Clear();
+            timerReloadAnimation.IsEnabled = true;
+        }
+        private void CreateWindowDialog(Skelet Person)
+        {
+            AllPhrases = new Dictionary<string, (Phrase phrase, string skelet)>();
+
+            foreach (Phrase phrase in Information.GetPhrase(Person.SystemName))
+            {
+                AllPhrases.Add(phrase.Index, (phrase, Person.Name));
+            }
+            foreach (Phrase phrase in Information.GetPhrase(player.SystemName))
+            {
+                AllPhrases.Add(phrase.Index, (phrase, player.Name));
+            }
+
+            string str = GetStartPhraseInDialog(Person);
+            if (str != null)
+            {
+                CreateDialog(str);
+            }
+            else
+            {
+                CreateClearDialog();
+            }
+        }
+        private string GetStartPhraseInDialog(Skelet Person)
+        {
+            foreach (var startdialog in Information.GetStartPhrases(Person.SystemName))
+            {
+                foreach (var task in player.Tasks)
+                {
+                    if (task.SystemName == AllPhrases[startdialog].phrase.TaskToStart)
+                        return startdialog;
+                }
+            }
+            return null;
+            //throw new Exception("Невозможно найти стартовый диалог");
+        }
+        private void ClearDialog()
+        {
+            DialogStackPanel.Children.Remove(DialogBtn);
+            DialogBtn.Children.Clear();
+        }
+        private void CreateClearDialog()
+        {
+            DialogStackPanel.Children.Add(new Label()
+            {
+                Content = "...",
+                FontSize = 16,
+                Background = new SolidColorBrush(Colors.DarkGray),
+                HorizontalAlignment = HorizontalAlignment.Left,
+            });
+            DialogStackPanel.Children.Add(new Label()
+            {
+                Content = "...",
+                FontSize = 20,
+                Background = new SolidColorBrush(Colors.LightGray),
+                HorizontalAlignment = HorizontalAlignment.Left,
+            });
+            ScrollView.ScrollToEnd();
+        }
+        private void CreateDialog(string index)
+        {
+            AddDialog(index, "l");
+            foreach (var v in AllPhrases[index].phrase.NextIndexes)
+            {
+                AddButton(v);
+            }
+        }
+        private void Question_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var v in DialogStackPanel.Children)
+            {
+                if (v is Button)
+                {
+                    Button but = (Button)v;
+                    but.IsEnabled = false;
+                }
+            }
+            string index = ((Button)sender).Tag.ToString();
+            Phrase phrase = AllPhrases[index].phrase;
+            AddDialog(index, "r");
+            ClearDialog();
+            if (phrase.NextIndexes.Count == 1)
+            {
+                CreateDialog(phrase.NextIndexes[0]);
+            }
+            //throw new Exception("У фразы игрока должен быть только один последующий индекс диалога");
+        }
+        private void AddButton(string index)
+        {
+            Button b = new Button()
+            {
+                Tag = index,
+                Content = AllPhrases[index].phrase.Dialog,
+                FontSize = 20,
+                Margin = new Thickness(0, 2, 0, 2),
+            };
+            b.Click += Question_Click;
+            DialogBtn.Children.Add(b);
+            ScrollView.ScrollToEnd();
+        }
+        private void AddDialog(string index, string side)
+        {
+            Phrase phrase = AllPhrases[index].phrase;
+            foreach (var task in phrase.NewTasks)
+            {
+                player.Tasks.Add(Information.FindTask(task));
+            }
+            foreach (var task in phrase.EndingTasks)
+            {
+                player.Tasks.Remove(Information.FindTask(task));
+                player.CompliteTasks.Add(task);
+            }
+            if (side == "r")
+            {
+                DialogStackPanel.Children.Add(new Label()
+                {
+                    Content = AllPhrases[index].skeletName,
+                    FontSize = 16,
+                    Background = new SolidColorBrush(Colors.DarkGray),
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                });
+                DialogStackPanel.Children.Add(new Label()
+                {
+                    Content = phrase.Dialog,
+                    FontSize = 20,
+                    Background = new SolidColorBrush(Colors.LightGray),
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                });
+            }
+            else
+            {
+                DialogStackPanel.Children.Add(new Label()
+                {
+                    Content = AllPhrases[index].skeletName,
+                    FontSize = 16,
+                    Background = new SolidColorBrush(Colors.DarkGray),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                });
+                DialogStackPanel.Children.Add(new Label()
+                {
+                    Content = phrase.Dialog,
+                    FontSize = 20,
+                    Background = new SolidColorBrush(Colors.LightGray),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                });
+            }
+            ScrollView.ScrollToEnd();
+        }
+
+
+        //====================================================================================================================
+        //====================================================================================================================
+        //====================================================================================================================
+        //==========================================       INVENTORYWINDOW     ===============================================
+        //====================================================================================================================
+        //====================================================================================================================
+        //====================================================================================================================
+
+        private void CreateInventoryWindow(Skelet skelet)
+        {
+            skelet.DisplayInventory(InventoryCanvas, pixelSizeInvent);
+        }
+        //private void ClickOnItem(object sender, MouseButtonEventArgs e)
+        //{
+        //    Tuple<IItem, Canvas> tuple = (Tuple<IItem, Canvas>)((Image)sender).Tag;
+        //    IItem item = tuple.Item1;
+        //    Canvas canvas = tuple.Item2;
+
+        //    if (canvas == ShopCanvas)
+        //    {
+        //        if (MoneyInShop - item.Cost >= 0)
+        //        {
+        //            MoneyInShop -= item.Cost;
+        //            ReplaceItemInCanvas(item, ShopCanvas, InventoryCanvas);
+        //        }
+        //    }
+        //    else if (canvas == InventoryCanvas)
+        //    {
+        //        MoneyInShop += item.Cost;
+        //        ReplaceItemInCanvas(item, InventoryCanvas, ShopCanvas);
+        //    }
+        //    MoneyLabel.Content = "Оставшиеся деньги: " + MoneyInShop.ToString();
+        //}
+        //private void ReplaceItemInCanvas(IItem item, Canvas from, Canvas to)
+        //{
+        //    for (int i = 0; i < from.Children.Count; i++)
+        //    {
+        //        if (((Image)from.Children[i]).Name == item.Picture)
+        //        {
+        //            Image v = (Image)from.Children[i];
+        //            v.Tag = new Tuple<IItem, Canvas>(item, to);
+        //            from.Children.RemoveAt(i);
+        //            to.Children.Add(v);
+        //            break;
+        //        }
+        //    }
+        //}
     }
 }
