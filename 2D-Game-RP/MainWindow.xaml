@@ -18,16 +18,41 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Border BorderBrush="Black" BorderThickness="2" Grid.Column="0" Padding="5">
-                    <Canvas x:Name="Map" Background="Gray"
-                            MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseRightButtonDown="Map_MouseRightButtonDown">
-                    </Canvas>
-                </Border>
+                <Grid.Background>
+                    <ImageBrush ImageSource="gamedata\textures\mainfon1.png" AlignmentX="Center" Stretch="Fill" />
+                </Grid.Background>
 
-                <StackPanel Grid.Column="1" Width="700" Margin="20" Visibility="Collapsed">
-                    <Canvas x:Name="InventoryCanvas" Background="Gray" Height="600" Width="600"/>
-                </StackPanel>
-                <Grid x:Name="DialogWindow" Grid.Column="1" Width="700" Margin="20" Visibility="Collapsed"> 
+                <Grid Grid.Column="0">
+                    
+                    <Canvas x:Name="Map" Height="950" Width="950"
+                            MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseRightButtonDown="Map_MouseRightButtonDown">
+                        <Canvas.Background>
+                            <ImageBrush ImageSource="gamedata\textures\circle.png" AlignmentX="Center" Stretch="Fill" />
+                        </Canvas.Background>
+                    </Canvas>
+                </Grid>
+
+                <Grid x:Name="InventorySearchWindow" Grid.Column="1" Width="640" Visibility="Collapsed">
+                    <Grid.Background>
+                        <ImageBrush ImageSource="gamedata\textures\maininvbig.png" AlignmentX="Center" Stretch="Fill" />
+                    </Grid.Background>
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="ExitInventorySearchBtn" Grid.Row="0" Height="70" Width="300" HorizontalAlignment="Left" Click="ExitInventorySearchBtn_Click">
+                        <Label Content="Выйти из рюкзака" FontSize="20"/>
+                    </Button>
+                    <Canvas x:Name="InventoryCanvas" Grid.Row="1"  Height="Auto" Width="Auto" Margin="20"
+                            MouseLeftButtonDown="InventoryCanvas_MouseLeftButtonDown" MouseRightButtonDown="InventoryCanvas_MouseRightButtonDown"/>
+                </Grid>
+                
+                <Grid x:Name="DialogWindow" Grid.Column="1" Width="700" Margin="20" Visibility="Collapsed">
+                    <Grid.Background>
+                        <ImageBrush ImageSource="gamedata\textures\dialogfon.png" AlignmentX="Center" Stretch="Fill" />
+                    </Grid.Background>
+                    
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
@@ -53,6 +78,10 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Margin="20">
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="gamedata\textures\mainleft.png" AlignmentX="Center" Stretch="Fill" />
+                    </StackPanel.Background>
+                    
                     <StackPanel >
                         <Label x:Name="NamePlayer" FontSize="20" Content="Имя: Какое то пока не выбрали :)"/>
                         <!--<Image x:Name="PicturePlayer" VerticalAlignment="Top"  Grid.Column="1" Height="100" Width="300" Margin="0,20"/>-->
@@ -64,6 +93,10 @@
                     <!--<Button x:Name="ArmorPlayer" Height="80" Width="Auto" Margin="0,5" Click="ArmorPlayer_Click"/>-->
                 </StackPanel>
                 <StackPanel Grid.Column="1" Margin="20">
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="gamedata\textures\mainleft.png" AlignmentX="Center" Stretch="Fill" />
+                    </StackPanel.Background>
+                    
                     <Button Click="PDA_Click" Height="50">
                         <Label Content="ЗАДАЧИ" FontSize="20"/>
                     </Button>
@@ -71,11 +104,14 @@
                         <Label Content="МЕНЮ" FontSize="20"/>
                     </Button>
                 </StackPanel>
-                <Border BorderBrush="Black" BorderThickness="2" Grid.Column="2" Padding="5">
-                    <Canvas x:Name="InventoryPlayer" Background="Gray"
+                <Grid Grid.Column="2">
+                    <Grid.Background>
+                        <ImageBrush ImageSource="gamedata\textures\maininvsmall.png" AlignmentX="Center" Stretch="Fill" />
+                    </Grid.Background>
+                    <Canvas x:Name="InventoryPlayer" Margin="20"
                                     MouseLeftButtonDown="InventoryPlayer_MouseLeftButtonDown" MouseRightButtonDown="InventoryPlayer_MouseRightButtonDown">
                     </Canvas>
-                </Border>
+                </Grid>
             </Grid>
         </Grid>
     </Viewbox>

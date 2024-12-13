@@ -118,8 +118,8 @@ namespace TwoD_Game_RP
                     {
                         images[i, j, k].Width = size;
                         images[i, j, k].Height = size;
-                        Canvas.SetLeft(images[i, j, k], size + size * j);
-                        Canvas.SetTop(images[i, j, k], size + size * i);
+                        Canvas.SetLeft(images[i, j, k], size * j);
+                        Canvas.SetTop(images[i, j, k], size * i);
                         images[i, j, k].RenderTransform = new RotateTransform(((KeyValuePair<string, int>)images[i, j, k].Tag).Value, size / 2, size / 2);
                         canvas.Children.Add(images[i, j, k]);
                     }
@@ -146,8 +146,8 @@ namespace TwoD_Game_RP
                         Width = size,
                         Height = size
                     };
-                    Canvas.SetLeft(image, size + size * point.Y);
-                    Canvas.SetTop(image, size + size * point.X);
+                    Canvas.SetLeft(image, size * point.Y);
+                    Canvas.SetTop(image, size * point.X);
                     canvas.Children.Add(image);
                 }
             }
@@ -163,8 +163,8 @@ namespace TwoD_Game_RP
                 {
                     images[i, j, k].Width = size;
                     images[i, j, k].Height = size;
-                    Canvas.SetLeft(images[i, j, k], size + size * j);
-                    Canvas.SetTop(images[i, j, k], size + size * i);
+                    Canvas.SetLeft(images[i, j, k], size * j);
+                    Canvas.SetTop(images[i, j, k], size * i);
                     images[i, j, k].RenderTransform = new RotateTransform(((KeyValuePair<string, int>)images[i, j, k].Tag).Value, size / 2, size / 2);
                     canvas.Children.Add(images[i, j, k]);
                 }
@@ -184,8 +184,8 @@ namespace TwoD_Game_RP
                 {
                     images[i, j, k].Width = size;
                     images[i, j, k].Height = size;
-                    Canvas.SetLeft(images[i, j, k], size + size * (j - LeftUpCorner.Y));
-                    Canvas.SetTop(images[i, j, k], size + size * (i - LeftUpCorner.X));
+                    Canvas.SetLeft(images[i, j, k], size * (j - LeftUpCorner.Y));
+                    Canvas.SetTop(images[i, j, k], size * (i - LeftUpCorner.X));
                     images[i, j, k].RenderTransform = new RotateTransform(((KeyValuePair<string, int>)images[i, j, k].Tag).Value, size / 2, size / 2);
                     canvas.Children.Add(images[i, j, k]);
                 }

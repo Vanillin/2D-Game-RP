@@ -357,5 +357,14 @@
     <Resource Include="gamedata\textures\items\notebook.png" />
     <Resource Include="gamedata\textures\items\telephone.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\circle.png" />
+    <Resource Include="gamedata\textures\dialogfon.png" />
+    <Resource Include="gamedata\textures\mainfon1.png" />
+    <Resource Include="gamedata\textures\mainfon2.png" />
+    <Resource Include="gamedata\textures\maininvbig.png" />
+    <Resource Include="gamedata\textures\maininvsmall.png" />
+    <Resource Include="gamedata\textures\mainleft.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
