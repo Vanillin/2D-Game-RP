@@ -45,14 +45,14 @@ namespace TwoD_Game_RP
     }
     public class Trash : Skelet
     {
-        public Trash(GamePoint coord, char rotate, List<Item> inventoryList) :
-            base("Мусорка", "Мусорка", NPSGroup.Box, NPSIntellect.Non, coord, rotate, "trashSkelet", inventoryList, 3, 3, true)
+        public Trash(GamePoint coord, char rotate, int heightInventory, int weightInventory, List<Item> inventoryList) :
+            base("Мусорка", "Мусорка", NPSGroup.Box, NPSIntellect.Non, coord, rotate, "trashSkelet", inventoryList, heightInventory, weightInventory, true)
         { }
     }
     public class Box : Skelet
     {
-        public Box(string name, string systemname, GamePoint coord, char rotate, List<Item> inventoryList) :
-            base(name, "", NPSGroup.Box, NPSIntellect.Non, coord, rotate, systemname, inventoryList, 3, 3, true)
+        public Box(string name, string systemname, GamePoint coord, char rotate, int heightInventory, int weightInventory, List<Item> inventoryList) :
+            base(name, "", NPSGroup.Box, NPSIntellect.Non, coord, rotate, systemname, inventoryList, heightInventory, weightInventory, true)
         { }
     }
 }

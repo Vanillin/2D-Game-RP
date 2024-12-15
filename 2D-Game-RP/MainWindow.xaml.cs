@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Net.Mail;
+using System.Reflection;
+using System.Security.Policy;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace TwoD_Game_RP
@@ -27,7 +27,7 @@ namespace TwoD_Game_RP
 
         public Player player;
 
-        bool SeeInCurcle = false;
+        bool SeeInCurcle = true;
 
         private static readonly int CountTimeAnimation = 250;
         private DispatcherTimer timerReloadAnimation = new DispatcherTimer()
@@ -66,7 +66,7 @@ namespace TwoD_Game_RP
             timerReloadAnimation.Tick += TimerAnimation_Tick;
             timerReloadAnimation.IsEnabled = true;
 
-            AddInformationPlayer("Герой", PlayerGender.Man, x, y, null,null, 1300, new List<Item>()
+            AddInformationPlayer("Герой", PlayerGender.Man, x, y, null, null, 1300, new List<Item>()
                 { new Telephone(), new NoteBook()}
                 );
             player.Tasks.Add(Information.FindTask("startdialogNuraDay"));
@@ -87,7 +87,7 @@ namespace TwoD_Game_RP
             timerReloadAnimation.Tick += TimerAnimation_Tick;
             timerReloadAnimation.IsEnabled = true;
 
-            AddInformationPlayer(PlayerName, Gender, x, y, null,null, 1300, new List<Item>()
+            AddInformationPlayer(PlayerName, Gender, x, y, null, null, 1300, new List<Item>()
                 );
             player.Tasks.Add(Information.FindTask("startdialogMaksimNight"));
 
@@ -127,8 +127,8 @@ namespace TwoD_Game_RP
                 var OblWatch = CurrentLocation.GrafLocToWatch.SearchSeeInCircle(player.Cord, oblwatch,
                     Math.Max((int)player.Cord.X - oblwatch, 0), Math.Max((int)player.Cord.Y - oblwatch, 0),
                     Math.Min((int)player.Cord.X + oblwatch + 1, CurrentLocation.Height), Math.Min((int)player.Cord.Y + oblwatch + 1, CurrentLocation.Width));
-                
-                CurrentLocation.DisplayToPointsWithBorderAndView(OblSee, OblWatch, LeftUpCorner, Map, pixelSizeGamePole, SystemObj);                
+
+                CurrentLocation.DisplayToPointsWithBorderAndView(OblSee, OblWatch, LeftUpCorner, Map, pixelSizeGamePole, SystemObj);
             }
             else
             {
@@ -147,7 +147,7 @@ namespace TwoD_Game_RP
             {
                 if (v.PeekGlobalAction() == null) continue;
                 if (v.PeekAction() == null) v.CreateActions(v.PeekGlobalAction().CreateActions(v, current));
-                
+
                 if (!v.PeekAction().IsCanComplete(v, current))
                 {
                     v.ClearActions();
@@ -200,15 +200,15 @@ namespace TwoD_Game_RP
                 CurrentLocation.AddLivesWithCell(new Maksim(new GamePoint(17, 21), '1'));
                 CurrentLocation.AddLivesWithCell(new Nura(new GamePoint(14, 0), '3'));
 
-                CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(10, 7), '3', new List<Item>()));
-                CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(13, 17), '1', new List<Item>()));
-                CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(15, 9), '0', new List<Item>()
+                CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(10, 7), '3', sizeInventH, sizeInventW, new List<Item>()));
+                CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(13, 17), '1', sizeInventH, sizeInventW, new List<Item>()));
+                CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(15, 9), '0', sizeInventH, sizeInventW, new List<Item>()
                     { new Key(), new BloodPaper() }));
 
-                var vanya = new Vanya(new GamePoint(19, 5), '0');
-                vanya.EnqueueDownGlobalAction(new ActionMove(new GamePoint(19, 8), true));
-                vanya.EnqueueDownGlobalAction(new ActionMove(new GamePoint(19, 5), true));
-                CurrentLocation.AddLivesWithCell(vanya);
+                //var vanya = new Vanya(new GamePoint(19, 5), '0');
+                //vanya.EnqueueDownGlobalAction(new ActionMove(new GamePoint(19, 8), true));
+                //vanya.EnqueueDownGlobalAction(new ActionMove(new GamePoint(19, 5), true));
+                //CurrentLocation.AddLivesWithCell(vanya);
             }
             ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
             //pixelSize = Math.Min( Map.Height / (CurrentLocation.Height + 2) , Map.Width / (CurrentLocation.Width + 2));
@@ -242,7 +242,7 @@ namespace TwoD_Game_RP
 
         //-------------------------------------------------------------------------------Click
 
-        
+
 
         private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -309,7 +309,7 @@ namespace TwoD_Game_RP
             {
                 Content = "Открыть",
                 Opacity = 0.6,
-                FontSize = 10,
+                FontSize = 20,
             };
             Open.Click += MenuDoorOpen_Click;
             Open.Tag = door;
@@ -333,19 +333,11 @@ namespace TwoD_Game_RP
             Canvas.SetLeft(menu, pixelSizeGamePole * (people.Cord.Y + 1 - LeftUpCorner.Y));
             Canvas.SetTop(menu, pixelSizeGamePole * (people.Cord.X - LeftUpCorner.X));
 
-            //Button Information = new Button()
-            //{
-            //    Content = "Информация",
-            //    Opacity = 0.6,
-            //};
-            //Information.Click += MenuPersonInformation_Click;
-            //Information.Tag = people;
-
             Button Dialog = new Button()
             {
                 Content = "Поговорить",
                 Opacity = 0.6,
-                FontSize = 10,
+                FontSize = 20,
             };
             Dialog.Click += MenuPersonDialog_Click;
             Dialog.Tag = people;
@@ -354,6 +346,7 @@ namespace TwoD_Game_RP
             {
                 Content = "Обыскать",
                 Opacity = 0.6,
+                FontSize = 20,
             };
             Check.Click += MenuPersonCheck_Click;
             Check.Tag = people;
@@ -370,14 +363,8 @@ namespace TwoD_Game_RP
             {
                 menu.Children.Add(Check);
             }
-            else if (!player.FriendFranction.Contains(people.Fraction))
-            {
-                //menu.Children.Add(Information);
-            }
             else
             {
-                //menu.Children.Add(Information);
-                //menu.Children.Add(new Separator());
                 menu.Children.Add(Dialog);
             }
             SystemObj.Add(menu);
@@ -412,28 +399,12 @@ namespace TwoD_Game_RP
 
         //-------------------------------------------------------------------------------InOtherWindow
 
-        public bool BuyThing(Item item)
+        private void PDA_Click(object sender, RoutedEventArgs e)
         {
-            return true;
-            //if (player.Money < item.Cost) return false;
-            //else
-            //{
-            //    player.Money -= item.Cost;
-            //    player.InventoryList.Add(item);
-            //    return true;
-            //}
-        }
-        public bool SellThing(Item item)
-        {
-            return true;
-            //Item it = player.InventoryList.Find(X => X.SystemName == item.SystemName);
-            //if (it == null) return false;
-            //else
-            //{
-            //    player.Money += it.Cost;
-            //    player.InventoryList.Remove(it);
-            //    return true;
-            //}            
+            timerReloadAnimation.IsEnabled = false;
+            SystemObj = new List<UIElement>();
+            TaskWindow.Visibility = Visibility.Visible;
+            CreateTaskWindow();
         }
 
         //-------------------------------------------------------------------------------Window
@@ -444,12 +415,7 @@ namespace TwoD_Game_RP
 
             this.Close();
         }
-        private void PDA_Click(object sender, RoutedEventArgs e)
-        {
-            PDAWindow pda = new PDAWindow(player);
-            pda.ShowDialog();
-        }
-        private void GunPlayer_Click(object sender, RoutedEventArgs e)
+        private void SystemViewBtn_Click(object sender, RoutedEventArgs e)
         {
             SeeInCurcle = !SeeInCurcle;
         }
@@ -470,9 +436,10 @@ namespace TwoD_Game_RP
         //====================================================================================================================
 
         Dictionary<string, (Phrase phrase, string skeletName)> AllPhrases;
+        int lengthPhrase = 65;
         private void ExitDialogBtn_Click(object sender, RoutedEventArgs e)
         {
-            DialogWindow.Visibility = Visibility.Collapsed; 
+            DialogWindow.Visibility = Visibility.Collapsed;
             DialogStackPanel.Children.Clear();
             DialogBtn.Children.Clear();
             timerReloadAnimation.IsEnabled = true;
@@ -481,11 +448,11 @@ namespace TwoD_Game_RP
         {
             AllPhrases = new Dictionary<string, (Phrase phrase, string skelet)>();
 
-            foreach (Phrase phrase in Information.GetPhrase(Person.SystemName))
+            foreach (Phrase phrase in Information.GetPhrase(Person.SystemName, lengthPhrase))
             {
                 AllPhrases.Add(phrase.Index, (phrase, Person.Name));
             }
-            foreach (Phrase phrase in Information.GetPhrase(player.SystemName))
+            foreach (Phrase phrase in Information.GetPhrase(player.SystemName, lengthPhrase))
             {
                 AllPhrases.Add(phrase.Index, (phrase, player.Name));
             }
@@ -520,20 +487,37 @@ namespace TwoD_Game_RP
         }
         private void CreateClearDialog()
         {
-            DialogStackPanel.Children.Add(new Label()
+            Border LabelName = new Border()
             {
-                Content = "...",
-                FontSize = 16,
-                Background = new SolidColorBrush(Colors.DarkGray),
-                HorizontalAlignment = HorizontalAlignment.Left,
-            });
-            DialogStackPanel.Children.Add(new Label()
+                CornerRadius = new CornerRadius(10),
+                Background = Brushes.DarkGray,
+                Padding = new Thickness(3),
+                Margin = new Thickness(0, 2, 0, 0),
+                Child = new Label()
+                {
+                    Content = "...",
+                    FontSize = 16,
+                    Background = Brushes.Transparent,
+                },
+            };
+            Border LabelText = new Border()
             {
-                Content = "...",
-                FontSize = 20,
-                Background = new SolidColorBrush(Colors.LightGray),
-                HorizontalAlignment = HorizontalAlignment.Left,
-            });
+                CornerRadius = new CornerRadius(10),
+                Background = Brushes.LightGray,
+                Padding = new Thickness(3),
+                Margin = new Thickness(0, 0, 0, 2),
+                Child = new Label()
+                {
+                    Content = "...",
+                    FontSize = 20,
+                    Background = Brushes.Transparent,
+                }
+            };
+            LabelName.HorizontalAlignment = HorizontalAlignment.Left;
+            LabelText.HorizontalAlignment = HorizontalAlignment.Left;
+
+            DialogStackPanel.Children.Add(LabelName);
+            DialogStackPanel.Children.Add(LabelText);
             ScrollView.ScrollToEnd();
         }
         private void CreateDialog(string index)
@@ -570,11 +554,20 @@ namespace TwoD_Game_RP
             {
                 Tag = index,
                 Content = AllPhrases[index].phrase.Dialog,
+                Background = Brushes.Transparent,
                 FontSize = 20,
-                Margin = new Thickness(0, 2, 0, 2),
             };
             b.Click += Question_Click;
-            DialogBtn.Children.Add(b);
+            Border bor = new Border()
+            {
+                CornerRadius = new CornerRadius(10),
+                Background = Brushes.AntiqueWhite,
+                Padding = new Thickness(3),
+                Margin = new Thickness(0, 2, 0, 2),
+                Child = b,
+            };
+
+            DialogBtn.Children.Add(bor);
             ScrollView.ScrollToEnd();
         }
         private void AddDialog(string index, string side)
@@ -589,40 +582,46 @@ namespace TwoD_Game_RP
                 player.Tasks.Remove(Information.FindTask(task));
                 player.CompliteTasks.Add(task);
             }
-            if (side == "r")
+
+            Border LabelName = new Border()
             {
-                DialogStackPanel.Children.Add(new Label()
+                CornerRadius = new CornerRadius(10),
+                Background = Brushes.DarkGray,
+                Padding = new Thickness(3),
+                Margin = new Thickness(0, 2, 0, 0),
+                Child = new Label()
                 {
                     Content = AllPhrases[index].skeletName,
                     FontSize = 16,
-                    Background = new SolidColorBrush(Colors.DarkGray),
-                    HorizontalAlignment = HorizontalAlignment.Right,
-                });
-                DialogStackPanel.Children.Add(new Label()
+                    Background = Brushes.Transparent,
+                },
+            };
+            Border LabelText = new Border()
+            {
+                CornerRadius = new CornerRadius(10),
+                Background = Brushes.LightGray,
+                Padding = new Thickness(3),
+                Margin = new Thickness(0, 0, 0, 2),
+                Child = new Label()
                 {
                     Content = phrase.Dialog,
                     FontSize = 20,
-                    Background = new SolidColorBrush(Colors.LightGray),
-                    HorizontalAlignment = HorizontalAlignment.Right,
-                });
+                    Background = Brushes.Transparent,
+                }
+            };
+
+            if (side == "r")
+            {
+                LabelName.HorizontalAlignment = HorizontalAlignment.Right;
+                LabelText.HorizontalAlignment = HorizontalAlignment.Right;
             }
             else
             {
-                DialogStackPanel.Children.Add(new Label()
-                {
-                    Content = AllPhrases[index].skeletName,
-                    FontSize = 16,
-                    Background = new SolidColorBrush(Colors.DarkGray),
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                });
-                DialogStackPanel.Children.Add(new Label()
-                {
-                    Content = phrase.Dialog,
-                    FontSize = 20,
-                    Background = new SolidColorBrush(Colors.LightGray),
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                });
+                LabelName.HorizontalAlignment = HorizontalAlignment.Left;
+                LabelText.HorizontalAlignment = HorizontalAlignment.Left;
             }
+            DialogStackPanel.Children.Add(LabelName);
+            DialogStackPanel.Children.Add(LabelText);
             ScrollView.ScrollToEnd();
         }
 
@@ -645,7 +644,7 @@ namespace TwoD_Game_RP
             InventoryCanvas.Tag = skelet;
             skelet.DisplayInventory(InventoryCanvas, pixelSizeInvent);
         }
-        private void InventoryPlayer_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void InventoryPlayer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point pointMouse = e.GetPosition(InventoryPlayer);
             (int W, int H) = ((int)Math.Truncate((pointMouse.X) / pixelSizeInvent),
@@ -668,10 +667,14 @@ namespace TwoD_Game_RP
                     {
                         PDA_Click(null, null);
                     }
+                    else if (item is Telephone)
+                    {
+                        ClickOnTelephone(null, null);
+                    }
                 }
             }
         }
-        private void InventoryPlayer_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void InventoryPlayer_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
 
         }
@@ -694,6 +697,91 @@ namespace TwoD_Game_RP
         private void InventoryCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
 
+        }
+        private void ClickOnTelephone(object sender, MouseButtonEventArgs e)
+        {
+            StackPanel menu = new StackPanel();
+            Canvas.SetLeft(menu, pixelSizeGamePole * (player.Cord.Y + 1 - LeftUpCorner.Y));
+            Canvas.SetTop(menu, pixelSizeGamePole * (player.Cord.X - LeftUpCorner.X));
+
+            Button Agenstv = new Button()
+            {
+                Content = "Позвонить в детективное Агенство",
+                Opacity = 0.6,
+                FontSize = 20,
+            };
+            Agenstv.Click += MenuCall_Click;
+            Agenstv.Tag = new Door(new GamePoint(0,0), '0');
+            menu.Children.Add(Agenstv);
+
+            Button Vanya = new Button()
+            {
+                Content = "Позвонить Ване",
+                Opacity = 0.6,
+                FontSize = 20,
+            };
+            Vanya.Click += MenuCall_Click;
+            Vanya.Tag = new Vanya(new GamePoint(0, 0), '0');
+            menu.Children.Add(Vanya);
+
+            SystemObj.Add(menu);
+        }
+        private void MenuCall_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            Skelet people = (Skelet)button.Tag;
+
+            timerReloadAnimation.IsEnabled = false;
+            SystemObj = new List<UIElement>();
+            DialogWindow.Visibility = Visibility.Visible;
+            CreateWindowDialog(people);
+        }
+
+        //====================================================================================================================
+        //====================================================================================================================
+        //====================================================================================================================
+        //=============================================       TASKWINDOW     =================================================
+        //====================================================================================================================
+        //====================================================================================================================
+        //====================================================================================================================
+
+        private void ExitTaskBtn_Click(object sender, RoutedEventArgs e)
+        {
+            TaskWindow.Visibility = Visibility.Collapsed;
+            ListTasks.Children.Clear();
+            timerReloadAnimation.IsEnabled = true;
+        }
+        private void CreateTaskWindow()
+        {
+            foreach (var task in player.Tasks)
+            {
+                ListTasks.Children.Add(new Border()
+                {
+                    CornerRadius = new CornerRadius(10),
+                    Background = Brushes.DarkGray,
+                    Padding = new Thickness(3),
+                    Margin = new Thickness(0, 2, 0, 0),
+                    Child = new Label()
+                    {
+                        Content = task.Name,
+                        FontSize = 22,
+                        Background = Brushes.Transparent,
+                    },
+                });
+                ListTasks.Children.Add(new Border()
+                {
+                    CornerRadius = new CornerRadius(10),
+                    Background = Brushes.LightGray,
+                    Padding = new Thickness(3),
+                    Margin = new Thickness(0, 0, 0, 2),
+                    Child = new Label()
+                    {
+                        Content = task.SecondName,
+                        FontSize = 16,
+                        Background = Brushes.Transparent,
+                    }
+                });
+            }
         }
     }
 }

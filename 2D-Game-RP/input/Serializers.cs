@@ -1,19 +1,14 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Windows.Input;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace TwoD_Game_RP
 {
     public class Information
     {
-        public static List<string> Blocks = new List<string> { "Wall", "Window"};
+        public static List<string> Blocks = new List<string> { "Wall", "Window" };
         public static List<string> NotWatch = new List<string> { "Wall", "Shrub" };
 
         //public List<string> NameRandom = new List<string>
@@ -68,7 +63,7 @@ namespace TwoD_Game_RP
                 Garden.AddLayerCells(CreateLocation("GardenWalls"), 0);
                 Garden.AddLayerCells(CreateLocation("GardenObject1"), 0);
                 Garden.AddLayerCells(CreateLocation("GardenAir"), 3);
-                Garden.CreateGrafWatch(); 
+                Garden.CreateGrafWatch();
                 Garden.CreateGrafMove();
                 Garden.CreateGrafAll();
 
@@ -96,9 +91,31 @@ namespace TwoD_Game_RP
             }
             return phrasesStart.GetStartDialogs(systemname);
         }
-        public static Phrase[] GetPhrase(string sstemnameDialogPerson)
+        public static Phrase[] GetPhrase(string sstemnameDialogPerson, int length)
         {
-            return ReadPhrases($"Phrases_{sstemnameDialogPerson}");
+            var allphrases = ReadPhrases($"Phrases_{sstemnameDialogPerson}");
+            foreach (var ph in allphrases)
+            {
+                ph.Dialog = CutString(ph.Dialog, length);
+            }
+            return allphrases;
+        }
+        private static string CutString(string s, int length)
+        {
+            string retur = "";
+            string[] words = s.Split(new char[] {' ', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            int i = 0;
+            foreach (string word in words)
+            {
+                if (i + word.Length > length)
+                {
+                    retur += '\n';
+                    i = 0;
+                }
+                retur += word + ' ';
+                i += word.Length + 1;
+            }
+            return retur;
         }
         private static Task[] ReadTasks(string nameTask)
         {
@@ -138,7 +155,7 @@ namespace TwoD_Game_RP
                     char pict = rl.location[i][j];
                     if (dict.ContainsKey(pict))
                     {
-                        retur[i,j] = new StaticPicCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"{dict[pict]}.png"));
+                        retur[i, j] = new StaticPicCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"{dict[pict]}.png"));
                         switch (rl.rotation[i][j])
                         {
                             case '1': retur[i, j].Rotate90 = true; break;
