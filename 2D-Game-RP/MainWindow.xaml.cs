@@ -170,7 +170,11 @@ namespace TwoD_Game_RP
                 {
                     MainScripts.ScriptTime(this);
                 }
-                if (task.SystemName == "scriptFinal")
+                if (task.SystemName == "scriptcantalkVanya")
+                {
+                    MainScripts.ScriptCanTalkVanya(this);
+                }
+                if (task.SystemName == "scriptFinal") 
                 {
                     MainScripts.ScriptFinal(this);
                 }
@@ -376,6 +380,10 @@ namespace TwoD_Game_RP
                 Opacity = 0.6,
                 FontSize = 20,
             };
+            if (people is Dead)
+            {
+                Dialog.Content = "Осмотреть";
+            }
             Dialog.Click += MenuPersonDialog_Click;
             Dialog.Tag = people;
 
@@ -415,34 +423,43 @@ namespace TwoD_Game_RP
         }
         private void MenuPersonCheck_Click(object sender, RoutedEventArgs e)
         {
-            Button button = (Button)sender;
-            Skelet people = (Skelet)button.Tag;
+            if (InventorySearchWindow.Visibility == Visibility.Collapsed)
+            {
+                Button button = (Button)sender;
+                Skelet people = (Skelet)button.Tag;
 
-            timerReloadAnimation.IsEnabled = false;
-            SystemObj = new List<UIElement>();
-            InventorySearchWindow.Visibility = Visibility.Visible;
-            CreateInventoryWindow(people);
+                timerReloadAnimation.IsEnabled = false;
+                SystemObj = new List<UIElement>();
+                InventorySearchWindow.Visibility = Visibility.Visible;
+                CreateInventoryWindow(people);
+            }                
         }
         private void MenuPersonDialog_Click(object sender, RoutedEventArgs e)
         {
-            Button button = (Button)sender;
-            Skelet people = (Skelet)button.Tag;
+            if (DialogWindow.Visibility == Visibility.Collapsed)
+            {
+                Button button = (Button)sender;
+                Skelet people = (Skelet)button.Tag;
 
-            timerReloadAnimation.IsEnabled = false;
-            SystemObj = new List<UIElement>();
-            DialogWindow.Visibility = Visibility.Visible;
-            CreateWindowDialog(people);
+                timerReloadAnimation.IsEnabled = false;
+                SystemObj = new List<UIElement>();
+                DialogWindow.Visibility = Visibility.Visible;
+                CreateWindowDialog(people);
+            }
+        }
+        private void MenuTask_Click(object sender, RoutedEventArgs e)
+        {
+            if (TaskWindow.Visibility == Visibility.Collapsed)
+            {
+                timerReloadAnimation.IsEnabled = false;
+                SystemObj = new List<UIElement>();
+                TaskWindow.Visibility = Visibility.Visible;
+                CreateTaskWindow();
+            }                
         }
 
         //-------------------------------------------------------------------------------InOtherWindow
 
-        private void PDA_Click(object sender, RoutedEventArgs e)
-        {
-            timerReloadAnimation.IsEnabled = false;
-            SystemObj = new List<UIElement>();
-            TaskWindow.Visibility = Visibility.Visible;
-            CreateTaskWindow();
-        }
 
         //-------------------------------------------------------------------------------Window
         private void EndGame()
@@ -698,7 +715,7 @@ namespace TwoD_Game_RP
                 {
                     if (item is NoteBook)
                     {
-                        PDA_Click(null, null);
+                        MenuTask_Click(null, null);
                     }
                     else if (item is Telephone)
                     {
@@ -731,6 +748,7 @@ namespace TwoD_Game_RP
         {
 
         }
+        public bool CanTalkVanya = false;
         private void ClickOnTelephone(object sender, MouseButtonEventArgs e)
         {
             StackPanel menu = new StackPanel();
@@ -747,15 +765,18 @@ namespace TwoD_Game_RP
             Agenstv.Tag = new Agency(new GamePoint(0, 0), '0');
             menu.Children.Add(Agenstv);
 
-            Button Vanya = new Button()
+            if (CanTalkVanya)
             {
-                Content = "Позвонить Ване",
-                Opacity = 0.6,
-                FontSize = 20,
-            };
-            Vanya.Click += MenuCall_Click;
-            Vanya.Tag = new Vanya(new GamePoint(0, 0), '0');
-            menu.Children.Add(Vanya);
+                Button Vanya = new Button()
+                {
+                    Content = "Позвонить Ване",
+                    Opacity = 0.6,
+                    FontSize = 20,
+                };
+                Vanya.Click += MenuCall_Click;
+                Vanya.Tag = new Vanya(new GamePoint(0, 0), '0');
+                menu.Children.Add(Vanya);
+            }
 
             SystemObj.Add(menu);
         }

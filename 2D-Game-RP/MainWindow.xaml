@@ -62,7 +62,7 @@
                     </Grid.RowDefinitions>
                     <Border CornerRadius="10" Grid.Row="0" Height="70" Width="300" Margin="20,20,0,0" Background="AntiqueWhite" HorizontalAlignment="Left"  >
                         <Button x:Name="ExitInventorySearchBtn" Background="Transparent"  Click="ExitInventorySearchBtn_Click">
-                            <Label Content="Выйти из диалога" FontSize="20"/>
+                            <Label Content="Прекратить обыск" FontSize="20"/>
                         </Button>
                     </Border>
                     <Canvas x:Name="InventoryCanvas" Grid.Row="1"  Height="Auto" Width="Auto" Margin="20"

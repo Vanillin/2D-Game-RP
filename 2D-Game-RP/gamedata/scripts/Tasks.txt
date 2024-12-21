@@ -93,6 +93,12 @@
   </Task>
   <Task>
     <IsSystem>false</IsSystem>
+    <SystemName>scriptcantalkVanya</SystemName>
+    <Name>-</Name>
+    <Description>-</Description>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
     <SystemName>startdialogVanyaNight</SystemName>
     <Name>Позвоните Ване</Name>
     <Description>-</Description>

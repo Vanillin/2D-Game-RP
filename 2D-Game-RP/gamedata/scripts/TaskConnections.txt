@@ -38,6 +38,10 @@
   </ValueTupleOfStringString>
   <ValueTupleOfStringString>
     <Item1>startdialogNuraNight</Item1>
+    <Item2>scriptcantalkVanya</Item2>
+  </ValueTupleOfStringString>
+  <ValueTupleOfStringString>
+    <Item1>scriptcantalkVanya</Item1>
     <Item2>startdialogVanyaNight</Item2>
   </ValueTupleOfStringString>
   <ValueTupleOfStringString>

@@ -22,5 +22,11 @@ namespace TwoD_Game_RP
 
             window.Close();
         }
+        public static void ScriptCanTalkVanya(MainWindow window)
+        {
+            window.CanTalkVanya = true;
+
+            window.player.Tasks.ComplitedTask("scriptcantalkVanya");
+        }
     }
 }
