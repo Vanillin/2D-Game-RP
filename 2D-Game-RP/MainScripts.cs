@@ -10,7 +10,7 @@ namespace TwoD_Game_RP
         {
             MessageBox.Show("Вы подождали до вечера. С работы пришли жильцы.");
 
-            window.CurrentLocation.AddLivesWithCell(new Maksim(new GamePoint(17, 21), '1'));
+            window.CurrentLocation.AddLivesWithCell(new Maksim(new GamePoint(17, 21), '0'));
 
             window.player.Tasks.ComplitedTask("scriptTime");
         }

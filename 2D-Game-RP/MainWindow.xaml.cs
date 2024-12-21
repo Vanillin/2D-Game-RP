@@ -237,8 +237,8 @@ namespace TwoD_Game_RP
                 //CurrentLocation.AddLivesWithCell(stalker2);
 
 
-                CurrentLocation.AddLivesWithCell(new Kristina(new GamePoint(6, 15), '1'));
-                CurrentLocation.AddLivesWithCell(new Nura(new GamePoint(14, 0), '3'));
+                CurrentLocation.AddLivesWithCell(new Kristina(new GamePoint(6, 15), '0'));
+                CurrentLocation.AddLivesWithCell(new Nura(new GamePoint(14, 0), '0'));
                 CurrentLocation.AddLivesWithCell(new Dead(new GamePoint(3, 5), '0'));
 
                 CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(10, 7), '3', sizeInventH, sizeInventW, new List<Item>()));
