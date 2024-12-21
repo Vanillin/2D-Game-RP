@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Security.Policy;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -29,10 +26,13 @@ namespace TwoD_Game_RP
 
         bool SeeInCurcle = true;
 
-        private static readonly int CountTimeAnimation = 250;
         private DispatcherTimer timerReloadAnimation = new DispatcherTimer()
         {
-            Interval = TimeSpan.FromMilliseconds(CountTimeAnimation)
+            Interval = TimeSpan.FromMilliseconds(250)
+        };
+        private DispatcherTimer timerReloadAnalyzeTask = new DispatcherTimer()
+        {
+            Interval = TimeSpan.FromMilliseconds(1500)
         };
         private void ChangeSizeGamePole(int height, int wight, GamePoint player)
         {
@@ -65,13 +65,18 @@ namespace TwoD_Game_RP
             SystemObj = new List<UIElement>();
             timerReloadAnimation.Tick += TimerAnimation_Tick;
             timerReloadAnimation.IsEnabled = true;
+            timerReloadAnalyzeTask.Tick += TimerAnalyzeTask_Tick;
+            timerReloadAnalyzeTask.IsEnabled = true;
 
-            AddInformationPlayer("Герой", PlayerGender.Man, x, y, null, null, 1300, new List<Item>()
-                { new Telephone(), new NoteBook()}
-                );
-            player.Tasks.Add(Information.FindTask("startdialogNuraDay"));
-            player.Tasks.Add(Information.FindTask("startdialogKristinaDay"));
-            player.Tasks.Add(Information.FindTask("startdialogMaksimNight"));
+            player = new PlayerFirst("Герой", new GamePoint(x, y), sizeInventH, sizeInventW,
+                new List<Item>()
+                {
+                    new Telephone(), new NoteBook()
+                },
+                new List<string>()
+                {
+                    "scriptstart"
+                });
 
             GoToLocation("Garden");
             TimerAnimation_Tick(null, null);
@@ -87,17 +92,18 @@ namespace TwoD_Game_RP
             timerReloadAnimation.Tick += TimerAnimation_Tick;
             timerReloadAnimation.IsEnabled = true;
 
-            AddInformationPlayer(PlayerName, Gender, x, y, null, null, 1300, new List<Item>()
-                );
-            player.Tasks.Add(Information.FindTask("startdialogMaksimNight"));
+            player = new PlayerFirst(PlayerName, new GamePoint(x, y), sizeInventH, sizeInventW,
+                new List<Item>()
+                {
+                    new Telephone(), new NoteBook()
+                },
+                new List<string>()
+                {
+                    "startdialogNuraDay", "startdialogKristinaDay", "startdialogMaksimNight"
+                });
 
             GoToLocation("Garden");
             TimerAnimation_Tick(null, null);
-        }
-        private void AddInformationPlayer(string PlayerName, PlayerGender gender, int x, int y, Gun gun, Cloth cloth, int money, List<Item> inventory)
-        {
-            player = new Player(PlayerName, gender, new GamePoint(x, y), sizeInventH, sizeInventW, inventory);
-            //PicturePlayer.Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{player.SystemName}.png"), UriKind.Relative));
         }
 
         private int Time;
@@ -140,6 +146,37 @@ namespace TwoD_Game_RP
             player.DisplayInventory(InventoryPlayer, pixelSizeInvent);
             //selectLevel.TakeNextPictureLevel();
         }
+        private void TimerAnalyzeTask_Tick(object sender, EventArgs e)
+        {
+            foreach (var task in player.Tasks.GetUsingTask())
+            {
+                if (task.SystemName == "scriptstart")
+                {
+                    player.Tasks.ComplitedTask("scriptstart");
+                    timerReloadAnimation.IsEnabled = false;
+                    SystemObj = new List<UIElement>();
+                    DialogWindow.Visibility = Visibility.Visible;
+                    CreateWindowDialog(new Agency(new GamePoint(0, 0), '0'));
+                }
+                if (task.SystemName == "findKey" && player.InventoryList.Contains(new Key()))
+                {
+                    player.Tasks.ComplitedTask("findKey");
+                }
+                if (task.SystemName == "findBloodPaper" && player.InventoryList.Contains(new BloodPaper()))
+                {
+                    player.Tasks.ComplitedTask("findBloodPaper");
+                }
+                if (task.SystemName == "scriptTime")
+                {
+                    MainScripts.ScriptTime(this);
+                }
+                if (task.SystemName == "scriptFinal")
+                {
+                    MainScripts.ScriptFinal(this);
+                }
+            }
+        }
+
         private void DoActionAll()
         {
             Location current = CurrentLocation;
@@ -166,7 +203,7 @@ namespace TwoD_Game_RP
             }
         }
 
-        Location CurrentLocation;
+        public Location CurrentLocation;
         public List<Location> Locations = new List<Location>();
         private void GoToLocation(string name)
         {
@@ -197,8 +234,8 @@ namespace TwoD_Game_RP
 
 
                 CurrentLocation.AddLivesWithCell(new Kristina(new GamePoint(6, 15), '1'));
-                CurrentLocation.AddLivesWithCell(new Maksim(new GamePoint(17, 21), '1'));
                 CurrentLocation.AddLivesWithCell(new Nura(new GamePoint(14, 0), '3'));
+                CurrentLocation.AddLivesWithCell(new Dead(new GamePoint(3, 5), '0'));
 
                 CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(10, 7), '3', sizeInventH, sizeInventW, new List<Item>()));
                 CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(13, 17), '1', sizeInventH, sizeInventW, new List<Item>()));
@@ -471,7 +508,7 @@ namespace TwoD_Game_RP
         {
             foreach (var startdialog in Information.GetStartPhrases(Person.SystemName))
             {
-                foreach (var task in player.Tasks)
+                foreach (var task in player.Tasks.GetUsingTask())
                 {
                     if (task.SystemName == AllPhrases[startdialog].phrase.TaskToStart)
                         return startdialog;
@@ -573,14 +610,10 @@ namespace TwoD_Game_RP
         private void AddDialog(string index, string side)
         {
             Phrase phrase = AllPhrases[index].phrase;
-            foreach (var task in phrase.NewTasks)
-            {
-                player.Tasks.Add(Information.FindTask(task));
-            }
+
             foreach (var task in phrase.EndingTasks)
             {
-                player.Tasks.Remove(Information.FindTask(task));
-                player.CompliteTasks.Add(task);
+                player.Tasks.ComplitedTask(task);
             }
 
             Border LabelName = new Border()
@@ -711,7 +744,7 @@ namespace TwoD_Game_RP
                 FontSize = 20,
             };
             Agenstv.Click += MenuCall_Click;
-            Agenstv.Tag = new Door(new GamePoint(0,0), '0');
+            Agenstv.Tag = new Agency(new GamePoint(0, 0), '0');
             menu.Children.Add(Agenstv);
 
             Button Vanya = new Button()
@@ -753,7 +786,7 @@ namespace TwoD_Game_RP
         }
         private void CreateTaskWindow()
         {
-            foreach (var task in player.Tasks)
+            foreach (var task in player.Tasks.GetUsingTask())
             {
                 ListTasks.Children.Add(new Border()
                 {
@@ -776,7 +809,7 @@ namespace TwoD_Game_RP
                     Margin = new Thickness(0, 0, 0, 2),
                     Child = new Label()
                     {
-                        Content = task.SecondName,
+                        Content = task.Description,
                         FontSize = 16,
                         Background = Brushes.Transparent,
                     }

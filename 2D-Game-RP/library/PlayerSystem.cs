@@ -12,18 +12,20 @@ namespace TwoD_Game_RP
         Man,
         Woman,
     }
-    public class Player : Skelet
+    public abstract class Player : Skelet
     {
-        public List<Task> Tasks { get; set; }
-        public List<string> CompliteTasks { get; set; }
+        public TaskBoard Tasks { get; set; }
+        //public List<Task> Tasks { get; set; }
+        //public List<string> CompliteTasks { get; set; }
         public PlayerGender Gender { get; }
 
-        public Player(string name, PlayerGender gender, GamePoint coord, int inventoryHeight, int inventoryWight, List<Item> inventoryList) :
+        public Player(string name, PlayerGender gender, GamePoint coord, int inventoryHeight, int inventoryWight, List<Item> inventoryList, TaskBoard tasks) :
             base(name, "", NPSGroup.People, NPSIntellect.Non, coord, '0', "player", inventoryList, inventoryHeight, inventoryWight, true) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  "Player" + gender
         {
-            this.Gender = gender; 
-            Tasks = new List<Task>();
-            CompliteTasks = new List<string>();
+            this.Gender = gender;
+            Tasks = tasks;
+            //Tasks = new List<Task>();
+            //CompliteTasks = new List<string>();
         }
     }
     //public class Player : Skelet

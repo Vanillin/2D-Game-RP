@@ -89,6 +89,7 @@
     <Compile Include="library\ActionSystem.cs" />
     <Compile Include="library\BilateralQueue.cs" />
     <Compile Include="library\DialogSystem.cs" />
+    <Compile Include="library\DictionaryWithEqual.cs" />
     <Compile Include="library\DisplaySystem.cs" />
     <Compile Include="library\InventorySystem.cs" />
     <Compile Include="library\ItemSystem.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="library\SortedEnum.cs" />
     <Compile Include="library\SubstringSearch.cs" />
     <Compile Include="library\TaskSystem.cs" />
+    <Compile Include="MainScripts.cs" />
     <Compile Include="MenuWindow.xaml.cs">
       <DependentUpon>MenuWindow.xaml</DependentUpon>
     </Compile>
@@ -361,6 +363,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\player\woodZaborDoorSkelet-open-map.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\player\dead-map.png" />
+    <Resource Include="gamedata\textures\player\dead.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

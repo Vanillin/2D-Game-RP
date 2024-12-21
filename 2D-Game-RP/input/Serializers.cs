@@ -22,19 +22,20 @@ namespace TwoD_Game_RP
         //    "Пёс", "Повар", "Лимон", "Табуретка", "Снайпер", "Козырь"
         //};
 
-        public static Task[] TasksInGame = ReadTasks("Tasks");
+        //public static Task[] TasksInGame = ReadTasks("Tasks");
 
-        public static Task FindTask(string Systemname)
-        {
-            for (int i = 0; i < TasksInGame.Length; i++)
-            {
-                if (TasksInGame[i].SystemName == Systemname)
-                {
-                    return TasksInGame[i];
-                }
-            }
-            throw new Exception("Не найдено задание по системному имени");
-        }
+        //public static Task FindTask(string Systemname)
+        //{
+        //    for (int i = 0; i < TasksInGame.Length; i++)
+        //    {
+        //        if (TasksInGame[i].SystemName == Systemname)
+        //        {
+        //            return TasksInGame[i];
+        //        }
+        //    }
+        //    throw new Exception("Не найдено задание по системному имени");
+        //}
+
         public static void CreateDarkenPicCell()
         {
             if (DarkenPicCell.Taking() == null)
@@ -100,6 +101,24 @@ namespace TwoD_Game_RP
             }
             return allphrases;
         }
+        public static SortedEnum<Task> GetTasks()
+        {
+            SortedEnum<Task> retur = new SortedEnum<Task>();
+            foreach (var task in ReadTasks("Tasks"))
+            {
+                retur.Add(task);
+            }
+            return retur;
+        }
+        public static SortedEnum<(string, string)> GetTaskConnection()
+        {
+            SortedEnum<(string, string)> retur = new SortedEnum<(string, string)>();
+            foreach (var pair in ReadTaskConnection("TaskConnections"))
+            {
+                retur.Add(pair);
+            }
+            return retur;
+        }
         private static string CutString(string s, int length)
         {
             string retur = "";
@@ -116,6 +135,16 @@ namespace TwoD_Game_RP
                 i += word.Length + 1;
             }
             return retur;
+        }
+        private static (string, string)[] ReadTaskConnection(string nameTaskConnect)
+        {
+            (string, string)[] connect;
+            using (var file = new FileStream(Path.Combine(ConfigurationManager.AppSettings["Scripts"], nameTaskConnect + ".txt"), FileMode.Open))
+            {
+                var xml = new XmlSerializer(typeof((string, string)[]), new Type[] { typeof((string, string)) });
+                connect = ((string, string)[])xml.Deserialize(file);
+            }
+            return connect;
         }
         private static Task[] ReadTasks(string nameTask)
         {
@@ -169,18 +198,33 @@ namespace TwoD_Game_RP
         }
         public static void Serialization()
         {
-            PhrasesStart phrasesStart = new PhrasesStart();
-            phrasesStart.values = new List<(string systemname, List<string> startdialogs)>()
-            {
-                ("Kristina",  new List<string> {"start1", "start2" }),
-                ("Maksim",  new List<string> {"start3", "start4" })
-            };
-
+            (string, string)[] connect = new (string, string)[] { ( "a", "b" ) };
             using (var file = new FileStream("serialization.txt", FileMode.Create))
             {
-                var xml = new XmlSerializer(typeof(PhrasesStart));
-                xml.Serialize(file, phrasesStart);
+                var xml = new XmlSerializer(typeof((string, string)[]), new Type[] { typeof((string, string)) });
+                xml.Serialize(file, connect);
             }
+
+
+            //Task task = new Task("a", "b", "c", "d", false);
+            //using (var file = new FileStream("serialization.txt", FileMode.Create))
+            //{
+            //    var xml = new XmlSerializer(typeof(Task));
+            //    xml.Serialize(file, task);
+            //}
+
+            //PhrasesStart phrasesStart = new PhrasesStart();
+            //phrasesStart.values = new List<(string systemname, List<string> startdialogs)>()
+            //{
+            //    ("Kristina",  new List<string> {"start1", "start2" }),
+            //    ("Maksim",  new List<string> {"start3", "start4" })
+            //};
+
+            //using (var file = new FileStream("serialization.txt", FileMode.Create))
+            //{
+            //    var xml = new XmlSerializer(typeof(PhrasesStart));
+            //    xml.Serialize(file, phrasesStart);
+            //}
 
             //Phrase rl = new Phrase();
             //rl.Index = "Ind";

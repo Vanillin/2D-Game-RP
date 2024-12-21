@@ -1,52 +1,118 @@
 <?xml version="1.0"?>
 <ArrayOfTask xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Task>
-    <SystemName>startdialogMaksimNight</SystemName>
-    <Name>Поговорить с Максимом</Name>
-    <SecondName>Поговорить с Максимом</SecondName>
-    <CordOnMapX>0</CordOnMapX>
-    <CordOnMapY>0</CordOnMapY>
+    <IsSystem>false</IsSystem>
+    <SystemName>scriptstart</SystemName>
+    <Name>-</Name>
+    <Description>-</Description>
   </Task>
   <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>start</SystemName>
+    <Name>Позвоните в Агенство</Name>
+    <Description>-</Description>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>searchHouse</SystemName>
+    <Name>Осмотрите место происшествия</Name>
+    <Description>-</Description>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>talkWithPeopleDay</SystemName>
+    <Name>Поговорите с жителями дома</Name>
+    <Description>-</Description>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
     <SystemName>startdialogKristinaDay</SystemName>
     <Name>Поговорить с Кристиной</Name>
-    <SecondName>Поговорить с Кристиной</SecondName>
-    <CordOnMapX>0</CordOnMapX>
-    <CordOnMapY>0</CordOnMapY>
+    <Description>-</Description>
+    <SysNameParent>talkWithPeopleDay</SysNameParent>
   </Task>
   <Task>
-    <SystemName>startdialogKristinaNight</SystemName>
-    <Name>Поговорить с Кристиной</Name>
-    <SecondName>Поговорить с Кристиной</SecondName>
-    <CordOnMapX>0</CordOnMapX>
-    <CordOnMapY>0</CordOnMapY>
-  </Task>
-  <Task>
+    <IsSystem>false</IsSystem>
     <SystemName>startdialogNuraDay</SystemName>
     <Name>Поговорить с баб Нюрой</Name>
-    <SecondName>Поговорить с баб Нюрой</SecondName>
-    <CordOnMapX>0</CordOnMapX>
-    <CordOnMapY>0</CordOnMapY>
+    <Description>-</Description>
+    <SysNameParent>talkWithPeopleDay</SysNameParent>
   </Task>
   <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>searchAroundHouse</SystemName>
+    <Name>Осмотрите местность</Name>
+    <Description>-</Description>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>findKey</SystemName>
+    <Name>Найдите ключ</Name>
+    <Description>-</Description>
+    <SysNameParent>searchAroundHouse</SysNameParent>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>findBloodPaper</SystemName>
+    <Name>Найдите кровавую салфетку</Name>
+    <Description>-</Description>
+    <SysNameParent>searchAroundHouse</SysNameParent>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>talkWithAgencyDay</SystemName>
+    <Name>Позвоните в агенство</Name>
+    <Description>-</Description>
+  </Task>
+
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>scriptTime</SystemName>
+    <Name>-</Name>
+    <Description>-</Description>
+  </Task>
+
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>talkWithPeopleNight</SystemName>
+    <Name>Поговорите с новоприбывшими жителями дома</Name>
+    <Description>-</Description>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>startdialogMaksimNight</SystemName>
+    <Name>Поговорить с Максимом</Name>
+    <Description>-</Description>
+    <SysNameParent>talkWithPeopleNight</SysNameParent>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
     <SystemName>startdialogNuraNight</SystemName>
     <Name>Поговорить с баб Нюрой</Name>
-    <SecondName>Поговорить с баб Нюрой</SecondName>
-    <CordOnMapX>0</CordOnMapX>
-    <CordOnMapY>0</CordOnMapY>
+    <Description>-</Description>
   </Task>
   <Task>
+    <IsSystem>false</IsSystem>
     <SystemName>startdialogVanyaNight</SystemName>
-    <Name>Поговорить с Ваней</Name>
-    <SecondName>Поговорить с Ваней</SecondName>
-    <CordOnMapX>0</CordOnMapX>
-    <CordOnMapY>0</CordOnMapY>
+    <Name>Позвоните Ване</Name>
+    <Description>-</Description>
   </Task>
   <Task>
-    <SystemName>startfinaldialog</SystemName>
-    <Name>Позвоните по телефону</Name>
-    <SecondName>Позвоните по телефону</SecondName>
-    <CordOnMapX>0</CordOnMapX>
-    <CordOnMapY>0</CordOnMapY>
+    <IsSystem>false</IsSystem>
+    <SystemName>startdialogKristinaNight</SystemName>
+    <Name>Поговорить с Кристиной</Name>
+    <Description>-</Description>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>talkWithAgencyNight</SystemName>
+    <Name>Позвоните в агенство</Name>
+    <Description>-</Description>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>scriptFinal</SystemName>
+    <Name>-</Name>
+    <Description>-</Description>
   </Task>
 </ArrayOfTask>

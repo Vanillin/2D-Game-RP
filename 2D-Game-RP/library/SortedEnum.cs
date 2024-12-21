@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
+using System.Linq;
 
 namespace TwoD_Game_RP
 {
@@ -133,10 +133,9 @@ namespace TwoD_Game_RP
         }
         public IEnumerator<T> GetEnumerator()
         {
-            foreach (var v in root)
-            {
-                yield return v;
-            }
+            if (root == null)
+                return Enumerable.Empty<T>().GetEnumerator();
+            return root.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

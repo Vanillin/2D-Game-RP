@@ -133,7 +133,7 @@ namespace TwoD_Game_RP
                 foreach (var obj in SystemObj)
                     canvas.Children.Add(obj);
         }
-        public void DisplayInventory(Canvas canvas, double size, Dictionary<Item, List<GamePoint>> Items)
+        public void DisplayInventory(Canvas canvas, double size, DictionaryWithEqual<Item, List<GamePoint>> Items)
         {
             Display(canvas, size);
             foreach (var pair in Items)

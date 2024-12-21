@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TwoD_Game_RP
 {
-    public abstract class Item : IComparable<Item>
+    public abstract class Item : IComparable<Item>, IEquatable<Item>
     {
         public readonly string Name;
         public readonly string SystemName;
@@ -28,22 +28,22 @@ namespace TwoD_Game_RP
         public int CompareTo(Item other)
         {
             if (SizeH * SizeW > other.SizeW * other.SizeH)
-            {
                 return 1;
-            }
             else if (SizeH * SizeW < other.SizeW * other.SizeH)
-            {
                 return -1;
-            }
             else if (SizeW > other.SizeW)
-            {
                 return 1;
-            }
             else if (SizeW < other.SizeW)
-            {
                 return -1;
-            }
-            return 0;
+
+            else if (Equals(other))
+                return 0;
+            
+            return SystemName.CompareTo(other.SystemName);
+        }
+        public bool Equals(Item other)
+        {
+            return SystemName == other.SystemName;
         }
     }
     public abstract class Gun : Item

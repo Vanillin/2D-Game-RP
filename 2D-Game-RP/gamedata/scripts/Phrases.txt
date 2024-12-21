@@ -2,6 +2,12 @@
 <PhrasesStart xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <values>
     <ValueTupleOfStringListOfString>
+      <Item1>Dead</Item1>
+      <Item2>
+        <string>dialogDead</string>
+      </Item2>
+    </ValueTupleOfStringListOfString>
+    <ValueTupleOfStringListOfString>
       <Item1>Kristina</Item1>
       <Item2>
         <string>dialogKristinaDay</string>
@@ -25,6 +31,14 @@
       <Item1>Vanya</Item1>
       <Item2>
         <string>dialogVanyaNight</string>
+      </Item2>
+    </ValueTupleOfStringListOfString>
+    <ValueTupleOfStringListOfString>
+      <Item1>Agency</Item1>
+      <Item2>
+        <string>dialogAgencyStart</string>
+        <string>dialogAgencyDay</string>
+        <string>dialogAgencyNight</string>
       </Item2>
     </ValueTupleOfStringListOfString>
   </values>

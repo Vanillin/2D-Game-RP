@@ -464,4 +464,49 @@
     </EndingTasks>
   </Phrase>
 
+
+  <Phrase>
+    <Index>dialogAgencyStart1</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Да, на месте. Какова моя задача?</Dialog>
+    <NextIndexes>
+      <string>dialogAgencyStart2</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogAgencyStart3</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Всё понял, приступаю к выполнению.</Dialog>
+    <NextIndexes>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks><string>start</string></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogAgencyDay1</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Свидетели опрошены, улики найдены, место преступление осмотрено, однако ответы ещё не получены. Принимаю решение остаться до вечера, когда рабочие вернуться домой.</Dialog>
+    <NextIndexes>
+      <string>dialogAgencyDay2</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogAgencyNight1</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Здесь закончено. Скорее всего убийцей является сосед потерпевшего по имени Николай. На месте он так и не появился. Против него есть свидетель и пару улик. Примерный мотив так же известен.</Dialog>
+    <NextIndexes>
+      <string>dialogAgencyNight2</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+
 </ArrayOfPhrase>

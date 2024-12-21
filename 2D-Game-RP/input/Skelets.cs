@@ -7,10 +7,28 @@ using System.Windows;
 
 namespace TwoD_Game_RP
 {
+    public class PlayerFirst : Player
+    {
+        public PlayerFirst(string name, GamePoint coord, int inventoryHeight, int inventoryWight, List<Item> inventoryList, List<string> startTask) :
+            base(name, PlayerGender.Man, coord, inventoryHeight, inventoryWight, inventoryList, new TaskBoard(Information.GetTasks(), Information.GetTaskConnection(), startTask))
+        { }
+    }
     public class Kristina : Skelet
     {
         public Kristina(GamePoint point, char rotate) :
             base("Кристина", "", NPSGroup.People, NPSIntellect.Non, point, rotate, "Kristina", new List<Item>(), 3, 3, false)
+        { }
+    }
+    public class Agency : Skelet
+    {
+        public Agency(GamePoint point, char rotate) :
+            base("Агенство", "", NPSGroup.People, NPSIntellect.Non, point, rotate, "Agency", new List<Item>(), 3, 3, false)
+        { }
+    }
+    public class Dead : Skelet
+    {
+        public Dead(GamePoint point, char rotate) :
+            base("Убитый", "", NPSGroup.People, NPSIntellect.Non, point, rotate, "Dead", new List<Item>(), 3, 3, true)
         { }
     }
     public class Maksim : Skelet

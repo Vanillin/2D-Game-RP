@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<ArrayOfPhrase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Phrase>
+    <Index>dialogAgencyStart</Index>
+    <TaskToStart>start</TaskToStart>
+    <Dialog>Ещё раз добрый день, сыщик. Вы уже на месте?</Dialog>
+    <NextIndexes>
+      <string>dialogAgencyStart1</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogAgencyStart2</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Вчера ночью в одном из домой был обнаружен труп. Вам надо осмотреть место, опросить свидетелей, поискать улики и определить убийцу и его мотивы.</Dialog>
+    <NextIndexes>
+      <string>dialogAgencyStart3</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogAgencyDay</Index>
+    <TaskToStart>talkWithAgencyDay</TaskToStart>
+    <Dialog>Слушаю вас.</Dialog>
+    <NextIndexes>
+      <string>dialogAgencyDay1</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogAgencyDay2</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Принято. Удачи.</Dialog>
+    <NextIndexes>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks><string>talkWithAgencyDay</string></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogAgencyNight</Index>
+    <TaskToStart>talkWithAgencyNight</TaskToStart>
+    <Dialog>Слушаю вас.</Dialog>
+    <NextIndexes>
+      <string>dialogAgencyNight1</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogAgencyNight2</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Принято. Хорошая работа. Возвращайтесь.</Dialog>
+    <NextIndexes>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks><string>talkWithAgencyNight</string></EndingTasks>
+  </Phrase>
+</ArrayOfPhrase>
