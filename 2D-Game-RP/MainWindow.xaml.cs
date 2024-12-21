@@ -362,6 +362,11 @@ namespace TwoD_Game_RP
             {
                 Open.IsEnabled = false;
             }
+            if ((door as Door).IsLock)
+            {
+                Open.IsEnabled = false;
+                Open.Content = "Заперто";
+            }
             menu.Children.Add(Open);
             SystemObj.Add(menu);
 

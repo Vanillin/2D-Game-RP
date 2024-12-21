@@ -57,9 +57,12 @@ namespace TwoD_Game_RP
     }
     public class Door : Skelet
     {
-        public Door(GamePoint coord, char rotate) :
+        public bool IsLock;
+        public Door(GamePoint coord, char rotate, bool isLock) :
             base("Двер", "Двер", NPSGroup.Door, NPSIntellect.Non, coord, rotate, "woodZaborDoorSkelet", new List<Item>(0), 0, 0, false)
-        { }
+        {
+            IsLock = isLock;
+        }
     }
     public class Trash : Skelet
     {

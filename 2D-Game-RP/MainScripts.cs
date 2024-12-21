@@ -11,6 +11,14 @@ namespace TwoD_Game_RP
             MessageBox.Show("Вы подождали до вечера. С работы пришли жильцы.");
 
             window.CurrentLocation.AddLivesWithCell(new Maksim(new GamePoint(17, 21), '0'));
+            foreach (var skelet in window.CurrentLocation.GetLives())
+            {
+                if (skelet is Door && skelet.Cord.CompareTo((14, 15)) == 0)
+                {
+                    ((Door)skelet).IsLock = false;
+                    break;
+                }
+            }
 
             window.player.Tasks.ComplitedTask("scriptTime");
         }
