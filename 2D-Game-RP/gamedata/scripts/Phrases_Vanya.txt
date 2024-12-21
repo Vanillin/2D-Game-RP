@@ -49,7 +49,7 @@
     <Index>dialogVanyaNight8</Index>
     <TaskToStart></TaskToStart>
     <Dialog>Я не видел откуда он бежал, просто из калитки вылетел. Он был высокий, молодой, 
-но лысый, в ....... одежде.</Dialog>
+но лысый, в бардовом пальто с красными узорами.</Dialog>
     <NextIndexes>
       <string>dialogVanyaNight9</string>
     </NextIndexes>

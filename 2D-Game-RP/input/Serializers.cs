@@ -101,11 +101,12 @@ namespace TwoD_Game_RP
             }
             return allphrases;
         }
-        public static SortedEnum<Task> GetTasks()
+        public static SortedEnum<Task> GetTasks(int lengthDescription)
         {
             SortedEnum<Task> retur = new SortedEnum<Task>();
             foreach (var task in ReadTasks("Tasks"))
             {
+                task.Description = CutString(task.Description, lengthDescription);
                 retur.Add(task);
             }
             return retur;

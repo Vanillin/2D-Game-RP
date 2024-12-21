@@ -371,7 +371,7 @@ namespace TwoD_Game_RP
             }
             return Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2));
         }
-        public SortedEnum<GamePoint> SearchSeeInCircle(GamePoint start, int count, int minX, int minY, int maxX, int maxY)
+        public SortedEnum<GamePoint> SearchSeeInCircle(GamePoint start, double count, int minX, int minY, int maxX, int maxY)
         {
             //if (Find(start) == null)
             //{
@@ -411,11 +411,11 @@ namespace TwoD_Game_RP
             }
             return retur;
         }
-        public SortedEnum<GamePoint> SearchSeeInCircleWithBlocks(GamePoint start, int count, int minX, int minY, int maxX, int maxY)
+        public SortedEnum<GamePoint> SearchSeeInCircleWithBlocks(GamePoint start, double count, int minX, int minY, int maxX, int maxY)
         {
             return SearchSeeInCircleWithBlocksWithousSomePoint(start, count, minX, minY, maxX, maxY, new SortedEnum<GamePoint>());
         }
-        public SortedEnum<GamePoint> SearchSeeInCircleWithBlocksWithousSomePoint(GamePoint start, int count, int minX, int minY, int maxX, int maxY, SortedEnum<GamePoint> deletedpoints)
+        public SortedEnum<GamePoint> SearchSeeInCircleWithBlocksWithousSomePoint(GamePoint start, double count, int minX, int minY, int maxX, int maxY, SortedEnum<GamePoint> deletedpoints)
         {
             //if (Find(start) == null)
             //{

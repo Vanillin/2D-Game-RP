@@ -53,8 +53,8 @@ namespace TwoD_Game_RP
             pixelSizeInvent = Math.Min(InventoryPlayer.ActualHeight / (sizeInventH), InventoryPlayer.ActualWidth / (sizeInventW));
         }
 
-        int x = 14;
-        int y = 8;
+        int x = 19;
+        int y = 5;
         public MainWindow()
         {
             //Information.Serialization();
@@ -126,11 +126,11 @@ namespace TwoD_Game_RP
                 {
                     if (!v.IsClarity) deleted.Add(v.Cord);
                 }
-                var OblSee = CurrentLocation.GrafLocToWatch.SearchSeeInCircleWithBlocksWithousSomePoint(player.Cord, oblsee,
+                var OblSee = CurrentLocation.GrafLocToWatch.SearchSeeInCircleWithBlocksWithousSomePoint(player.Cord, oblsee-0.1,
                     Math.Max((int)player.Cord.X - oblsee, 0), Math.Max((int)player.Cord.Y - oblsee, 0),
                     Math.Min((int)player.Cord.X + oblsee + 1, CurrentLocation.Height), Math.Min((int)player.Cord.Y + oblsee + 1, CurrentLocation.Width),
                     deleted);
-                var OblWatch = CurrentLocation.GrafLocToWatch.SearchSeeInCircle(player.Cord, oblwatch,
+                var OblWatch = CurrentLocation.GrafLocToWatch.SearchSeeInCircle(player.Cord, oblwatch-0.1,
                     Math.Max((int)player.Cord.X - oblwatch, 0), Math.Max((int)player.Cord.Y - oblwatch, 0),
                     Math.Min((int)player.Cord.X + oblwatch + 1, CurrentLocation.Height), Math.Min((int)player.Cord.Y + oblwatch + 1, CurrentLocation.Width));
 
@@ -495,7 +495,7 @@ namespace TwoD_Game_RP
         //====================================================================================================================
 
         Dictionary<string, (Phrase phrase, string skeletName)> AllPhrases;
-        int lengthPhrase = 65;
+        int lengthPhrase = 60;
         private void ExitDialogBtn_Click(object sender, RoutedEventArgs e)
         {
             DialogWindow.Visibility = Visibility.Collapsed;
@@ -812,7 +812,7 @@ namespace TwoD_Game_RP
         }
         private void CreateTaskWindow()
         {
-            foreach (var task in player.Tasks.GetUsingTask())
+            foreach (var task in player.Tasks.GetUsingTaskNotSystem())
             {
                 ListTasks.Children.Add(new Border()
                 {

@@ -10,7 +10,7 @@ namespace TwoD_Game_RP
     public class PlayerFirst : Player
     {
         public PlayerFirst(string name, GamePoint coord, int inventoryHeight, int inventoryWight, List<Item> inventoryList, List<string> startTask) :
-            base(name, PlayerGender.Man, coord, inventoryHeight, inventoryWight, inventoryList, new TaskBoard(Information.GetTasks(), Information.GetTaskConnection(), startTask))
+            base(name, PlayerGender.Man, coord, inventoryHeight, inventoryWight, inventoryList, new TaskBoard(Information.GetTasks(70), Information.GetTaskConnection(), startTask))
         { }
     }
     public class Kristina : Skelet

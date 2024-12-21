@@ -52,12 +52,16 @@ namespace TwoD_Game_RP
                 }
             }
         }
-        public List<Task> GetUsingTask()
+        public SortedEnum<Task> GetUsingTask()
+        {
+            return UsingTask;
+        }
+        public List<Task> GetUsingTaskNotSystem()
         {
             var retur = new List<Task>();
             foreach (var task in UsingTask)
             {
-                if(!task.IsSystem) retur.Add(task);
+                if (!task.IsSystem) retur.Add(task);
             }
             return retur;
         }
