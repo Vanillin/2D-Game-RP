@@ -184,9 +184,6 @@
   <ItemGroup>
     <Resource Include="gamedata\textures\icon.png" />
     <Resource Include="gamedata\textures\items\emptyitem.png" />
-    <Resource Include="gamedata\textures\kvest.png" />
-    <Resource Include="gamedata\textures\map.png" />
-    <Resource Include="gamedata\textures\menu.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\New\floorBeton.png" />
@@ -257,24 +254,11 @@
     <Resource Include="gamedata\scripts\Phrases_Vanya.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\textures\items\gun.png" />
-    <Resource Include="gamedata\textures\items\item.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="gamedata\textures\player\kristina-map.png" />
-    <Resource Include="gamedata\textures\player\kristina.png" />
     <Resource Include="gamedata\textures\player\maksim-map.png" />
-    <Resource Include="gamedata\textures\player\maksim.png" />
     <Resource Include="gamedata\textures\player\nura-map.png" />
-    <Resource Include="gamedata\textures\player\nura.png" />
     <Resource Include="gamedata\textures\player\player-map.png" />
-    <Resource Include="gamedata\textures\player\player.png" />
-    <Resource Include="gamedata\textures\player\random-map.png" />
-    <Resource Include="gamedata\textures\player\random.png" />
-    <Resource Include="gamedata\textures\player\test-map.png" />
-    <Resource Include="gamedata\textures\player\test.png" />
     <Resource Include="gamedata\textures\player\vanya-map.png" />
-    <Resource Include="gamedata\textures\player\vanya.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="gamedata\configs\" />
@@ -355,7 +339,6 @@
     <Resource Include="gamedata\textures\circle.png" />
     <Resource Include="gamedata\textures\dialogfon.png" />
     <Resource Include="gamedata\textures\mainfon1.png" />
-    <Resource Include="gamedata\textures\mainfon2.png" />
     <Resource Include="gamedata\textures\maininvbig.png" />
     <Resource Include="gamedata\textures\maininvsmall.png" />
     <Resource Include="gamedata\textures\mainleft.png" />
@@ -365,7 +348,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\player\dead-map.png" />
-    <Resource Include="gamedata\textures\player\dead.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\New\blood.png" />
