@@ -61,7 +61,7 @@ namespace TwoD_Game_RP
 
             InitializeComponent();
             Information.CreateDarkenPicCell();
-            Time = 0;
+            //Time = 0;
             SystemObj = new List<UIElement>();
             timerReloadAnimation.Tick += TimerAnimation_Tick;
             timerReloadAnimation.IsEnabled = true;
@@ -80,6 +80,8 @@ namespace TwoD_Game_RP
 
             GoToLocation("Garden");
             TimerAnimation_Tick(null, null);
+
+            //SystemViewBtn.Visibility = Visibility.Visible;
         }
         public MainWindow(string PlayerName, PlayerGender Gender)
         {
@@ -87,7 +89,7 @@ namespace TwoD_Game_RP
 
             InitializeComponent();
             Information.CreateDarkenPicCell();
-            Time = 0;
+            //Time = 0;
             SystemObj = new List<UIElement>();
             timerReloadAnimation.Tick += TimerAnimation_Tick;
             timerReloadAnimation.IsEnabled = true;
@@ -106,14 +108,14 @@ namespace TwoD_Game_RP
             TimerAnimation_Tick(null, null);
         }
 
-        private int Time;
+        //private int Time;
         private List<UIElement> SystemObj;
         private int oblwatch = 8;
         private int oblsee = 6;
         private void TimerAnimation_Tick(object sender, EventArgs e)
         {
-            NamePlayer.Content = $"{Time}";
-            Time++;
+            //NamePlayer.Content = $"{Time}";
+            //Time++;
 
             DoActionAll();
             //if (ToSeePlayer)
@@ -237,14 +239,24 @@ namespace TwoD_Game_RP
                 //CurrentLocation.AddLivesWithCell(stalker2);
 
 
-                CurrentLocation.AddLivesWithCell(new Kristina(new GamePoint(6, 15), '0'));
+                var kristina = new Kristina(new GamePoint(7, 14), '0');
+                kristina.EnqueueDownGlobalAction(new ActionWait(3, true));
+                kristina.EnqueueDownGlobalAction(new ActionMove(new GamePoint(7,12), true));
+                kristina.EnqueueDownGlobalAction(new ActionMove(new GamePoint(7,14), true));
+                kristina.EnqueueDownGlobalAction(new ActionWait(3, true));
+                kristina.EnqueueDownGlobalAction(new ActionMove(new GamePoint(5,13), true));
+                kristina.EnqueueDownGlobalAction(new ActionWait(4, true));
+                kristina.EnqueueDownGlobalAction(new ActionMove(new GamePoint(7, 14), true));
+                CurrentLocation.AddLivesWithCell(kristina);
+
+
                 CurrentLocation.AddLivesWithCell(new Nura(new GamePoint(14, 0), '0'));
                 CurrentLocation.AddLivesWithCell(new Dead(new GamePoint(3, 5), '0'));
 
                 CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(10, 7), '3', sizeInventH, sizeInventW, new List<Item>()));
                 CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(13, 17), '1', sizeInventH, sizeInventW, new List<Item>()));
                 CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(15, 9), '0', sizeInventH, sizeInventW, new List<Item>()
-                    { new Key(), new BloodPaper() }));
+                    { new BloodPaper() }));
 
                 //var vanya = new Vanya(new GamePoint(19, 5), '0');
                 //vanya.EnqueueDownGlobalAction(new ActionMove(new GamePoint(19, 8), true));

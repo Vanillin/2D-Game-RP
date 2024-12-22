@@ -10,7 +10,13 @@ namespace TwoD_Game_RP
         {
             MessageBox.Show("Вы подождали до вечера. С работы пришли жильцы.");
 
-            window.CurrentLocation.AddLivesWithCell(new Maksim(new GamePoint(17, 21), '0'));
+            var maksim = new Maksim(new GamePoint(17, 19), '0');
+            maksim.EnqueueDownGlobalAction(new ActionWait(5, true));
+            maksim.EnqueueDownGlobalAction(new ActionMove(new GamePoint(16,23), true));
+            maksim.EnqueueDownGlobalAction(new ActionWait(1, true));
+            maksim.EnqueueDownGlobalAction(new ActionMove(new GamePoint(17, 19), true));
+            window.CurrentLocation.AddLivesWithCell(maksim);
+
             foreach (var skelet in window.CurrentLocation.GetLives())
             {
                 if (skelet is Door && skelet.Cord.CompareTo((14, 15)) == 0)

@@ -46,13 +46,6 @@
   </Task>
   <Task>
     <IsSystem>true</IsSystem>
-    <SystemName>findKey</SystemName>
-    <Name>Найдите ключ</Name>
-    <Description>-</Description>
-    <SysNameParent>searchAroundHouse</SysNameParent>
-  </Task>
-  <Task>
-    <IsSystem>true</IsSystem>
     <SystemName>findBloodPaper</SystemName>
     <Name>Найдите кровавую салфетку</Name>
     <Description>-</Description>

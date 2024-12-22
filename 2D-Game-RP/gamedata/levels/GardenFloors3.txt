@@ -7,15 +7,21 @@
     <ValueTupleOfStringString>
       <Item1>n</Item1>     <Item2>New\floorBeton3</Item2>
     </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>b</Item1>     <Item2>New\blood</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>l</Item1>     <Item2>New\lenta</Item2>
+    </ValueTupleOfStringString>
   </description>
   <height>21</height>  <wight>26</wight>
   <location>
     <string>...##############.........</string>
     <string>...#..#....#....#.........</string>
-    <string>...#.......#....#.........</string>
+    <string>...#b....b.#....#.........</string>
     <string>...#..#....#....#.........</string>
     <string>...#..#....###.##.........</string>
-    <string>...#########....#.........</string>
+    <string>...######l##....#.........</string>
     <string>...#.......#....#.........</string>
     <string>...#............#.........</string>
     <string>...#.......#....#%%%%%%%%.</string>

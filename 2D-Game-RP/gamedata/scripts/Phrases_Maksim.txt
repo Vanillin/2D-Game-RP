@@ -13,10 +13,9 @@
   <Phrase>
     <Index>dialogMaksimNight1</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Добрый вечер, следователь. Я безумно устал после работы, но так и быть отвечу на ваши вопросы. 
-Только уже в своей квартире.</Dialog>
+    <Dialog>Добрый вечер, следователь. Я безумно устал после работы, но так и быть отвечу на ваши вопросы.</Dialog>
     <NextIndexes>
-      <string>dialogMaksimNight2</string>
+      <string>dialogMaksimNight4</string>
     </NextIndexes>
     <NewTasks></NewTasks>
     <EndingTasks></EndingTasks>

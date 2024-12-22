@@ -69,9 +69,9 @@ namespace TwoD_Game_RP
                 Garden.CreateGrafAll();
 
                 Garden.AddBoxOrAnomalyWithCell(new Door(new GamePoint(4, 14), '0', false));
-                Garden.AddBoxOrAnomalyWithCell(new Door(new GamePoint(5, 9), '0', false));
+                //Garden.AddBoxOrAnomalyWithCell(new Door(new GamePoint(5, 9), '0', false));
                 Garden.AddBoxOrAnomalyWithCell(new Door(new GamePoint(7, 11), '1', false));
-                Garden.AddBoxOrAnomalyWithCell(new Door(new GamePoint(9, 9), '0', false));
+                //Garden.AddBoxOrAnomalyWithCell(new Door(new GamePoint(9, 9), '0', false));
                 Garden.AddBoxOrAnomalyWithCell(new Door(new GamePoint(14, 15), '0', true));
                 Garden.AddBoxOrAnomalyWithCell(new Door(new GamePoint(16, 17), '1', false));
 

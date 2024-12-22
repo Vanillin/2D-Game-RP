@@ -33,6 +33,7 @@ namespace TwoD_Game_RP
     }
     public class TaskBoard
     {
+        private SortedEnum<string> ComplitedTasks { get; set; }
         private SortedEnum<Task> UsingTask { get; set; }
         private SortedEnum<Task> MemoryTask { get; set; }
         private SortedEnum<(string comp, string usin)> Connection { get; set; }
@@ -41,6 +42,7 @@ namespace TwoD_Game_RP
             MemoryTask = AllTask;
             UsingTask = new SortedEnum<Task>();
             Connection = connect;
+            ComplitedTasks = new SortedEnum<string>();
 
             foreach (var sysname in StartedSystemNameTask)
             {
@@ -80,6 +82,7 @@ namespace TwoD_Game_RP
             if (compliteTask.SysNameParent != null) //=> children
             {
                 UsingTask.Remove(compliteTask);
+                ComplitedTasks.Add(compliteTask.SystemName);
                 bool isParentComplite = true;
                 foreach (var task in UsingTask)
                 {
@@ -92,12 +95,14 @@ namespace TwoD_Game_RP
                 if (isParentComplite)
                 {
                     UsingTask.Remove(FindTask(compliteTask.SysNameParent));
+                    ComplitedTasks.Add(compliteTask.SysNameParent);
                     AddNewUsingTask(compliteTask.SysNameParent);
                 }
             }
             else
             {
                 UsingTask.Remove(compliteTask);
+                ComplitedTasks.Add(compliteTask.SystemName);
                 AddNewUsingTask(compliteTask.SystemName);
             }
         }
@@ -114,10 +119,13 @@ namespace TwoD_Game_RP
             {
                 foreach (var pair in Connection)
                 {
-                    if (pair.usin == task && UsingTask.Contains(FindTask(pair.comp)))
+                    if (pair.usin == task)
                     { 
-                        NotComplited.Add(pair.usin);
-                        break;
+                        if (!ComplitedTasks.Contains(pair.comp))
+                        {
+                            NotComplited.Add(pair.usin);
+                            break;
+                        }
                     }
                 }
             }

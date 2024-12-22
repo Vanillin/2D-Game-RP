@@ -368,5 +368,9 @@
     <Resource Include="gamedata\textures\player\dead-map.png" />
     <Resource Include="gamedata\textures\player\dead.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\New\blood.png" />
+    <Resource Include="gamedata\textures\map\New\lenta.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
