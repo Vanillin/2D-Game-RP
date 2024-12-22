@@ -2,6 +2,12 @@
 <ArrayOfTask xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Task>
     <IsSystem>true</IsSystem>
+    <SystemName>trainingButton</SystemName>
+    <Name>-</Name>
+    <Description>-</Description>
+  </Task>
+  <Task>
+    <IsSystem>true</IsSystem>
     <SystemName>scriptstart</SystemName>
     <Name>-</Name>
     <Description>-</Description>

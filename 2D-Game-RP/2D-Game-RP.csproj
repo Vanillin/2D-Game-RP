@@ -254,7 +254,6 @@
     <Resource Include="gamedata\scripts\Phrases_Maksim.txt" />
     <Resource Include="gamedata\scripts\Phrases_Nura.txt" />
     <Resource Include="gamedata\scripts\Phrases_player.txt" />
-    <Resource Include="gamedata\scripts\Phrases_RandPerson.txt" />
     <Resource Include="gamedata\scripts\Phrases_Vanya.txt" />
   </ItemGroup>
   <ItemGroup>

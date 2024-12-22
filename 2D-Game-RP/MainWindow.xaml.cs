@@ -26,9 +26,46 @@ namespace TwoD_Game_RP
 
         bool SeeInCurcle = true;
 
+        public MainWindow()
+        {
+            CreateMainWindow(null);
+        }
+        public MainWindow(string PlayerName, PlayerGender Gender)
+        {
+            CreateMainWindow(PlayerName);
+        }
+        private void CreateMainWindow(string PlayerName)
+        {
+            //Information.Serialization();
+
+            InitializeComponent();
+            Information.CreateDarkenPicCell();
+            //Time = 0;
+            SystemObj = new List<UIElement>();
+            timerReloadAnimation.Tick += TimerAnimation_Tick;
+            timerReloadAnimation.IsEnabled = true;
+            timerReloadAnalyzeTask.Tick += TimerAnalyzeTask_Tick;
+            timerReloadAnalyzeTask.IsEnabled = true;
+
+            player = new PlayerFirst("Герой", new GamePoint(19, 5), sizeInventH, sizeInventW,
+                new List<Item>()
+                {
+                    new Telephone(), new NoteBook()
+                },
+                new List<string>()
+                {
+                    "trainingButton"
+                });
+
+            GoToLocation("Garden");
+            TimerAnimation_Tick(null, null); 
+
+            //SystemViewBtn.Visibility = Visibility.Visible;
+        }
+
         private DispatcherTimer timerReloadAnimation = new DispatcherTimer()
         {
-            Interval = TimeSpan.FromMilliseconds(250)
+            Interval = TimeSpan.FromMilliseconds(200)
         };
         private DispatcherTimer timerReloadAnalyzeTask = new DispatcherTimer()
         {
@@ -51,72 +88,13 @@ namespace TwoD_Game_RP
         private void ChangeSizeInventoryPlayer()
         {
             pixelSizeInvent = Math.Min(InventoryPlayer.ActualHeight / (sizeInventH), InventoryPlayer.ActualWidth / (sizeInventW));
-        }
+        }        
 
-        int x = 19;
-        int y = 5;
-        public MainWindow()
-        {
-            //Information.Serialization();
-
-            InitializeComponent();
-            Information.CreateDarkenPicCell();
-            //Time = 0;
-            SystemObj = new List<UIElement>();
-            timerReloadAnimation.Tick += TimerAnimation_Tick;
-            timerReloadAnimation.IsEnabled = true;
-            timerReloadAnalyzeTask.Tick += TimerAnalyzeTask_Tick;
-            timerReloadAnalyzeTask.IsEnabled = true;
-
-            player = new PlayerFirst("Герой", new GamePoint(x, y), sizeInventH, sizeInventW,
-                new List<Item>()
-                {
-                    new Telephone(), new NoteBook()
-                },
-                new List<string>()
-                {
-                    "scriptstart"
-                });
-
-            GoToLocation("Garden");
-            TimerAnimation_Tick(null, null);
-
-            //SystemViewBtn.Visibility = Visibility.Visible;
-        }
-        public MainWindow(string PlayerName, PlayerGender Gender)
-        {
-            //Information.Serialization();
-
-            InitializeComponent();
-            Information.CreateDarkenPicCell();
-            //Time = 0;
-            SystemObj = new List<UIElement>();
-            timerReloadAnimation.Tick += TimerAnimation_Tick;
-            timerReloadAnimation.IsEnabled = true;
-
-            player = new PlayerFirst(PlayerName, new GamePoint(x, y), sizeInventH, sizeInventW,
-                new List<Item>()
-                {
-                    new Telephone(), new NoteBook()
-                },
-                new List<string>()
-                {
-                    "startdialogNuraDay", "startdialogKristinaDay", "startdialogMaksimNight"
-                });
-
-            GoToLocation("Garden");
-            TimerAnimation_Tick(null, null);
-        }
-
-        //private int Time;
         private List<UIElement> SystemObj;
         private int oblwatch = 8;
         private int oblsee = 6;
         private void TimerAnimation_Tick(object sender, EventArgs e)
         {
-            //NamePlayer.Content = $"{Time}";
-            //Time++;
-
             DoActionAll();
             //if (ToSeePlayer)
             //if (ToSeeEnemy)
@@ -152,13 +130,15 @@ namespace TwoD_Game_RP
         {
             foreach (var task in player.Tasks.GetUsingTask())
             {
+                if (task.SystemName == "trainingButton") 
+                {
+                    MessageBox.Show("Управление: \nКнопками: WASD для ходьбы \nМышкой: ЛКМ для ходьбы, ПКМ для взаимодействия с чем-либо");
+                    player.Tasks.ComplitedTask("trainingButton");
+                }
                 if (task.SystemName == "scriptstart")
                 {
                     player.Tasks.ComplitedTask("scriptstart");
-                    timerReloadAnimation.IsEnabled = false;
-                    SystemObj = new List<UIElement>();
-                    DialogWindow.Visibility = Visibility.Visible;
-                    CreateWindowDialog(new Agency(new GamePoint(0, 0), '0'));
+                    MenuPersonDialog_Click(new Agency(new GamePoint(0, 0), '0'));
                 }
                 if (task.SystemName == "findKey" && player.InventoryList.Contains(new Key()))
                 {
@@ -224,20 +204,6 @@ namespace TwoD_Game_RP
 
                 CurrentLocation.AddLivesWithCell(player);
 
-                //GamePoint p = new GamePoint(12, 12);
-
-                //TestSkelet stalker = new TestSkelet("Бегающий", "ф", NPSIntellect.StandAgressive, p, '0', new List<Item>());
-                //stalker.EnqueueDownGlobalAction(new ActionMove(new GamePoint(11, 16), true));
-                //stalker.EnqueueDownGlobalAction(new ActionWait(4, true));
-                //stalker.EnqueueDownGlobalAction(new ActionMove(new GamePoint(12, 12), true));
-                //stalker.EnqueueDownGlobalAction(new ActionWait(4, true));
-                //CurrentLocation.AddLivesWithCell(stalker);
-
-                //GamePoint p2 = new GamePoint(12, 6);
-
-                //TestSkelet stalker2 = new TestSkelet("Зависший", "ф", NPSIntellect.StandAgressive, p2, '0', new List<Item>());
-                //CurrentLocation.AddLivesWithCell(stalker2);
-
 
                 var kristina = new Kristina(new GamePoint(7, 14), '0');
                 kristina.EnqueueDownGlobalAction(new ActionWait(3, true));
@@ -258,58 +224,37 @@ namespace TwoD_Game_RP
                 CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(15, 9), '0', sizeInventH, sizeInventW, new List<Item>()
                     { new BloodPaper() }));
 
-                //var vanya = new Vanya(new GamePoint(19, 5), '0');
-                //vanya.EnqueueDownGlobalAction(new ActionMove(new GamePoint(19, 8), true));
-                //vanya.EnqueueDownGlobalAction(new ActionMove(new GamePoint(19, 5), true));
-                //CurrentLocation.AddLivesWithCell(vanya);
             }
             ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
             //pixelSize = Math.Min( Map.Height / (CurrentLocation.Height + 2) , Map.Width / (CurrentLocation.Width + 2));
             //выставление начальной позиции при переходе на локации
         }
 
-        //-------------------------------------------------------------------------------Reload Create
-
-        private void ReloadPlayerInformation()
-        {
-            //if (!player.IsAlive) EndGame();
-            NamePlayer.Content = $"Имя: {player.Name}";
-            //FractionPlayer.Content = $"Фракция: {player.FractionString()}";
-            //HealthPlayer.MaxHeight = 100;
-            //HealthPlayer.Value = player.HealthInf();
-            //MoneyPlayer.Content = $"Деньги: {player.Money}";
-
-            //Image imageArmorPlayer = new Image()
-            //{
-            //    Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"],
-            //        $"{player.ClothIng().SystemName}.png"), UriKind.Relative)),
-            //};
-            //Image imageGunPlayer = new Image()
-            //{
-            //    Source = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"],
-            //        $"{player.GunInf().SystemName}.png"), UriKind.Relative)),
-            //};
-            //ArmorPlayer.Content = imageArmorPlayer;
-            //GunPlayer.Content = imageGunPlayer;
-        }
 
         //-------------------------------------------------------------------------------Click
 
-
-
+        bool IsDown = false;
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (IsDown == false)
+            {
+                switch (e.Key)
+                {
+                    case System.Windows.Input.Key.W:
+                        { KeyDownToMove((int)player.Cord.X - 1, (int)player.Cord.Y); break; }
+                    case System.Windows.Input.Key.A:
+                        { KeyDownToMove((int)player.Cord.X, (int)player.Cord.Y - 1); break; }
+                    case System.Windows.Input.Key.S:
+                        { KeyDownToMove((int)player.Cord.X + 1, (int)player.Cord.Y); break; }
+                    case System.Windows.Input.Key.D:
+                        { KeyDownToMove((int)player.Cord.X, (int)player.Cord.Y + 1); break; }
+                }
+                IsDown = true;
+            }
+        }
         private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            switch (e.Key)
-            {
-                case System.Windows.Input.Key.W:
-                    { KeyDownToMove((int)player.Cord.X - 1, (int)player.Cord.Y); break; }
-                case System.Windows.Input.Key.A:
-                    { KeyDownToMove((int)player.Cord.X, (int)player.Cord.Y - 1); break; }
-                case System.Windows.Input.Key.S:
-                    { KeyDownToMove((int)player.Cord.X + 1, (int)player.Cord.Y); break; }
-                case System.Windows.Input.Key.D:
-                    { KeyDownToMove((int)player.Cord.X, (int)player.Cord.Y + 1); break; }
-            }
+            IsDown = false;
         }
         private void Map_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -451,18 +396,21 @@ namespace TwoD_Game_RP
                 CreateInventoryWindow(people);
             }                
         }
-        private void MenuPersonDialog_Click(object sender, RoutedEventArgs e)
+        private void MenuPersonDialog_Click(Skelet people)
         {
             if (DialogWindow.Visibility == Visibility.Collapsed)
             {
-                Button button = (Button)sender;
-                Skelet people = (Skelet)button.Tag;
-
                 timerReloadAnimation.IsEnabled = false;
                 SystemObj = new List<UIElement>();
                 DialogWindow.Visibility = Visibility.Visible;
                 CreateWindowDialog(people);
             }
+        }
+        private void MenuPersonDialog_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            Skelet people = (Skelet)button.Tag;
+            MenuPersonDialog_Click(people);
         }
         private void MenuTask_Click(object sender, RoutedEventArgs e)
         {
@@ -475,27 +423,14 @@ namespace TwoD_Game_RP
             }                
         }
 
-        //-------------------------------------------------------------------------------InOtherWindow
-
-
         //-------------------------------------------------------------------------------Window
-        private void EndGame()
-        {
-            FinalWindow finalWindow = new FinalWindow();
-            finalWindow.ShowDialog();
-
-            this.Close();
-        }
         private void SystemViewBtn_Click(object sender, RoutedEventArgs e)
         {
             SeeInCurcle = !SeeInCurcle;
         }
-        private void Menu_Click(object sender, RoutedEventArgs e)
+        private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            //MenuWindow menu = new MenuWindow();
-            //menu.Owner = this;
-            //menu.MenuInGame();
-            //menu.ShowDialog();
+            this.Close();
         }
 
         //====================================================================================================================

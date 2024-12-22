@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Game_STALKER_Exclusion_Zone"
         mc:Ignorable="d"
-        Title="Game STALKER" WindowState="Maximized" Height="1200" Width="1920" Icon="gamedata\textures\icon.png" KeyUp="Window_KeyUp">
+        Title="Game STALKER" WindowState="Maximized" Height="1200" Width="1920" Icon="gamedata\textures\icon.png" KeyUp="Window_KeyUp" KeyDown="Window_KeyDown">
 
     <Viewbox>        <!--Stretch="Uniform"-->
         <Grid Height="1200" Width="1920">
@@ -106,10 +106,12 @@
                         <ImageBrush ImageSource="gamedata\textures\mainleft.png" AlignmentX="Center" Stretch="Fill" />
                     </StackPanel.Background>
 
-                    <StackPanel Margin="20">
-                        <Image x:Name="PicturePlayer" HorizontalAlignment="Left" Grid.Column="1" Height="100" Width="200"/>
-                        <Label x:Name="NamePlayer" HorizontalAlignment="Left" FontSize="20" Content="Имя: Какое то пока не выбрали :)"/>
-                        <Button x:Name="SystemViewBtn" Height="80" Width="Auto" Click="SystemViewBtn_Click" FontSize="20" Visibility="Collapsed">Вкл-выкл круг видимости</Button>
+                    <StackPanel Margin="20" Height="Auto" VerticalAlignment="Center">
+                        <Label x:Name="TimeLabel" HorizontalAlignment="Left" FontSize="24" Foreground="LightGray" Content="Время: 19**/06/13 ~10 часов"/>
+                        <Label HorizontalAlignment="Left" FontSize="24" Foreground="LightGray" Content="Место: один из дворов на окраине г. **"/>
+                        <Label HorizontalAlignment="Left" FontSize="24" Foreground="LightGray" Content="Исполнитель: опытный детектив по имени Андрей"/>
+
+                        <Button x:Name="SystemViewBtn" Height="50" Width="Auto" Click="SystemViewBtn_Click" FontSize="20" Visibility="Collapsed">Вкл-выкл круг видимости</Button>
                     </StackPanel>
                 </StackPanel>
                 <Grid Grid.Column="1">
@@ -117,8 +119,8 @@
                         <ImageBrush ImageSource="gamedata\textures\mainleft.png" AlignmentX="Center" Stretch="Fill" />
                     </Grid.Background>
                     <Border CornerRadius="10" Height="50" Margin="20" Background="AntiqueWhite" VerticalAlignment="Bottom" >
-                        <Button Click="Menu_Click" Background="Transparent">
-                            <Label Content="ВЫХОД МЕНЮ" FontSize="20"/>
+                        <Button Click="Exit_Click" Background="Transparent">
+                            <Label Content="ВЫХОД" FontSize="20"/>
                         </Button>
                     </Border>                    
                 </Grid>

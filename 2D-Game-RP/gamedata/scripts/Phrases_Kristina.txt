@@ -13,7 +13,7 @@
   <Phrase>
     <Index>dialogKristinaDay1</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Добрый день, ... . Меня зовут Кристина. Не хотите зайти на чашку чая?</Dialog>
+    <Dialog>Добрый день, Андрей. Меня зовут Кристина. Не хотите чашку чая?</Dialog>
     <NextIndexes>
       <string>dialogKristinaDay2</string>
     </NextIndexes>
@@ -46,7 +46,7 @@
   <Phrase>
     <Index>dialogKristinaDay7</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Нет, с мужем. Он на заводе работает, по утрам уходит, по вечерам приходит.</Dialog>
+    <Dialog>Нет, с мужем. Николай на заводе работает, по утрам уходит, по вечерам приходит.</Dialog>
     <NextIndexes>
       <string>dialogKristinaDay8</string>
     </NextIndexes>
@@ -104,7 +104,7 @@
   <Phrase>
     <Index>dialogKristinaNight1</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Добрый вечер, ... . Нет, он не появлялся.</Dialog>
+    <Dialog>Добрый вечер, Андрей. Нет, он не появлялся.</Dialog>
     <NextIndexes>
       <string>dialogKristinaNight2</string>
     </NextIndexes>

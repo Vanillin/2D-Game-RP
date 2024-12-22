@@ -14,7 +14,7 @@
   <Phrase>
     <Index>dialogAgencyStart2</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Вчера ночью в одном из домой был обнаружен труп. Вам надо осмотреть место, опросить свидетелей, поискать улики и определить убийцу и его мотивы.</Dialog>
+    <Dialog>Вчера ночью в одном из домов был обнаружен труп. Вам надо осмотреть место, опросить свидетелей, поискать улики и определить убийцу и его мотивы.</Dialog>
     <NextIndexes>
       <string>dialogAgencyStart3</string>
     </NextIndexes>

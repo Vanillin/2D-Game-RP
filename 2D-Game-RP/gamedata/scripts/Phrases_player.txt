@@ -3,7 +3,7 @@
   <Phrase>
     <Index>dialogKristinaDay0</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Добрый день, меня зовут ... я следователь. Вчера вечером в соседней квартире произошло убийство. 
+    <Dialog>Добрый день, меня зовут Андрей, я следователь. Вчера вечером в соседней квартире произошло убийство. 
 Что вы можете рассказать по этому поводу? Любая информация будет полезна.</Dialog>
     <NextIndexes>
       <string>dialogKristinaDay1</string>
@@ -185,7 +185,7 @@
   <Phrase>
     <Index>dialogMaksimNight0</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Добрый вечер, меня зовут ... я следователь. Расследую убийство, которое произошло вчера ночью в 
+    <Dialog>Добрый вечер, меня зовут Андрей, я следователь. Расследую убийство, которое произошло вчера ночью в 
 соседнем доме. Вы можете ответить на мои вопросы?</Dialog>
     <NextIndexes>
       <string>dialogMaksimNight1</string>
@@ -277,7 +277,7 @@
   <Phrase>
     <Index>dialogNuraDay0</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Здравствуйте, меня зовут ... я следователь. Расследую убийство в соседнем доме. Вы можете ответить 
+    <Dialog>Здравствуйте, меня зовут Андрей, я следователь. Расследую убийство в соседнем доме. Вы можете ответить 
 на пару вопросов?</Dialog>
     <NextIndexes>
       <string>dialogNuraDay1</string>
@@ -406,7 +406,7 @@
   <Phrase>
     <Index>dialogVanyaNight1</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Иван, добрый вечер. Меня зовут ... я работаю следователем. Расследую происшествие, которое произошло 
+    <Dialog>Иван, добрый вечер. Меня зовут Андрей, я работаю следователем. Расследую происшествие, которое произошло 
 вчера ночью. </Dialog>
     <NextIndexes>
       <string>dialogVanyaNight2</string>
@@ -451,8 +451,7 @@
   <Phrase>
     <Index>dialogVanyaNight9</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Молодой, но лысый говоришь... Спасибо большое, Вань. Поспрашиваю у жильцов про молодого и лысого 
-мужчину.</Dialog>
+    <Dialog>В бардовом пальто говоришь... Спасибо большое, Вань. Пойду поспрашиваю у жильцов.</Dialog>
     <NextIndexes>
       <string>dialogVanyaNight10</string>
     </NextIndexes>

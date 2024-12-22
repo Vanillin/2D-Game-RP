@@ -46,7 +46,7 @@
   <Phrase>
     <Index>dialogMaksimNight7</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Нет, не знаю Кирилла. Есть в том доме пару знакомых, но Кирилла не знаю. 
+    <Dialog>Нет, не знаю Кирилла. Есть в том доме пару знакомых, но именно его не знаю. 
 Вообще с первого этажа никого не знаю.</Dialog>
     <NextIndexes>
       <string>dialogMaksimNight8</string>

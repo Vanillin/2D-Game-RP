@@ -105,7 +105,7 @@
   <Phrase>
     <Index>dialogNuraNight1</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Добрый вечер, ... . Как проходит расследование?</Dialog>
+    <Dialog>Добрый вечер, Андрей. Как проходит расследование?</Dialog>
     <NextIndexes>
       <string>dialogNuraNight2</string>
     </NextIndexes>
