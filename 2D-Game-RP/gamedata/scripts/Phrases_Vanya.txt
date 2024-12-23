@@ -3,7 +3,7 @@
   <Phrase>
     <Index>dialogVanyaNight</Index>
     <TaskToStart>startdialogVanyaNight</TaskToStart>
-    <Dialog>Ало.</Dialog>
+    <Dialog>Алло.</Dialog>
     <NextIndexes>
       <string>dialogVanyaNight1</string>
     </NextIndexes>
@@ -36,7 +36,7 @@
   <Phrase>
     <Index>dialogVanyaNight6</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Да я мало кого знаю. Пару мужчин у забора стояли, разговаривали. Ещё один мужчина бежал куда-то, 
+    <Dialog>Да я мало кого знаю. Пара мужчин у забора стояли, разговаривали. Ещё один мужчина бежал куда-то, 
 в меня врезался, как только я приехал. Девушку видел, она кота выгуливала. Больше ничего подозрительного не было.</Dialog>
     <NextIndexes>
       <string>dialogVanyaNight7</string>
@@ -48,8 +48,8 @@
   <Phrase>
     <Index>dialogVanyaNight8</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Я не видел откуда он бежал, просто из калитки вылетел. Он был высокий, молодой, 
-но лысый, в бардовом пальто с красными узорами.</Dialog>
+    <Dialog>Я не видел, откуда он бежал, просто из калитки вылетел. Он был высокий, молодой, 
+но лысый, в бордовом пальто с красными узорами.</Dialog>
     <NextIndexes>
       <string>dialogVanyaNight9</string>
     </NextIndexes>

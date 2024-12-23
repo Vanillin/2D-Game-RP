@@ -35,7 +35,7 @@
   <Phrase>
     <Index>dialogMaksimNight5</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Мне бы для начала узнать кого убили...</Dialog>
+    <Dialog>Мне бы для начала узнать, кого убили...</Dialog>
     <NextIndexes>
       <string>dialogMaksimNight6</string>
     </NextIndexes>

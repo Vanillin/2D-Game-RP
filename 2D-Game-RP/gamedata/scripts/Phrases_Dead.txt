@@ -43,7 +43,7 @@
   <Phrase>
     <Index>dialogDead4</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Скорее всего была драка, в конце которой нападавший ударил погибшего по голове чем-то твёрдым, от чего тот сканчался.</Dialog>
+    <Dialog>Скорее всего была драка, в конце которой нападавший ударил погибшего по голове чем-то твёрдым, от чего тот скончался.</Dialog>
     <NextIndexes>
     </NextIndexes>
     <NewTasks></NewTasks>

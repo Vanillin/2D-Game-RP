@@ -64,7 +64,7 @@ namespace TwoD_Game_RP
             timerReloadAnalyzeTask.Tick += TimerAnalyzeTask_Tick;
             timerReloadAnalyzeTask.IsEnabled = true;
 
-            player = new PlayerFirst("Герой", "player", new GamePoint(19, 5), sizeInventH, sizeInventW,
+            player = new PlayerFirst("Детектив", "player", new GamePoint(19, 5), sizeInventH, sizeInventW,
                 new List<Item>()
                 {
                     new Telephone(), new NoteBook()
@@ -159,6 +159,7 @@ namespace TwoD_Game_RP
         bool IsDown = false;
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            SystemObj = new List<UIElement>();
             if (IsDown == false)
             {
                 switch (e.Key)
@@ -302,6 +303,7 @@ namespace TwoD_Game_RP
         }
         private void MenuDoorOpen_Click(object sender, RoutedEventArgs e)
         {
+            SystemObj = new List<UIElement>();
             Button button = (Button)sender;
             Skelet door = (Skelet)button.Tag;
             CurrentLocation.RemoveFirstLayerWithCell(door);
@@ -630,7 +632,7 @@ namespace TwoD_Game_RP
 
             Button Agenstv = new Button()
             {
-                Content = "Позвонить в детективное Агенство",
+                Content = "Позвонить в Агенство",
                 Opacity = 0.6,
                 FontSize = 20,
             };

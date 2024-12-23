@@ -17,7 +17,7 @@ namespace TwoD_Game_RP
     public class Agency : Skelet
     {
         public Agency(GamePoint point, char rotate) :
-            base("Агенство", "", NPSGroup.People, NPSIntellect.Non, point, rotate, "Agency", new List<Item>(), 3, 3, false)
+            base("Агентство", "", NPSGroup.People, NPSIntellect.Non, point, rotate, "Agency", new List<Item>(), 3, 3, false)
         { }
     }
     public class Dead : Skelet

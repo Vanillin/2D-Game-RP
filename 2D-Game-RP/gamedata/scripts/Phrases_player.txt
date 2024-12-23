@@ -59,7 +59,7 @@
   <Phrase>
     <Index>dialogKristinaDay10</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Все понятно. Вы вчера ничего подозрительного не слышали вчера в коридоре или у соседей?</Dialog>
+    <Dialog>Все понятно. Вы вчера ничего подозрительного не слышали в коридоре или у соседей?</Dialog>
     <NextIndexes>
       <string>dialogKristinaDay11</string>
     </NextIndexes>
@@ -104,7 +104,7 @@
   <Phrase>
     <Index>dialogKristinaNight2</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Он говорил когда вернется?</Dialog>
+    <Dialog>Он говорил, когда вернется?</Dialog>
     <NextIndexes>
       <string>dialogKristinaNight3</string>
     </NextIndexes>
@@ -126,7 +126,7 @@
   <Phrase>
     <Index>dialogKristinaNight6</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>У меня есть показания, его видели вчера вечером выбегающим из двора. </Dialog>
+    <Dialog>У меня есть показания, его видели вчера вечером, выбегающим из двора. </Dialog>
     <NextIndexes>
       <string>dialogKristinaNight7</string>
     </NextIndexes>
@@ -138,7 +138,7 @@
     <Index>dialogKristinaNight8</Index>
     <TaskToStart></TaskToStart>
     <Dialog>Внук бабушки Нюры из соседнего дома. Николай, выбегая, врезался в него и его велосипед. Прошу, 
-расскажите все что знаете и думаете.</Dialog>
+расскажите всё, что знаете и думаете.</Dialog>
     <NextIndexes>
       <string>dialogKristinaNight9</string>
     </NextIndexes>
@@ -418,7 +418,7 @@
   <Phrase>
     <Index>dialogVanyaNight3</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Мне баб Нюра передала, сказала ты можешь рассказать что-то полезное.</Dialog>
+    <Dialog>Мне баб Нюра передала, сказала, что ты можешь рассказать что-то полезное.</Dialog>
     <NextIndexes>
       <string>dialogVanyaNight4</string>
     </NextIndexes>
@@ -488,7 +488,7 @@
   <Phrase>
     <Index>dialogAgencyDay1</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Свидетели опрошены, улики найдены, место преступление осмотрено, однако ответы ещё не получены. Принимаю решение остаться до вечера, когда рабочие вернуться домой.</Dialog>
+    <Dialog>Свидетели опрошены, улики найдены, место преступления осмотрено, однако ответы ещё не получены. Принимаю решение остаться до вечера, когда рабочие вернутся домой.</Dialog>
     <NextIndexes>
       <string>dialogAgencyDay2</string>
     </NextIndexes>
@@ -499,7 +499,7 @@
   <Phrase>
     <Index>dialogAgencyNight1</Index>
     <TaskToStart></TaskToStart>
-    <Dialog>Здесь закончено. Скорее всего убийцей является сосед потерпевшего по имени Николай. На месте он так и не появился. Против него есть свидетель и пару улик. Примерный мотив так же известен.</Dialog>
+    <Dialog>Здесь закончено. Скорее всего, убийцей является сосед потерпевшего, по имени Николай. На месте он так и не появился. Против него есть свидетель и пару улик. Примерный мотив так же известен.</Dialog>
     <NextIndexes>
       <string>dialogAgencyNight2</string>
     </NextIndexes>
