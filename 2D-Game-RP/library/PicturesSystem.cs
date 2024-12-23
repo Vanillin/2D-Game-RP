@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TwoD_Game_RP
+﻿namespace TwoD_Game_RP
 {
     public interface IPictureCell
     {
@@ -15,52 +9,52 @@ namespace TwoD_Game_RP
         void NextPicture();
         void ReloadPictures();
     }
-    public class DarkenPicCell : IPictureCell
+    internal class DarkenPicCell : IPictureCell
     {
-        string picture;
+        string _picture;
+        private static DarkenPicCell _darken;
         public bool Rotate90 { get; set; }
         public bool Rotate180 { get; set; }
         public bool Rotate270 { get; set; }
-        private static DarkenPicCell darken;
         private DarkenPicCell(string picture)
         {
-            this.picture = picture;
+            _picture = picture;
             Rotate90 = false;
             Rotate180 = false;
             Rotate270 = false;
         }
         public static DarkenPicCell Creating(string picture)
         {
-            if (darken == null)
+            if (_darken == null)
             {
-                darken = new DarkenPicCell(picture);
+                _darken = new DarkenPicCell(picture);
             }
-            return darken;
+            return _darken;
         }
         public static DarkenPicCell Taking()
         {
-            return darken;
+            return _darken;
         }
 
         public void NextPicture()
         { }
         public string Picture()
         {
-            return picture;
+            return _picture;
         }
         public void ReloadPictures()
         { }
     }
     public class StaticPicCell : IPictureCell
     {
-        string picture;
+        string _picture;
         public bool Rotate90 { get; set; }
         public bool Rotate180 { get; set; }
         public bool Rotate270 { get; set; }
 
         public StaticPicCell(string picture)
         {
-            this.picture = picture;
+            _picture = picture;
             Rotate90 = false;
             Rotate180 = false;
             Rotate270 = false;
@@ -70,7 +64,7 @@ namespace TwoD_Game_RP
         { }
         public string Picture()
         {
-            return picture;
+            return _picture;
         }
         public void ReloadPictures()
         { }

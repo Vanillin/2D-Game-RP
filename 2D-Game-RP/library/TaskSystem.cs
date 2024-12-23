@@ -33,35 +33,35 @@ namespace TwoD_Game_RP
     }
     public class TaskBoard
     {
-        private SortedEnum<string> ComplitedTasks { get; set; }
-        private SortedEnum<Task> UsingTask { get; set; }
-        private SortedEnum<Task> MemoryTask { get; set; }
-        private SortedEnum<(string comp, string usin)> Connection { get; set; }
-        public TaskBoard(SortedEnum<Task> AllTask, SortedEnum<(string comp, string usin)> connect, List<string> StartedSystemNameTask)
+        private CustomSortedEnum<string> _complitedTasks;
+        private CustomSortedEnum<Task> _usingTask;
+        private CustomSortedEnum<Task> _memoryTask;
+        private CustomSortedEnum<(string comp, string usin)> _connection;
+        public TaskBoard(CustomSortedEnum<Task> memoryTask, CustomSortedEnum<(string comp, string usin)> connect, List<string> startedSystemNameTask)
         {
-            MemoryTask = AllTask;
-            UsingTask = new SortedEnum<Task>();
-            Connection = connect;
-            ComplitedTasks = new SortedEnum<string>();
+            _memoryTask = memoryTask;
+            _usingTask = new CustomSortedEnum<Task>();
+            _connection = connect;
+            _complitedTasks = new CustomSortedEnum<string>();
 
-            foreach (var sysname in StartedSystemNameTask)
+            foreach (var sysname in startedSystemNameTask)
             {
-                UsingTask.Add(FindTask(sysname));
-                foreach (var andertask in MemoryTask)
+                _usingTask.Add(FindTask(sysname));
+                foreach (var andertask in _memoryTask)
                 {
                     if (andertask.SysNameParent == sysname)
-                        UsingTask.Add(andertask);
+                        _usingTask.Add(andertask);
                 }
             }
         }
-        public SortedEnum<Task> GetUsingTask()
+        public CustomSortedEnum<Task> GetUsingTask()
         {
-            return UsingTask;
+            return _usingTask;
         }
         public List<Task> GetUsingTaskNotSystem()
         {
             var retur = new List<Task>();
-            foreach (var task in UsingTask)
+            foreach (var task in _usingTask)
             {
                 if (!task.IsSystem) retur.Add(task);
             }
@@ -69,22 +69,22 @@ namespace TwoD_Game_RP
         }
         private Task FindTask(string systemnametask)
         {
-            foreach (var task in MemoryTask)
+            foreach (var task in _memoryTask)
             {
                 if (task.SystemName == systemnametask)
                     return task;
             }
-            throw new Exception("Task is not find");
+            throw new CustomException("Task is not find");
         }
         public void ComplitedTask(string SysNameTask)
         {
             Task compliteTask = FindTask(SysNameTask);
             if (compliteTask.SysNameParent != null) //=> children
             {
-                UsingTask.Remove(compliteTask);
-                ComplitedTasks.Add(compliteTask.SystemName);
+                _usingTask.Remove(compliteTask);
+                _complitedTasks.Add(compliteTask.SystemName);
                 bool isParentComplite = true;
-                foreach (var task in UsingTask)
+                foreach (var task in _usingTask)
                 {
                     if (task.SysNameParent == compliteTask.SysNameParent)
                     {
@@ -94,22 +94,22 @@ namespace TwoD_Game_RP
                 }
                 if (isParentComplite)
                 {
-                    UsingTask.Remove(FindTask(compliteTask.SysNameParent));
-                    ComplitedTasks.Add(compliteTask.SysNameParent);
+                    _usingTask.Remove(FindTask(compliteTask.SysNameParent));
+                    _complitedTasks.Add(compliteTask.SysNameParent);
                     AddNewUsingTask(compliteTask.SysNameParent);
                 }
             }
             else
             {
-                UsingTask.Remove(compliteTask);
-                ComplitedTasks.Add(compliteTask.SystemName);
+                _usingTask.Remove(compliteTask);
+                _complitedTasks.Add(compliteTask.SystemName);
                 AddNewUsingTask(compliteTask.SystemName);
             }
         }
         private void AddNewUsingTask(string SysNameTask)
         {
             List<string> NewTask = new List<string>();
-            foreach (var pair in Connection)
+            foreach (var pair in _connection)
             {
                 if (pair.comp == SysNameTask)
                     NewTask.Add(pair.usin);
@@ -117,11 +117,11 @@ namespace TwoD_Game_RP
             List<string> NotComplited = new List<string>();
             foreach (var task in NewTask)
             {
-                foreach (var pair in Connection)
+                foreach (var pair in _connection)
                 {
                     if (pair.usin == task)
                     { 
-                        if (!ComplitedTasks.Contains(pair.comp))
+                        if (!_complitedTasks.Contains(pair.comp))
                         {
                             NotComplited.Add(pair.usin);
                             break;
@@ -133,11 +133,11 @@ namespace TwoD_Game_RP
             {
                 if (!NotComplited.Contains(task)) 
                 { 
-                    UsingTask.Add(FindTask(task));
-                    foreach (var andertask in MemoryTask)
+                    _usingTask.Add(FindTask(task));
+                    foreach (var andertask in _memoryTask)
                     {
                         if (andertask.SysNameParent == task)
-                            UsingTask.Add(andertask);
+                            _usingTask.Add(andertask);
                     }
                 }
             }

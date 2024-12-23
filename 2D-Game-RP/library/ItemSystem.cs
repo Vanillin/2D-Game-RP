@@ -1,28 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TwoD_Game_RP
 {
     public abstract class Item : IComparable<Item>, IEquatable<Item>
     {
-        public readonly string Name;
-        public readonly string SystemName;
-        public int Cost;
-        public readonly int SizeH;
-        public readonly int SizeW;
-        public IPictureCell Picture;
-                      
+        public string Name { get; private set; }
+        public string SystemName { get; private set; }
+        public int SizeH { get; private set; }
+        public int SizeW { get; private set; }
+        public int Cost { get; set; }
+        public IPictureCell Picture { get; set; }
+
         public Item(string name, string systemName, int cost, int sizeH, int sizeW)
         {
-            this.Name = name;
-            this.SystemName = systemName;
-            this.Cost = cost;
-            this.SizeH = sizeH;
-            this.SizeW = sizeW;
+            Name = name;
+            SystemName = systemName;
+            Cost = cost;
+            SizeH = sizeH;
+            SizeW = sizeW;
             Picture = new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"], systemName + ".png"));
         }
         public int CompareTo(Item other)
@@ -38,7 +34,7 @@ namespace TwoD_Game_RP
 
             else if (Equals(other))
                 return 0;
-            
+
             return SystemName.CompareTo(other.SystemName);
         }
         public bool Equals(Item other)
@@ -46,6 +42,8 @@ namespace TwoD_Game_RP
             return SystemName == other.SystemName;
         }
     }
+
+    #region Closed
     public abstract class Gun : Item
     {
         public int Damage;
@@ -54,8 +52,8 @@ namespace TwoD_Game_RP
         public Gun(string name, string systemName, int damage, int radius, int cost, int sizeH, int sizeW)
             : base(name, systemName, cost, sizeH, sizeW)
         {
-            this.Damage = damage;
-            this.Radius = radius;
+            Damage = damage;
+            Radius = radius;
         }
     }
     public abstract class Cloth : Item
@@ -66,8 +64,9 @@ namespace TwoD_Game_RP
         public Cloth(string name, string systemName, int cost, int armor, NPSGroup fractioncloth, int sizeH, int sizeW)
             : base(name, systemName, cost, sizeH, sizeW)
         {
-            this.Armor = armor;
-            this.FractionCloth = fractioncloth;
+            Armor = armor;
+            FractionCloth = fractioncloth;
         }
     }
+    #endregion
 }

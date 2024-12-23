@@ -72,24 +72,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CreateWindow.xaml.cs">
-      <DependentUpon>CreateWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FinalWindow.xaml.cs">
-      <DependentUpon>FinalWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="input\Clothes.cs" />
     <Compile Include="input\Guns.cs" />
+    <Compile Include="input\MemoryLocations.cs" />
     <Compile Include="input\Serializers.cs" />
     <Compile Include="input\Items.cs" />
-    <Compile Include="input\Skelets.cs" />
+    <Compile Include="input\SkeletFirstLayer.cs" />
     <Compile Include="LessonsWindow.xaml.cs">
       <DependentUpon>LessonsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="library\ActionSystem.cs" />
-    <Compile Include="library\BilateralQueue.cs" />
-    <Compile Include="library\DialogSystem.cs" />
-    <Compile Include="library\DictionaryWithEqual.cs" />
+    <Compile Include="library\customStorage\CustomBilateralQueue.cs" />
+    <Compile Include="library\customStorage\CustomException.cs" />
+    <Compile Include="library\Phrase.cs" />
+    <Compile Include="library\customStorage\CustomDictionary.cs" />
     <Compile Include="library\DisplaySystem.cs" />
     <Compile Include="library\InventorySystem.cs" />
     <Compile Include="library\ItemSystem.cs" />
@@ -99,24 +95,10 @@
     <Compile Include="library\LocationSystem.cs" />
     <Compile Include="library\MovementSystem.cs" />
     <Compile Include="library\SkeletSystem.cs" />
-    <Compile Include="library\SortedEnum.cs" />
-    <Compile Include="library\SubstringSearch.cs" />
+    <Compile Include="library\customStorage\CustomSortedEnum.cs" />
+    <Compile Include="library\customStorage\SubstringSearch.cs" />
     <Compile Include="library\TaskSystem.cs" />
-    <Compile Include="MainScripts.cs" />
-    <Compile Include="MenuWindow.xaml.cs">
-      <DependentUpon>MenuWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="StartHistoryWindow.xaml.cs">
-      <DependentUpon>StartHistoryWindow.xaml</DependentUpon>
-    </Compile>
-    <Page Include="CreateWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="FinalWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="input\MainScripts.cs" />
     <Page Include="LessonsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -133,14 +115,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MenuWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="StartHistoryWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

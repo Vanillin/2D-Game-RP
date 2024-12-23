@@ -1,168 +1,115 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace TwoD_Game_RP
 {
+    /// <summary>
+    /// Разделение по слоям: 0 - земля, 1 - люди, 2 - аномалии ящики, 3 - деревья, 4 - системные знаки
+    /// </summary>
     public class Location
     {
-        private int maxDepth;
-        private ListLocationCell[,] Cells;
-        private Graf grafLocToMove;
-        private Graf grafLocToWatch;
-        private Graf grafLocAll;
-        private List<Skelet> lives;
-        public SortedEnum<GamePoint> IsBusy;
+        private int _maxDepth;
+        private LocationCell[,] _cells;
+        private Graf _grafLocToMove;
+        private Graf _grafLocToWatch;
+        private Graf _grafLocAll;
+        private List<Skelet> _lives;
+        private DBDisplay _display;
+        public CustomSortedEnum<GamePoint> IsBusy { get; set; }
         public int Height { get; }
         public int Width { get; }
-        public int MaxDepth => maxDepth;
-
-        public readonly string Name;
-        public readonly string SystemName;
-        public Graf GrafLocToMove
+        public int MaxDepth => _maxDepth;
+        public string Name { get; private set; }
+        public string SystemName { get; private set; }
+        public List<GamePoint> CreatePath_OutOfPoint(GamePoint start, GamePoint finish, CustomSortedEnum<GamePoint> deletedpoints)
         {
-            get
-            {
-                if (this.grafLocToMove == null) { throw new Exception("Граф не создан"); }
-                else return this.grafLocToMove;
-            }
+            if (_grafLocToMove == null) { throw new CustomException("Граф не создан"); }
+             return _grafLocToMove.SearchWidth_OutOfPoint(start, finish, deletedpoints);
         }
-        public Graf GrafLocToWatch
+        public CustomSortedEnum<GamePoint> GetWatchCirlce(GamePoint start, double count, int minX, int minY, int maxX, int maxY)
         {
-            get
-            {
-                if (this.grafLocToWatch == null) { throw new Exception("Граф не создан"); }
-                else return this.grafLocToWatch;
-            }
+            return _grafLocToWatch.SearchCircle(start, count, minX, minY, maxX, maxY);
         }
-        public Graf GrafLocAll
+        public CustomSortedEnum<GamePoint> GetWatchCircle_WithAngleOutOfPoint(GamePoint start, double count, int minX, int minY, int maxX, int maxY, CustomSortedEnum<GamePoint> deletedpoints)
         {
-            get
-            {
-                if (this.grafLocAll == null) { throw new Exception("Граф не создан"); }
-                else return this.grafLocAll;
-            }
+            return _grafLocToWatch.SearchCircle_WithAngleOutOfPoint(start, count, minX, minY, maxX, maxY, deletedpoints);
         }
-        private DBDisplay display;
 
         public Location(string name, string systemName, int height, int width)
         {
-            maxDepth = 0;
-            Cells = new ListLocationCell[height, width];
+            _maxDepth = 0;
+            _cells = new LocationCell[height, width];
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
-                    Cells[i, j] = new ListLocationCell();
+                    _cells[i, j] = new LocationCell();
                 }
             }
+            _grafLocToMove = null;
+            _grafLocToWatch = null;
+            _lives = new List<Skelet>();
+            _display = new DBDisplay(height, width, 6);
+            IsBusy = new CustomSortedEnum<GamePoint>();
             Height = height;
             Width = width;
             Name = name;
             SystemName = systemName;
-            grafLocToMove = null;
-            grafLocToWatch = null;
-            lives = new List<Skelet>();
-            display = new DBDisplay(height, width, 6);
-            IsBusy = new SortedEnum<GamePoint>();
         }
         public List<Skelet> GetLives()
         {
-            return lives;
-        }
-        public void AddBoxOrAnomalyWithCell(Skelet skelet)
-        {
-            AddCell(skelet.picture, 2, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-            IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
-            lives.Add(skelet);
-        }
-        public void AddLivesWithCell(Skelet skelet)
-        {
-            AddCell(skelet.picture, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-            IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
-            lives.Add(skelet);
-        }
-        public void RemoveSkeletWithCell(Skelet skelet)
-        {
-            RemoveLivesWithCell(skelet.picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-            IsBusy.Remove(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
-            lives.Remove(skelet);
+            return _lives;
         }
         public Skelet FindLives(int heightInd, int weightInd)
         {
-            return lives.Find(x => x.Cord.CompareTo((heightInd, weightInd))==0);
+            return _lives.Find(x => x.Cord.CompareTo((heightInd, weightInd)) == 0);
         }
-        public void MoveLivesWithCell(Skelet skelet, GamePoint newPoint)
+        public bool IsCellBusy(int heightInd, int weightInd)
         {
-            RemoveLivesWithCell(skelet.picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-            IsBusy.Remove(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+            return IsBusy.Contains(new GamePoint(heightInd, weightInd));
+        }
+        public bool GetIsBlockCell(int heightInd, int weightInd)
+        {
+            if (_cells[heightInd, weightInd] == null) return true;
+            return _cells[heightInd, weightInd].IsBlock;
+        }
+        public bool GetIsWatchCell(int heightInd, int weightInd)
+        {
+            return _cells[heightInd, weightInd].IsWatch;
+        }
 
-            skelet.Cord = newPoint;
-
-            AddCell(skelet.picture, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-            IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
-        }
-        public void Display(Canvas canvas, double size, List<UIElement> systemObj)
+        public void CreateDarkPictCell(string path)
         {
-            foreach (var v in Cells)
+            if (DarkenPicCell.Taking() == null)
             {
-                v.ChangeHavingDark(false);
+                DarkenPicCell.Creating(path);
             }
-            display.Update(Cells);
-            display.Display(canvas, size, systemObj);
-        }
-        public void DisplayToPoints(SortedEnum<GamePoint> displayPoints, Canvas canvas, double size, List<UIElement> systemObj)
-        {
-            display.DisplayToPoints(displayPoints, canvas, size, systemObj);
-        }
-        public void DisplayToPointsWithBorder(SortedEnum<GamePoint> displayPoints, GamePoint LeftUpCorner, Canvas canvas, double size, List<UIElement> systemObj)
-        {
-            display.DisplayToPointsWithBorder(displayPoints, LeftUpCorner, canvas, size, systemObj);
-        }
-        public void DisplayToPointsWithBorderAndView(SortedEnum<GamePoint> displayPointsView, SortedEnum<GamePoint> displayPointsAll, GamePoint LeftUpCorner, Canvas canvas, double size, List<UIElement> systemObj)
-        {
-            foreach (var v in displayPointsAll)
-            {
-                if (displayPointsView.Contains(v))
-                {
-                    Cells[(int)v.X, (int)v.Y].ChangeHavingDark(false);
-                    Cells[(int)v.X, (int)v.Y].IsWasView = true;
-                    display.Update(Cells, (int)v.X, (int)v.Y);
-                }
-                else if (Cells[(int)v.X, (int)v.Y].IsWasView)
-                {
-                    displayPointsView.Add(v);
-                    Cells[(int)v.X, (int)v.Y].ChangeHavingDark(true);
-                    display.Update(Cells, (int)v.X, (int)v.Y);
-                }
-            }
-            display.DisplayToPointsWithBorder(displayPointsView, LeftUpCorner, canvas, size, systemObj);
         }
         public void CreateGrafMove()
         {
-            grafLocToMove = new Graf();
+            _grafLocToMove = new Graf();
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    if (Cells[i, j].IsBlock)
+                    if (_cells[i, j].IsBlock)
                     {
                         continue;
                     }
 
                     var cur = new Vertex(new GamePoint(i, j));
-                    grafLocToMove.Vertexes.Add(cur);
-                    if (i - 1 >= 0 && !Cells[i - 1, j].IsBlock)
+                    _grafLocToMove.Vertexes.Add(cur);
+                    if (i - 1 >= 0 && !_cells[i - 1, j].IsBlock)
                     {
-                        var up = grafLocToMove.Find(new GamePoint(i - 1, j));
+                        var up = _grafLocToMove.Find(new GamePoint(i - 1, j));
                         up.Near.Add(cur);
                         cur.Near.Add(up);
                     }
-                    if (j - 1 >= 0 && !Cells[i, j - 1].IsBlock)
+                    if (j - 1 >= 0 && !_cells[i, j - 1].IsBlock)
                     {
-                        var left = grafLocToMove.Find(new GamePoint(i, j - 1));
+                        var left = _grafLocToMove.Find(new GamePoint(i, j - 1));
                         left.Near.Add(cur);
                         cur.Near.Add(left);
                     }
@@ -171,22 +118,22 @@ namespace TwoD_Game_RP
         }
         public void CreateGrafAll()
         {
-            grafLocAll = new Graf();
+            _grafLocAll = new Graf();
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
                 {
                     var cur = new Vertex(new GamePoint(i, j));
-                    grafLocAll.Vertexes.Add(cur);
+                    _grafLocAll.Vertexes.Add(cur);
                     if (i - 1 >= 0)
                     {
-                        var up = grafLocAll.Find(new GamePoint(i - 1, j));
+                        var up = _grafLocAll.Find(new GamePoint(i - 1, j));
                         up.Near.Add(cur);
                         cur.Near.Add(up);
                     }
                     if (j - 1 >= 0)
                     {
-                        var left = grafLocAll.Find(new GamePoint(i, j - 1));
+                        var left = _grafLocAll.Find(new GamePoint(i, j - 1));
                         left.Near.Add(cur);
                         cur.Near.Add(left);
                     }
@@ -195,173 +142,135 @@ namespace TwoD_Game_RP
         }
         public void CreateGrafWatch()
         {
-            grafLocToWatch = new Graf();
+            _grafLocToWatch = new Graf();
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    if (!Cells[i, j].IsWatch)
+                    if (!_cells[i, j].IsWatch)
                     {
                         continue;
                     }
 
                     var cur = new Vertex(new GamePoint(i, j));
-                    grafLocToWatch.Vertexes.Add(cur);
-                    if (i - 1 >= 0 && Cells[i - 1, j].IsWatch)
+                    _grafLocToWatch.Vertexes.Add(cur);
+                    if (i - 1 >= 0 && _cells[i - 1, j].IsWatch)
                     {
-                        var up = grafLocToWatch.Find(new GamePoint(i - 1, j));
+                        var up = _grafLocToWatch.Find(new GamePoint(i - 1, j));
                         up.Near.Add(cur);
                         cur.Near.Add(up);
                     }
-                    if (j - 1 >= 0 && Cells[i, j - 1].IsWatch)
+                    if (j - 1 >= 0 && _cells[i, j - 1].IsWatch)
                     {
-                        var left = grafLocToWatch.Find(new GamePoint(i, j - 1));
+                        var left = _grafLocToWatch.Find(new GamePoint(i, j - 1));
                         left.Near.Add(cur);
                         cur.Near.Add(left);
                     }
                 }
             }
         }
-        public bool IsCellBusy(int heightInd, int weightInd)
+
+        public void UpdateDisplay()
         {
-            return IsBusy.Contains(new GamePoint(heightInd, weightInd));
+            _display.Update(_cells);
         }
-        public void AddLayerCells(IPictureCell[,] cells, int index)
+        public void DisplayForDark(Canvas canvas, double size, List<UIElement> systemObj)
+        {
+            foreach (var v in _cells)
+            {
+                v.ChangeHavingDark(false);
+            }
+            _display.Update(_cells);
+            _display.Display(canvas, size, systemObj);
+        }
+        //public void DisplayPoints(SortedEnum<GamePoint> displayPoints, Canvas canvas, double size, List<UIElement> systemObj)
+        //{
+        //    _display.DisplayPoints(displayPoints, canvas, size, systemObj);
+        //}
+        //public void DisplayPointsForCorner(SortedEnum<GamePoint> displayPoints, GamePoint LeftUpCorner, Canvas canvas, double size, List<UIElement> systemObj)
+        //{
+        //    _display.DisplayPointsForCorner(displayPoints, LeftUpCorner, canvas, size, systemObj);
+        //}
+        public void DisplayPointsForCornerAndDark(CustomSortedEnum<GamePoint> displayPointsView, CustomSortedEnum<GamePoint> displayPointsAll, GamePoint LeftUpCorner, Canvas canvas, double size, List<UIElement> systemObj)
+        {
+            foreach (var v in displayPointsAll)
+            {
+                if (displayPointsView.Contains(v))
+                {
+                    _cells[(int)v.X, (int)v.Y].ChangeHavingDark(false);
+                    _cells[(int)v.X, (int)v.Y].IsWasView = true;
+                    _display.Update(_cells, (int)v.X, (int)v.Y);
+                }
+                else if (_cells[(int)v.X, (int)v.Y].IsWasView)
+                {
+                    displayPointsView.Add(v);
+                    _cells[(int)v.X, (int)v.Y].ChangeHavingDark(true);
+                    _display.Update(_cells, (int)v.X, (int)v.Y);
+                }
+            }
+            _display.DisplayPointsForCorner(displayPointsView, LeftUpCorner, canvas, size, systemObj);
+        }
+
+        public void AddLocationCellsLayer(IPictureCell[,] cells, int index)
         {
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
                 {
                     if (cells[i, j] == null) continue;
-                    Cells[i, j].AddLocationCell(cells[i, j], index);
+                    _cells[i, j].AddCell(cells[i, j], index);
                 }
             }
         }
-        public void UpdateDisplay()
+        public void AddSecondLayerWithCell(Skelet skelet)
         {
-            display.Update(Cells);
+            AddCell(skelet.Picture, 2, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+            IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+            _lives.Add(skelet);
         }
-        public bool GetIsBlockCell(int heightInd, int weightInd)
+        public void AddFirstLayerWithCell(Skelet skelet)
         {
-            if (Cells[heightInd, weightInd] == null) return true;
-            return Cells[heightInd, weightInd].IsBlock;
+            AddCell(skelet.Picture, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+            IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+            _lives.Add(skelet);
         }
-        public bool GetIsWatchCell(int heightInd, int weightInd)
+        public void RemoveFirstLayerWithCell(Skelet skelet)
         {
-            return Cells[heightInd, weightInd].IsWatch;
+            RemoveFirstLayerWithCell(skelet.Picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+            IsBusy.Remove(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+            _lives.Remove(skelet);
+        }
+        public void MoveFirstLayerWithCell(Skelet skelet, GamePoint newPoint)
+        {
+            RemoveFirstLayerWithCell(skelet.Picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+            IsBusy.Remove(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+
+            skelet.Cord = newPoint;
+
+            AddCell(skelet.Picture, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+            IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
         }
         public IEnumerable<IPictureCell> GetEnumerableCell(int heightInd, int weightInd)
         {
-            return Cells[heightInd, weightInd];
+            return _cells[heightInd, weightInd];
         }
-
-        //------private
-
         private void AddCell(IPictureCell cell, int index, int heightInd, int weightInd)
         {
             if (index == 1)
-                Cells[heightInd, weightInd].AddSkeletWithLocationCell(cell);
+                _cells[heightInd, weightInd].AddFirstLayerWithCell(cell);
             else
-                Cells[heightInd, weightInd].AddLocationCell(cell, index);
-            display.Update(Cells, heightInd, weightInd);
+                _cells[heightInd, weightInd].AddCell(cell, index);
+            _display.Update(_cells, heightInd, weightInd);
         }
-        private void RemoveLivesWithCell(IPictureCell cell, int heightInd, int weightInd)
+        private void RemoveFirstLayerWithCell(IPictureCell cell, int heightInd, int weightInd)
         {
-            Cells[heightInd, weightInd].RemoveSkeletWithLocationCell(cell);
-            display.Update(Cells, heightInd, weightInd);
+            _cells[heightInd, weightInd].RemoveFirstLayerWithCell(cell);
+            _display.Update(_cells, heightInd, weightInd);
         }
         private void RemoveCell(IPictureCell cell, int heightInd, int weightInd)
         {
-            Cells[heightInd, weightInd].RemoveLocationCell(cell);
-            display.Update(Cells, heightInd, weightInd);
+            _cells[heightInd, weightInd].RemoveCell(cell);
+            _display.Update(_cells, heightInd, weightInd);
         }
     }
-
-    /*     
-    public abstract class Location
-    {
-        string name;
-        string[,] firstLayerAir;
-        string[,] thirdLayerBlock;
-        Subject[,] secondLayerCreature;
-        List<Subject> subjects;
-        Graf toMove;
-        Graf toWatch;
-        int rows;
-        int columns;
-        LocationMethods methods;
-        public int Rows => rows;
-        public int Columns => columns;
-        public Subject[,] SecondLayerCreature => secondLayerCreature;
-        public List<Subject> Subjects => subjects;
-        public Graf ToMove => toMove;
-        public Graf ToWatch => toWatch;
-        public string Name => name;
-        public string[,] FirstLayerAir => firstLayerAir;
-        public string[,] ThirdLayerBlock => thirdLayerBlock;
-        public Location(string name, string systemName)
-        {
-            this.name = name;
-            this.rows = 0; this.columns = 0;
-            string[,] firstLayerAir = new string[0, 0];
-            string[,] thirdLayerBlock = new string[0, 0];
-            new ReaderFile().ReadFileLocation(systemName, ref firstLayerAir, ref thirdLayerBlock, ref rows, ref columns);
-            this.firstLayerAir = firstLayerAir;
-            this.thirdLayerBlock = thirdLayerBlock;
-            secondLayerCreature = new Subject[rows, columns];
-            subjects = new List<Subject>();
-            toMove = new Graf(this.thirdLayerBlock, true, rows, columns);
-            toWatch = new Graf(this.thirdLayerBlock, false, rows, columns);
-            this.methods = new LocationMethods();
-        }
-        public void AddSubject(Subject subject, GamePoint cord)
-        {
-            methods.AddSubject(subject, cord, this);
-        }
-        public void DeleteSubject(Subject subject, GamePoint cord)
-        {
-            methods.DeleteSubject(subject, cord, this);
-        }
-        public void GoingSubject(Subject subject, GamePoint cord)
-        {
-            methods.GoingSubject(subject, cord, this);
-        }
-    }
-    public interface ILocationMethods
-    {
-        void AddSubject(Subject subject, GamePoint cord, Location location);
-        void DeleteSubject(Subject subject, GamePoint cord, Location location);
-        void GoingSubject(Subject subject, GamePoint cord, Location location);
-    }
-    public class LocationMethods : ILocationMethods
-    {
-        public void AddSubject(Subject subject, GamePoint cord, Location location)
-        {
-            location.Subjects.Add(subject);
-            if (location.SecondLayerCreature[cord.H, cord.W] != null)
-            {
-                throw new Exception("Существо не может быть расположено, место занято");
-            }
-            subject.ChangeLocation(location, cord);
-            location.SecondLayerCreature[cord.H, cord.W] = subject;
-            location.ToMove.Find(cord).Busy = true;
-        }
-        public void DeleteSubject(Subject subject, GamePoint cord, Location location)
-        {
-            location.Subjects.RemoveAll(X => X.GamePoint.H == cord.H && X.GamePoint.W == cord.W);
-            location.SecondLayerCreature[cord.H, cord.W] = null;
-        }
-        public void GoingSubject(Subject subject, GamePoint cord, Location location)
-        {
-            if (location.Subjects.Contains(subject) && location.SecondLayerCreature[cord.H, cord.W] == null)
-            {
-                location.SecondLayerCreature[subject.GamePoint.H, subject.GamePoint.W] = null;
-                location.ToMove.Find(subject.GamePoint).Busy = false;
-                subject.GamePoint = cord;
-                location.SecondLayerCreature[cord.H, cord.W] = subject;
-                location.ToMove.Find(cord).Busy = true;
-            }
-        }
-    }
-    */
 }

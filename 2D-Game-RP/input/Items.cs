@@ -1,9 +1,5 @@
 ﻿namespace TwoD_Game_RP
 {
-    public class SomeItem : Item
-    {
-        public SomeItem() : base("Вещь", "item", 500, 1, 1) { }
-    }
     public class Telephone : Item
     {
         public Telephone() : base("Телефон", "telephone", 0, 1, 1) { }

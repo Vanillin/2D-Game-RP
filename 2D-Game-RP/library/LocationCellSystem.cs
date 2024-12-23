@@ -1,203 +1,192 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
 
 namespace TwoD_Game_RP
 {
-
-    internal class LocationCell
+    /// <summary>
+    /// Разделение по слоям: 0 - земля, 1 - люди, 2 - аномалии ящики, 3 - деревья, 4 - системные знаки
+    /// </summary>
+    internal class NodePictCell
     {
-        public IPictureCell pictureCell;
-        public LocationCell next;
-        public int index;
-        public LocationCell(IPictureCell pictureCell, int index)
+        public IPictureCell PictureCell;
+        public NodePictCell Next;
+        public int Index;
+        public NodePictCell(IPictureCell pictureCell, int index)
         {
-            this.pictureCell = pictureCell;
-            this.next = null;
-            this.index = index;
+            PictureCell = pictureCell;
+            Next = null;
+            Index = index;
         }
     }
-
-    internal class ListLocationCell : IEnumerable<IPictureCell>
+    /// <summary>
+    /// Разделение по слоям: 0 - земля, 1 - люди, 2 - аномалии ящики, 3 - деревья, 4 - системные знаки
+    /// </summary>
+    internal class LocationCell : IEnumerable<IPictureCell>
     {
-        int count;
-        LocationCell head;
-        bool isBlock;
-        bool isWatch;
-        bool isHaveDark;
-        List<IPictureCell> PictureCellOn1;
-        public bool IsBlock => isBlock;
-        public bool IsWatch => isWatch;
+        int _count;
+        NodePictCell _head;
+        bool _isBlock;
+        bool _isWatch;
+        bool _isHaveDark;
+        List<IPictureCell> _pictureCellOn1;
+        public bool IsBlock => _isBlock;
+        public bool IsWatch => _isWatch;
         public bool IsWasView { get; set; }
-        public int Count => count;
-        public ListLocationCell(IPictureCell pictureCell, int index)
+        public int Count => _count;
+        public LocationCell(IPictureCell pictureCell, int index)
         {
-            this.count = 0;
-            this.head = new LocationCell(pictureCell, index);
-            this.isBlock = false;
-            this.isWatch = true;
-            this.IsWasView = false;
-            this.isHaveDark = false;
-            PictureCellOn1 = new List<IPictureCell>();
+            _count = 0;
+            _head = new NodePictCell(pictureCell, index);
+            _isBlock = false;
+            _isWatch = true;
+            IsWasView = false;
+            _isHaveDark = false;
+            _pictureCellOn1 = new List<IPictureCell>();
         }
-        public ListLocationCell()
+        public LocationCell()
         {
-            this.count = 0;
-            this.head = null;
-            this.isBlock = false;
-            this.isWatch = true;
-            this.IsWasView = false;
-            this.isHaveDark = false;
-            PictureCellOn1 = new List<IPictureCell>();
+            _count = 0;
+            _head = null;
+            _isBlock = false;
+            _isWatch = true;
+            IsWasView = false;
+            _isHaveDark = false;
+            _pictureCellOn1 = new List<IPictureCell>();
         }
-        /*
-        0 - земля
-        1 - люди 
-        2 - аномалии ящики
-        3 - деревья 
-        4 - системные знаки
-        */
-        public void AddSkeletWithLocationCell(IPictureCell pictureCell)
+        public void AddFirstLayerWithCell(IPictureCell pictureCell)
         {
-            PictureCellOn1.Add(pictureCell);
-            if (!isHaveDark)
-                AddLocationCell(pictureCell, 1);
+            _pictureCellOn1.Add(pictureCell);
+            if (!_isHaveDark)
+                AddCell(pictureCell, 1);
         }
-        public void RemoveSkeletWithLocationCell(IPictureCell pictureCell)
+        public void RemoveFirstLayerWithCell(IPictureCell pictureCell)
         {
-            PictureCellOn1.Remove(pictureCell);
-            RemoveLocationCell(pictureCell);
+            _pictureCellOn1.Remove(pictureCell);
+            RemoveCell(pictureCell);
         }
-        public void ChangeHavingDark(bool IsHaveDark)
+        public void ChangeHavingDark(bool isHaveDark)
         {
-            if (IsHaveDark == this.isHaveDark) return;
-            if (IsHaveDark)
+            if (isHaveDark == _isHaveDark) return;
+            if (isHaveDark)
             {
-                this.isHaveDark = true;
-                AddLocationCell(DarkenPicCell.Taking(), 4);
-                foreach (var v in PictureCellOn1)
+                _isHaveDark = true;
+                AddCell(DarkenPicCell.Taking(), 4);
+                foreach (var v in _pictureCellOn1)
                 {
-                    RemoveLocationCell(v);
+                    RemoveCell(v);
                 }
             }
             else
             {
-                this.isHaveDark = false;
-                RemoveLocationCell(DarkenPicCell.Taking());
-                foreach (var v in PictureCellOn1)
+                _isHaveDark = false;
+                RemoveCell(DarkenPicCell.Taking());
+                foreach (var v in _pictureCellOn1)
                 {
-                    AddLocationCell(v, 1);
+                    AddCell(v, 1);
                 }
             }
         }
         private void AnalyzeOnWatch(IPictureCell picture)
         {
-            if (!isWatch) return;
+            if (!_isWatch) return;
             SubstringSearch ss = SubstringSearch.Creating();
             foreach (var v in Information.NotWatch)
             {
                 if (ss.CheckSubstring(picture.Picture(), v))
                 {
-                    isWatch = false;
+                    _isWatch = false;
                     return;
                 }
             }
         }
         private void AnalyzeOnBlock(IPictureCell picture)
         {
-            if (isBlock) return;
+            if (_isBlock) return;
             SubstringSearch ss = SubstringSearch.Creating();
             foreach (var v in Information.Blocks)
             {
                 if (ss.CheckSubstring(picture.Picture(), v))
                 {
-                    isBlock = true;
+                    _isBlock = true;
                     return;
                 }
             }
         }
-        public void AddLocationCell(IPictureCell pictureCell, int index)
+        public void AddCell(IPictureCell pictureCell, int index)
         {
-            count++;
-            var addcell = new LocationCell(pictureCell, index);
+            _count++;
+            var addcell = new NodePictCell(pictureCell, index);
 
             AnalyzeOnBlock(pictureCell);
             AnalyzeOnWatch(pictureCell);
-            if (head == null)
+            if (_head == null)
             {
-                head = addcell;
+                _head = addcell;
                 return;
             }
-            LocationCell current = head;
-            LocationCell last = null;
+            NodePictCell current = _head;
+            NodePictCell last = null;
             while (true)
             {
-                if (current == null || current.index > addcell.index)
+                if (current == null || current.Index > addcell.Index)
                 {
-                    if (current == head)
+                    if (current == _head)
                     {
-                        head = addcell;
+                        _head = addcell;
                     }
                     else
                     {
-                        last.next = addcell;
+                        last.Next = addcell;
                     }
-                    addcell.next = current;
+                    addcell.Next = current;
                     return;
                 }
                 else
                 {
                     last = current;
-                    current = current.next;
+                    current = current.Next;
                 }
             }
         }
-        public void RemoveLocationCell(IPictureCell pictureCell)
+        public void RemoveCell(IPictureCell pictureCell)
         {
-            if (head == null) { return; }
-            if (head.pictureCell == pictureCell)
+            if (_head == null) { return; }
+            if (_head.PictureCell == pictureCell)
             {
-                count--;
-                head = head.next;
+                _count--;
+                _head = _head.Next;
                 return;
             }
-            var current = head;
-            while (current.next != null)
+            var current = _head;
+            while (current.Next != null)
             {
-                if (current.next.pictureCell == pictureCell)
+                if (current.Next.PictureCell == pictureCell)
                 {
-                    count--;
-                    current.next = current.next.next;
+                    _count--;
+                    current.Next = current.Next.Next;
                     return;
                 }
                 else
                 {
-                    current = current.next;
+                    current = current.Next;
                 }
             }
         }
 
         public IEnumerator<IPictureCell> GetEnumerator()
         {
-            var current = head;
+            var current = _head;
             while (current != null)
             {
-                yield return current.pictureCell;
-                current = current.next;
+                yield return current.PictureCell;
+                current = current.Next;
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            var current = head;
-            while (current != null)
-            {
-                yield return current.pictureCell;
-                current = current.next;
-            }
+            return GetEnumerator();
         }
     }
 }

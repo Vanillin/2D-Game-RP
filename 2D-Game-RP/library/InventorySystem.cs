@@ -1,39 +1,47 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Markup;
+﻿using System.Collections.Generic;
 
 namespace TwoD_Game_RP
 {
-    public class Inventory
+    internal class Inventory
     {
-        int maxSizeH;
-        int maxSizeW;
-        DictionaryWithEqual<Item, List<GamePoint>> referenceItem;
-        public DictionaryWithEqual<Item, List<GamePoint>> ReferenceItem => referenceItem;
-        public int MaxSizeH => maxSizeH;
-        public int MaxSizeW => maxSizeW;
-        private Inventory(int maxH, int maxW, DictionaryWithEqual<Item, List<GamePoint>> reference)
+        int _maxSizeH;
+        int _maxSizeW;
+        CustomDictionary<Item, List<GamePoint>> _referenceItem;
+
+        public CustomDictionary<Item, List<GamePoint>> ReferenceItem => _referenceItem;
+        public int MaxSizeH => _maxSizeH;
+        public int MaxSizeW => _maxSizeW;
+
+        private Inventory(int maxH, int maxW, CustomDictionary<Item, List<GamePoint>> reference)
         {
-            this.maxSizeH = maxH;
-            this.maxSizeW = maxW;
-            this.referenceItem = reference;
+            _maxSizeH = maxH;
+            _maxSizeW = maxW;
+            _referenceItem = reference;
         }
         private Inventory(int maxH, int maxW)
         {
-            this.maxSizeH = maxH;
-            this.maxSizeW = maxW;
-            this.referenceItem = new DictionaryWithEqual<Item, List<GamePoint>>();
+            _maxSizeH = maxH;
+            _maxSizeW = maxW;
+            _referenceItem = new CustomDictionary<Item, List<GamePoint>>();
+        }
+        public static Inventory Creating(int maxH, int maxW, List<Item> list)
+        {
+            if (list.Count == 0)
+            {
+                return new Inventory(maxH, maxW);
+            }
+            if (IsInclude(maxH, maxW, list, out CustomDictionary<Item, List<GamePoint>> newReference))
+            {
+                return new Inventory(maxH, maxW, newReference);
+            }
+
+            throw new CustomException("Inventory not included all Items");
         }
         public Item SearchItem(int H, int W)
         {
-            foreach (var pair in referenceItem)
+            foreach (var pair in _referenceItem)
             {
-                foreach (var point in  pair.Value)
+                foreach (var point in pair.Value)
                 {
                     if (point.X <= H && H < point.X + pair.Key.SizeH &&
                         point.Y <= W && W < point.Y + pair.Key.SizeW)
@@ -44,22 +52,9 @@ namespace TwoD_Game_RP
             }
             return null;
         }
-        public static Inventory Creating(int maxH, int maxW, List<Item> list)
-        {
-            if (list.Count == 0)
-            {
-                return new Inventory(maxH, maxW);
-            }
-            if (Is_Include(maxH, maxW, list, out DictionaryWithEqual<Item, List<GamePoint>> newReference))
-            {
-                return new Inventory(maxH, maxW, newReference);
-            }
-
-            throw new Exception("Инвентарь не вмещает в себя столько предметов");
-        }
         public bool Add(Item item)
         {
-            DictionaryWithEqual<Item, List<GamePoint>> newReference = referenceItem;
+            CustomDictionary<Item, List<GamePoint>> newReference = _referenceItem;
             if (newReference.ContainsKey(item))
             {
                 newReference[item].Add(null);
@@ -69,9 +64,9 @@ namespace TwoD_Game_RP
                 newReference.Add(item, new List<GamePoint>() { null });
             }
 
-            if (Is_Include(maxSizeH, maxSizeW, newReference, out newReference))
+            if (IsInclude(_maxSizeH, _maxSizeW, newReference, out newReference))
             {
-                referenceItem = newReference;
+                _referenceItem = newReference;
                 return true;
             }
             else
@@ -81,24 +76,25 @@ namespace TwoD_Game_RP
         }
         public void Remove(Item item)
         {
-            if (!referenceItem.ContainsKey(item))
+            if (!_referenceItem.ContainsKey(item))
             {
                 return;
             }
-            else if (referenceItem[item].Count == 1)
+            else if (_referenceItem[item].Count == 1)
             {
-                referenceItem.Remove(item);
+                _referenceItem.Remove(item);
             }
             else
             {
-                referenceItem[item].RemoveAt(0);
+                _referenceItem[item].RemoveAt(0);
             }
-            Is_Include(maxSizeH, maxSizeW, referenceItem, out referenceItem);
+            IsInclude(_maxSizeH, _maxSizeW, _referenceItem, out _referenceItem);
         }
         public bool Contains(Item item)
         {
-            return referenceItem.ContainsKey(item);
+            return _referenceItem.ContainsKey(item);
         }
+
         private static bool CheckSquareInInventory(int x1, int y1, int x2, int y2, bool[,] Contein)
         {
             for (int i = x1; i < x2; i++)
@@ -110,56 +106,28 @@ namespace TwoD_Game_RP
             }
             return true;
         }
-        private static bool Is_Include(int sizeH, int sizeW, DictionaryWithEqual<Item, List<GamePoint>> oldReference, out DictionaryWithEqual<Item, List<GamePoint>> newReference)
+        private static List<Item> ToListItem(CustomDictionary<Item, List<GamePoint>> dict)
         {
-            DictionaryWithEqual<Item, List<GamePoint>> save = new DictionaryWithEqual<Item, List<GamePoint>>();
-            bool[,] Contein = new bool[sizeH, sizeW];
-            int[] IndexContein = new int[sizeH];
-
-            foreach (var pair in oldReference)
+            List<Item> list = new List<Item>();
+            foreach (var pair in dict)
             {
                 for (int count = 0; count < pair.Value.Count; count++)
                 {
-                    bool ItemIsAdd = false;
-                    for (int i = 0; i < sizeH - pair.Key.SizeH + 1; i++)
-                    {
-                        if (ItemIsAdd)
-                        {
-                            while (IndexContein[i] < sizeW && Contein[i, IndexContein[i]]) IndexContein[i]++;
-                            continue;
-                        }
-                        for (int j = IndexContein[i]; j < sizeW - pair.Key.SizeW + 1; j++)
-                        {
-                            if (!ItemIsAdd && CheckSquareInInventory(i, j, i + pair.Key.SizeH, j + pair.Key.SizeW, Contein))
-                            {
-                                for (int Item = i; Item < i + pair.Key.SizeH; Item++)
-                                {
-                                    for (int jitem = j; jitem < j + pair.Key.SizeW; jitem++)
-                                    {
-                                        Contein[Item, jitem] = true;
-                                    }
-                                }
-                                if (save.ContainsKey(pair.Key)) save[pair.Key].Add(new GamePoint(i, j));
-                                else save.Add(pair.Key, new List<GamePoint> { new GamePoint(i, j) });
-                                ItemIsAdd = true;
-                                i--;
-                                break;
-                            }
-                        }
-                    }
-                    newReference = null;
-                    if (!ItemIsAdd) return false;
-                }                
+                    list.Add(pair.Key);
+                }
             }
-            newReference = save;
-            return true;
+            return list;
         }
-        private static bool Is_Include(int sizeH, int sizeW, List<Item> list, out DictionaryWithEqual<Item, List<GamePoint>> newReference)
+        private static bool IsInclude(int sizeH, int sizeW, CustomDictionary<Item, List<GamePoint>> oldReference, out CustomDictionary<Item, List<GamePoint>> newReference)
         {
-            DictionaryWithEqual<Item, List<GamePoint>> save = new DictionaryWithEqual<Item, List<GamePoint>>();
-            bool[,] Contein = new bool[sizeH, sizeW];
-            int[] IndexContein = new int[sizeH];
+            return IsInclude(sizeH, sizeW, ToListItem(oldReference), out newReference);
+        }
+        private static bool IsInclude(int sizeH, int sizeW, List<Item> list, out CustomDictionary<Item, List<GamePoint>> newReference)
+        {
             list.Sort();
+            CustomDictionary<Item, List<GamePoint>> save = new CustomDictionary<Item, List<GamePoint>>();
+            bool[,] contein = new bool[sizeH, sizeW];
+            int[] indexContein = new int[sizeH];
 
             foreach (var item in list)
             {
@@ -168,18 +136,18 @@ namespace TwoD_Game_RP
                 {
                     if (ItemIsAdd)
                     {
-                        while (IndexContein[i] < sizeW && Contein[i, IndexContein[i]]) IndexContein[i]++;
+                        while (indexContein[i] < sizeW && contein[i, indexContein[i]]) indexContein[i]++;
                         continue;
                     }
-                    for (int j = IndexContein[i]; j < sizeW - item.SizeW + 1; j++)
+                    for (int j = indexContein[i]; j < sizeW - item.SizeW + 1; j++)
                     {
-                        if (!ItemIsAdd && CheckSquareInInventory(i, j, i + item.SizeH, j + item.SizeW, Contein))
+                        if (!ItemIsAdd && CheckSquareInInventory(i, j, i + item.SizeH, j + item.SizeW, contein))
                         {
                             for (int Item = i; Item < i + item.SizeH; Item++)
                             {
                                 for (int jitem = j; jitem < j + item.SizeW; jitem++)
                                 {
-                                    Contein[Item, jitem] = true;
+                                    contein[Item, jitem] = true;
                                 }
                             }
                             if (save.ContainsKey(item)) save[item].Add(new GamePoint(i, j));

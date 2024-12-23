@@ -6,251 +6,163 @@ namespace TwoD_Game_RP
 {
     public enum NPSGroup
     {
-        //Stalker,
-        //Naemnik,
-        //Mutant,
         People,
         Box,
         Door,
     }
     public enum NPSIntellect
     {
-        Non, //стоит вкопанный не реагирует
-        StandPassive, // стоит, при приближении уходит с линии огня
-        StandAgressive, // стоит, при приближении подходит
-        RandomPassive, // ещё и радномно
-        RandomAgressive, //
+        Non //стоит вкопанный не реагирует
+    }
+    public abstract class Door : Skelet
+    {
+        public bool IsLock;
+        public Door(string name, string systemName, GamePoint coord, char rotate, bool isLock) :
+            base(name, "", NPSGroup.Door, NPSIntellect.Non, coord, rotate, systemName, new List<Item>(0), 0, 0, false)
+        {
+            IsLock = isLock;
+        }
     }
     public abstract class Skelet
     {
-        private NPSGroup fraction;
-        private NPSIntellect intellect;
-        private DBDisplay InventoryDisplay;
-        private BilateralQueue<IAction> GlobalActions;
-        private BilateralQueue<IAction> Actions;
+        private NPSGroup _fraction;
+        private NPSIntellect _intellect;
+        private DBDisplay _inventoryDisplay;
+        private CustomBilateralQueue<IAction> _globalActions;
+        private CustomBilateralQueue<IAction> _actions;
+        private Inventory _inventoryList;
         public string Name { get; }
         public string SecondName { get; }
         public string SystemName { get; }
-        public NPSGroup Fraction => fraction;
-        public NPSIntellect Intellect => intellect;
+        public NPSGroup Fraction => _fraction;
+        public NPSIntellect Intellect => _intellect;
         public GamePoint Cord { get; set; }
         public bool IsClarity { get; }
-        public Inventory InventoryList { get; set; }
         public List<NPSGroup> FriendFranction { get; set; }
-        public IPictureCell picture { get; set; }
-
-        //public string FractionString()
-        //{
-        //    if (Fraction is NPSGroup.Stalker) return "Сталкер";
-        //    else if (Fraction is NPSGroup.Naemnik) return "Наёмник";
-        //    else if (Fraction is NPSGroup.Mutant) return "Мутант";
-        //    else return "";
-        //}
-        //public Gun Gun;
-        //public Cloth Cloth;
-        //private int Health;
-        //public int MaxHealth;
-        //public int HealthInf() { return Health; }
-        //public bool See;
-        //public bool IsAlive;
-        //public SortedEnum<GamePoint> OblSee = new SortedEnum<GamePoint>();
-        //public SortedEnum<GamePoint> OblAttack = new SortedEnum<GamePoint>();
-        //public Skelet LastSeeEnemy;
-        //public GamePoint LastGoingPoint = new GamePoint(-1, -1);
-        //public int Money;
-
+        public IPictureCell Picture { get; set; }
 
         public Skelet(string name, string secondname, NPSGroup fraction, NPSIntellect intellect, GamePoint coord, char rotate,
             string systemname, List<Item> inventoryList, int inventoryHeight, int inventoryWidth, bool isClarity)
         {
-            this.Name = name;
-            this.SecondName = secondname;
-            this.SystemName = systemname;
-            this.intellect = intellect;
-            this.Cord = coord;
-            this.InventoryList = Inventory.Creating(inventoryHeight, inventoryWidth, inventoryList);
-            ListLocationCell[,] cell = new ListLocationCell[inventoryHeight, inventoryWidth];
-            this.IsClarity = isClarity;
-            this.fraction = fraction;
+            Name = name;
+            SecondName = secondname;
+            SystemName = systemname;
+            _intellect = intellect;
+            Cord = coord;
+            _inventoryList = Inventory.Creating(inventoryHeight, inventoryWidth, inventoryList);
+            LocationCell[,] cell = new LocationCell[inventoryHeight, inventoryWidth];
+            IsClarity = isClarity;
+            _fraction = fraction;
 
-            this.FriendFranction = new List<NPSGroup> { NPSGroup.People };
-            this.InventoryDisplay = new DBDisplay();
-            picture = new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{SystemName}-map.png"));
-            GlobalActions = new BilateralQueue<IAction>();
-            Actions = new BilateralQueue<IAction>();
+            FriendFranction = new List<NPSGroup> { NPSGroup.People };
+            _inventoryDisplay = new DBDisplay();
+            Picture = new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{SystemName}-map.png"));
+            _globalActions = new CustomBilateralQueue<IAction>();
+            _actions = new CustomBilateralQueue<IAction>();
 
             for (int i = 0; i < inventoryHeight; i++)
             {
                 for (int j = 0; j < inventoryWidth; j++)
                 {
-                    cell[i, j] = new ListLocationCell();
-                    cell[i, j].AddLocationCell(new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"], $"emptyitem.png")), 0);
+                    cell[i, j] = new LocationCell();
+                    cell[i, j].AddCell(new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"], $"emptyitem.png")), 0);
                 }
             }
-            this.InventoryDisplay.Update(cell);
+            this._inventoryDisplay.Update(cell);
 
             switch (rotate)
             {
-                case '1': picture.Rotate90 = true; break;
-                case '2': picture.Rotate180 = true; break;
-                case '3': picture.Rotate270 = true; break;
+                case '1': Picture.Rotate90 = true; break;
+                case '2': Picture.Rotate180 = true; break;
+                case '3': Picture.Rotate270 = true; break;
             }
         }
+        public Item InventSearchItem(int H, int W)
+        {
+            return _inventoryList.SearchItem(H, W);
+        }
+        public bool InventAdd(Item item)
+        {
+            return _inventoryList.Add(item);
+        }
+        public void InventRemove(Item item)
+        {
+            _inventoryList.Remove(item);
+        }
+        public bool InventContains(Item item)
+        {
+            return _inventoryList.Contains(item);
+        }
+
         public void DisplayInventory(Canvas canvas, double size)
         {
-            InventoryDisplay.DisplayInventory(canvas, size, InventoryList.ReferenceItem);
+            _inventoryDisplay.DisplayInventory(canvas, size, _inventoryList.ReferenceItem);
         }
-        public IAction PeekGlobalAction()
+        public void DoAction(Location location)
         {
-            if (GlobalActions.Count == 0) return null;
-            return GlobalActions.Peek();
+            if (PeekGlobalAction() == null) return;
+            if (PeekAction() == null) CreateActions(PeekGlobalAction().CreateActions(this, location));
+
+            if (!PeekAction().IsCanComplete(this, location))
+            {
+                ClearActions();
+                CreateActions(PeekGlobalAction().CreateActions(this, location));
+            }
+            if (!PeekAction().IsCanComplete(this, location)) return;
+
+            PeekAction().CompleteAction(this, location);
+            RemoveAction();
+            while (PeekAction() != null && PeekAction().IsSystem)
+            {
+                PeekAction().CompleteAction(this, location);
+                RemoveAction();
+            }
         }
+        private IAction PeekGlobalAction()
+        {
+            if (_globalActions.Count == 0) return null;
+            return _globalActions.Peek();
+        }
+        private IAction PeekAction()
+        {
+            if (_actions.Count == 0) return null;
+            return _actions.Peek();
+        }
+        private void RemoveAction()
+        {
+            _actions.RemoveUp();
+        }
+        private void CreateActions(IEnumerable<IAction> actions)
+        {
+            foreach (var v in actions)
+            {
+                _actions.EnqueueInBack(v);
+            }
+        }
+
         public void RemoveGlobalAction()
         {
-            var v = GlobalActions.Dequeue();
+            var v = _globalActions.Dequeue();
             if (v.IsCycle)
             {
-                GlobalActions.EnqueueInBack(v);
+                _globalActions.EnqueueInBack(v);
             }
         }
         public void ClearGlobalActions()
         {
-            GlobalActions.Clear();
+            _globalActions.Clear();
         }
         public void ClearActions()
         {
-            Actions.Clear();
+            _actions.Clear();
         }
         public void EnqueueUpGlobalAction(IAction action)
         {
-            GlobalActions.EnqueueInFront(action);
+            _globalActions.EnqueueInFront(action);
         }
         public void EnqueueDownGlobalAction(IAction action)
         {
-            GlobalActions.EnqueueInBack(action);
+            _globalActions.EnqueueInBack(action);
         }
-        public IAction PeekAction()
-        {
-            if (Actions.Count == 0) return null;
-            return Actions.Peek();
-        }
-        public void RemoveAction()
-        {
-            Actions.RemoveUp();
-        }
-        public void CreateActions(IEnumerable<IAction> actions)
-        {
-            foreach (var v in actions)
-            {
-                Actions.EnqueueInBack(v);
-            }
-        }
-
-        //public Skelet(string name, string secondname, NPSGroup fraction, Gun gun, NPSIntellect intellect, GamePoint coord, char rotate,
-        //    Cloth cloth, string systemname, int money, List<Item> inventoryList, List<NPSGroup> friendFranction, int maxHealth, bool isClarity)
-        //{
-        //    this.Name = name;
-        //    this.SecondName = secondname;
-        //    this.Fraction = fraction;
-        //    this.Gun = gun;
-        //    this.Intellect = intellect;
-        //    this.Cord = coord;
-        //    this.IsAlive = true;
-        //    this.Health = maxHealth;
-        //    //this.See = false;
-        //    this.Cloth = cloth;
-        //    this.SystemName = systemname;
-        //    this.Money = money;
-        //    this.InventoryList = Inventory.Creating(7, 4, inventoryList);
-        //    this.InventoryDisplay = new DBDisplay();
-        //    this.IsClarity = isClarity;
-        //    ListLocationCell[,] cell = new ListLocationCell[7, 4];
-        //    for (int i = 0; i < 7; i++)
-        //    {
-        //        for (int j = 0; j < 4; j++)
-        //        {
-        //            cell[i, j] = new ListLocationCell();
-        //            cell[i, j].AddLocationCell(new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"], $"emptyitem.png")), 0);
-        //        }
-        //    }
-        //    this.InventoryDisplay.Update(cell);
-        //    this.FriendFranction = friendFranction;
-        //    this.MaxHealth = maxHealth;
-        //    picture = new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{SystemName}-map.png"));
-        //    switch (rotate)
-        //    {
-        //        case '1': picture.Rotate90 = true; break;
-        //        case '2': picture.Rotate180 = true; break;
-        //        case '3': picture.Rotate270 = true; break;
-        //    }
-
-        //    GlobalActions = new BilateralQueue<IAction>();
-        //    Actions = new BilateralQueue<IAction>();
-        //}
-
-        //public void Damaging(int damage)
-        //{
-        //    if (!IsAlive) return;
-        //    Health -= (damage - Cloth.Armor);
-        //    if (Health <= 0)
-        //    {
-        //        Health = 0;
-        //        Intellect = NPSIntellect.Non;
-        //        picture = new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{SystemName}-mapdead.png"));
-        //        IsAlive = false;
-        //    }
-        //}
-        //public void Healthing(int health)
-        //{
-        //    if (health == MaxHealth) IsAlive = true;
-        //    if (!IsAlive) return;
-        //    Health += health;
-        //    if (Health > MaxHealth)
-        //    {
-        //        Health = MaxHealth;
-        //    }
-        //}
-        //public void Going(GamePoint point, Location location)
-        //{
-        //    Cord = point;
-        //    foreach (Vertex vertex in location.GrafLocToWatch)
-        //    {
-        //        if (vertex.Cord == point)
-        //        {
-        //            if (this.FractionInf() == NPSGroup.Mutant)
-        //            {
-        //                OblSee = location.GrafLocToWatch.SearchSee(Cord, 11);
-        //            }
-        //            else
-        //            {
-        //                OblSee = location.GrafLocToWatch.SearchSee(Cord, 9);
-        //            }
-        //            OblAttack = location.GrafLocToWatch.SearchSee(Cord, Gun.Radius);
-        //            return;
-        //        }
-        //    }
-        //    OblSee = new SortedEnum<GamePoint>();
-        //    OblAttack = new SortedEnum<GamePoint>();
-        //    return;
-        //}
-
-        //public void TakeGun(Gun gun, Location location)
-        //{
-        //    if (Gun != null)
-        //    {
-        //        InventoryList.Add(Gun);
-        //    }
-        //    Gun = gun;
-        //    OblAttack = location.GrafLocToWatch.SearchSee(Cord, Gun.Radius);
-        //}
-        //public void TakeCloth(Cloth cloth)
-        //{
-        //    if (Cloth != null)
-        //    {
-        //        InventoryList.Add(Cloth);
-        //    }
-        //    Cloth = cloth;
-        //    Fraction = Cloth.FractionCloth;
-        //}
     }
 }

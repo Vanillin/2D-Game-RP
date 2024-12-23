@@ -17,37 +17,54 @@ namespace TwoD_Game_RP
         int sizeGamePoleH;
         int sizeGamePoleW;
         double pixelSizeGamePole;
+        bool SeeInCurcle = true;
 
         int sizeInventH = 1;
         int sizeInventW = 7;
         double pixelSizeInvent;
 
+        private List<UIElement> SystemObj;
+        private int oblwatch = 8;
+        private int oblsee = 6;
+
+
+        public Location CurrentLocation;
+        public List<Location> Locations = new List<Location>();
         public Player player;
 
-        bool SeeInCurcle = true;
+        private DispatcherTimer timerReloadAnimation = new DispatcherTimer()
+        {
+            Interval = TimeSpan.FromMilliseconds(200)
+        };
+        private DispatcherTimer timerReloadAnalyzeTask = new DispatcherTimer()
+        {
+            Interval = TimeSpan.FromMilliseconds(1500)
+        };
+        private void TimerAnalyzeTask_Tick(object sender, EventArgs e)
+        {
+            MainScripts.TimerAnalyze(this);
+        }
 
         public MainWindow()
         {
-            CreateMainWindow(null);
+            CreateMainWindow();
         }
         public MainWindow(string PlayerName, PlayerGender Gender)
         {
-            CreateMainWindow(PlayerName);
+            CreateMainWindow();
         }
-        private void CreateMainWindow(string PlayerName)
+        private void CreateMainWindow()
         {
             //Information.Serialization();
 
             InitializeComponent();
-            Information.CreateDarkenPicCell();
-            //Time = 0;
             SystemObj = new List<UIElement>();
             timerReloadAnimation.Tick += TimerAnimation_Tick;
             timerReloadAnimation.IsEnabled = true;
             timerReloadAnalyzeTask.Tick += TimerAnalyzeTask_Tick;
             timerReloadAnalyzeTask.IsEnabled = true;
 
-            player = new PlayerFirst("Герой", new GamePoint(19, 5), sizeInventH, sizeInventW,
+            player = new PlayerFirst("Герой", "player", new GamePoint(19, 5), sizeInventH, sizeInventW,
                 new List<Item>()
                 {
                     new Telephone(), new NoteBook()
@@ -58,19 +75,10 @@ namespace TwoD_Game_RP
                 });
 
             GoToLocation("Garden");
-            TimerAnimation_Tick(null, null); 
+            TimerAnimation_Tick(null, null);
 
             //SystemViewBtn.Visibility = Visibility.Visible;
         }
-
-        private DispatcherTimer timerReloadAnimation = new DispatcherTimer()
-        {
-            Interval = TimeSpan.FromMilliseconds(200)
-        };
-        private DispatcherTimer timerReloadAnalyzeTask = new DispatcherTimer()
-        {
-            Interval = TimeSpan.FromMilliseconds(1500)
-        };
         private void ChangeSizeGamePole(int height, int wight, GamePoint player)
         {
             if (height % 2 == 0 && height != CurrentLocation.Height) throw new Exception("Размеры поля должны быть нечетными!");
@@ -88,150 +96,65 @@ namespace TwoD_Game_RP
         private void ChangeSizeInventoryPlayer()
         {
             pixelSizeInvent = Math.Min(InventoryPlayer.ActualHeight / (sizeInventH), InventoryPlayer.ActualWidth / (sizeInventW));
-        }        
-
-        private List<UIElement> SystemObj;
-        private int oblwatch = 8;
-        private int oblsee = 6;
+        }
         private void TimerAnimation_Tick(object sender, EventArgs e)
         {
             DoActionAll();
-            //if (ToSeePlayer)
-            //if (ToSeeEnemy)
             if (SeeInCurcle)
             {
                 ChangeSizeGamePole(oblwatch * 2 + 1, oblwatch * 2 + 1, player.Cord);
-                SortedEnum<GamePoint> deleted = new SortedEnum<GamePoint>();
+                CustomSortedEnum<GamePoint> deleted = new CustomSortedEnum<GamePoint>();
                 foreach (var v in CurrentLocation.GetLives())
                 {
                     if (!v.IsClarity) deleted.Add(v.Cord);
                 }
-                var OblSee = CurrentLocation.GrafLocToWatch.SearchSeeInCircleWithBlocksWithousSomePoint(player.Cord, oblsee-0.1,
+                var OblSee = CurrentLocation.GetWatchCircle_WithAngleOutOfPoint(player.Cord, oblsee - 0.1,
                     Math.Max((int)player.Cord.X - oblsee, 0), Math.Max((int)player.Cord.Y - oblsee, 0),
                     Math.Min((int)player.Cord.X + oblsee + 1, CurrentLocation.Height), Math.Min((int)player.Cord.Y + oblsee + 1, CurrentLocation.Width),
                     deleted);
-                var OblWatch = CurrentLocation.GrafLocToWatch.SearchSeeInCircle(player.Cord, oblwatch-0.1,
+                var OblWatch = CurrentLocation.GetWatchCirlce(player.Cord, oblwatch - 0.1,
                     Math.Max((int)player.Cord.X - oblwatch, 0), Math.Max((int)player.Cord.Y - oblwatch, 0),
                     Math.Min((int)player.Cord.X + oblwatch + 1, CurrentLocation.Height), Math.Min((int)player.Cord.Y + oblwatch + 1, CurrentLocation.Width));
 
-                CurrentLocation.DisplayToPointsWithBorderAndView(OblSee, OblWatch, LeftUpCorner, Map, pixelSizeGamePole, SystemObj);
+                CurrentLocation.DisplayPointsForCornerAndDark(OblSee, OblWatch, LeftUpCorner, Map, pixelSizeGamePole, SystemObj);
             }
             else
             {
                 ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
-                CurrentLocation.Display(Map, pixelSizeGamePole, SystemObj);
+                CurrentLocation.DisplayForDark(Map, pixelSizeGamePole, SystemObj);
             }
 
             ChangeSizeInventoryPlayer();
             player.DisplayInventory(InventoryPlayer, pixelSizeInvent);
-            //selectLevel.TakeNextPictureLevel();
+            //переключение новой картинки для анимации
         }
-        private void TimerAnalyzeTask_Tick(object sender, EventArgs e)
-        {
-            foreach (var task in player.Tasks.GetUsingTask())
-            {
-                if (task.SystemName == "trainingButton") 
-                {
-                    MessageBox.Show("Управление: \nКнопками: WASD для ходьбы \nМышкой: ЛКМ для ходьбы, ПКМ для взаимодействия с чем-либо");
-                    player.Tasks.ComplitedTask("trainingButton");
-                }
-                if (task.SystemName == "scriptstart")
-                {
-                    player.Tasks.ComplitedTask("scriptstart");
-                    MenuPersonDialog_Click(new Agency(new GamePoint(0, 0), '0'));
-                }
-                if (task.SystemName == "findKey" && player.InventoryList.Contains(new Key()))
-                {
-                    player.Tasks.ComplitedTask("findKey");
-                }
-                if (task.SystemName == "findBloodPaper" && player.InventoryList.Contains(new BloodPaper()))
-                {
-                    player.Tasks.ComplitedTask("findBloodPaper");
-                }
-                if (task.SystemName == "scriptTime")
-                {
-                    MainScripts.ScriptTime(this);
-                }
-                if (task.SystemName == "scriptcantalkVanya")
-                {
-                    MainScripts.ScriptCanTalkVanya(this);
-                }
-                if (task.SystemName == "scriptFinal") 
-                {
-                    MainScripts.ScriptFinal(this);
-                }
-            }
-        }
-
-        private void DoActionAll()
-        {
-            Location current = CurrentLocation;
-            foreach (var v in current.GetLives())
-            {
-                if (v.PeekGlobalAction() == null) continue;
-                if (v.PeekAction() == null) v.CreateActions(v.PeekGlobalAction().CreateActions(v, current));
-
-                if (!v.PeekAction().IsCanComplete(v, current))
-                {
-                    v.ClearActions();
-                    v.CreateActions(v.PeekGlobalAction().CreateActions(v, current));
-                }
-                if (!v.PeekAction().IsCanComplete(v, current)) continue;
-
-                v.PeekAction().CompleteAction(v, current);
-                v.RemoveAction();
-                while (v.PeekAction() != null && v.PeekAction().IsSystem)
-                {
-                    v.PeekAction().CompleteAction(v, current);
-                    v.RemoveAction();
-                }
-
-            }
-        }
-
-        public Location CurrentLocation;
-        public List<Location> Locations = new List<Location>();
         private void GoToLocation(string name)
         {
             //сброс персонажа при переходе из локации
 
+            var loc = Locations.Find(x => x.SystemName == name);
+            if (loc != null)
+            {
+                CurrentLocation = loc;
+            }
             if (!Locations.Exists(x => x.SystemName == name))
             {
-                Location newLoc = Information.GetGardenLocation();
+                //тут должна быть проверка на имя, выбор локации которую мы загружаем
+
+                Location newLoc = MemoryLocations.GetGarden(player, sizeInventH, sizeInventW);
                 CurrentLocation = newLoc;
-
-                //создание переходов
-
-                CurrentLocation.AddLivesWithCell(player);
-
-
-                var kristina = new Kristina(new GamePoint(7, 14), '0');
-                kristina.EnqueueDownGlobalAction(new ActionWait(3, true));
-                kristina.EnqueueDownGlobalAction(new ActionMove(new GamePoint(7,12), true));
-                kristina.EnqueueDownGlobalAction(new ActionMove(new GamePoint(7,14), true));
-                kristina.EnqueueDownGlobalAction(new ActionWait(3, true));
-                kristina.EnqueueDownGlobalAction(new ActionMove(new GamePoint(5,13), true));
-                kristina.EnqueueDownGlobalAction(new ActionWait(4, true));
-                kristina.EnqueueDownGlobalAction(new ActionMove(new GamePoint(7, 14), true));
-                CurrentLocation.AddLivesWithCell(kristina);
-
-
-                CurrentLocation.AddLivesWithCell(new Nura(new GamePoint(14, 0), '0'));
-                CurrentLocation.AddLivesWithCell(new Dead(new GamePoint(3, 5), '0'));
-
-                CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(10, 7), '3', sizeInventH, sizeInventW, new List<Item>()));
-                CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(13, 17), '1', sizeInventH, sizeInventW, new List<Item>()));
-                CurrentLocation.AddBoxOrAnomalyWithCell(new Trash(new GamePoint(15, 9), '0', sizeInventH, sizeInventW, new List<Item>()
-                    { new BloodPaper() }));
-
             }
             ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
-            //pixelSize = Math.Min( Map.Height / (CurrentLocation.Height + 2) , Map.Width / (CurrentLocation.Width + 2));
-            //выставление начальной позиции при переходе на локации
+        }
+        private void DoActionAll()
+        {
+            foreach (var v in CurrentLocation.GetLives())
+            {
+                v.DoAction(CurrentLocation);
+            }
         }
 
-
-        //-------------------------------------------------------------------------------Click
+        //===============================================        Click      ===============================================
 
         bool IsDown = false;
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -252,11 +175,11 @@ namespace TwoD_Game_RP
                 IsDown = true;
             }
         }
-        private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        private void Window_KeyUp(object sender, KeyEventArgs e)
         {
             IsDown = false;
         }
-        private void Map_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             SystemObj = new List<UIElement>();
             Point pointMouse = e.GetPosition(Map);
@@ -381,7 +304,7 @@ namespace TwoD_Game_RP
         {
             Button button = (Button)sender;
             Skelet door = (Skelet)button.Tag;
-            CurrentLocation.RemoveSkeletWithCell(door);
+            CurrentLocation.RemoveFirstLayerWithCell(door);
         }
         private void MenuPersonCheck_Click(object sender, RoutedEventArgs e)
         {
@@ -394,9 +317,9 @@ namespace TwoD_Game_RP
                 SystemObj = new List<UIElement>();
                 InventorySearchWindow.Visibility = Visibility.Visible;
                 CreateInventoryWindow(people);
-            }                
+            }
         }
-        private void MenuPersonDialog_Click(Skelet people)
+        public void MenuPersonDialog_Click(Skelet people)
         {
             if (DialogWindow.Visibility == Visibility.Collapsed)
             {
@@ -420,10 +343,8 @@ namespace TwoD_Game_RP
                 SystemObj = new List<UIElement>();
                 TaskWindow.Visibility = Visibility.Visible;
                 CreateTaskWindow();
-            }                
+            }
         }
-
-        //-------------------------------------------------------------------------------Window
         private void SystemViewBtn_Click(object sender, RoutedEventArgs e)
         {
             SeeInCurcle = !SeeInCurcle;
@@ -651,14 +572,14 @@ namespace TwoD_Game_RP
             Point pointMouse = e.GetPosition(InventoryPlayer);
             (int W, int H) = ((int)Math.Truncate((pointMouse.X) / pixelSizeInvent),
                 (int)Math.Truncate((pointMouse.Y) / pixelSizeInvent));
-            Item item = player.InventoryList.SearchItem(H, W);
+            Item item = player.InventSearchItem(H, W);
             if (item != null)
             {
                 if (InventorySearchWindow.Visibility != Visibility.Collapsed)
                 {
                     Skelet skelet = (Skelet)InventoryCanvas.Tag;
-                    skelet.InventoryList.Add(item);
-                    player.InventoryList.Remove(item);
+                    skelet.InventAdd(item);
+                    player.InventRemove(item);
 
                     player.DisplayInventory(InventoryPlayer, pixelSizeInvent);
                     skelet.DisplayInventory(InventoryCanvas, pixelSizeInvent);
@@ -686,11 +607,11 @@ namespace TwoD_Game_RP
             (int W, int H) = ((int)Math.Truncate((pointMouse.X) / pixelSizeInvent),
                 (int)Math.Truncate((pointMouse.Y) / pixelSizeInvent));
             Skelet skelet = (Skelet)InventoryCanvas.Tag;
-            Item item = skelet.InventoryList.SearchItem(H, W);
+            Item item = skelet.InventSearchItem(H, W);
             if (item != null)
             {
-                skelet.InventoryList.Remove(item);
-                player.InventoryList.Add(item);
+                skelet.InventRemove(item);
+                player.InventAdd(item);
 
                 player.DisplayInventory(InventoryPlayer, pixelSizeInvent);
                 skelet.DisplayInventory(InventoryCanvas, pixelSizeInvent);
