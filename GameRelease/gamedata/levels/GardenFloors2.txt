@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<ReadLocation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <description>
+    <ValueTupleOfStringString>
+      <Item1>w</Item1>     <Item2>New\floorBeton34</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>e</Item1>     <Item2>New\floorBeton12</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>q</Item1>     <Item2>New\floorBeton13</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>a</Item1>     <Item2>New\floorBeton24</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>'</Item1>     <Item2>New\floorBeton4</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>"</Item1>     <Item2>New\floorBeton3</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>-</Item1>     <Item2>New\floorBeton2</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>r</Item1>     <Item2>New\floorBeton1</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>s</Item1>     <Item2>New\floorWood13</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>d</Item1>     <Item2>New\floorWood12</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>z</Item1>     <Item2>New\floorWood34</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>x</Item1>     <Item2>New\floorWood1</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>c</Item1>     <Item2>New\floorWood3</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>v</Item1>     <Item2>New\floorWood4</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>t</Item1>     <Item2>New\floorWood2</Item2>
+    </ValueTupleOfStringString>
+  </description>
+  <height>21</height>  <wight>26</wight>
+  <location>
+    <string>...##############.........</string>
+    <string>...#..#....#....#.........</string>
+    <string>...#.......#....#.........</string>
+    <string>...#..#....#....#.........</string>
+    <string>...#..#....###.##.........</string>
+    <string>...'wwwww#w"....#.........</string>
+    <string>...#.......q....#.........</string>
+    <string>...#............#.........</string>
+    <string>...#.......q....s%%%%%%%%.</string>
+    <string>.#%-eeee#.#tddddx.......%.</string>
+    <string>.%......................%.</string>
+    <string>#c......................%.</string>
+    <string>.s......................%.</string>
+    <string>.s......................%.</string>
+    <string>.s...........'#.#vzzzzzzz#</string>
+    <string>.s...........a...q....#..#</string>
+    <string>.s%%%%%%.%%%%a........#..#</string>
+    <string>dx...........a...q....#..#</string>
+    <string>.............a...q.......#</string>
+    <string>.............a...q....#..#</string>
+    <string>.............-###r########</string>
+  </location>
+  <rotation>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+    <string>..........................</string>
+  </rotation>
+</ReadLocation>

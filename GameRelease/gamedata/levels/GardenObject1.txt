@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<ReadLocation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <description>
+    <ValueTupleOfStringString>
+      <Item1>s</Item1>     <Item2>Objects\stair1Window</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>z</Item1>     <Item2>Objects\stair2Window</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>b</Item1>     <Item2>Objects\bed1Window</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>p</Item1>     <Item2>Objects\bed2Window</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>k</Item1>     <Item2>Objects\kitchenWindow</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>t</Item1>     <Item2>Objects\kitchentableWindow</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>v</Item1>     <Item2>Objects\kitchentable2Window</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>f</Item1>     <Item2>Objects\fridgeWindow</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>c</Item1>     <Item2>Objects\chair</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>]</Item1>     <Item2>Objects\bigbed1Window</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>[</Item1>     <Item2>Objects\bigbed2Window</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>}</Item1>     <Item2>Objects\bigbed3Window</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>{</Item1>     <Item2>Objects\bigbed4Window</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>l</Item1>     <Item2>Objects\bench</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>i</Item1>     <Item2>Objects\bench2</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>r</Item1>     <Item2>Objects\trashWindow</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>e</Item1>     <Item2>Objects\treeWall</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>h</Item1>     <Item2>Objects\bushShrub</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>a</Item1>     <Item2>Objects\closet1Window</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>x</Item1>     <Item2>Objects\closet2Window</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>y</Item1>     <Item2>Objects\tableWindow</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>u</Item1>     <Item2>Objects\nighttableWindow</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>m</Item1>     <Item2>Objects\sofa1</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>n</Item1>     <Item2>Objects\sofa2</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>j</Item1>     <Item2>Objects\sofa3</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>g</Item1>     <Item2>Objects\mail</Item2>
+    </ValueTupleOfStringString>
+  </description>
+  <height>21</height>  <wight>26</wight>
+  <location>
+    <string>...##############.........</string>
+    <string>...#ax#ftkt#u..a#.........</string>
+    <string>...#..#...c#}{.x#.........</string>
+    <string>...#p.#y...#][..#.........</string>
+    <string>...#bu#nm..######.........</string>
+    <string>...######-##jn..#.........</string>
+    <string>...#z.gg...#my..#.........</string>
+    <string>...#s......-....#.........</string>
+    <string>...#zs.....#ttkf#%%%%%%%%.</string>
+    <string>.########-#######h.....h%.</string>
+    <string>.%h........hh......e..e.%.</string>
+    <string>##h.e...................%.</string>
+    <string>t#.....................h%.</string>
+    <string>c#....................hh%.</string>
+    <string>.#..........h##-##########</string>
+    <string>a#..il....ilh#g..#tktf#pb#</string>
+    <string>x#%%%%%%-%%%%#g..-....#.u#</string>
+    <string>##.hhh.......#...#tc..#..#</string>
+    <string>...........e.#..s#t...-..#</string>
+    <string>.............#zsz#vtnm#xa#</string>
+    <string>............h#############</string>
+  </location>
+  <rotation>
+    <string>...##############.........</string>
+    <string>...#..#2...#3..1#.........</string>
+    <string>...#..#....#33.1#.........</string>
+    <string>...#2.#....#33..#.........</string>
+    <string>...#22#22..######.........</string>
+    <string>...######u##3...#.........</string>
+    <string>...#1......#3...#.........</string>
+    <string>...#1......u....#.........</string>
+    <string>...#.......#222.#%%%%%%%g.</string>
+    <string>.########u#######.......%.</string>
+    <string>.%.....3................%.</string>
+    <string>##......................%.</string>
+    <string>.#......................%.</string>
+    <string>.#...............1......%.</string>
+    <string>.#...........#############</string>
+    <string>1#..22....22.#3..#...2#11#</string>
+    <string>1#%%%%%%-%%%%#3..u....#.1#</string>
+    <string>##...........#...#33..#..#</string>
+    <string>.............#..3#3...u..#</string>
+    <string>.............#..3#3222#22#</string>
+    <string>.............#############</string>
+  </rotation>
+</ReadLocation>

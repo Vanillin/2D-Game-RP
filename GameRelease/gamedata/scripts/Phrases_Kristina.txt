@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<ArrayOfPhrase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Phrase>
+    <Index>dialogKristinaDay</Index>
+    <TaskToStart>startdialogKristinaDay</TaskToStart>
+    <Dialog>...</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay0</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+  <Phrase>
+    <Index>dialogKristinaDay1</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Добрый день, Андрей. Меня зовут Кристина. Не хотите чашку чая?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay2</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay3</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Нет, конечно. Что вы хотели спросить?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay4</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay5</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Я весь день провожу дома, домохозяйка.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay6</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay7</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Нет, с мужем. Николай на заводе работает, по утрам уходит, по вечерам приходит.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay8</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay9</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Вчера его дома не было. Он позвонил и сказал, что на заводе предложили поработать в ночную смену за премию. 
+Ох уж эта премия... в прошлый раз ему дали прекрасное бордовое пальто, сами знаете какие нынче цены на такие вещи.
+Но он вроде нашел у кого можно перекантоваться вечером. Не думаю, что он двое суток смог проработать без сна.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay10</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay11</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>По правде сказать, ничего не слышала. Узнала об убийстве только утром от соседей.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay12</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay13</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Не поверите, сама думала по этому поводу. Кирилл вроде не имел заклятых врагов, все к нему 
+относились по-доброму. Ну бывало мог с кем-то поругаться, но чтобы из-за этого убивать... 
+Может это кто-то не из нашего двора был... Больше ничего по этому поводу сказать не могу.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay14</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+  
+  <Phrase>
+    <Index>dialogKristinaNight</Index>
+    <TaskToStart>startdialogKristinaNight</TaskToStart>
+    <Dialog>...</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight0</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+  <Phrase>
+    <Index>dialogKristinaNight1</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Добрый вечер, Андрей. Нет, он не появлялся.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight2</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight3</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Я ему пыталась дозвониться, у него какие-то неполадки с телефоном, батарея может села. 
+Я не знаю, во сколько он вернется.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight4</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight5</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Да, уверена. Если бы он даже мимо проходил, то зашел бы домой, а дома его не было. 
+Почему вы так интересуетесь этим? </Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight6</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight7</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Что вы говорите? Кто дал такие показания?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight8</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight9</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Вы правда думаете, что убийца Николай?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight10</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight11</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Я уверена, что всему этому есть нормальное объяснение. Он звонил мне, сказал, чтобы я 
+сообщила следователю то, что я вам сообщила. Я уверена, что он не виновен, он ищет убийцу и пытается 
+доказать свою невиновность!</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight12</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight13</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Больше ничего, оставьте меня наедине с собой. До свидания.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight14</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+</ArrayOfPhrase>

@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<ArrayOfTask xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Task>
+    <IsSystem>true</IsSystem>
+    <SystemName>trainingButton</SystemName>
+    <Name>-</Name>
+    <Description>-</Description>
+  </Task>
+  <Task>
+    <IsSystem>true</IsSystem>
+    <SystemName>scriptstart</SystemName>
+    <Name>-</Name>
+    <Description>-</Description>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>start</SystemName>
+    <Name>Позвоните в Агенство</Name>
+    <Description>Позвоните в Агенство, чтобы узнать ваше задание.</Description>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>searchHouse</SystemName>
+    <Name>Осмотрите место убийства</Name>
+    <Description>Осмотрите квартиру, в которой жил погибший. Также осмотрите его тело.</Description>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>talkWithPeopleDay</SystemName>
+    <Name>Распросите окружающих</Name>
+    <Description>Поговорите с людьми, кто-то мог что-то видеть.</Description>
+  </Task>
+  <Task>
+    <IsSystem>true</IsSystem>
+    <SystemName>startdialogKristinaDay</SystemName>
+    <Name>Поговорить с Кристиной</Name>
+    <Description>-</Description>
+    <SysNameParent>talkWithPeopleDay</SysNameParent>
+  </Task>
+  <Task>
+    <IsSystem>true</IsSystem>
+    <SystemName>startdialogNuraDay</SystemName>
+    <Name>Поговорить с баб Нюрой</Name>
+    <Description>-</Description>
+    <SysNameParent>talkWithPeopleDay</SysNameParent>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>searchAroundHouse</SystemName>
+    <Name>Осмотрите местность</Name>
+    <Description>Осмотрите окрестности, двор. Быть может убийца что-то выкинул или обронил.</Description>
+  </Task>
+  <Task>
+    <IsSystem>true</IsSystem>
+    <SystemName>findBloodPaper</SystemName>
+    <Name>Найдите кровавую салфетку</Name>
+    <Description>-</Description>
+    <SysNameParent>searchAroundHouse</SysNameParent>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>talkWithAgencyDay</SystemName>
+    <Name>Позвоните в Агенство</Name>
+    <Description>Сообщите о ваших находках.</Description>
+  </Task>
+
+  <Task>
+    <IsSystem>true</IsSystem>
+    <SystemName>scriptTime</SystemName>
+    <Name>-</Name>
+    <Description>-</Description>
+  </Task>
+
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>talkWithPeopleNight</SystemName>
+    <Name>Поговорите с новоприбывшими жителями домов</Name>
+    <Description>Вечер, с работы пришли рабочие. Опросите и их тоже.</Description>
+  </Task>
+  <Task>
+    <IsSystem>true</IsSystem>
+    <SystemName>startdialogMaksimNight</SystemName>
+    <Name>Поговорить с Максимом</Name>
+    <Description>-</Description>
+    <SysNameParent>talkWithPeopleNight</SysNameParent>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>startdialogNuraNight</SystemName>
+    <Name>Поговорить с баб Нюрой</Name>
+    <Description>Первая серьезная зацепка. Опросите баб Нюру.</Description>
+  </Task>
+  <Task>
+    <IsSystem>true</IsSystem>
+    <SystemName>scriptcantalkVanya</SystemName>
+    <Name>-</Name>
+    <Description>-</Description>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>startdialogVanyaNight</SystemName>
+    <Name>Позвоните Ване</Name>
+    <Description>Возможный свидетель. Позвоните и опросите и его.</Description>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>startdialogKristinaNight</SystemName>
+    <Name>Поговорить с Кристиной</Name>
+    <Description>Описанная Ваней внешность походит на супруга Кристины. Стоит её ещё раз опросить.</Description>
+  </Task>
+  <Task>
+    <IsSystem>false</IsSystem>
+    <SystemName>talkWithAgencyNight</SystemName>
+    <Name>Позвоните в агенство</Name>
+    <Description>Сообщите о ваших находках.</Description>
+  </Task>
+  <Task>
+    <IsSystem>true</IsSystem>
+    <SystemName>scriptFinal</SystemName>
+    <Name>-</Name>
+    <Description>-</Description>
+  </Task>
+</ArrayOfTask>

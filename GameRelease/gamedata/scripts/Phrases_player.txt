@@ -1,0 +1,511 @@
+<?xml version="1.0"?>
+<ArrayOfPhrase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Phrase>
+    <Index>dialogKristinaDay0</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Добрый день, меня зовут Андрей, я следователь. Вчера вечером в соседней квартире произошло убийство. 
+Что вы можете рассказать по этому поводу? Любая информация будет полезна.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay1</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay2</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Откажусь. Но вы же не откажетесь помочь мне в этом деле?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay3</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay4</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Давайте с простого, где вы были вчера?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay5</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay6</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Вы одна проживаете в этой квартире?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay7</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay8</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>А вчера вечером он что делал?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay9</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay10</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Все понятно. Вы вчера ничего подозрительного не слышали в коридоре или у соседей?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay11</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay12</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Как вы думаете, кто может быть убийцей?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaDay13</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaDay14</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Все ясно, спасибо вам большое.</Dialog>
+    <NextIndexes>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks>
+      <string>startdialogKristinaDay</string>
+    </EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight0</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Добрый вечер, Кристина. Подскажите, Николай вернулся?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight1</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight2</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Он говорил, когда вернется?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight3</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight4</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Вы уверены, что вчера он не появлялся в этом доме?</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight5</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight6</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>У меня есть показания, его видели вчера вечером, выбегающим из двора. </Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight7</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight8</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Внук бабушки Нюры из соседнего дома. Николай, выбегая, врезался в него и его велосипед. Прошу, 
+расскажите всё, что знаете и думаете.</Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight9</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight10</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Я не могу ни подтвердить, ни опровергнуть. Чтобы дать точный ответ, надо поговорить с Николаем. </Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight11</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight12</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Что вы еще можете сказать? </Dialog>
+    <NextIndexes>
+      <string>dialogKristinaNight13</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogKristinaNight14</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>До свидания.</Dialog>
+    <NextIndexes>
+    </NextIndexes>
+    <NewTasks>
+      <string>startfinaldialog</string>
+    </NewTasks>
+    <EndingTasks>
+      <string>startdialogKristinaNight</string>
+    </EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogMaksimNight0</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Добрый вечер, меня зовут Андрей, я следователь. Расследую убийство, которое произошло вчера ночью в 
+соседнем доме. Вы можете ответить на мои вопросы?</Dialog>
+    <NextIndexes>
+      <string>dialogMaksimNight1</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogMaksimNight2</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Хорошо пройдёмте. </Dialog>
+    <NextIndexes>
+      <string>dialogMaksimNight3</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogMaksimNight4</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Знаете ли вы человека, которого вчера убили?</Dialog>
+    <NextIndexes>
+      <string>dialogMaksimNight5</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogMaksimNight6</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Убили Кирилла, живёт напротив входа. </Dialog>
+    <NextIndexes>
+      <string>dialogMaksimNight7</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogMaksimNight8</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Ясно. А где вы были вчера ночью?</Dialog>
+    <NextIndexes>
+      <string>dialogMaksimNight9</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogMaksimNight10</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Вы что-нибудь слышали или замечали что-нибудь странное?</Dialog>
+    <NextIndexes>
+      <string>dialogMaksimNight11</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogMaksimNight12</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Думаете убийца приехал на этом велосипеде?</Dialog>
+    <NextIndexes>
+      <string>dialogMaksimNight13</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogMaksimNight14</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Ясно, спасибо огромное за помощь.</Dialog>
+    <NextIndexes>
+    </NextIndexes>
+    <NewTasks>
+      <string>startdialogNuraNight</string>
+    </NewTasks>
+    <EndingTasks>
+      <string>startdialogMaksimNight</string>
+    </EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogNuraDay0</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Здравствуйте, меня зовут Андрей, я следователь. Расследую убийство в соседнем доме. Вы можете ответить 
+на пару вопросов?</Dialog>
+    <NextIndexes>
+      <string>dialogNuraDay1</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogNuraDay2</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Не переживайте, я не огорчаюсь. А можно задать вопрос личного характера: как вы со своей проблемой 
+по дому перемещаетесь?</Dialog>
+    <NextIndexes>
+      <string>dialogNuraDay3</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogNuraDay4</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Это не может не радовать. Так вот, баб Нюра, вы что-нибудь знаете об убийстве?</Dialog>
+    <NextIndexes>
+      <string>dialogNuraDay5</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogNuraDay6</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Хорошая работа, наверное, была.</Dialog>
+    <NextIndexes>
+      <string>dialogNuraDay7</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogNuraDay8</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Думаете его из-за работы могли убить? </Dialog>
+    <NextIndexes>
+      <string>dialogNuraDay9</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogNuraDay10</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>А кто мог совершить преступление, как думаете?</Dialog>
+    <NextIndexes>
+      <string>dialogNuraDay11</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogNuraDay12</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Спасибо огромное, баб Нюр. Вы мне очень помогли.</Dialog>
+    <NextIndexes>
+      <string>dialogNuraDay13</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks>
+      <string>startdialogNuraDay</string>
+    </EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogNuraNight0</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Баб Нюра, здравствуйте</Dialog>
+    <NextIndexes>
+      <string>dialogNuraNight1</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogNuraNight2</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Есть одна зацепка. Максим, жилец соседнего дома, вчера вечером видел велосипед, припаркованный на 
+улице. Что интересно, жилец просто загнал бы его в дом. Что думаете? Может всё-таки видели кого-нибудь?</Dialog>
+    <NextIndexes>
+      <string>dialogNuraNight3</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogNuraNight4</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>А вы можете дать его номер? Может он видел что-то необычное вчера?</Dialog>
+    <NextIndexes>
+      <string>dialogNuraNight5</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogNuraNight6</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Спасибо вам.</Dialog>
+    <NextIndexes>
+    </NextIndexes>
+    <NewTasks>
+      <string>startdialogVanyaNight</string>
+    </NewTasks>
+    <EndingTasks>
+      <string>startdialogNuraNight</string>
+    </EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogVanyaNight1</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Иван, добрый вечер. Меня зовут Андрей, я работаю следователем. Расследую происшествие, которое произошло 
+вчера ночью. </Dialog>
+    <NextIndexes>
+      <string>dialogVanyaNight2</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogVanyaNight3</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Мне баб Нюра передала, сказала, что ты можешь рассказать что-то полезное.</Dialog>
+    <NextIndexes>
+      <string>dialogVanyaNight4</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogVanyaNight5</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Ты видел вчера что-нибудь необычное? Кто-нибудь вёл себя неестественно?</Dialog>
+    <NextIndexes>
+      <string>dialogVanyaNight6</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogVanyaNight7</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Слушай, а сможешь описать того мужчину, который в тебя врезался? Откуда он бежал?</Dialog>
+    <NextIndexes>
+      <string>dialogVanyaNight8</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogVanyaNight9</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>В бардовом пальто говоришь... Спасибо большое, Вань. Пойду поспрашиваю у жильцов.</Dialog>
+    <NextIndexes>
+      <string>dialogVanyaNight10</string>
+    </NextIndexes>
+    <NewTasks>
+      <string>startdialogKristinaNight</string>
+    </NewTasks>
+    <EndingTasks>
+      <string>startdialogVanyaNight</string>
+    </EndingTasks>
+  </Phrase>
+
+
+  <Phrase>
+    <Index>dialogAgencyStart1</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Да, на месте. Какова моя задача?</Dialog>
+    <NextIndexes>
+      <string>dialogAgencyStart2</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogAgencyStart3</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Всё понял, приступаю к выполнению.</Dialog>
+    <NextIndexes>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks><string>start</string></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogAgencyDay1</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Свидетели опрошены, улики найдены, место преступления осмотрено, однако ответы ещё не получены. Принимаю решение остаться до вечера, когда рабочие вернутся домой.</Dialog>
+    <NextIndexes>
+      <string>dialogAgencyDay2</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+  <Phrase>
+    <Index>dialogAgencyNight1</Index>
+    <TaskToStart></TaskToStart>
+    <Dialog>Здесь закончено. Скорее всего, убийцей является сосед потерпевшего, по имени Николай. На месте он так и не появился. Против него есть свидетель и пару улик. Примерный мотив так же известен.</Dialog>
+    <NextIndexes>
+      <string>dialogAgencyNight2</string>
+    </NextIndexes>
+    <NewTasks></NewTasks>
+    <EndingTasks></EndingTasks>
+  </Phrase>
+
+
+</ArrayOfPhrase>

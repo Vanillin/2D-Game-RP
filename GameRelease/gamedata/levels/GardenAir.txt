@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<ReadLocation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <description>
+    <ValueTupleOfStringString>
+      <Item1>1</Item1>     <Item2>Objects\treeup1</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>2</Item1>     <Item2>Objects\treeup2</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>3</Item1>     <Item2>Objects\treeup3</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>4</Item1>     <Item2>Objects\treeup4</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>5</Item1>     <Item2>Objects\treeup5</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>6</Item1>     <Item2>Objects\treeup6</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>7</Item1>     <Item2>Objects\treeup7</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>8</Item1>     <Item2>Objects\treeup8</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>9</Item1>     <Item2>Objects\treeup9</Item2>
+    </ValueTupleOfStringString>
+  </description>
+  <height>21</height>  <wight>26</wight>
+  <location>
+    <string>...##############.........</string>
+    <string>...#..#....#....#.........</string>
+    <string>...#..#....#....#.........</string>
+    <string>...#..#....#....#.........</string>
+    <string>...#..#....######.........</string>
+    <string>...######-##....#.........</string>
+    <string>...#.......#....#.........</string>
+    <string>...#.......-....#.........</string>
+    <string>...#.......#....#%%%%%%%g.</string>
+    <string>.########-#######.123123%.</string>
+    <string>.%.123............456456%.</string>
+    <string>##.456............789789%.</string>
+    <string>.#.789..................%.</string>
+    <string>.#......................%.</string>
+    <string>.#...........##-##########</string>
+    <string>.#...........#...#....#..#</string>
+    <string>.#%%%%%%-%%%%#...-....#..#</string>
+    <string>##........123#...#....#..#</string>
+    <string>..........456#...#....-..#</string>
+    <string>..........789#...#....#..#</string>
+    <string>.............#############</string>
+  </location>
+  <rotation>
+    <string>...##############.........</string>
+    <string>...#..#....#....#.........</string>
+    <string>...#..#....#....#.........</string>
+    <string>...#..#....#....#.........</string>
+    <string>...#..#....######.........</string>
+    <string>...######u##....#.........</string>
+    <string>...#.......#....#.........</string>
+    <string>...#.......u....#.........</string>
+    <string>...#.......#....#%%%%%%%g.</string>
+    <string>.########u#######.......%.</string>
+    <string>.%......................%.</string>
+    <string>##......................%.</string>
+    <string>.#......................%.</string>
+    <string>.#......................%.</string>
+    <string>.#...........#############</string>
+    <string>.#...........#...#....#..#</string>
+    <string>.#%%%%%%-%%%%#...u....#..#</string>
+    <string>##...........#...#....#..#</string>
+    <string>.............#...#....u..#</string>
+    <string>.............#...#....#..#</string>
+    <string>.............#############</string>
+  </rotation>
+</ReadLocation>

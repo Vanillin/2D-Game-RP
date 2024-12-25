@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<ReadLocation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <description>
+    <ValueTupleOfStringString>
+      <Item1>#</Item1>     <Item2>New\brickWall1</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>[</Item1>     <Item2>New\brickWall2</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>=</Item1>     <Item2>New\brickWall3</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>@</Item1>     <Item2>New\brickWindow</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>%</Item1>     <Item2>New\woodZaborWall1</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>g</Item1>     <Item2>New\woodZaborWall2</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>u</Item1>     <Item2>New\brickDoor</Item2>
+    </ValueTupleOfStringString>
+    <ValueTupleOfStringString>
+      <Item1>-</Item1>     <Item2>New\woodZaborDoor</Item2>
+    </ValueTupleOfStringString>
+  </description>
+  <height>21</height>  <wight>26</wight>
+  <location>
+    <string>...[##=#@@#=#@@#[.........</string>
+    <string>...#..#....#....#.........</string>
+    <string>...#..u....#....#.........</string>
+    <string>...#..#....#....#.........</string>
+    <string>...#..#....=##u#=.........</string>
+    <string>...=##=##u#=....#.........</string>
+    <string>...#.......#....#.........</string>
+    <string>...#.......u....#.........</string>
+    <string>...#.......#....#%%%%%%%g.</string>
+    <string>.g%[#####u#=#@@#[.......%.</string>
+    <string>.%......................%.</string>
+    <string>#[......................%.</string>
+    <string>.#......................%.</string>
+    <string>.@......................%.</string>
+    <string>.@...........[#u#=#@@#=##[</string>
+    <string>.#...........#...#....#..#</string>
+    <string>.#%%%%%%-%%%%#...u....#..#</string>
+    <string>#[...........#...#....#..@</string>
+    <string>.............#...#....u..@</string>
+    <string>.............#...#....#..#</string>
+    <string>.............[###=####=##[</string>
+  </location>
+  <rotation>
+    <string>...2##2####2####3.........</string>
+    <string>...1..1....1....1.........</string>
+    <string>...1..1....1....1.........</string>
+    <string>...1..1....1....1.........</string>
+    <string>...1..1....1##.#3.........</string>
+    <string>...1#####.#3....1.........</string>
+    <string>...1.......1....1.........</string>
+    <string>...1.......1....1.........</string>
+    <string>...1.......1....1.......3.</string>
+    <string>.2.1#####.###@@##.......1.</string>
+    <string>.1......................1.</string>
+    <string>#3......................1.</string>
+    <string>.1......................1.</string>
+    <string>.1......................1.</string>
+    <string>.1...........2#.#2#@@#2##3</string>
+    <string>.1...........1...1....1..1</string>
+    <string>.1...........1...1....1..1</string>
+    <string>##...........1...1....1..1</string>
+    <string>.............1...1....1..1</string>
+    <string>.............1...1....1..1</string>
+    <string>.............1############</string>
+  </rotation>
+</ReadLocation>
