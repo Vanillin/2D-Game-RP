@@ -71,13 +71,14 @@ namespace TwoD_Game_RP
                 },
                 new CustomSortedEnum<string>()
                 {
-                    "trainingButton"
+                    //"trainingButton"
                 });
 
-            GoToLocation("Garden");
+            SeeInCurcle = false;
+            GoToLocation("Eosha");
             TimerAnimation_Tick(null, null);
 
-            //SystemViewBtn.Visibility = Visibility.Visible;
+            // SystemViewBtn.Visibility = Visibility.Visible;
         }
         private void ChangeSizeGamePole(int height, int wight, GamePoint player)
         {
@@ -132,18 +133,18 @@ namespace TwoD_Game_RP
         {
             //сброс персонажа при переходе из локации
 
-            var loc = Locations.Find(x => x.SystemName == name);
-            if (loc != null)
+            Location loc = Locations.Find(x => x.SystemName == name);
+            if (loc == null)
             {
-                CurrentLocation = loc;
-            }
-            if (!Locations.Exists(x => x.SystemName == name))
-            {
-                //тут должна быть проверка на имя, выбор локации которую мы загружаем
+                if (name == "Eosha")
+                {
+                    loc = MemoryLocations.GetEosha();
+                }
 
-                Location newLoc = MemoryLocations.GetGarden(player, sizeInventH, sizeInventW);
-                CurrentLocation = newLoc;
+                //Location newLoc = MemoryLocations.GetGarden(player, sizeInventH, sizeInventW);
+                //CurrentLocation = newLoc;
             }
+            CurrentLocation = loc;
             ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
         }
         private void DoActionAll()

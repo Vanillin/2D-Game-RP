@@ -33,7 +33,7 @@ namespace TwoD_Game_RP
         }
     }
 
-    internal class CustomDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>> where TKey : IComparable<TKey>
+    public class CustomDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>> where TKey : IComparable<TKey>
     {
         NodeDict<TKey, TValue> _root;
         int _count;

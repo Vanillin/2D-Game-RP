@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace TwoD_Game_RP
@@ -12,7 +10,7 @@ namespace TwoD_Game_RP
     {
         public static List<string> Blocks = new List<string> { "Wall", "Window" };
         public static List<string> NotWatch = new List<string> { "Wall", "Shrub" };
-                
+
         private static PhrasesStart phrasesStart;
         public static List<string> GetStartPhrases(string systemname)
         {
@@ -37,7 +35,43 @@ namespace TwoD_Game_RP
         }
 
         //==================================================================================================
-        //==============================+==       Tasks        =============================================
+        //=================================      Location      =============================================
+        //==================================================================================================
+
+        public static ReadLocation GetLocation(string namelocation)
+        {
+            CustomDictionary<char, string> description = new CustomDictionary<char, string>();
+            List<string> location = new List<string>();
+            List<string> rotation = new List<string>();
+            using (StreamReader sr = new StreamReader(Path.Combine(ConfigurationManager.AppSettings["Levels"], namelocation + ".txt")))
+            {
+                string str;
+                str = ReadLineStreamReader(sr);
+                while (DeleteSpace(str) != "start")
+                {
+                    string[] desc = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    description.Add(desc[0][0], desc[1]);
+
+                    str = ReadLineStreamReader(sr);
+                }
+                str = ReadLineStreamReader(sr);
+                while (DeleteSpace(str) != "end")
+                {
+                    location.Add(DeleteSpace(str));
+                    str = ReadLineStreamReader(sr);
+                }
+                str = ReadLineStreamReader(sr);
+                while (DeleteSpace(str) != "end")
+                {
+                    rotation.Add(DeleteSpace(str));
+                    str = ReadLineStreamReader(sr);
+                }
+            }
+            return new ReadLocation(location.Count, location[0].Length, description, location, rotation);
+        }
+
+        //==================================================================================================
+        //=================================       Tasks        =============================================
         //==================================================================================================
 
         static CustomSortedEnum<DescriptionTask> _memoryDescTask = new CustomSortedEnum<DescriptionTask>();
@@ -49,13 +83,13 @@ namespace TwoD_Game_RP
                 bool IsOk = ReadInformationTask(sr, out CustomDictionary<string, string> inform);
                 while (IsOk)
                 {
-                    switch (DeleteSpace( inform["class"]))
+                    switch (DeleteSpace(inform["class"]))
                     {
                         case "Trigger":
                             {
                                 if (!inform.ContainsKey("systemName"))
                                     throw new CustomException("Not find systemName in Trigger");
-                                retur.Add(new Trigger(DeleteSpace( inform["systemName"])));
+                                retur.Add(new Trigger(DeleteSpace(inform["systemName"])));
                                 break;
                             }
                         case "TriggerImp":
@@ -71,9 +105,9 @@ namespace TwoD_Game_RP
                                     throw new CustomException("Not find systemName in Task");
                                 DescriptionTask desc;
                                 if (inform.ContainsKey("name") && inform.ContainsKey("description"))
-                                    desc = new DescriptionTask(null, CutString( GetStringInBkt( inform["name"]), lengthDescription), CutString( GetStringInBkt( inform["description"]), lengthDescription));
+                                    desc = new DescriptionTask(null, CutString(GetStringInBkt(inform["name"]), lengthDescription), CutString(GetStringInBkt(inform["description"]), lengthDescription));
                                 else if (inform.ContainsKey("systemNameDescription"))
-                                    desc = FindDescriptionTask(DeleteSpace( inform["systemNameDescription"]));
+                                    desc = FindDescriptionTask(DeleteSpace(inform["systemNameDescription"]));
                                 else
                                     throw new CustomException("Not find name and description or systemNameDescription in Task");
                                 List<string> eachOther = null;
@@ -82,7 +116,7 @@ namespace TwoD_Game_RP
                                     eachOther = new List<string>();
                                     eachOther.AddRange(inform["eachOtherName"].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
                                 }
-                                retur.Add(new Task(DeleteSpace( inform["systemName"]), desc, eachOther));
+                                retur.Add(new Task(DeleteSpace(inform["systemName"]), desc, eachOther));
                                 break;
                             }
                         case "TaskHid":
@@ -95,13 +129,13 @@ namespace TwoD_Game_RP
                                     eachOther = new List<string>();
                                     eachOther.AddRange(inform["eachOtherName"].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
                                 }
-                                retur.Add(new TaskHid(DeleteSpace( inform["systemName"]), eachOther));
+                                retur.Add(new TaskHid(DeleteSpace(inform["systemName"]), eachOther));
                                 break;
                             }
                         case "Description":
                             {
                                 if (inform.ContainsKey("systemName") && inform.ContainsKey("name") && inform.ContainsKey("description"))
-                                    _memoryDescTask.Add(new DescriptionTask(DeleteSpace( inform["systemName"]), CutString( GetStringInBkt( inform["name"]), lengthDescription), CutString( GetStringInBkt( inform["description"]), lengthDescription)));
+                                    _memoryDescTask.Add(new DescriptionTask(DeleteSpace(inform["systemName"]), CutString(GetStringInBkt(inform["name"]), lengthDescription), CutString(GetStringInBkt(inform["description"]), lengthDescription)));
                                 else
                                     throw new CustomException("Not find systemname, name and description in Description");
                                 break;
@@ -110,7 +144,7 @@ namespace TwoD_Game_RP
 
                     IsOk = ReadInformationTask(sr, out inform);
                 }
-            }            
+            }
 
             return retur;
         }
@@ -164,7 +198,7 @@ namespace TwoD_Game_RP
         }
         private static string DeleteSpace(string str)
         {
-            return str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[0];
+            return str.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries)[0];
         }
         private static DescriptionTask FindDescriptionTask(string systemNameDesc)
         {
@@ -224,10 +258,10 @@ namespace TwoD_Game_RP
                 phrase = (Phrase[])xml.Deserialize(file);
             }
             return phrase;
-        }        
+        }
         public static void Serialization()
         {
-            (string, string)[] connect = new (string, string)[] { ( "a", "b" ) };
+            (string, string)[] connect = new (string, string)[] { ("a", "b") };
             using (var file = new FileStream("serialization.txt", FileMode.Create))
             {
                 var xml = new XmlSerializer(typeof((string, string)[]), new Type[] { typeof((string, string)) });

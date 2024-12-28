@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Xml.Serialization;
 
 namespace TwoD_Game_RP
 {
     public class MemoryLocations
     {
         private static Location Garden;
-        public static Location GetGarden(Player player, int sizeInventH, int sizeInventW)
+        private static Location GetGarden(Player player, int sizeInventH, int sizeInventW)
         {
             if (Garden == null)
             {
@@ -53,26 +51,38 @@ namespace TwoD_Game_RP
             }
             return Garden;
         }
+
+        private static Location Eosha;
+        public static Location GetEosha()
+        {
+            if (Eosha == null)
+            {
+                Eosha = new Location("Посёлок Еоша", "Eosha", 17, 28);
+
+                Eosha.AddLocationCellsLayer(CreateLocation("EoshaFloor1"), 0);
+                
+                Eosha.CreateDarkPictCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"System/Dark.png"));
+                Eosha.CreateGrafWatch();
+                Eosha.CreateGrafMove();
+                Eosha.CreateGrafAll();
+
+                Eosha.UpdateDisplay();
+            }
+            return Eosha;
+        }
         private static IPictureCell[,] CreateLocation(string nameloca)
         {
-            ReadLocation rl;
-            using (var file = new FileStream(Path.Combine(ConfigurationManager.AppSettings["Levels"], nameloca + ".txt"), FileMode.Open))
+            ReadLocation rl = Information.GetLocation(nameloca);
+            IPictureCell[,] retur = new IPictureCell[rl.Height, rl.Wight];
+            for (int i = 0; i < rl.Height; i++)
             {
-                var xml = new XmlSerializer(typeof(ReadLocation));
-                rl = (ReadLocation)xml.Deserialize(file);
-            }
-            IPictureCell[,] retur = new IPictureCell[rl.height, rl.wight];
-            Dictionary<char, string> dict = new Dictionary<char, string>();
-            foreach (var v in rl.description) { dict.Add(v.Item1[0], v.Item2); }
-            for (int i = 0; i < rl.height; i++)
-            {
-                for (int j = 0; j < rl.wight; j++)
+                for (int j = 0; j < rl.Wight; j++)
                 {
-                    char pict = rl.location[i][j];
-                    if (dict.ContainsKey(pict))
+                    char pict = rl.Location[i][j];
+                    if (rl.Description.ContainsKey(pict))
                     {
-                        retur[i, j] = new StaticPicCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"{dict[pict]}.png"));
-                        switch (rl.rotation[i][j])
+                        retur[i, j] = new StaticPicCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"{rl.Description[pict]}.png"));
+                        switch (rl.Rotation[i][j])
                         {
                             case '1': retur[i, j].Rotate90 = true; break;
                             case '2': retur[i, j].Rotate180 = true; break;
@@ -83,13 +93,21 @@ namespace TwoD_Game_RP
             }
             return retur;
         }
-        public class ReadLocation
+    }
+    public class ReadLocation
+    {
+        public CustomDictionary<char, string> Description;
+        public int Height;
+        public int Wight;
+        public List<string> Location;
+        public List<string> Rotation;
+        public ReadLocation(int height, int wight, CustomDictionary<char, string> description, List<string> location, List<string> rotation)
         {
-            public List<(string c, string s)> description;
-            public int height;
-            public int wight;
-            public string[] location;
-            public List<string> rotation;
+            Height = height;
+            Wight = wight;
+            Location = location;
+            Rotation = rotation;
+            Description = description;
         }
     }
 }
