@@ -69,7 +69,7 @@ namespace TwoD_Game_RP
                 {
                     new Telephone(), new NoteBook()
                 },
-                new List<string>()
+                new CustomSortedEnum<string>()
                 {
                     "trainingButton"
                 });
@@ -682,7 +682,7 @@ namespace TwoD_Game_RP
         }
         private void CreateTaskWindow()
         {
-            foreach (var task in player.Tasks.GetUsingTaskNotSystem())
+            foreach (var task in player.Tasks.GetDescriptionUsingTask())
             {
                 ListTasks.Children.Add(new Border()
                 {

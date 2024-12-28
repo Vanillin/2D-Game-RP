@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace TwoD_Game_RP
@@ -33,29 +35,173 @@ namespace TwoD_Game_RP
             }
             return allphrases;
         }
-        public static CustomSortedEnum<Task> GetTasks(int lengthDescription)
+
+        //==================================================================================================
+        //==============================+==       Tasks        =============================================
+        //==================================================================================================
+
+        static CustomSortedEnum<DescriptionTask> _memoryDescTask = new CustomSortedEnum<DescriptionTask>();
+        public static CustomSortedEnum<GeneralTask> GetTasks(int lengthDescription)
         {
-            CustomSortedEnum<Task> retur = new CustomSortedEnum<Task>();
-            foreach (var task in ReadTasks("Tasks"))
+            CustomSortedEnum<GeneralTask> retur = new CustomSortedEnum<GeneralTask>();
+            using (StreamReader sr = new StreamReader(Path.Combine(ConfigurationManager.AppSettings["Scripts"], "AllTask.txt")))
             {
-                task.Description = CutString(task.Description, lengthDescription);
-                retur.Add(task);
-            }
+                bool IsOk = ReadInformationTask(sr, out CustomDictionary<string, string> inform);
+                while (IsOk)
+                {
+                    switch (DeleteSpace( inform["class"]))
+                    {
+                        case "Trigger":
+                            {
+                                if (!inform.ContainsKey("systemName"))
+                                    throw new CustomException("Not find systemName in Trigger");
+                                retur.Add(new Trigger(DeleteSpace( inform["systemName"])));
+                                break;
+                            }
+                        case "TriggerImp":
+                            {
+                                if (!inform.ContainsKey("systemName"))
+                                    throw new CustomException("Not find systemName in TriggerImp");
+                                retur.Add(new TriggerImp(DeleteSpace(inform["systemName"])));
+                                break;
+                            }
+                        case "Task":
+                            {
+                                if (!inform.ContainsKey("systemName"))
+                                    throw new CustomException("Not find systemName in Task");
+                                DescriptionTask desc;
+                                if (inform.ContainsKey("name") && inform.ContainsKey("description"))
+                                    desc = new DescriptionTask(null, CutString( GetStringInBkt( inform["name"]), lengthDescription), CutString( GetStringInBkt( inform["description"]), lengthDescription));
+                                else if (inform.ContainsKey("systemNameDescription"))
+                                    desc = FindDescriptionTask(DeleteSpace( inform["systemNameDescription"]));
+                                else
+                                    throw new CustomException("Not find name and description or systemNameDescription in Task");
+                                List<string> eachOther = null;
+                                if (inform.ContainsKey("eachOtherName"))
+                                {
+                                    eachOther = new List<string>();
+                                    eachOther.AddRange(inform["eachOtherName"].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+                                }
+                                retur.Add(new Task(DeleteSpace( inform["systemName"]), desc, eachOther));
+                                break;
+                            }
+                        case "TaskHid":
+                            {
+                                if (!inform.ContainsKey("systemName"))
+                                    throw new CustomException("Not find systemName in TaskHid");
+                                List<string> eachOther = null;
+                                if (inform.ContainsKey("eachOtherName"))
+                                {
+                                    eachOther = new List<string>();
+                                    eachOther.AddRange(inform["eachOtherName"].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+                                }
+                                retur.Add(new TaskHid(DeleteSpace( inform["systemName"]), eachOther));
+                                break;
+                            }
+                        case "Description":
+                            {
+                                if (inform.ContainsKey("systemName") && inform.ContainsKey("name") && inform.ContainsKey("description"))
+                                    _memoryDescTask.Add(new DescriptionTask(DeleteSpace( inform["systemName"]), CutString( GetStringInBkt( inform["name"]), lengthDescription), CutString( GetStringInBkt( inform["description"]), lengthDescription)));
+                                else
+                                    throw new CustomException("Not find systemname, name and description in Description");
+                                break;
+                            }
+                    }
+
+                    IsOk = ReadInformationTask(sr, out inform);
+                }
+            }            
+
             return retur;
+        }
+        private static string ReadLineStreamReader(StreamReader sr)
+        {
+            while (!sr.EndOfStream)
+            {
+                string str = sr.ReadLine();
+                if (str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Length == 0)
+                    continue;
+                if (SubstringSearch.Creating().CheckSubstring(str, "///"))
+                    continue;
+                return str;
+            }
+            return null;
+        }
+        private static bool ReadInformationTask(StreamReader sr, out CustomDictionary<string, string> information)
+        {
+            information = new CustomDictionary<string, string>();
+            string str = ReadLineStreamReader(sr);
+            if (str == null) return false;
+            while (!SubstringSearch.Creating().CheckSubstring(str, "end"))
+            {
+                string key = "";
+                for (int i = 0; i < str.Length; i++)
+                {
+                    if (str[i] != ' ')
+                        key += str[i];
+                    else
+                    {
+                        information.Add(key, str.Substring(key.Length));
+                        break;
+                    }
+                }
+                str = ReadLineStreamReader(sr);
+                if (str == null) return false;
+            }
+            return true;
+        }
+        private static string GetStringInBkt(string str)
+        {
+            string retur = "";
+            bool InBkt = false;
+            foreach (char c in str)
+            {
+                if (c == '<') InBkt = true;
+                else if (c == '>') return retur;
+                else if (InBkt) retur += c;
+            }
+            throw new CustomException("Not find simbol >");
+        }
+        private static string DeleteSpace(string str)
+        {
+            return str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[0];
+        }
+        private static DescriptionTask FindDescriptionTask(string systemNameDesc)
+        {
+            foreach (var desc in _memoryDescTask)
+            {
+                if (desc.SystemName == systemNameDesc)
+                {
+                    return desc;
+                }
+            }
+            throw new CustomException("Not find DescriptionTask to systemNameDescription");
         }
         public static CustomSortedEnum<(string, string)> GetTaskConnection()
         {
-            CustomSortedEnum<(string, string)> retur = new CustomSortedEnum<(string, string)>();
-            foreach (var pair in ReadTaskConnection("TaskConnections"))
+            CustomSortedEnum<(string, string)> connect = new CustomSortedEnum<(string, string)>();
+            using (StreamReader sr = new StreamReader(Path.Combine(ConfigurationManager.AppSettings["Scripts"], "AllConnectionTask.txt")))
             {
-                retur.Add(pair);
+                string str = ReadLineStreamReader(sr);
+                while (str != null)
+                {
+                    var pair = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    connect.Add((pair[0], pair[1]));
+
+                    str = ReadLineStreamReader(sr);
+                }
             }
-            return retur;
+            return connect;
         }
+
+        //=====================================================================================================
+        //=====================================================================================================
+        //=====================================================================================================
+
         private static string CutString(string s, int length)
         {
             string retur = "";
-            string[] words = s.Split(new char[] {' ', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] words = s.Split(new char[] { ' ', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             int i = 0;
             foreach (string word in words)
             {
@@ -68,26 +214,6 @@ namespace TwoD_Game_RP
                 i += word.Length + 1;
             }
             return retur;
-        }
-        private static (string, string)[] ReadTaskConnection(string nameTaskConnect)
-        {
-            (string, string)[] connect;
-            using (var file = new FileStream(Path.Combine(ConfigurationManager.AppSettings["Scripts"], nameTaskConnect + ".txt"), FileMode.Open))
-            {
-                var xml = new XmlSerializer(typeof((string, string)[]), new Type[] { typeof((string, string)) });
-                connect = ((string, string)[])xml.Deserialize(file);
-            }
-            return connect;
-        }
-        private static Task[] ReadTasks(string nameTask)
-        {
-            Task[] tas;
-            using (var file = new FileStream(Path.Combine(ConfigurationManager.AppSettings["Scripts"], nameTask + ".txt"), FileMode.Open))
-            {
-                var xml = new XmlSerializer(typeof(Task[]), new Type[] { typeof(Task) });
-                tas = (Task[])xml.Deserialize(file);
-            }
-            return tas;
         }
         private static Phrase[] ReadPhrases(string namePhrase)
         {

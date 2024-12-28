@@ -4,7 +4,7 @@ namespace TwoD_Game_RP
 {
     public class PlayerFirst : Player
     {
-        public PlayerFirst(string name, string systemName, GamePoint coord, int inventoryHeight, int inventoryWight, List<Item> inventoryList, List<string> startTask) :
+        public PlayerFirst(string name, string systemName, GamePoint coord, int inventoryHeight, int inventoryWight, List<Item> inventoryList, CustomSortedEnum<string> startTask) :
             base(name, systemName, PlayerGender.Man, coord, inventoryHeight, inventoryWight, inventoryList, new TaskBoard(Information.GetTasks(70), Information.GetTaskConnection(), startTask))
         { }
     }

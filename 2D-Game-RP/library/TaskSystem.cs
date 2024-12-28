@@ -1,73 +1,107 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TwoD_Game_RP
 {
-    public class Task : IComparable<Task>
+    public class DescriptionTask : IComparable<DescriptionTask>
     {
-        public bool IsSystem { get; set; }
         public string SystemName { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string SysNameParent { get; set; }
-        public Task(string systemname, string name, string description, string sysnameparent, bool isSystem)
+        public DescriptionTask(string systemName, string name, string description)
         {
-            SystemName = systemname;
             Name = name;
             Description = description;
-            SysNameParent = sysnameparent;
-            IsSystem = isSystem;
+            SystemName = systemName;
         }
-        private Task() { }
-        public int CompareTo(Task other)
+        public int CompareTo(DescriptionTask other)
         {
-            if (SystemName.CompareTo(other.SystemName) > 0)
-                return 1;
-            if (SystemName.CompareTo(other.SystemName) < 0)
-                return -1;
-            return 0;
+            return Name.CompareTo(other.Name);
         }
+    }
+    abstract public class GeneralTask : IComparable<GeneralTask>
+    {
+        internal List<string> _nextSystemTask;
+        internal List<string> _prevSystemTask;
+        internal List<string> _eachOtherExclusive;
+        public string SystemName { get; }
+        public DescriptionTask DescriptionTask { get; }
+        public GeneralTask(string systemName, List<string> eachOtherExclusive, DescriptionTask descriptionTask, List<string> nextSystemTask, List<string> prevSystemTask)
+        {
+            _nextSystemTask = nextSystemTask;
+            _prevSystemTask = prevSystemTask;
+            _eachOtherExclusive = eachOtherExclusive;
+            SystemName = systemName;
+            DescriptionTask = descriptionTask;
+        }
+        public int CompareTo(GeneralTask other)
+        {
+            return SystemName.CompareTo(other.SystemName);
+        }
+    }
+    public class Trigger : GeneralTask
+    {
+        public Trigger(string systemName) : base(systemName, null, null, new List<string>(), new List<string>())
+        { }
+    }
+    public class TriggerImp : GeneralTask
+    {
+        public TriggerImp(string systemName) : base(systemName, null, null, new List<string>(), new List<string>())
+        { }
+    }
+    public class Task : GeneralTask
+    {
+        public Task(string systemName, DescriptionTask descriptionTask, List<string> eachOtherExclusive) : base(systemName, eachOtherExclusive, descriptionTask, new List<string>(), new List<string>())
+        { }
+    }
+    public class TaskHid : GeneralTask
+    {
+        public TaskHid(string systemName, List<string> eachOtherExclusive) : base(systemName, eachOtherExclusive, null, new List<string>(), new List<string>())
+        { }
     }
     public class TaskBoard
     {
+        private CustomSortedEnum<string> _blockedTasks;
         private CustomSortedEnum<string> _complitedTasks;
-        private CustomSortedEnum<Task> _usingTask;
-        private CustomSortedEnum<Task> _memoryTask;
-        private CustomSortedEnum<(string comp, string usin)> _connection;
-        public TaskBoard(CustomSortedEnum<Task> memoryTask, CustomSortedEnum<(string comp, string usin)> connect, List<string> startedSystemNameTask)
+        private CustomSortedEnum<string> _usingTask;
+        private CustomSortedEnum<GeneralTask> _memoryTask;
+        public TaskBoard(CustomSortedEnum<GeneralTask> memoryTask, CustomSortedEnum<(string, string)> connect, CustomSortedEnum<string> startedSystemNameTask)
         {
             _memoryTask = memoryTask;
-            _usingTask = new CustomSortedEnum<Task>();
-            _connection = connect;
+            _usingTask = startedSystemNameTask;
             _complitedTasks = new CustomSortedEnum<string>();
-
-            foreach (var sysname in startedSystemNameTask)
+            _blockedTasks = new CustomSortedEnum<string>();
+            CreateNextPrevSystemTask(connect);
+        }
+        private void CreateNextPrevSystemTask(CustomSortedEnum<(string prev, string next)> connect)
+        {
+            foreach (var v in connect)
             {
-                _usingTask.Add(FindTask(sysname));
-                foreach (var andertask in _memoryTask)
-                {
-                    if (andertask.SysNameParent == sysname)
-                        _usingTask.Add(andertask);
-                }
+                FindTask(v.prev)._nextSystemTask.Add(v.next);
+                FindTask(v.next)._prevSystemTask.Add(v.prev);
             }
         }
-        public CustomSortedEnum<Task> GetUsingTask()
+        public CustomSortedEnum<GeneralTask> GetUsingTask()
         {
-            return _usingTask;
-        }
-        public List<Task> GetUsingTaskNotSystem()
-        {
-            var retur = new List<Task>();
-            foreach (var task in _usingTask)
+            CustomSortedEnum<GeneralTask> retur = new CustomSortedEnum<GeneralTask>();
+            foreach (var v in _usingTask)
             {
-                if (!task.IsSystem) retur.Add(task);
+                retur.Add(FindTask(v));
             }
             return retur;
         }
-        private Task FindTask(string systemnametask)
+        public List<DescriptionTask> GetDescriptionUsingTask()
+        {
+            var retur = new List<DescriptionTask>();
+            foreach (var task in _usingTask)
+            {
+                var v = FindTask(task);
+                if (v.DescriptionTask != null && !retur.Contains(v.DescriptionTask))
+                    retur.Add(v.DescriptionTask);
+            }
+            return retur;
+        }
+        private GeneralTask FindTask(string systemnametask)
         {
             foreach (var task in _memoryTask)
             {
@@ -76,69 +110,49 @@ namespace TwoD_Game_RP
             }
             throw new CustomException("Task is not find");
         }
+
         public void ComplitedTask(string SysNameTask)
         {
-            Task compliteTask = FindTask(SysNameTask);
-            if (compliteTask.SysNameParent != null) //=> children
+            _usingTask.Remove(SysNameTask);
+            _complitedTasks.Add(SysNameTask);
+
+            var task = FindTask(SysNameTask);
+            if (task._eachOtherExclusive != null)
             {
-                _usingTask.Remove(compliteTask);
-                _complitedTasks.Add(compliteTask.SystemName);
-                bool isParentComplite = true;
-                foreach (var task in _usingTask)
+                foreach (var exclusion in task._eachOtherExclusive)
                 {
-                    if (task.SysNameParent == compliteTask.SysNameParent)
-                    {
-                        isParentComplite = false;
-                        break;
-                    }
-                }
-                if (isParentComplite)
-                {
-                    _usingTask.Remove(FindTask(compliteTask.SysNameParent));
-                    _complitedTasks.Add(compliteTask.SysNameParent);
-                    AddNewUsingTask(compliteTask.SysNameParent);
+                    _blockedTasks.Add(exclusion);
+                    _usingTask.Remove(exclusion);
                 }
             }
-            else
-            {
-                _usingTask.Remove(compliteTask);
-                _complitedTasks.Add(compliteTask.SystemName);
-                AddNewUsingTask(compliteTask.SystemName);
-            }
+
+            AddNewUsingTask(SysNameTask);
         }
         private void AddNewUsingTask(string SysNameTask)
         {
             List<string> NewTask = new List<string>();
-            foreach (var pair in _connection)
+            foreach (var next in FindTask(SysNameTask)._nextSystemTask)
             {
-                if (pair.comp == SysNameTask)
-                    NewTask.Add(pair.usin);
+                if (!_blockedTasks.Contains(next))
+                    NewTask.Add(next);
             }
             List<string> NotComplited = new List<string>();
             foreach (var task in NewTask)
             {
-                foreach (var pair in _connection)
+                foreach (var prev in FindTask(task)._prevSystemTask)
                 {
-                    if (pair.usin == task)
-                    { 
-                        if (!_complitedTasks.Contains(pair.comp))
-                        {
-                            NotComplited.Add(pair.usin);
-                            break;
-                        }
+                    if (!_complitedTasks.Contains(prev))
+                    {
+                        NotComplited.Add(task);
+                        break;
                     }
                 }
             }
             foreach (var task in NewTask)
             {
-                if (!NotComplited.Contains(task)) 
-                { 
-                    _usingTask.Add(FindTask(task));
-                    foreach (var andertask in _memoryTask)
-                    {
-                        if (andertask.SysNameParent == task)
-                            _usingTask.Add(andertask);
-                    }
+                if (!NotComplited.Contains(task))
+                {
+                    _usingTask.Add(task);
                 }
             }
         }

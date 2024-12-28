@@ -1,0 +1,38 @@
+/// class     Trigger TriggerImp  Task  TaskHid
+/// systemName  ----- 
+
+/// name   <---->  for Tasks
+/// description  <---->    for Tasks
+///   or
+/// systemNameDescription   ----   for Tasks
+
+/// eachOtherName  ----  ----   ----   ----  for Tasks
+///end
+
+/// or
+
+/// Description
+/// systemName -----
+/// name <----->
+/// description <---->
+/// end
+
+class             Trigger
+systemName        trainingButton
+end
+
+class             Trigger
+systemName        scriptstart
+end
+
+class             Task
+systemName        start
+name              <Позвоните в Агенство>
+description       <Позвоните в Агенство, чтобы узнать ваше задание.>
+end
+
+class             Task
+systemName        searchHouse
+name              <Осмотрите место убийства>
+description       <Осмотрите квартиру, в которой жил погибший. Также осмотрите его тело.>
+end

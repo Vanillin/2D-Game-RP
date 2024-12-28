@@ -1,0 +1,5 @@
+/// prevTask  nextTask
+
+trainingButton   scriptstart
+scriptstart   start
+start    searchHouse
