@@ -4,165 +4,104 @@ namespace TwoD_Game_RP
 {
     internal class Inventory
     {
-        int _maxSizeH;
-        int _maxSizeW;
-        CustomDictionary<Item, List<GamePoint>> _referenceItem;
-
-        public CustomDictionary<Item, List<GamePoint>> ReferenceItem => _referenceItem;
-        public int MaxSizeH => _maxSizeH;
-        public int MaxSizeW => _maxSizeW;
-
-        private Inventory(int maxH, int maxW, CustomDictionary<Item, List<GamePoint>> reference)
+        Backpack _backpack;
+        Gun _gunInHand;
+        Gun _gunInBack;
+        public CustomDictionary<Item, List<GamePoint>> ReferenceItem => _backpack.ReferenceItem;
+        public Inventory(int maxH, int maxW, List<Item> list)
         {
-            _maxSizeH = maxH;
-            _maxSizeW = maxW;
-            _referenceItem = reference;
+            _backpack = Backpack.Creating(maxH, maxW, list);
+            _gunInHand = null;
+            _gunInBack = null;
         }
-        private Inventory(int maxH, int maxW)
-        {
-            _maxSizeH = maxH;
-            _maxSizeW = maxW;
-            _referenceItem = new CustomDictionary<Item, List<GamePoint>>();
-        }
-        public static Inventory Creating(int maxH, int maxW, List<Item> list)
-        {
-            if (list.Count == 0)
-            {
-                return new Inventory(maxH, maxW);
-            }
-            if (IsInclude(maxH, maxW, list, out CustomDictionary<Item, List<GamePoint>> newReference))
-            {
-                return new Inventory(maxH, maxW, newReference);
-            }
 
-            throw new CustomException("Inventory not included all Items");
-        }
-        public Item SearchItem(int H, int W)
+        public void ChangeGunInHandAndInBack()
         {
-            foreach (var pair in _referenceItem)
-            {
-                foreach (var point in pair.Value)
-                {
-                    if (point.X <= H && H < point.X + pair.Key.SizeH &&
-                        point.Y <= W && W < point.Y + pair.Key.SizeW)
-                    {
-                        return pair.Key;
-                    }
-                }
-            }
-            return null;
+            (_gunInHand, _gunInBack) = (_gunInBack, _gunInHand);
         }
-        public bool Add(Item item)
-        {
-            CustomDictionary<Item, List<GamePoint>> newReference = _referenceItem;
-            if (newReference.ContainsKey(item))
-            {
-                newReference[item].Add(null);
-            }
-            else
-            {
-                newReference.Add(item, new List<GamePoint>() { null });
-            }
 
-            if (IsInclude(_maxSizeH, _maxSizeW, newReference, out newReference))
+        // ============================== GunInHand =======================
+        public Gun GetGunInHand()
+        {
+            return _gunInHand;
+        }
+        public bool GiveGunInHand(Gun gun)
+        {
+            if (_gunInHand == null)
             {
-                _referenceItem = newReference;
+                _gunInHand = gun;
                 return true;
             }
-            else
+            if (AddInBackpack(_gunInHand))
             {
-                return false;
+                _gunInHand = gun;
+                return true;
             }
+            return false;
         }
-        public void Remove(Item item)
+        public bool TakeAwayGunInHand()
         {
-            if (!_referenceItem.ContainsKey(item))
+            if (AddInBackpack(_gunInHand))
             {
-                return;
+                _gunInHand = null;
+                return true;
             }
-            else if (_referenceItem[item].Count == 1)
-            {
-                _referenceItem.Remove(item);
-            }
-            else
-            {
-                _referenceItem[item].RemoveAt(0);
-            }
-            IsInclude(_maxSizeH, _maxSizeW, _referenceItem, out _referenceItem);
+            return false;
         }
-        public bool Contains(Item item)
+        public void DropGunInHand()
         {
-            return _referenceItem.ContainsKey(item);
+            _gunInHand = null;
         }
 
-        private static bool CheckSquareInInventory(int x1, int y1, int x2, int y2, bool[,] Contein)
+        // ============================== GunInBack =======================
+        public Gun GetGunInBack()
         {
-            for (int i = x1; i < x2; i++)
+            return _gunInBack;
+        }
+        public bool GiveGunInBack(Gun gun)
+        {
+            if (_gunInBack == null)
             {
-                for (int j = y1; j < y2; j++)
-                {
-                    if (Contein[i, j]) { return false; }
-                }
+                _gunInBack = gun;
+                return true;
             }
-            return true;
-        }
-        private static List<Item> ToListItem(CustomDictionary<Item, List<GamePoint>> dict)
-        {
-            List<Item> list = new List<Item>();
-            foreach (var pair in dict)
+            if (AddInBackpack(_gunInBack))
             {
-                for (int count = 0; count < pair.Value.Count; count++)
-                {
-                    list.Add(pair.Key);
-                }
+                _gunInBack = gun;
+                return true;
             }
-            return list;
+            return false;
         }
-        private static bool IsInclude(int sizeH, int sizeW, CustomDictionary<Item, List<GamePoint>> oldReference, out CustomDictionary<Item, List<GamePoint>> newReference)
+        public bool TakeAwayGunInBack()
         {
-            return IsInclude(sizeH, sizeW, ToListItem(oldReference), out newReference);
+            if (AddInBackpack(_gunInBack))
+            {
+                _gunInBack = null;
+                return true;
+            }
+            return false;
         }
-        private static bool IsInclude(int sizeH, int sizeW, List<Item> list, out CustomDictionary<Item, List<GamePoint>> newReference)
+        public void DropGunInBack()
         {
-            list.Sort();
-            CustomDictionary<Item, List<GamePoint>> save = new CustomDictionary<Item, List<GamePoint>>();
-            bool[,] contein = new bool[sizeH, sizeW];
-            int[] indexContein = new int[sizeH];
+            _gunInBack = null;
+        }
 
-            foreach (var item in list)
-            {
-                bool ItemIsAdd = false;
-                for (int i = 0; i < sizeH - item.SizeH + 1; i++)
-                {
-                    if (ItemIsAdd)
-                    {
-                        while (indexContein[i] < sizeW && contein[i, indexContein[i]]) indexContein[i]++;
-                        continue;
-                    }
-                    for (int j = indexContein[i]; j < sizeW - item.SizeW + 1; j++)
-                    {
-                        if (!ItemIsAdd && CheckSquareInInventory(i, j, i + item.SizeH, j + item.SizeW, contein))
-                        {
-                            for (int Item = i; Item < i + item.SizeH; Item++)
-                            {
-                                for (int jitem = j; jitem < j + item.SizeW; jitem++)
-                                {
-                                    contein[Item, jitem] = true;
-                                }
-                            }
-                            if (save.ContainsKey(item)) save[item].Add(new GamePoint(i, j));
-                            else save.Add(item, new List<GamePoint> { new GamePoint(i, j) });
-                            ItemIsAdd = true;
-                            i--;
-                            break;
-                        }
-                    }
-                }
-                newReference = null;
-                if (!ItemIsAdd) return false;
-            }
-            newReference = save;
-            return true;
+        // ============================== method Backpack =======================
+        public bool AddInBackpack(Item item)
+        {
+            return _backpack.Add(item);
+        }
+        public void RemoveInBackpack(Item item)
+        {
+            _backpack.Remove(item);
+        }
+        public bool ContainsInBackpack(Item item)
+        {
+            return _backpack.Contains(item);
+        }
+        public Item SearchInBackpack(int h, int w)
+        {
+            return _backpack.SearchItem(h, w);
         }
     }
 }

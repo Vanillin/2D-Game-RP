@@ -2,26 +2,52 @@
 {
     public interface IPictureCell
     {
-        bool Rotate90 { get; set; }
-        bool Rotate180 { get; set; }
-        bool Rotate270 { get; set; }
+        int Rotate { get; set; }
         string Picture();
         void NextPicture();
         void ReloadPictures();
+    }
+    internal class ShootPicCell : IPictureCell
+    {
+        string _picture;
+        private static ShootPicCell _shoot;
+        public int Rotate { get; set; }
+
+        private ShootPicCell(string picture)
+        {
+            _picture = picture;
+        }
+        public static ShootPicCell Creating(string picture)
+        {
+            if (_shoot == null)
+            {
+                _shoot = new ShootPicCell(picture);
+            }
+            return _shoot;
+        }
+        public static ShootPicCell Taking()
+        {
+            return _shoot;
+        }
+
+        public void NextPicture()
+        { }
+        public string Picture()
+        {
+            return _picture;
+        }
+        public void ReloadPictures()
+        { }
     }
     internal class DarkenPicCell : IPictureCell
     {
         string _picture;
         private static DarkenPicCell _darken;
-        public bool Rotate90 { get; set; }
-        public bool Rotate180 { get; set; }
-        public bool Rotate270 { get; set; }
+        public int Rotate { get; set; }
+
         private DarkenPicCell(string picture)
         {
             _picture = picture;
-            Rotate90 = false;
-            Rotate180 = false;
-            Rotate270 = false;
         }
         public static DarkenPicCell Creating(string picture)
         {
@@ -48,16 +74,11 @@
     public class StaticPicCell : IPictureCell
     {
         string _picture;
-        public bool Rotate90 { get; set; }
-        public bool Rotate180 { get; set; }
-        public bool Rotate270 { get; set; }
+        public int Rotate { get; set; }
 
         public StaticPicCell(string picture)
         {
             _picture = picture;
-            Rotate90 = false;
-            Rotate180 = false;
-            Rotate270 = false;
         }
 
         public void NextPicture()

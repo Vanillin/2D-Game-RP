@@ -24,7 +24,7 @@
 
                 <Grid Grid.Column="0">
                     
-                    <Canvas x:Name="Map" Height="950" Width="950"
+                    <Canvas x:Name="Map" Height="900" Width="1800"
                             MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseRightButtonDown="Map_MouseRightButtonDown">
                         <Canvas.Background>
                             <ImageBrush ImageSource="gamedata\textures\circle.png" AlignmentX="Center" Stretch="Fill" />
@@ -106,11 +106,14 @@
                         <ImageBrush ImageSource="gamedata\textures\mainleft.png" AlignmentX="Center" Stretch="Fill" />
                     </StackPanel.Background>
 
+                    <Border CornerRadius="10" Height="50" Margin="20" Background="AntiqueWhite" VerticalAlignment="Bottom" >
+                        <Button Click="Exit_Click" Background="Transparent">
+                            <Label Content="ВЫХОД" FontSize="20"/>
+                        </Button>
+                    </Border>
+                    
                     <StackPanel Margin="20" Height="Auto" VerticalAlignment="Center">
-                        <Label x:Name="TimeLabel" HorizontalAlignment="Left" FontSize="24" Foreground="LightGray" Content="Время: 19**/06/13 ~10 часов"/>
-                        <Label HorizontalAlignment="Left" FontSize="24" Foreground="LightGray" Content="Место: один из дворов на окраине г. **"/>
-                        <Label HorizontalAlignment="Left" FontSize="24" Foreground="LightGray" Content="Исполнитель: опытный детектив по имени Андрей"/>
-
+                        <ProgressBar x:Name="HealthBar" Value="50" Height="40" Background="LightGreen" />
                         <Button x:Name="SystemViewBtn" Height="50" Width="Auto" Click="SystemViewBtn_Click" FontSize="20" Visibility="Collapsed">Вкл-выкл круг видимости</Button>
                     </StackPanel>
                 </StackPanel>
@@ -118,11 +121,14 @@
                     <Grid.Background>
                         <ImageBrush ImageSource="gamedata\textures\mainleft.png" AlignmentX="Center" Stretch="Fill" />
                     </Grid.Background>
-                    <Border CornerRadius="10" Height="50" Margin="20" Background="AntiqueWhite" VerticalAlignment="Bottom" >
-                        <Button Click="Exit_Click" Background="Transparent">
-                            <Label Content="ВЫХОД" FontSize="20"/>
-                        </Button>
-                    </Border>                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image x:Name="GunInHandImage" Grid.Column="0" />
+                    <Button x:Name="ReverseGunsBtn" Grid.Column="1" Width="50" Height="50" Click="ReverseGunsBtn_Click" />
+                    <Image x:Name="GunInBackImage" Grid.Column="2"/>                    
                 </Grid>
                 <Grid Grid.Column="2">
                     <Grid.Background>

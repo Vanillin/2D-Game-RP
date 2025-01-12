@@ -10,30 +10,7 @@ namespace TwoD_Game_RP
     {
         public static List<string> Blocks = new List<string> { "Wall", "Window" };
         public static List<string> NotWatch = new List<string> { "Wall", "Shrub" };
-
-        private static PhrasesStart phrasesStart;
-        public static List<string> GetStartPhrases(string systemname)
-        {
-            if (phrasesStart == null)
-            {
-                using (var file = new FileStream(Path.Combine(ConfigurationManager.AppSettings["Scripts"], "Phrases.txt"), FileMode.Open))
-                {
-                    var xml = new XmlSerializer(typeof(PhrasesStart));
-                    phrasesStart = (PhrasesStart)xml.Deserialize(file);
-                }
-            }
-            return phrasesStart.GetStartDialogs(systemname);
-        }
-        public static Phrase[] GetPhrase(string sstemnameDialogPerson, int length)
-        {
-            var allphrases = ReadPhrases($"Phrases_{sstemnameDialogPerson}");
-            foreach (var ph in allphrases)
-            {
-                ph.Dialog = CutString(ph.Dialog, length);
-            }
-            return allphrases;
-        }
-
+        
         //==================================================================================================
         //=================================      Location      =============================================
         //==================================================================================================
@@ -71,7 +48,7 @@ namespace TwoD_Game_RP
         }
 
         //==================================================================================================
-        //=================================       Tasks        =============================================
+        //=============================       Tasks and Phrases     ========================================
         //==================================================================================================
 
         static CustomSortedEnum<DescriptionTask> _memoryDescTask = new CustomSortedEnum<DescriptionTask>();
@@ -80,7 +57,7 @@ namespace TwoD_Game_RP
             CustomSortedEnum<GeneralTask> retur = new CustomSortedEnum<GeneralTask>();
             using (StreamReader sr = new StreamReader(Path.Combine(ConfigurationManager.AppSettings["Scripts"], "AllTask.txt")))
             {
-                bool IsOk = ReadInformationTask(sr, out CustomDictionary<string, string> inform);
+                bool IsOk = ReadKeyValueInformation(sr, out CustomDictionary<string, string> inform);
                 while (IsOk)
                 {
                     switch (DeleteSpace(inform["class"]))
@@ -142,11 +119,56 @@ namespace TwoD_Game_RP
                             }
                     }
 
-                    IsOk = ReadInformationTask(sr, out inform);
+                    IsOk = ReadKeyValueInformation(sr, out inform);
                 }
             }
 
             return retur;
+        }
+
+        public static (CustomSortedEnum<(string, string)>, CustomDictionary<string, Phrase>) GetPhrasesPerson(string skeletSystemName, int lengthDescription)
+        {
+            CustomSortedEnum<(string phrase, string task)> startedTasks = new CustomSortedEnum<(string, string)>();
+            CustomDictionary<string, Phrase> phrases = new CustomDictionary<string, Phrase>();
+            using (StreamReader sr = new StreamReader(Path.Combine(ConfigurationManager.AppSettings["Scripts"], $"Phrases_{skeletSystemName}.txt")))
+            {
+                string str = ReadLineStreamReader(sr);
+                while (DeleteSpace(str) != "end")
+                {
+                    string[] phraseTask = str.Split(new char[] {' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    startedTasks.Add((phraseTask[0], phraseTask[1]));
+
+                    str = ReadLineStreamReader(sr);
+                }
+
+                bool IsOk = ReadKeyValueInformation(sr, out CustomDictionary<string, string> inform);
+                while (IsOk)
+                {
+                    if (!inform.ContainsKey("systemName") || !inform.ContainsKey("text"))
+                        throw new CustomException("Not find systemName or text");
+                    List<string> next = new List<string>();
+                    if (inform.ContainsKey("nextSystemName"))
+                    {
+                        foreach (var v in GetStringInBkt(inform["nextSystemName"]).Split(new char[] {' ' }, StringSplitOptions.RemoveEmptyEntries))
+                        {
+                            next.Add(v);
+                        }
+                    }
+                    List<string> complite = new List<string>();
+                    if (inform.ContainsKey("compliteTaskSystemName"))
+                    {
+                        foreach (var v in GetStringInBkt(inform["compliteTaskSystemName"]).Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries))
+                        {
+                            complite.Add(v);
+                        }
+                    }
+                    phrases.Add(DeleteSpace(inform["systemName"]), new Phrase(DeleteSpace(inform["systemName"]), CutString(DeleteSpace(inform["text"]), lengthDescription), next, complite));
+
+                    IsOk = ReadKeyValueInformation(sr, out inform);
+                }
+            }
+
+            return (startedTasks, phrases);
         }
         private static string ReadLineStreamReader(StreamReader sr)
         {
@@ -161,7 +183,7 @@ namespace TwoD_Game_RP
             }
             return null;
         }
-        private static bool ReadInformationTask(StreamReader sr, out CustomDictionary<string, string> information)
+        private static bool ReadKeyValueInformation(StreamReader sr, out CustomDictionary<string, string> information)
         {
             information = new CustomDictionary<string, string>();
             string str = ReadLineStreamReader(sr);
@@ -249,16 +271,6 @@ namespace TwoD_Game_RP
             }
             return retur;
         }
-        private static Phrase[] ReadPhrases(string namePhrase)
-        {
-            Phrase[] phrase;
-            using (var file = new FileStream(Path.Combine(ConfigurationManager.AppSettings["Scripts"], namePhrase + ".txt"), FileMode.Open))
-            {
-                var xml = new XmlSerializer(typeof(Phrase[]), new Type[] { typeof(Phrase) });
-                phrase = (Phrase[])xml.Deserialize(file);
-            }
-            return phrase;
-        }
         public static void Serialization()
         {
             (string, string)[] connect = new (string, string)[] { ("a", "b") };
@@ -267,19 +279,6 @@ namespace TwoD_Game_RP
                 var xml = new XmlSerializer(typeof((string, string)[]), new Type[] { typeof((string, string)) });
                 xml.Serialize(file, connect);
             }
-        }
-    }
-    public class PhrasesStart
-    {
-        public List<(string systemname, List<string> startdialogs)> values;
-        public List<string> GetStartDialogs(string systemname)
-        {
-            foreach (var v in values)
-            {
-                if (v.systemname == systemname)
-                    return v.startdialogs;
-            }
-            throw new Exception("Systemname не существует");
         }
     }
 }

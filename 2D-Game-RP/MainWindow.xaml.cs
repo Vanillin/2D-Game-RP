@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace TwoD_Game_RP
@@ -13,13 +15,15 @@ namespace TwoD_Game_RP
     /// </summary>
     public partial class MainWindow : Window
     {
+        double compressH = 0.5;
+        double compressW = 1;
         GamePoint LeftUpCorner;
         int sizeGamePoleH;
         int sizeGamePoleW;
         double pixelSizeGamePole;
         bool SeeInCurcle = true;
 
-        int sizeInventH = 1;
+        int sizeInventH = 2;
         int sizeInventW = 7;
         double pixelSizeInvent;
 
@@ -64,7 +68,7 @@ namespace TwoD_Game_RP
             timerReloadAnalyzeTask.Tick += TimerAnalyzeTask_Tick;
             timerReloadAnalyzeTask.IsEnabled = true;
 
-            player = new PlayerFirst("Детектив", "player", new GamePoint(19, 5), sizeInventH, sizeInventW,
+            player = new PlayerFirst("Детектив", "playerm", new GamePoint(19, 5), sizeInventH, sizeInventW,
                 new List<Item>()
                 {
                     new Telephone(), new NoteBook()
@@ -73,6 +77,7 @@ namespace TwoD_Game_RP
                 {
                     //"trainingButton"
                 });
+            player.GiveGunInHand(new Pistol());
 
             SeeInCurcle = false;
             GoToLocation("Eosha");
@@ -86,7 +91,7 @@ namespace TwoD_Game_RP
             if (wight % 2 == 0 && wight != CurrentLocation.Width) throw new Exception("Размеры поля должны быть нечетными!");
             sizeGamePoleH = height;
             sizeGamePoleW = wight;
-            pixelSizeGamePole = Math.Min(Map.ActualHeight / (sizeGamePoleH), Map.ActualWidth / (sizeGamePoleW));
+            pixelSizeGamePole = Math.Min(Map.ActualHeight / (sizeGamePoleH * compressH + 1), Map.ActualWidth / (sizeGamePoleW * compressW));
             LeftUpCorner = new GamePoint(player.X - (height - 1) / 2, player.Y - (wight - 1) / 2);
 
             //if (LeftUpCorner.X < 0) LeftUpCorner.X = 0;
@@ -122,11 +127,11 @@ namespace TwoD_Game_RP
             else
             {
                 ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
-                CurrentLocation.DisplayForDark(Map, pixelSizeGamePole, SystemObj);
+                CurrentLocation.Display(Map, pixelSizeGamePole, SystemObj);
             }
 
             ChangeSizeInventoryPlayer();
-            player.DisplayInventory(InventoryPlayer, pixelSizeInvent);
+            DisplayPlayerInventory(InventoryPlayer, pixelSizeInvent);
             //переключение новой картинки для анимации
         }
         private void GoToLocation(string name)
@@ -138,7 +143,7 @@ namespace TwoD_Game_RP
             {
                 if (name == "Eosha")
                 {
-                    loc = MemoryLocations.GetEosha();
+                    loc = MemoryLocations.GetEosha(player, compressH, compressW);
                 }
 
                 //Location newLoc = MemoryLocations.GetGarden(player, sizeInventH, sizeInventW);
@@ -149,10 +154,43 @@ namespace TwoD_Game_RP
         }
         private void DoActionAll()
         {
+            List<SystemSket> list = new List<SystemSket>();
             foreach (var v in CurrentLocation.GetLives())
+            {
+                if (v is Skelet && (v as Skelet).IsAlive) list.Add(v);
+                else if (!(v is Skelet)) list.Add(v);
+            }
+            foreach (var v in list)
             {
                 v.DoAction(CurrentLocation);
             }
+        }
+        //private void DoActionAll()
+        //{
+        //    bool isDoPlayer = true;
+        //    foreach (var v in CurrentLocation.GetLives())
+        //    {
+        //        if (v is Player && v.IsAlive) isDoPlayer = v.DoAction(CurrentLocation);
+        //        else if (v.IsAlive) v.DoAction(CurrentLocation);
+        //    }
+        //    if (!isDoPlayer)
+        //    {
+        //        Thread.Sleep(500);
+        //    }
+        //}
+        private void DisplayPlayerInventory(Canvas canvasInv, double size)
+        {
+            if (player.GetGunInHand() != null)
+                GunInHandImage.Source = new BitmapImage(new Uri(player.GetGunInHand().Picture.Picture(), UriKind.Relative));
+            else
+                GunInHandImage.Source = null;
+            if (player.GetGunInBack() != null)
+                GunInBackImage.Source = new BitmapImage(new Uri(player.GetGunInBack().Picture.Picture(), UriKind.Relative));
+            else
+                GunInBackImage.Source = null;
+
+            HealthBar.Value = player.HealthPercent * 100;
+            player.DisplayInventory(canvasInv, size);
         }
 
         //===============================================        Click      ===============================================
@@ -181,11 +219,15 @@ namespace TwoD_Game_RP
         {
             IsDown = false;
         }
+        private (int, int) FindPointClick (Point point)
+        {
+            return ((int)Math.Truncate(point.X / (pixelSizeGamePole * compressW)), (int)Math.Truncate(point.Y / (pixelSizeGamePole * compressH)) - 1);
+        }
         private void Map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             SystemObj = new List<UIElement>();
             Point pointMouse = e.GetPosition(Map);
-            (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSizeGamePole), (int)Math.Truncate(pointMouse.Y / pixelSizeGamePole));
+            (int W, int H) = FindPointClick(pointMouse);
             (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X);
 
             KeyDownToMove(H, W);
@@ -206,21 +248,21 @@ namespace TwoD_Game_RP
         {
             SystemObj = new List<UIElement>();
             Point pointMouse = e.GetPosition(Map);
-            (int W, int H) = ((int)Math.Truncate(pointMouse.X / pixelSizeGamePole), (int)Math.Truncate(pointMouse.Y / pixelSizeGamePole));
+            (int W, int H) = FindPointClick(pointMouse);
             (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X);
             if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
-            Skelet people = CurrentLocation.FindLives(H, W);
+            SystemSket people = CurrentLocation.FindLives(H, W);
             if (people == null) return;
             if (people is Door)
             {
                 ClickOnDoor(people);
             }
-            else if (!(people is Player))
+            else if (!(people is Player) && people is Skelet)
             {
-                ClickOnSkelet(people);
+                ClickOnSkelet(people as Skelet);
             }
         }
-        private void ClickOnDoor(Skelet door)
+        private void ClickOnDoor(SystemSket door)
         {
             bool ShelterKey = false; //(CurrentLocation.GetIsWatchCell((int)people.Cord.X, (int)people.Cord.Y));
 
@@ -261,16 +303,24 @@ namespace TwoD_Game_RP
             Canvas.SetLeft(menu, pixelSizeGamePole * (people.Cord.Y + 1 - LeftUpCorner.Y));
             Canvas.SetTop(menu, pixelSizeGamePole * (people.Cord.X - LeftUpCorner.X));
 
+            Button Attack = new Button()
+            {
+                Content = "Атаковать",
+                Opacity = 0.6,
+                FontSize = 20,
+            };
+            Attack.Click += MenuPersonAttack_Click;
+            Attack.Tag = people;
+
+            menu.Children.Add(Attack);
+
+
             Button Dialog = new Button()
             {
                 Content = "Поговорить",
                 Opacity = 0.6,
                 FontSize = 20,
             };
-            if (people is Dead)
-            {
-                Dialog.Content = "Осмотреть";
-            }
             Dialog.Click += MenuPersonDialog_Click;
             Dialog.Tag = people;
 
@@ -302,12 +352,23 @@ namespace TwoD_Game_RP
             SystemObj.Add(menu);
 
         }
+
         private void MenuDoorOpen_Click(object sender, RoutedEventArgs e)
         {
             SystemObj = new List<UIElement>();
             Button button = (Button)sender;
-            Skelet door = (Skelet)button.Tag;
+            SystemSket door = (SystemSket)button.Tag;
             CurrentLocation.RemoveFirstLayerWithCell(door);
+        }
+
+        private void MenuPersonAttack_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            Skelet people = (Skelet)button.Tag;
+
+            player.ClearActions();
+            player.ClearGlobalActions();
+            player.EnqueueUpGlobalAction(new ActionAttack(people, false));
         }
         private void MenuPersonCheck_Click(object sender, RoutedEventArgs e)
         {
@@ -357,6 +418,11 @@ namespace TwoD_Game_RP
             this.Close();
         }
 
+        private void ReverseGunsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            player.ChangeGunInHandAndInBack();
+        }
+
         //====================================================================================================================
         //====================================================================================================================
         //====================================================================================================================
@@ -365,7 +431,8 @@ namespace TwoD_Game_RP
         //====================================================================================================================
         //====================================================================================================================
 
-        Dictionary<string, (Phrase phrase, string skeletName)> AllPhrases;
+        string namePerson;
+        CustomDictionary<string, Phrase> phrases;
         int lengthPhrase = 60;
         private void ExitDialogBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -376,35 +443,29 @@ namespace TwoD_Game_RP
         }
         private void CreateWindowDialog(Skelet Person)
         {
-            AllPhrases = new Dictionary<string, (Phrase phrase, string skelet)>();
+            namePerson = Person.Name;
+            var informPhrases = Information.GetPhrasesPerson(Person.SystemName, lengthPhrase);
 
-            foreach (Phrase phrase in Information.GetPhrase(Person.SystemName, lengthPhrase))
-            {
-                AllPhrases.Add(phrase.Index, (phrase, Person.Name));
-            }
-            foreach (Phrase phrase in Information.GetPhrase(player.SystemName, lengthPhrase))
-            {
-                AllPhrases.Add(phrase.Index, (phrase, player.Name));
-            }
-
-            string str = GetStartPhraseInDialog(Person);
+            string str = GetStartPhraseInDialog(informPhrases.Item1);
             if (str != null)
             {
                 CreateDialog(str);
+                phrases = informPhrases.Item2;
             }
             else
             {
                 CreateClearDialog();
+                phrases = null;
             }
         }
-        private string GetStartPhraseInDialog(Skelet Person)
+        private string GetStartPhraseInDialog(CustomSortedEnum<(string, string)> startedPhrases)
         {
-            foreach (var startdialog in Information.GetStartPhrases(Person.SystemName))
+            foreach (var phraseTask in startedPhrases)
             {
                 foreach (var task in player.Tasks.GetUsingTask())
                 {
-                    if (task.SystemName == AllPhrases[startdialog].phrase.TaskToStart)
-                        return startdialog;
+                    if (task.SystemName == phraseTask.Item2)
+                        return phraseTask.Item1;
                 }
             }
             return null;
@@ -453,7 +514,8 @@ namespace TwoD_Game_RP
         private void CreateDialog(string index)
         {
             AddDialog(index, "l");
-            foreach (var v in AllPhrases[index].phrase.NextIndexes)
+            
+            foreach (var v in phrases[index].NextSystemNames)
             {
                 AddButton(v);
             }
@@ -469,12 +531,11 @@ namespace TwoD_Game_RP
                 }
             }
             string index = ((Button)sender).Tag.ToString();
-            Phrase phrase = AllPhrases[index].phrase;
             AddDialog(index, "r");
             ClearDialog();
-            if (phrase.NextIndexes.Count == 1)
+            if (phrases[index].NextSystemNames.Count == 1)
             {
-                CreateDialog(phrase.NextIndexes[0]);
+                CreateDialog(phrases[index].NextSystemNames[0]);
             }
             //throw new Exception("У фразы игрока должен быть только один последующий индекс диалога");
         }
@@ -483,7 +544,7 @@ namespace TwoD_Game_RP
             Button b = new Button()
             {
                 Tag = index,
-                Content = AllPhrases[index].phrase.Dialog,
+                Content = phrases[index].Text,
                 Background = Brushes.Transparent,
                 FontSize = 20,
             };
@@ -502,25 +563,37 @@ namespace TwoD_Game_RP
         }
         private void AddDialog(string index, string side)
         {
-            Phrase phrase = AllPhrases[index].phrase;
-
-            foreach (var task in phrase.EndingTasks)
+            foreach (var task in phrases[index].ComplitedTaskSystemNames)
             {
                 player.Tasks.ComplitedTask(task);
             }
 
+            Label label;
+            if (side == "r")
+            {
+                label = new Label()
+                {
+                    Content = player.Name,
+                    FontSize = 16,
+                    Background = Brushes.Transparent,
+                };
+            }
+            else
+            {
+                label = new Label()
+                {
+                    Content = namePerson,
+                    FontSize = 16,
+                    Background = Brushes.Transparent,
+                };
+            }
             Border LabelName = new Border()
             {
                 CornerRadius = new CornerRadius(10),
                 Background = Brushes.DarkGray,
                 Padding = new Thickness(3),
                 Margin = new Thickness(0, 2, 0, 0),
-                Child = new Label()
-                {
-                    Content = AllPhrases[index].skeletName,
-                    FontSize = 16,
-                    Background = Brushes.Transparent,
-                },
+                Child = label
             };
             Border LabelText = new Border()
             {
@@ -530,7 +603,7 @@ namespace TwoD_Game_RP
                 Margin = new Thickness(0, 0, 0, 2),
                 Child = new Label()
                 {
-                    Content = phrase.Dialog,
+                    Content = phrases[index].Text,
                     FontSize = 20,
                     Background = Brushes.Transparent,
                 }
@@ -575,14 +648,14 @@ namespace TwoD_Game_RP
             Point pointMouse = e.GetPosition(InventoryPlayer);
             (int W, int H) = ((int)Math.Truncate((pointMouse.X) / pixelSizeInvent),
                 (int)Math.Truncate((pointMouse.Y) / pixelSizeInvent));
-            Item item = player.InventSearchItem(H, W);
+            Item item = player.SearchInBackpack(H, W);
             if (item != null)
             {
                 if (InventorySearchWindow.Visibility != Visibility.Collapsed)
                 {
                     Skelet skelet = (Skelet)InventoryCanvas.Tag;
-                    skelet.InventAdd(item);
-                    player.InventRemove(item);
+                    skelet.AddInBackpack(item);
+                    player.RemoveInBackpack(item);
 
                     player.DisplayInventory(InventoryPlayer, pixelSizeInvent);
                     skelet.DisplayInventory(InventoryCanvas, pixelSizeInvent);
@@ -610,11 +683,11 @@ namespace TwoD_Game_RP
             (int W, int H) = ((int)Math.Truncate((pointMouse.X) / pixelSizeInvent),
                 (int)Math.Truncate((pointMouse.Y) / pixelSizeInvent));
             Skelet skelet = (Skelet)InventoryCanvas.Tag;
-            Item item = skelet.InventSearchItem(H, W);
+            Item item = skelet.SearchInBackpack(H, W);
             if (item != null)
             {
-                skelet.InventRemove(item);
-                player.InventAdd(item);
+                skelet.RemoveInBackpack(item);
+                player.AddInBackpack(item);
 
                 player.DisplayInventory(InventoryPlayer, pixelSizeInvent);
                 skelet.DisplayInventory(InventoryCanvas, pixelSizeInvent);
@@ -627,34 +700,6 @@ namespace TwoD_Game_RP
         public bool CanTalkVanya = false;
         private void ClickOnTelephone(object sender, MouseButtonEventArgs e)
         {
-            StackPanel menu = new StackPanel();
-            Canvas.SetLeft(menu, pixelSizeGamePole * (player.Cord.Y + 1 - LeftUpCorner.Y));
-            Canvas.SetTop(menu, pixelSizeGamePole * (player.Cord.X - LeftUpCorner.X));
-
-            Button Agenstv = new Button()
-            {
-                Content = "Позвонить в Агенство",
-                Opacity = 0.6,
-                FontSize = 20,
-            };
-            Agenstv.Click += MenuCall_Click;
-            Agenstv.Tag = new Agency(new GamePoint(0, 0), '0');
-            menu.Children.Add(Agenstv);
-
-            if (CanTalkVanya)
-            {
-                Button Vanya = new Button()
-                {
-                    Content = "Позвонить Ване",
-                    Opacity = 0.6,
-                    FontSize = 20,
-                };
-                Vanya.Click += MenuCall_Click;
-                Vanya.Tag = new Vanya(new GamePoint(0, 0), '0');
-                menu.Children.Add(Vanya);
-            }
-
-            SystemObj.Add(menu);
         }
         private void MenuCall_Click(object sender, RoutedEventArgs e)
         {

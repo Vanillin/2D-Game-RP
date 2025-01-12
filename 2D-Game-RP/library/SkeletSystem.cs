@@ -14,93 +14,40 @@ namespace TwoD_Game_RP
     {
         Non //стоит вкопанный не реагирует
     }
-    public abstract class Door : Skelet
+    public class Door : SystemSket
     {
         public bool IsLock;
-        public Door(string name, string systemName, GamePoint coord, char rotate, bool isLock) :
-            base(name, "", NPSGroup.Door, NPSIntellect.Non, coord, rotate, systemName, new List<Item>(0), 0, 0, false)
+        public Door(string systemName, GamePoint coord, int rotate, bool isLock) :
+            base(coord, rotate, systemName, false)
         {
             IsLock = isLock;
         }
     }
-    public abstract class Skelet
+    public class SystemSket
     {
-        private NPSGroup _fraction;
-        private NPSIntellect _intellect;
-        private DBDisplay _inventoryDisplay;
-        private CustomBilateralQueue<IAction> _globalActions;
-        private CustomBilateralQueue<IAction> _actions;
-        private Inventory _inventoryList;
-        public string Name { get; }
-        public string SecondName { get; }
+        internal CustomBilateralQueue<IAction> _globalActions;
+        internal CustomBilateralQueue<IAction> _actions;
         public string SystemName { get; }
-        public NPSGroup Fraction => _fraction;
-        public NPSIntellect Intellect => _intellect;
         public GamePoint Cord { get; set; }
         public bool IsClarity { get; }
-        public List<NPSGroup> FriendFranction { get; set; }
         public IPictureCell Picture { get; set; }
 
-        public Skelet(string name, string secondname, NPSGroup fraction, NPSIntellect intellect, GamePoint coord, char rotate,
-            string systemname, List<Item> inventoryList, int inventoryHeight, int inventoryWidth, bool isClarity)
+        public SystemSket(GamePoint coord, int rotate, string systemname, bool isClarity)
         {
-            Name = name;
-            SecondName = secondname;
             SystemName = systemname;
-            _intellect = intellect;
             Cord = coord;
-            _inventoryList = Inventory.Creating(inventoryHeight, inventoryWidth, inventoryList);
-            LocationCell[,] cell = new LocationCell[inventoryHeight, inventoryWidth];
             IsClarity = isClarity;
-            _fraction = fraction;
 
-            FriendFranction = new List<NPSGroup> { NPSGroup.People };
-            _inventoryDisplay = new DBDisplay();
             Picture = new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{SystemName}-map.png"));
+            Picture.Rotate = rotate;
             _globalActions = new CustomBilateralQueue<IAction>();
             _actions = new CustomBilateralQueue<IAction>();
-
-            for (int i = 0; i < inventoryHeight; i++)
-            {
-                for (int j = 0; j < inventoryWidth; j++)
-                {
-                    cell[i, j] = new LocationCell();
-                    cell[i, j].AddCell(new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"], $"emptyitem.png")), 0);
-                }
-            }
-            this._inventoryDisplay.Update(cell);
-
-            switch (rotate)
-            {
-                case '1': Picture.Rotate90 = true; break;
-                case '2': Picture.Rotate180 = true; break;
-                case '3': Picture.Rotate270 = true; break;
-            }
-        }
-        public Item InventSearchItem(int H, int W)
-        {
-            return _inventoryList.SearchItem(H, W);
-        }
-        public bool InventAdd(Item item)
-        {
-            return _inventoryList.Add(item);
-        }
-        public void InventRemove(Item item)
-        {
-            _inventoryList.Remove(item);
-        }
-        public bool InventContains(Item item)
-        {
-            return _inventoryList.Contains(item);
         }
 
-        public void DisplayInventory(Canvas canvas, double size)
+        //=================================== Actions ====================================
+        public bool DoAction(Location location)
         {
-            _inventoryDisplay.DisplayInventory(canvas, size, _inventoryList.ReferenceItem);
-        }
-        public void DoAction(Location location)
-        {
-            if (PeekGlobalAction() == null) return;
+            if (PeekGlobalAction() == null) return false;
             if (PeekAction() == null) CreateActions(PeekGlobalAction().CreateActions(this, location));
 
             if (!PeekAction().IsCanComplete(this, location))
@@ -108,7 +55,7 @@ namespace TwoD_Game_RP
                 ClearActions();
                 CreateActions(PeekGlobalAction().CreateActions(this, location));
             }
-            if (!PeekAction().IsCanComplete(this, location)) return;
+            if (!PeekAction().IsCanComplete(this, location)) return false;
 
             PeekAction().CompleteAction(this, location);
             RemoveAction();
@@ -117,6 +64,7 @@ namespace TwoD_Game_RP
                 PeekAction().CompleteAction(this, location);
                 RemoveAction();
             }
+            return true;
         }
         private IAction PeekGlobalAction()
         {
@@ -139,7 +87,6 @@ namespace TwoD_Game_RP
                 _actions.EnqueueInBack(v);
             }
         }
-
         public void RemoveGlobalAction()
         {
             var v = _globalActions.Dequeue();
@@ -164,5 +111,67 @@ namespace TwoD_Game_RP
         {
             _globalActions.EnqueueInBack(action);
         }
+    }
+    public class Skelet : SystemSket
+    {
+        private NPSGroup _fraction;
+        private NPSIntellect _intellect;
+        private DBDisplay _inventoryDisplay;
+        private Inventory _inventory;
+        private HealthSkelet _health;
+        public string Name { get; }
+        public string SecondName { get; }
+        public NPSGroup Fraction => _fraction;
+        public NPSIntellect Intellect => _intellect;
+        public List<NPSGroup> FriendFranction { get; set; }
+
+        public Skelet(string name, string secondname, NPSGroup fraction, NPSIntellect intellect, GamePoint coord, int rotate,
+            string systemname, List<Item> inventoryList, int inventoryHeight, int inventoryWidth, bool isClarity, int health)
+            : base(coord, rotate, systemname, isClarity)
+        {
+            Name = name;
+            SecondName = secondname;
+            _intellect = intellect;
+            _inventory = new Inventory(inventoryHeight, inventoryWidth, inventoryList);
+            LocationCell[,] cell = new LocationCell[inventoryHeight, inventoryWidth];
+            _fraction = fraction;
+            _health = new HealthSkelet(health, health);
+
+            FriendFranction = new List<NPSGroup> { NPSGroup.People };
+            _inventoryDisplay = new DBDisplay(1, 1);
+
+            for (int i = 0; i < inventoryHeight; i++)
+            {
+                for (int j = 0; j < inventoryWidth; j++)
+                {
+                    cell[i, j] = new LocationCell();
+                    cell[i, j].AddCell(new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesItems"], $"emptyitem.png")), 0);
+                }
+            }
+            this._inventoryDisplay.Update(cell);
+        }
+
+        //=================================== method Inventory ====================================
+        public void DisplayInventory(Canvas canvas, double size) => _inventoryDisplay.DisplayInventory(canvas, size, _inventory.ReferenceItem);
+        public void ChangeGunInHandAndInBack() => _inventory.ChangeGunInHandAndInBack();
+        public Gun GetGunInHand() => _inventory.GetGunInHand();
+        public bool GiveGunInHand(Gun gun) => _inventory.GiveGunInHand(gun);
+        public bool TakeAwayGunInHand() => _inventory.TakeAwayGunInHand();
+        public void DropGunInHand() => _inventory.DropGunInHand();
+        public Gun GetGunInBack() => _inventory.GetGunInBack();
+        public bool GiveGunInBack(Gun gun) => _inventory.GiveGunInBack(gun);
+        public bool TakeAwayGunInBack() => _inventory.TakeAwayGunInBack();
+        public void DropGunInBack() => _inventory.DropGunInBack();
+        public bool AddInBackpack(Item item) => _inventory.AddInBackpack(item);
+        public void RemoveInBackpack(Item item) => _inventory.RemoveInBackpack(item);
+        public bool ContainsInBackpack(Item item) => _inventory.ContainsInBackpack(item);
+        public Item SearchInBackpack(int h, int w) => _inventory.SearchInBackpack(h, w);
+
+        //================================== method Health ==============================
+        public bool IsAlive => _health.IsAlive;
+        public int Health => _health.Health;
+        public double HealthPercent => _health.HealthPercent;
+        public void MinusHealth(int health) => _health.MinusHealth(health);
+        public void PlusHealth(int health) => _health.PlusHealth(health);
     }
 }

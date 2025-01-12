@@ -46,7 +46,7 @@ namespace TwoD_Game_RP
         /// </summary>
         public List<GamePoint> SearchWidth_OutOfPoint(GamePoint start, GamePoint finish, CustomSortedEnum<GamePoint> deletedpoints)
         {
-            if (start == finish || deletedpoints.Contains(finish))
+            if (start.Equals(finish) /*|| deletedpoints.Contains(finish)*/)
             {
                 return null;
             }

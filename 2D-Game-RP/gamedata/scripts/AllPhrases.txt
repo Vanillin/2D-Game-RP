@@ -1,0 +1,9 @@
+/// -------  -------   startphrases  activetask
+/// ...
+/// end
+
+/// systemName  ----- 
+/// text   <--->
+/// nextSystemName   <-----  ------  ------>
+/// compliteTaskSystemName  <----  -----  ----->
+/// end

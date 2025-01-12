@@ -43,7 +43,6 @@ namespace TwoD_Game_RP
         }
     }
 
-    #region Closed
     public abstract class Gun : Item
     {
         public int Damage;
@@ -56,6 +55,8 @@ namespace TwoD_Game_RP
             Radius = radius;
         }
     }
+
+    #region Closed
     public abstract class Cloth : Item
     {
         public int Armor;

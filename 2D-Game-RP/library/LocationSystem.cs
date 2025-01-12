@@ -6,7 +6,7 @@ using System.Windows.Controls;
 namespace TwoD_Game_RP
 {
     /// <summary>
-    /// Разделение по слоям: 0 - земля, 1 - люди, 2 - аномалии ящики, 3 - деревья, 4 - системные знаки
+    /// Разделение по слоям: -1 - ужатая земля, 0 - земля, 1 - люди, 2 - аномалии ящики, 3 - деревья, 4 - системные знаки
     /// </summary>
     public class Location
     {
@@ -15,7 +15,7 @@ namespace TwoD_Game_RP
         private Graf _grafLocToMove;
         private Graf _grafLocToWatch;
         private Graf _grafLocAll;
-        private List<Skelet> _lives;
+        private List<SystemSket> _lives;
         private DBDisplay _display;
         public CustomSortedEnum<GamePoint> IsBusy { get; set; }
         public int Height { get; }
@@ -37,7 +37,7 @@ namespace TwoD_Game_RP
             return _grafLocToWatch.SearchCircle_WithAngleOutOfPoint(start, count, minX, minY, maxX, maxY, deletedpoints);
         }
 
-        public Location(string name, string systemName, int height, int width)
+        public Location(string name, string systemName, int height, int width, double compressH, double compressW)
         {
             _maxDepth = 0;
             _cells = new LocationCell[height, width];
@@ -50,19 +50,19 @@ namespace TwoD_Game_RP
             }
             _grafLocToMove = null;
             _grafLocToWatch = null;
-            _lives = new List<Skelet>();
-            _display = new DBDisplay(height, width, 6);
+            _lives = new List<SystemSket>();
+            _display = new DBDisplay(height, width, 6, compressH, compressW);
             IsBusy = new CustomSortedEnum<GamePoint>();
             Height = height;
             Width = width;
             Name = name;
             SystemName = systemName;
         }
-        public List<Skelet> GetLives()
+        public List<SystemSket> GetLives()
         {
             return _lives;
         }
-        public Skelet FindLives(int heightInd, int weightInd)
+        public SystemSket FindLives(int heightInd, int weightInd)
         {
             return _lives.Find(x => x.Cord.CompareTo((heightInd, weightInd)) == 0);
         }
@@ -85,6 +85,13 @@ namespace TwoD_Game_RP
             if (DarkenPicCell.Taking() == null)
             {
                 DarkenPicCell.Creating(path);
+            }
+        }
+        public void CreateShootPictCell(string path)
+        {
+            if (ShootPicCell.Taking() == null)
+            {
+                ShootPicCell.Creating(path);
             }
         }
         public void CreateGrafMove()
@@ -174,7 +181,7 @@ namespace TwoD_Game_RP
         {
             _display.Update(_cells);
         }
-        public void DisplayForDark(Canvas canvas, double size, List<UIElement> systemObj)
+        public void Display(Canvas canvas, double size, List<UIElement> systemObj)
         {
             foreach (var v in _cells)
             {
@@ -222,38 +229,52 @@ namespace TwoD_Game_RP
                 }
             }
         }
-        public void AddSecondLayerWithCell(Skelet skelet)
+        public void AddFourthLayerWithCell(IPictureCell cell, int heightInd, int weightInd)
+        {
+            AddCell(cell, 4, heightInd, weightInd);
+        }
+        public void AddSecondLayerWithCell(SystemSket skelet)
         {
             AddCell(skelet.Picture, 2, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-            IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+            if (skelet is Skelet)
+                IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
             _lives.Add(skelet);
         }
-        public void AddFirstLayerWithCell(Skelet skelet)
+        public void AddFirstLayerWithCell(SystemSket skelet)
         {
             AddCell(skelet.Picture, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-            IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+            if (skelet is Skelet)
+                IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
             _lives.Add(skelet);
         }
-        public void RemoveFirstLayerWithCell(Skelet skelet)
+        public void RemoveFirstLayerWithCell(SystemSket skelet)
         {
             RemoveFirstLayerWithCell(skelet.Picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-            IsBusy.Remove(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+            if (skelet is Skelet)
+                IsBusy.Remove(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
             _lives.Remove(skelet);
         }
-        public void MoveFirstLayerWithCell(Skelet skelet, GamePoint newPoint)
+        public void MoveFirstLayerWithCell(SystemSket skelet, GamePoint newPoint)
         {
-            RemoveFirstLayerWithCell(skelet.Picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-            IsBusy.Remove(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
-
-            skelet.Cord = newPoint;
-
-            AddCell(skelet.Picture, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-            IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+            if (skelet is Skelet)
+            {
+                RemoveFirstLayerWithCell(skelet.Picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+                IsBusy.Remove(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+                skelet.Cord = newPoint;
+                AddCell(skelet.Picture, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+                IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+            }
+            else
+            {
+                RemoveFirstLayerWithCell(skelet.Picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+                skelet.Cord = newPoint;
+                AddCell(skelet.Picture, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+            }
         }
-        public IEnumerable<IPictureCell> GetEnumerableCell(int heightInd, int weightInd)
-        {
-            return _cells[heightInd, weightInd];
-        }
+        //public IEnumerable<IPictureCell> GetEnumerableCell(int heightInd, int weightInd)
+        //{
+        //    return _cells[heightInd, weightInd];
+        //}
         private void AddCell(IPictureCell cell, int index, int heightInd, int weightInd)
         {
             if (index == 1)

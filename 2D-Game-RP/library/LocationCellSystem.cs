@@ -5,7 +5,7 @@ using System.Configuration;
 namespace TwoD_Game_RP
 {
     /// <summary>
-    /// Разделение по слоям: 0 - земля, 1 - люди, 2 - аномалии ящики, 3 - деревья, 4 - системные знаки
+    /// Разделение по слоям: -1 - ужатая земля, 0 - земля, 1 - люди, 2 - аномалии ящики, 3 - деревья, 4 - системные знаки
     /// </summary>
     internal class NodePictCell
     {
@@ -20,9 +20,9 @@ namespace TwoD_Game_RP
         }
     }
     /// <summary>
-    /// Разделение по слоям: 0 - земля, 1 - люди, 2 - аномалии ящики, 3 - деревья, 4 - системные знаки
+    /// Разделение по слоям: -1 - ужатая земля, 0 - земля, 1 - люди, 2 - аномалии ящики, 3 - деревья, 4 - системные знаки
     /// </summary>
-    internal class LocationCell : IEnumerable<IPictureCell>
+    internal class LocationCell
     {
         int _count;
         NodePictCell _head;
@@ -34,7 +34,7 @@ namespace TwoD_Game_RP
         public bool IsWatch => _isWatch;
         public bool IsWasView { get; set; }
         public int Count => _count;
-        public LocationCell(IPictureCell pictureCell, int index)
+        private LocationCell(IPictureCell pictureCell, int index)
         {
             _count = 0;
             _head = new NodePictCell(pictureCell, index);
@@ -173,20 +173,27 @@ namespace TwoD_Game_RP
                 }
             }
         }
-
-        public IEnumerator<IPictureCell> GetEnumerator()
+        public enum Floor
+        {
+            Yes,
+            No
+        }
+        /// <summary>
+        /// Return pair IPictureCell picture and bool IsFloor
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<(IPictureCell, bool)> GetEnumerator()
         {
             var current = _head;
             while (current != null)
             {
-                yield return current.PictureCell;
+                if(current.Index == -1)
+                    yield return (current.PictureCell, true);
+                else
+                    yield return (current.PictureCell, false);
+
                 current = current.Next;
             }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

@@ -84,10 +84,12 @@
     <Compile Include="library\ActionSystem.cs" />
     <Compile Include="library\customStorage\CustomBilateralQueue.cs" />
     <Compile Include="library\customStorage\CustomException.cs" />
+    <Compile Include="library\HealthSystem.cs" />
+    <Compile Include="library\InventorySystem.cs" />
     <Compile Include="library\Phrase.cs" />
     <Compile Include="library\customStorage\CustomDictionary.cs" />
     <Compile Include="library\DisplaySystem.cs" />
-    <Compile Include="library\InventorySystem.cs" />
+    <Compile Include="library\BackpackSystem.cs" />
     <Compile Include="library\ItemSystem.cs" />
     <Compile Include="library\LocationCellSystem.cs" />
     <Compile Include="library\PicturesSystem.cs" />
@@ -160,58 +162,6 @@
     <Resource Include="gamedata\textures\items\emptyitem.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\textures\map\New\floorBeton.png" />
-    <Resource Include="gamedata\textures\map\New\floorStone.png" />
-    <Resource Include="gamedata\textures\map\New\floorWood.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\map\New\brickWall1.png" />
-    <Resource Include="gamedata\textures\map\New\brickWall2.png" />
-    <Resource Include="gamedata\textures\map\New\brickWall3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\map\New\floorWood12.png" />
-    <Resource Include="gamedata\textures\map\New\floorWood13.png" />
-    <Resource Include="gamedata\textures\map\New\floorWood24.png" />
-    <Resource Include="gamedata\textures\map\New\floorWood34.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\map\New\floorWood1.png" />
-    <Resource Include="gamedata\textures\map\New\floorWood2.png" />
-    <Resource Include="gamedata\textures\map\New\floorWood3.png" />
-    <Resource Include="gamedata\textures\map\New\floorWood4.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\map\New\floorBeton1.png" />
-    <Resource Include="gamedata\textures\map\New\floorBeton12.png" />
-    <Resource Include="gamedata\textures\map\New\floorBeton13.png" />
-    <Resource Include="gamedata\textures\map\New\floorBeton2.png" />
-    <Resource Include="gamedata\textures\map\New\floorBeton24.png" />
-    <Resource Include="gamedata\textures\map\New\floorBeton3.png" />
-    <Resource Include="gamedata\textures\map\New\floorBeton34.png" />
-    <Resource Include="gamedata\textures\map\New\floorBeton4.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\map\New\brickDoor.png" />
-    <Resource Include="gamedata\textures\map\New\brickWindow.png" />
-    <Resource Include="gamedata\textures\map\New\floorEarth.png" />
-    <Resource Include="gamedata\textures\map\New\floorGrass.png" />
-    <Resource Include="gamedata\textures\map\New\treeWall.png" />
-    <Resource Include="gamedata\textures\map\New\woodZaborDoor.png" />
-    <Resource Include="gamedata\textures\map\New\woodZaborWall1.png" />
-    <Resource Include="gamedata\textures\map\New\woodZaborWall2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\map\New\floorGrass12.png" />
-    <Resource Include="gamedata\textures\map\New\floorGrass13.png" />
-    <Resource Include="gamedata\textures\map\New\floorGrass24.png" />
-    <Resource Include="gamedata\textures\map\New\floorGrass3.png" />
-    <Resource Include="gamedata\textures\map\New\floorGrass4.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\map\New\floorGrass34.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="gamedata\textures\map\System\Ramka.png" />
   </ItemGroup>
   <ItemGroup>
@@ -222,16 +172,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\scripts\Phrases_Kristina.txt" />
-    <Resource Include="gamedata\scripts\Phrases_Maksim.txt" />
-    <Resource Include="gamedata\scripts\Phrases_Nura.txt" />
-    <Resource Include="gamedata\scripts\Phrases_player.txt" />
-    <Resource Include="gamedata\scripts\Phrases_Vanya.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\textures\player\kristina-map.png" />
     <Resource Include="gamedata\textures\player\maksim-map.png" />
     <Resource Include="gamedata\textures\player\nura-map.png" />
-    <Resource Include="gamedata\textures\player\player-map.png" />
     <Resource Include="gamedata\textures\player\vanya-map.png" />
   </ItemGroup>
   <ItemGroup>
@@ -246,59 +190,6 @@
   <ItemGroup>
     <Resource Include="gamedata\levels\GardenAir.txt" />
     <Resource Include="gamedata\levels\GardenObject1.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\map\Objects\bench.png" />
-    <Resource Include="gamedata\textures\map\Objects\bench2.png" />
-    <Resource Include="gamedata\textures\map\Objects\chair.png" />
-    <Resource Include="gamedata\textures\map\Objects\treeup2.png" />
-    <Resource Include="gamedata\textures\map\Objects\treeWall.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\map\Objects\bushShrub.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\map\Objects\bed1Window.png" />
-    <Resource Include="gamedata\textures\map\Objects\bed2Window.png" />
-    <Resource Include="gamedata\textures\map\Objects\bigbed1Window.png" />
-    <Resource Include="gamedata\textures\map\Objects\bigbed2Window.png" />
-    <Resource Include="gamedata\textures\map\Objects\bigbed3Window.png" />
-    <Resource Include="gamedata\textures\map\Objects\bigbed4Window.png" />
-    <Resource Include="gamedata\textures\map\Objects\fridgeWindow.png" />
-    <Resource Include="gamedata\textures\map\Objects\kitchenWindow.png" />
-    <Resource Include="gamedata\textures\map\Objects\stair1Window.png" />
-    <Resource Include="gamedata\textures\map\Objects\stair2Window.png" />
-    <Resource Include="gamedata\textures\map\Objects\tableWindow.png" />
-    <Resource Include="gamedata\textures\map\Objects\trashWindow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\map\Objects\closet1Window.png" />
-    <Resource Include="gamedata\textures\map\Objects\closet2Window.png" />
-    <Resource Include="gamedata\textures\map\Objects\kitchentableWindow.png" />
-    <Resource Include="gamedata\textures\map\Objects\nighttableWindow.png" />
-    <Resource Include="gamedata\textures\map\Objects\sofa1.png" />
-    <Resource Include="gamedata\textures\map\Objects\sofa2.png" />
-    <Resource Include="gamedata\textures\map\Objects\sofa3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\map\Objects\kitchentable2Window.png" />
-    <Resource Include="gamedata\textures\map\Objects\mail.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\scripts\Phrases.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\map\Objects\treeup1.png" />
-    <Resource Include="gamedata\textures\map\Objects\treeup3.png" />
-    <Resource Include="gamedata\textures\map\Objects\treeup4.png" />
-    <Resource Include="gamedata\textures\map\Objects\treeup5.png" />
-    <Resource Include="gamedata\textures\map\Objects\treeup6.png" />
-    <Resource Include="gamedata\textures\map\Objects\treeup7.png" />
-    <Resource Include="gamedata\textures\map\Objects\treeup8.png" />
-    <Resource Include="gamedata\textures\map\Objects\treeup9.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\scripts\Tasks.txt" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\player\trashSkelet-map.png" />
@@ -324,13 +215,124 @@
     <Resource Include="gamedata\textures\player\dead-map.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\textures\map\New\blood.png" />
-    <Resource Include="gamedata\textures\map\New\lenta.png" />
+    <Resource Include="gamedata\textures\map\Floor\asphalt.png" />
+    <Resource Include="gamedata\textures\map\Floor\floorDarkWood.png" />
+    <Resource Include="gamedata\textures\map\Floor\sand.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\textures\map\New\asphalt.png" />
-    <Resource Include="gamedata\textures\map\New\floorDarkWood.png" />
-    <Resource Include="gamedata\textures\map\New\sand.png" />
+    <Resource Include="gamedata\textures\items\pistol.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Object\bigBox.png" />
+    <Resource Include="gamedata\textures\map\Object\fire.png" />
+    <Resource Include="gamedata\textures\map\Object\krovat1.png" />
+    <Resource Include="gamedata\textures\map\Object\krovat2.png" />
+    <Resource Include="gamedata\textures\map\Object\sand3.png" />
+    <Resource Include="gamedata\textures\map\Object\trashbak.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\System\Shoot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\player\Shoot-map.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\player\Hit-map.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Wall\kolodec.png" />
+    <Resource Include="gamedata\textures\map\Wall\kolodec2.png" />
+    <Resource Include="gamedata\textures\map\Wall\unitaz.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Floor\floorDarkWood12.png" />
+    <Resource Include="gamedata\textures\map\Floor\floorDarkWood13.png" />
+    <Resource Include="gamedata\textures\map\Floor\floorDarkWood24.png" />
+    <Resource Include="gamedata\textures\map\Floor\floorDarkWood34.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Floor\floorDarkWood1.png" />
+    <Resource Include="gamedata\textures\map\Floor\floorDarkWood2.png" />
+    <Resource Include="gamedata\textures\map\Floor\floorDarkWood3.png" />
+    <Resource Include="gamedata\textures\map\Floor\floorDarkWood4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Object\chair.png" />
+    <Resource Include="gamedata\textures\map\Object\kitchenWindow.png" />
+    <Resource Include="gamedata\textures\map\Object\tableWindow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Wall\wood\0.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\1.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\2.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\3.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\4.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\5.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\6.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\7.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\8.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\levels\EoshaFloor1.txt" />
+    <Resource Include="gamedata\levels\EoshaFloor2.txt" />
+    <Resource Include="gamedata\levels\EoshaObject1.txt" />
+    <Resource Include="gamedata\levels\EoshaWall1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\0.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\1.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\2.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\3.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\4.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\5.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\6.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\7.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\8.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Floor\asphaltBad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Object\buttle.png" />
+    <Resource Include="gamedata\textures\map\Object\podval1.png" />
+    <Resource Include="gamedata\textures\map\Object\podval2.png" />
+    <Resource Include="gamedata\textures\map\Object\tarelka.png" />
+    <Resource Include="gamedata\textures\map\Object\картина.png" />
+    <Resource Include="gamedata\textures\map\Object\ковер1.png" />
+    <Resource Include="gamedata\textures\map\Object\ковер2.png" />
+    <Resource Include="gamedata\textures\map\Object\часы.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Window\5.png" />
+    <Resource Include="gamedata\textures\map\Window\brickWindow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\02.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\08.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\player\girl-map.png" />
+    <Resource Include="gamedata\textures\player\grandma-map.png" />
+    <Resource Include="gamedata\textures\player\grandpa-map.png" />
+    <Resource Include="gamedata\textures\player\playerg-map.png" />
+    <Resource Include="gamedata\textures\player\playerm-map.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Object\Bush.png" />
+    <Resource Include="gamedata\textures\map\Object\кость.png" />
+    <Resource Include="gamedata\textures\map\Object\могила1.png" />
+    <Resource Include="gamedata\textures\map\Object\могила2.png" />
+    <Resource Include="gamedata\textures\map\Object\могила3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Object\krovat3.png" />
+    <Resource Include="gamedata\textures\map\Object\krovat4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\ObjectWall\stand1.png" />
+    <Resource Include="gamedata\textures\map\ObjectWall\stand2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

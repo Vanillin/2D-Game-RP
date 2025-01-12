@@ -8,14 +8,13 @@ namespace TwoD_Game_RP
         private static void ScriptTime(MainWindow window)
         {
             MessageBox.Show("Вы подождали до вечера. С работы пришли жильцы.");
-            window.TimeLabel.Content = "Время: 19**/06/13 ~21 час";
 
-            var maksim = new Maksim(new GamePoint(17, 19), '0');
-            maksim.EnqueueDownGlobalAction(new ActionWait(5, true));
-            maksim.EnqueueDownGlobalAction(new ActionMove(new GamePoint(16, 23), true));
-            maksim.EnqueueDownGlobalAction(new ActionWait(1, true));
-            maksim.EnqueueDownGlobalAction(new ActionMove(new GamePoint(17, 19), true));
-            window.CurrentLocation.AddFirstLayerWithCell(maksim);
+            //var maksim = new Maksim(new GamePoint(17, 19), '0');
+            //maksim.EnqueueDownGlobalAction(new ActionWait(5, true));
+            //maksim.EnqueueDownGlobalAction(new ActionMove(new GamePoint(16, 23), true));
+            //maksim.EnqueueDownGlobalAction(new ActionWait(1, true));
+            //maksim.EnqueueDownGlobalAction(new ActionMove(new GamePoint(17, 19), true));
+            //window.CurrentLocation.AddFirstLayerWithCell(maksim);
 
             foreach (var skelet in window.CurrentLocation.GetLives())
             {
@@ -41,15 +40,15 @@ namespace TwoD_Game_RP
                 if (task.SystemName == "scriptstart")
                 {
                     window.player.Tasks.ComplitedTask("scriptstart");
-                    window.MenuPersonDialog_Click(new Agency(new GamePoint(0, 0), '0'));
+                    //window.MenuPersonDialog_Click(new Agency(new GamePoint(0, 0), '0'));
                 }
 
-                if (task.SystemName == "findKey" && window.player.InventContains(new Key()))
+                if (task.SystemName == "findKey" && window.player.ContainsInBackpack(new Key()))
                 {
                     window.player.Tasks.ComplitedTask("findKey");
                 }
 
-                if (task.SystemName == "findBloodPaper" && window.player.InventContains(new BloodPaper()))
+                if (task.SystemName == "findBloodPaper" && window.player.ContainsInBackpack(new BloodPaper()))
                 {
                     window.player.Tasks.ComplitedTask("findBloodPaper");
                 }
