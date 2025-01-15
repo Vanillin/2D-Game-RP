@@ -117,6 +117,10 @@ namespace TwoD_Game_RP
                                     throw new CustomException("Not find systemname, name and description in Description");
                                 break;
                             }
+                        default:
+                            {
+                                throw new CustomException($"Not find name class {inform["class"]}");
+                            }
                     }
 
                     IsOk = ReadKeyValueInformation(sr, out inform);

@@ -17,22 +17,134 @@
 /// description <---->
 /// end
 
-class             Trigger
-systemName        trainingButton
+class             Task
+systemName        test
+name              <test>
+description       <test>
 end
 
 class             Trigger
-systemName        scriptstart
+systemName        start1Ep
 end
 
 class             Task
-systemName        start
-name              <Позвоните в Агенство>
-description       <Позвоните в Агенство, чтобы узнать ваше задание.>
+systemName        talkStartQuestDrawwell
+name              <talkStartQuestDrawwell>
+description       <talkStartQuestDrawwell>
+end
+
+class             TaskHid
+systemName        findDetailDrawwell
+end
+
+class             Description
+systemName        descriptionfixDrawwell
+name              <fixDrawwell>
+description       <fixDrawwell>
+end
+
+class                    Task
+systemName               fixDrawwell
+systemNameDescription    descriptionfixDrawwell
+eachOtherName            fixWithoutDetailDrawwell
+end
+
+class                    Task
+systemName               fixWithoutDetailDrawwell
+systemNameDescription    descriptionfixDrawwell
+eachOtherName            fixDrawwell
+end
+
+class             TriggerImp
+systemName        talkEndQuestDrawwell
 end
 
 class             Task
-systemName        searchHouse
-name              <Осмотрите место убийства>
-description       <Осмотрите квартиру, в которой жил погибший. Также осмотрите его тело.>
+systemName        talkStartQuestKillScorpion
+name              <talkStartQuestKillScorpion>
+description       <talkStartQuestKillScorpion>
 end
+
+class             TaskHid
+systemName        takeGunInQuestKillScorpion
+end
+
+class             Task
+systemName        killOneScorpion
+name              <killOneScorpion>
+description       <killOneScorpion>
+eachOtherName     go2EpWithGun
+end
+
+class             Task
+systemName        talkEndQuestKillScorpion
+name              <talkEndQuestKillScorpion>
+description       <talkEndQuestKillScorpion>
+end
+
+class             TaskHid
+systemName        kill1People
+end
+
+class             TaskHid
+systemName        killAllPeople
+end
+
+class             Description
+systemName        descriptiongo2Ep
+name              <go2Ep>
+description       <gotoMurava>
+end
+
+class                    Task
+systemName               go2Ep
+systemNameDescription    descriptiongo2Ep
+eachOtherName            go2EpWithGun   go2Epkill1    go2EpkillAll
+end
+
+class                    Task
+systemName               go2EpWithGun
+systemNameDescription    descriptiongo2Ep
+eachOtherName            killOneScorpion     go2Ep
+end
+
+class                    Task
+systemName               go2Epkill1
+systemNameDescription    descriptiongo2Ep
+eachOtherName            go2Ep    go2EpkillAll
+end
+
+class                    Task
+systemName               go2EpkillAll
+systemNameDescription    descriptiongo2Ep
+eachOtherName            go2Ep    go2Epkill1
+end
+
+class             TriggerImp
+systemName        triggerGo2EpWithGun
+end
+
+class             TriggerImp
+systemName        triggerkill1People
+end
+
+class             TriggerImp
+systemName        triggerkillAllPeople
+eachOtherName     triggerkill1People
+end  
+
+class             Trigger
+systemName        final0
+end  
+
+class             Trigger
+systemName        final1
+end  
+
+class             Trigger
+systemName        final2
+end  
+
+class             Trigger
+systemName        final3
+end  

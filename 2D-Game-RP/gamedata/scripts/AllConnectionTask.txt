@@ -1,5 +1,35 @@
 /// prevTask  nextTask
 
-trainingButton   scriptstart
-scriptstart   start
-start    searchHouse
+start1Ep   talkStartQuestDrawwell
+start1Ep   findDetailDrawwell
+start1Ep   talkStartQuestKillScorpion
+start1Ep   go2Ep
+start1Ep   go2EpWithGun
+start1Ep   kill1People
+start1Ep   killAllPeople
+
+talkStartQuestDrawwell      fixDrawwell  
+talkStartQuestDrawwell      fixWithoutDetailDrawwell
+talkStartQuestDrawwell      talkEndQuestDrawwell
+findDetailDrawwell          fixDrawwell
+fixDrawwell                 talkEndQuestDrawwell
+fixWithoutDetailDrawwell    talkEndQuestDrawwell
+
+talkStartQuestKillScorpion      takeGunInQuestKillScorpion
+talkStartQuestKillScorpion      killOneScorpion
+takeGunInQuestKillScorpion      killOneScorpion
+takeGunInQuestKillScorpion      go2EpWithGun
+killOneScorpion                 talkEndQuestKillScorpion 
+
+kill1People             go2Epkill1
+killAllPeople           go2EpkillAll
+
+go2Ep                   final0
+
+go2EpWithGun            triggerGo2EpWithGun
+go2Epkill1              triggerkill1People
+go2EpkillAll            triggerkillAllPeople
+
+triggerGo2EpWithGun     final1
+triggerkill1People      final2
+triggerkillAllPeople    final3

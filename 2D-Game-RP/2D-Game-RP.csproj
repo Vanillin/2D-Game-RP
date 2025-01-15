@@ -101,6 +101,9 @@
     <Compile Include="library\customStorage\SubstringSearch.cs" />
     <Compile Include="library\TaskSystem.cs" />
     <Compile Include="input\MainScripts.cs" />
+    <Compile Include="TestWindow.xaml.cs">
+      <DependentUpon>TestWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="LessonsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -117,6 +120,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -169,9 +176,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\player\woodZaborDoorSkelet-map.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\scripts\Phrases_Kristina.txt" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\player\maksim-map.png" />
@@ -240,7 +244,6 @@
     <Resource Include="gamedata\textures\player\Hit-map.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\textures\map\Wall\kolodec.png" />
     <Resource Include="gamedata\textures\map\Wall\kolodec2.png" />
     <Resource Include="gamedata\textures\map\Wall\unitaz.png" />
   </ItemGroup>
@@ -333,6 +336,15 @@
   <ItemGroup>
     <Resource Include="gamedata\textures\map\ObjectWall\stand1.png" />
     <Resource Include="gamedata\textures\map\ObjectWall\stand2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\scripts\AllConnectionTask.txt" />
+    <Resource Include="gamedata\scripts\AllPhrases.txt" />
+    <Resource Include="gamedata\scripts\AllTask.txt" />
+    <Resource Include="gamedata\scripts\Phrases_grandma.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Wall\drawwell.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

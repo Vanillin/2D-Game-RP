@@ -21,7 +21,7 @@ namespace TwoD_Game_RP
         int sizeGamePoleH;
         int sizeGamePoleW;
         double pixelSizeGamePole;
-        bool SeeInCurcle = true;
+        internal bool SeeInCurcle = true;
 
         int sizeInventH = 2;
         int sizeInventW = 7;
@@ -75,11 +75,11 @@ namespace TwoD_Game_RP
                 },
                 new CustomSortedEnum<string>()
                 {
-                    //"trainingButton"
+                    "start1Ep",
+                    "test",
                 });
             player.GiveGunInHand(new Pistol());
 
-            SeeInCurcle = false;
             GoToLocation("Eosha");
             TimerAnimation_Tick(null, null);
 
@@ -449,13 +449,13 @@ namespace TwoD_Game_RP
             string str = GetStartPhraseInDialog(informPhrases.Item1);
             if (str != null)
             {
-                CreateDialog(str);
                 phrases = informPhrases.Item2;
+                CreateDialog(str);
             }
             else
             {
-                CreateClearDialog();
                 phrases = null;
+                CreateClearDialog();
             }
         }
         private string GetStartPhraseInDialog(CustomSortedEnum<(string, string)> startedPhrases)
@@ -757,6 +757,14 @@ namespace TwoD_Game_RP
                     }
                 });
             }
+        }
+
+        //============================================ Test System ========================================
+
+        private void TestWindow_Click(object sender, RoutedEventArgs e)
+        {
+            TestWindow tw = new TestWindow(this);
+            tw.Show();
         }
     }
 }

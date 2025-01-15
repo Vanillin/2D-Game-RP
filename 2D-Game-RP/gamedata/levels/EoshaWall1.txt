@@ -27,7 +27,7 @@
     S    ObjectWall\stand2
 
     u    Wall\unitaz
-    k    Wall\kolodec
+    k    Wall\drawwell
 
 ///    К    New\floorGrass  куст
 ///    .    New\sand

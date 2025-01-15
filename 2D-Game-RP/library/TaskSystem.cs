@@ -108,7 +108,7 @@ namespace TwoD_Game_RP
                 if (task.SystemName == systemnametask)
                     return task;
             }
-            throw new CustomException("Task is not find");
+            throw new CustomException($"Task ={systemnametask}= is not find");
         }
 
         public void ComplitedTask(string SysNameTask)

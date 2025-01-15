@@ -8,137 +8,142 @@
         Title="Game STALKER" WindowState="Maximized" Height="1200" Width="1920" Icon="gamedata\textures\icon.png" KeyUp="Window_KeyUp" KeyDown="Window_KeyDown">
 
     <Viewbox>        <!--Stretch="Uniform"-->
-        <Grid Height="1200" Width="1920">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1000"/>
-                <RowDefinition Height="200"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.Background>
-                    <ImageBrush ImageSource="gamedata\textures\mainfon1.png" AlignmentX="Center" Stretch="Fill" />
-                </Grid.Background>
+        <StackPanel>
+            <Menu Height="Auto">
+                <MenuItem Header="Отладчик тестера" Click="TestWindow_Click" FontSize="20"/>
+            </Menu>
+            <Grid Height="1200" Width="1920">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1000"/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.Background>
+                        <ImageBrush ImageSource="gamedata\textures\mainfon1.png" AlignmentX="Center" Stretch="Fill" />
+                    </Grid.Background>
 
-                <Grid Grid.Column="0">
-                    
-                    <Canvas x:Name="Map" Height="900" Width="1800"
+                    <Grid Grid.Column="0">
+
+                        <Canvas x:Name="Map" Height="900" Width="1800"
                             MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseRightButtonDown="Map_MouseRightButtonDown">
-                        <Canvas.Background>
-                            <ImageBrush ImageSource="gamedata\textures\circle.png" AlignmentX="Center" Stretch="Fill" />
-                        </Canvas.Background>
-                    </Canvas>
-                </Grid>
+                            <Canvas.Background>
+                                <ImageBrush ImageSource="gamedata\textures\circle.png" AlignmentX="Center" Stretch="Fill" />
+                            </Canvas.Background>
+                        </Canvas>
+                    </Grid>
 
-                <Grid x:Name="TaskWindow" Grid.Column="1" Width="640" Visibility="Collapsed">
-                    <Grid.Background>
-                        <ImageBrush ImageSource="gamedata\textures\dialogfon.png" AlignmentX="Center" Stretch="Fill" />
-                    </Grid.Background>
+                    <Grid x:Name="TaskWindow" Grid.Column="1" Width="640" Visibility="Collapsed">
+                        <Grid.Background>
+                            <ImageBrush ImageSource="gamedata\textures\dialogfon.png" AlignmentX="Center" Stretch="Fill" />
+                        </Grid.Background>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Border CornerRadius="10" Grid.Row="0" Height="70" Width="300" Margin="20,20,0,0" Background="AntiqueWhite" HorizontalAlignment="Left"  >
-                        <Button x:Name="ExitTaskBtn" Background="Transparent"  Click="ExitTaskBtn_Click">
-                            <Label Content="Выйти из записной книжки" FontSize="20"/>
-                        </Button>
-                    </Border>
-                    <StackPanel x:Name="ListTasks" Grid.Row="1" Margin="20">
-                        
-                    </StackPanel>
-                </Grid>
-                
-                <Grid x:Name="InventorySearchWindow" Grid.Column="1" Width="640" Visibility="Collapsed">
-                    <Grid.Background>
-                        <ImageBrush ImageSource="gamedata\textures\maininvbig.png" AlignmentX="Center" Stretch="Fill" />
-                    </Grid.Background>
-                    
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Border CornerRadius="10" Grid.Row="0" Height="70" Width="300" Margin="20,20,0,0" Background="AntiqueWhite" HorizontalAlignment="Left"  >
-                        <Button x:Name="ExitInventorySearchBtn" Background="Transparent"  Click="ExitInventorySearchBtn_Click">
-                            <Label Content="Прекратить обыск" FontSize="20"/>
-                        </Button>
-                    </Border>
-                    <Canvas x:Name="InventoryCanvas" Grid.Row="1"  Height="Auto" Width="Auto" Margin="20"
-                            MouseLeftButtonDown="InventoryCanvas_MouseLeftButtonDown" MouseRightButtonDown="InventoryCanvas_MouseRightButtonDown"/>
-                </Grid>
-
-                <Grid x:Name="DialogWindow" Grid.Column="1" Width="700" Margin="20" Visibility="Collapsed">
-                    <Grid.Background>
-                        <ImageBrush ImageSource="gamedata\textures\dialogfon.png" AlignmentX="Center" Stretch="Fill" />
-                    </Grid.Background>
-                    
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Border CornerRadius="10" Height="70" Width="300" Margin="20,20,0,0" Background="AntiqueWhite" HorizontalAlignment="Left"  >
-                        <Button x:Name="ExitDialogBtn" Grid.Row="0"  Background="Transparent"  Click="ExitDialogBtn_Click">
-                            <Label Content="Выйти из диалога" FontSize="20"/>
-                        </Button>
-                    </Border>
-                    
-                    <ScrollViewer x:Name="ScrollView" Grid.Row ="1" Margin="20,10,20,10" VerticalScrollBarVisibility="Hidden">
-                        <StackPanel x:Name="DialogStackPanel">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Border CornerRadius="10" Grid.Row="0" Height="70" Width="300" Margin="20,20,0,0" Background="AntiqueWhite" HorizontalAlignment="Left"  >
+                            <Button x:Name="ExitTaskBtn" Background="Transparent"  Click="ExitTaskBtn_Click">
+                                <Label Content="Выйти из записной книжки" FontSize="20"/>
+                            </Button>
+                        </Border>
+                        <StackPanel x:Name="ListTasks" Grid.Row="1" Margin="20">
 
                         </StackPanel>
-                    </ScrollViewer>
-                    <StackPanel x:Name="DialogBtn" Grid.Row="2" Margin="20,0,20,20">
+                    </Grid>
 
-                    </StackPanel>
+                    <Grid x:Name="InventorySearchWindow" Grid.Column="1" Width="640" Visibility="Collapsed">
+                        <Grid.Background>
+                            <ImageBrush ImageSource="gamedata\textures\maininvbig.png" AlignmentX="Center" Stretch="Fill" />
+                        </Grid.Background>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Border CornerRadius="10" Grid.Row="0" Height="70" Width="300" Margin="20,20,0,0" Background="AntiqueWhite" HorizontalAlignment="Left"  >
+                            <Button x:Name="ExitInventorySearchBtn" Background="Transparent"  Click="ExitInventorySearchBtn_Click">
+                                <Label Content="Прекратить обыск" FontSize="20"/>
+                            </Button>
+                        </Border>
+                        <Canvas x:Name="InventoryCanvas" Grid.Row="1"  Height="Auto" Width="Auto" Margin="20"
+                            MouseLeftButtonDown="InventoryCanvas_MouseLeftButtonDown" MouseRightButtonDown="InventoryCanvas_MouseRightButtonDown"/>
+                    </Grid>
+
+                    <Grid x:Name="DialogWindow" Grid.Column="1" Width="700" Margin="20" Visibility="Collapsed">
+                        <Grid.Background>
+                            <ImageBrush ImageSource="gamedata\textures\dialogfon.png" AlignmentX="Center" Stretch="Fill" />
+                        </Grid.Background>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Border CornerRadius="10" Height="70" Width="300" Margin="20,20,0,0" Background="AntiqueWhite" HorizontalAlignment="Left"  >
+                            <Button x:Name="ExitDialogBtn" Grid.Row="0"  Background="Transparent"  Click="ExitDialogBtn_Click">
+                                <Label Content="Выйти из диалога" FontSize="20"/>
+                            </Button>
+                        </Border>
+
+                        <ScrollViewer x:Name="ScrollView" Grid.Row ="1" Margin="20,10,20,10" VerticalScrollBarVisibility="Hidden">
+                            <StackPanel x:Name="DialogStackPanel">
+
+                            </StackPanel>
+                        </ScrollViewer>
+                        <StackPanel x:Name="DialogBtn" Grid.Row="2" Margin="20,0,20,20">
+
+                        </StackPanel>
+                    </Grid>
                 </Grid>
-            </Grid>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
-                    <StackPanel.Background>
-                        <ImageBrush ImageSource="gamedata\textures\mainleft.png" AlignmentX="Center" Stretch="Fill" />
-                    </StackPanel.Background>
-
-                    <Border CornerRadius="10" Height="50" Margin="20" Background="AntiqueWhite" VerticalAlignment="Bottom" >
-                        <Button Click="Exit_Click" Background="Transparent">
-                            <Label Content="ВЫХОД" FontSize="20"/>
-                        </Button>
-                    </Border>
-                    
-                    <StackPanel Margin="20" Height="Auto" VerticalAlignment="Center">
-                        <ProgressBar x:Name="HealthBar" Value="50" Height="40" Background="LightGreen" />
-                        <Button x:Name="SystemViewBtn" Height="50" Width="Auto" Click="SystemViewBtn_Click" FontSize="20" Visibility="Collapsed">Вкл-выкл круг видимости</Button>
-                    </StackPanel>
-                </StackPanel>
-                <Grid Grid.Column="1">
-                    <Grid.Background>
-                        <ImageBrush ImageSource="gamedata\textures\mainleft.png" AlignmentX="Center" Stretch="Fill" />
-                    </Grid.Background>
+                <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Image x:Name="GunInHandImage" Grid.Column="0" />
-                    <Button x:Name="ReverseGunsBtn" Grid.Column="1" Width="50" Height="50" Click="ReverseGunsBtn_Click" />
-                    <Image x:Name="GunInBackImage" Grid.Column="2"/>                    
-                </Grid>
-                <Grid Grid.Column="2">
-                    <Grid.Background>
-                        <ImageBrush ImageSource="gamedata\textures\maininvsmall.png" AlignmentX="Center" Stretch="Fill" />
-                    </Grid.Background>
-                    <Canvas x:Name="InventoryPlayer" Margin="20"
+                    <StackPanel Grid.Column="0">
+                        <StackPanel.Background>
+                            <ImageBrush ImageSource="gamedata\textures\mainleft.png" AlignmentX="Center" Stretch="Fill" />
+                        </StackPanel.Background>
+
+                        <Border CornerRadius="10" Height="50" Margin="20" Background="AntiqueWhite" VerticalAlignment="Bottom" >
+                            <Button Click="Exit_Click" Background="Transparent">
+                                <Label Content="ВЫХОД" FontSize="20"/>
+                            </Button>
+                        </Border>
+
+                        <StackPanel Margin="20" Height="Auto" VerticalAlignment="Center">
+                            <ProgressBar x:Name="HealthBar" Value="50" Height="40" Background="LightGreen" />
+                            <Button x:Name="SystemViewBtn" Height="50" Width="Auto" Click="SystemViewBtn_Click" FontSize="20" Visibility="Collapsed">Вкл-выкл круг видимости</Button>
+                        </StackPanel>
+                    </StackPanel>
+                    <Grid Grid.Column="1">
+                        <Grid.Background>
+                            <ImageBrush ImageSource="gamedata\textures\mainleft.png" AlignmentX="Center" Stretch="Fill" />
+                        </Grid.Background>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Image x:Name="GunInHandImage" Grid.Column="0" />
+                        <Button x:Name="ReverseGunsBtn" Grid.Column="1" Width="50" Height="50" Click="ReverseGunsBtn_Click" />
+                        <Image x:Name="GunInBackImage" Grid.Column="2"/>
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <Grid.Background>
+                            <ImageBrush ImageSource="gamedata\textures\maininvsmall.png" AlignmentX="Center" Stretch="Fill" />
+                        </Grid.Background>
+                        <Canvas x:Name="InventoryPlayer" Margin="20"
                                     MouseLeftButtonDown="InventoryPlayer_MouseLeftButtonDown" MouseRightButtonDown="InventoryPlayer_MouseRightButtonDown">
-                    </Canvas>
+                        </Canvas>
+                    </Grid>
                 </Grid>
             </Grid>
-        </Grid>
+        </StackPanel>
     </Viewbox>
 </Window>

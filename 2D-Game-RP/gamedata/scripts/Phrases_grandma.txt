@@ -8,7 +8,7 @@
 /// compliteTaskSystemName  <----  -----  ----->
 /// end
 
-startdialog   trainingButton
+startdialog   test
 end
 
 systemName  startdialog 
@@ -18,5 +18,4 @@ end
 
 systemName  startdialog2
 text   <fhghasdasdfghfg>
-compliteTaskSystemName  <trainingButton>
 end
