@@ -175,14 +175,6 @@
     <Resource Include="gamedata\textures\map\System\Dark.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\textures\player\woodZaborDoorSkelet-map.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\player\maksim-map.png" />
-    <Resource Include="gamedata\textures\player\nura-map.png" />
-    <Resource Include="gamedata\textures\player\vanya-map.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="gamedata\configs\" />
   </ItemGroup>
   <ItemGroup>
@@ -194,9 +186,6 @@
   <ItemGroup>
     <Resource Include="gamedata\levels\GardenAir.txt" />
     <Resource Include="gamedata\levels\GardenObject1.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\player\trashSkelet-map.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\items\bloodpaper.png" />
@@ -213,12 +202,6 @@
     <Resource Include="gamedata\textures\mainleft.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\textures\player\woodZaborDoorSkelet-open-map.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\player\dead-map.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="gamedata\textures\map\Floor\asphalt.png" />
     <Resource Include="gamedata\textures\map\Floor\floorDarkWood.png" />
     <Resource Include="gamedata\textures\map\Floor\sand.png" />
@@ -227,12 +210,8 @@
     <Resource Include="gamedata\textures\items\pistol.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\textures\map\Object\bigBox.png" />
-    <Resource Include="gamedata\textures\map\Object\fire.png" />
     <Resource Include="gamedata\textures\map\Object\krovat1.png" />
     <Resource Include="gamedata\textures\map\Object\krovat2.png" />
-    <Resource Include="gamedata\textures\map\Object\sand3.png" />
-    <Resource Include="gamedata\textures\map\Object\trashbak.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\System\Shoot.png" />
@@ -244,7 +223,6 @@
     <Resource Include="gamedata\textures\player\Hit-map.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\textures\map\Wall\kolodec2.png" />
     <Resource Include="gamedata\textures\map\Wall\unitaz.png" />
   </ItemGroup>
   <ItemGroup>
@@ -261,8 +239,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\Object\chair.png" />
-    <Resource Include="gamedata\textures\map\Object\kitchenWindow.png" />
-    <Resource Include="gamedata\textures\map\Object\tableWindow.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\Wall\wood\0.png" />
@@ -309,7 +285,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\Window\5.png" />
-    <Resource Include="gamedata\textures\map\Window\brickWindow.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\Wall\woodZabor\02.png" />
@@ -325,9 +300,6 @@
   <ItemGroup>
     <Resource Include="gamedata\textures\map\Object\Bush.png" />
     <Resource Include="gamedata\textures\map\Object\кость.png" />
-    <Resource Include="gamedata\textures\map\Object\могила1.png" />
-    <Resource Include="gamedata\textures\map\Object\могила2.png" />
-    <Resource Include="gamedata\textures\map\Object\могила3.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\Object\krovat3.png" />
@@ -345,6 +317,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\Wall\drawwell.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\ObjectWindow\bigBox.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\kitchen.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\table.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\могила1.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\могила2.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\могила3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

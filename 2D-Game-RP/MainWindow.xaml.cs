@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -29,8 +27,8 @@ namespace TwoD_Game_RP
         double pixelSizeInvent;
 
         private List<UIElement> SystemObj;
-        private int oblwatch = 8;
-        private int oblsee = 6;
+        internal int oblwatch = 8;
+        internal int oblsee = 6;
 
 
         public Location CurrentLocation;
@@ -43,7 +41,7 @@ namespace TwoD_Game_RP
         };
         private DispatcherTimer timerReloadAnalyzeTask = new DispatcherTimer()
         {
-            Interval = TimeSpan.FromMilliseconds(1500)
+            Interval = TimeSpan.FromMilliseconds(5000)
         };
         private void TimerAnalyzeTask_Tick(object sender, EventArgs e)
         {
@@ -82,17 +80,33 @@ namespace TwoD_Game_RP
             player.GiveGunInHand(new Pistol());
 
             GoToLocation("Eosha");
+            AnalyzeSizeGamePole();
             TimerAnimation_Tick(null, null);
 
             // SystemViewBtn.Visibility = Visibility.Visible;
         }
-        private void ChangeSizeGamePole(int height, int wight, GamePoint player)
+        private void AnalyzeSizeGamePole()
+        {
+            if (SeeInCurcle)
+                ChangeSizeGamePole(oblwatch * 2 + 1, oblwatch * 2 + 1, player.Cord);
+            else
+                ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
+        }
+        internal void ChangeSizeGamePole(int height, int wight, GamePoint player)
         {
             if (height % 2 == 0 && height != CurrentLocation.Height) throw new Exception("Размеры поля должны быть нечетными!");
             if (wight % 2 == 0 && wight != CurrentLocation.Width) throw new Exception("Размеры поля должны быть нечетными!");
             sizeGamePoleH = height;
             sizeGamePoleW = wight;
-            pixelSizeGamePole = Math.Min(Map.ActualHeight / (sizeGamePoleH * compressH + 1), Map.ActualWidth / (sizeGamePoleW * compressW));
+            if (Map.ActualHeight == 0)
+                pixelSizeGamePole = Math.Min(Map.Height / (sizeGamePoleH * compressH + 1), Map.Width / (sizeGamePoleW * compressW));
+            else
+                pixelSizeGamePole = Math.Min(Map.ActualHeight / (sizeGamePoleH * compressH + 1), Map.ActualWidth / (sizeGamePoleW * compressW));
+
+            ChangeLeftUpCornerGamePole(height, wight, player);
+        }
+        private void ChangeLeftUpCornerGamePole(int height, int wight, GamePoint player)
+        {
             LeftUpCorner = new GamePoint(player.X - (height - 1) / 2, player.Y - (wight - 1) / 2);
 
             //if (LeftUpCorner.X < 0) LeftUpCorner.X = 0;
@@ -109,7 +123,7 @@ namespace TwoD_Game_RP
             DoActionAll();
             if (SeeInCurcle)
             {
-                ChangeSizeGamePole(oblwatch * 2 + 1, oblwatch * 2 + 1, player.Cord);
+                ChangeLeftUpCornerGamePole(oblwatch * 2 + 1, oblwatch * 2 + 1, player.Cord);
                 CustomSortedEnum<GamePoint> deleted = new CustomSortedEnum<GamePoint>();
                 foreach (var v in CurrentLocation.GetLives())
                 {
@@ -127,7 +141,6 @@ namespace TwoD_Game_RP
             }
             else
             {
-                ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
                 CurrentLocation.Display(Map, pixelSizeGamePole, SystemObj);
             }
 
@@ -151,7 +164,6 @@ namespace TwoD_Game_RP
                 //CurrentLocation = newLoc;
             }
             CurrentLocation = loc;
-            ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
         }
         private void DoActionAll()
         {
@@ -165,20 +177,12 @@ namespace TwoD_Game_RP
             {
                 v.DoAction(CurrentLocation);
             }
+            //    bool isDoPlayer = true;
+            //    if (!isDoPlayer)
+            //    {
+            //        Thread.Sleep(500);
+            //    }
         }
-        //private void DoActionAll()
-        //{
-        //    bool isDoPlayer = true;
-        //    foreach (var v in CurrentLocation.GetLives())
-        //    {
-        //        if (v is Player && v.IsAlive) isDoPlayer = v.DoAction(CurrentLocation);
-        //        else if (v.IsAlive) v.DoAction(CurrentLocation);
-        //    }
-        //    if (!isDoPlayer)
-        //    {
-        //        Thread.Sleep(500);
-        //    }
-        //}
         private void DisplayPlayerInventory(Canvas canvasInv, double size)
         {
             if (player.GetGunInHand() != null)
@@ -220,7 +224,7 @@ namespace TwoD_Game_RP
         {
             IsDown = false;
         }
-        private (int, int) FindPointClick (Point point)
+        private (int, int) FindPointClick(Point point)
         {
             return ((int)Math.Truncate(point.X / (pixelSizeGamePole * compressW)), (int)Math.Truncate(point.Y / (pixelSizeGamePole * compressH)) - 1);
         }
@@ -492,7 +496,7 @@ namespace TwoD_Game_RP
                 foreach (var task in player.Tasks.GetUsingTask())
                 {
                     if (task.SystemName == phraseTask.Item2)
-                        retur.Add( phraseTask.Item1);
+                        retur.Add(phraseTask.Item1);
                 }
             }
             return retur;
@@ -541,7 +545,7 @@ namespace TwoD_Game_RP
         private void CreateDialog(string index)
         {
             AddDialog(index, "l");
-            
+
             foreach (var v in phrases[index].NextSystemNames)
             {
                 AddButton(v);

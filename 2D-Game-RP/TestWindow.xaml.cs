@@ -29,6 +29,11 @@ namespace TwoD_Game_RP
         private void ViewBtn_Click(object sender, RoutedEventArgs e)
         {
             parent.SeeInCurcle = !parent.SeeInCurcle;
+
+            if (parent.SeeInCurcle)
+                parent.ChangeSizeGamePole(parent.oblwatch * 2 + 1, parent.oblwatch * 2 + 1, parent.player.Cord);
+            else
+                parent.ChangeSizeGamePole(parent.CurrentLocation.Height, parent.CurrentLocation.Width, parent.player.Cord);
         }
 
         private void CompliteTaskBtn_Click(object sender, RoutedEventArgs e)

@@ -17,22 +17,22 @@
                     <RowDefinition Height="1000"/>
                     <RowDefinition Height="200"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
+                <Grid Grid.Row="0" Background="Black">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Grid.Background>
+                    <!--<Grid.Background>
                         <ImageBrush ImageSource="gamedata\textures\mainfon1.png" AlignmentX="Center" Stretch="Fill" />
-                    </Grid.Background>
+                    </Grid.Background>-->
 
                     <Grid Grid.Column="0">
 
                         <Canvas x:Name="Map" Height="900" Width="1800"
                             MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseRightButtonDown="Map_MouseRightButtonDown">
-                            <Canvas.Background>
+                            <!--<Canvas.Background>
                                 <ImageBrush ImageSource="gamedata\textures\circle.png" AlignmentX="Center" Stretch="Fill" />
-                            </Canvas.Background>
+                            </Canvas.Background>-->
                         </Canvas>
                     </Grid>
 
