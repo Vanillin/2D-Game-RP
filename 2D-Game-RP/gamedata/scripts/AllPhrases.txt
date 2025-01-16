@@ -3,7 +3,13 @@
 /// end
 
 /// systemName  ----- 
+
 /// text   <--->
+/// or
+/// text       <-----  ------  ------]
+/// text1      <-----  ------  ------]
+/// text2      <-----  ------  ------>
+
 /// nextSystemName   <-----  ------  ------>
 /// compliteTaskSystemName  <----  -----  ----->
 /// end

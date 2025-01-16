@@ -1,0 +1,91 @@
+/// -------  -------   startphrases person  activetask
+/// ...
+/// end
+/// -------  -------   startphrases player  activetask
+/// ...
+/// end
+
+/// systemName  ----- 
+
+/// text   <--->
+/// or
+/// text       <-----  ------  ------]
+/// text1      <-----  ------  ------]
+/// text2      <-----  ------  ------>
+
+/// nextSystemName   <-----  ------  ------>
+/// compliteTaskSystemName  <----  -----  ----->
+/// end
+
+end
+questkillscorpiondialog   test
+complitedquestks  test
+end
+
+systemName  questkillscorpiondialog 
+text   <Здравствуй (дедушка).>
+nextSystemName   <questkillscorpiondialog2>
+end
+
+systemName  questkillscorpiondialog2
+text   <И тебе здравствуй. Зачем пришёл?>
+nextSystemName   <questks3 questks4 questks5>
+end
+
+systemName  questks3
+text   <Расскажи мне о своих приключениях.>
+nextSystemName   <questks3-1>
+end
+
+systemName  questks3-1
+text   <--Пока не придумали-->
+nextSystemName   <questks3 questks4 questks5>
+end
+
+systemName  questks4
+text   <Расскажи про нашу деревню.>
+nextSystemName   <questks4-1>
+end
+
+systemName  questks4-1
+text   <А чего тут рассказывать. Очень давно основали пару путешественников небольшую ]
+text1  <деревушку. В ней останавливались путешественники поторговать, отдохнуть. На этом и жили.]
+text2  <Но пару лет назад климат ухудшился. И о нас вскоре позабыли. Будущее этой деревни ]
+text3  <очевидно. Как-то так.>
+nextSystemName   <questks3 questks4 questks5>
+end
+
+systemName  questks5
+text   <Я собираюсь покидать деревню за лучшим будущем. (Бабушка) говорит ты много]
+text1  <путешествовал. Научи меня выживанию.>
+nextSystemName   <questks5-1>
+end
+
+systemName  questks5-1
+text   <Одобряю твоё решение. (Бабушка) с тобой видимо уже говорила. Ну чтож, начнём ]
+text1  <с основ. В мире ты можешь встретить мутантов и всяких негодяев, желающих легкой]
+text2  <наживы. Первое: тебе нужно уметь владеть оружием. У меня в подвале завалялось моё]
+text3  <старое ружьё, эх сколько оно повидало. Мне оно уже всё равно не пригодится. Так вот.]
+text4  <На западе есть старая заброшенная шахта, в которой обосновались большие скорпионы.]
+text5  <Они нас особо не трогают, да и мы туда давно не ходим. Постреляй парочку, потренируйся.]
+text6  <Только глубоко не заходи, шахта старая, мало ли что, на моёй совести будет.>
+nextSystemName   <questks5-2>
+end
+
+systemName  questks5-2
+text   <Хорошо, возьму ружьё.>
+/// compliteTaskSystemName  <----  -----  ----->
+end
+
+///==============================================
+
+systemName  complitedquestks
+text   <Пострелял скорпионов, (дедушка).>
+nextSystemName   <complitedquestks1>
+end
+
+systemName  complitedquestks1
+text   <Я в тебе и не сомневался. Оставь ружьё себе, оно тебе пригодится. Умение стрелять ]
+text1  <довольно важно. Удачи.>
+/// compliteTaskSystemName  <----  -----  ----->
+end

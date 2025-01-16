@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -444,21 +445,33 @@ namespace TwoD_Game_RP
         private void CreateWindowDialog(Skelet Person)
         {
             namePerson = Person.Name;
-            var informPhrases = Information.GetPhrasesPerson(Person.SystemName, lengthPhrase);
+            DialogInform informPhrases = Information.GetPhrasesPerson(Person.SystemName, lengthPhrase);
 
-            string str = GetStartPhraseInDialog(informPhrases.Item1);
+            string str = GetStartPhraseInDialog(informPhrases.StartedTasksPerson);
             if (str != null)
             {
-                phrases = informPhrases.Item2;
+                phrases = informPhrases.Phrases;
                 CreateDialog(str);
             }
             else
             {
-                phrases = null;
-                CreateClearDialog();
+                var liststr = GetStartPhraseInDialogPlayer(informPhrases.StartedTasksPlayer);
+                if (liststr.Count != 0)
+                {
+                    phrases = informPhrases.Phrases;
+                    foreach (var v in liststr)
+                    {
+                        AddButton(v);
+                    }
+                }
+                else
+                {
+                    phrases = null;
+                    CreateClearDialog();
+                }
             }
         }
-        private string GetStartPhraseInDialog(CustomSortedEnum<(string, string)> startedPhrases)
+        private string GetStartPhraseInDialog(List<(string, string)> startedPhrases)
         {
             foreach (var phraseTask in startedPhrases)
             {
@@ -469,6 +482,20 @@ namespace TwoD_Game_RP
                 }
             }
             return null;
+            //throw new Exception("Невозможно найти стартовый диалог");
+        }
+        private List<string> GetStartPhraseInDialogPlayer(List<(string, string)> startedPhrases)
+        {
+            List<string> retur = new List<string>();
+            foreach (var phraseTask in startedPhrases)
+            {
+                foreach (var task in player.Tasks.GetUsingTask())
+                {
+                    if (task.SystemName == phraseTask.Item2)
+                        retur.Add( phraseTask.Item1);
+                }
+            }
+            return retur;
             //throw new Exception("Невозможно найти стартовый диалог");
         }
         private void ClearDialog()

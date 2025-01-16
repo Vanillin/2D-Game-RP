@@ -6,11 +6,24 @@ using System.Xml.Serialization;
 
 namespace TwoD_Game_RP
 {
+    public class DialogInform
+    {
+        public List<(string, string)> StartedTasksPerson { get; }
+        public List<(string, string)> StartedTasksPlayer { get; }
+        public CustomDictionary<string, Phrase> Phrases { get; }
+        public DialogInform(List<(string, string)> startPers, List<(string, string)> startplayer, CustomDictionary<string, Phrase> phrases)
+        {
+            StartedTasksPerson = startPers;
+            StartedTasksPlayer = startplayer;
+            Phrases = phrases;
+        }
+    }
     public class Information
     {
+
         public static List<string> Blocks = new List<string> { "Wall", "Window" };
         public static List<string> NotWatch = new List<string> { "Wall", "Shrub" };
-        
+
         //==================================================================================================
         //=================================      Location      =============================================
         //==================================================================================================
@@ -130,17 +143,28 @@ namespace TwoD_Game_RP
             return retur;
         }
 
-        public static (CustomSortedEnum<(string, string)>, CustomDictionary<string, Phrase>) GetPhrasesPerson(string skeletSystemName, int lengthDescription)
+        public static DialogInform GetPhrasesPerson(string skeletSystemName, int lengthDescription)
         {
-            CustomSortedEnum<(string phrase, string task)> startedTasks = new CustomSortedEnum<(string, string)>();
+            List<(string phrase, string task)> startedTasksPerson = new List<(string, string)>();
+            List<(string phrase, string task)> startedTasksPlayer = new List<(string, string)>();
             CustomDictionary<string, Phrase> phrases = new CustomDictionary<string, Phrase>();
             using (StreamReader sr = new StreamReader(Path.Combine(ConfigurationManager.AppSettings["Scripts"], $"Phrases_{skeletSystemName}.txt")))
             {
-                string str = ReadLineStreamReader(sr);
+                string str;
+                str = ReadLineStreamReader(sr);
                 while (DeleteSpace(str) != "end")
                 {
-                    string[] phraseTask = str.Split(new char[] {' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    startedTasks.Add((phraseTask[0], phraseTask[1]));
+                    string[] phraseTask = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    startedTasksPerson.Add((phraseTask[0], phraseTask[1]));
+
+                    str = ReadLineStreamReader(sr);
+                }
+
+                str = ReadLineStreamReader(sr);
+                while (DeleteSpace(str) != "end")
+                {
+                    string[] phraseTask = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    startedTasksPlayer.Add((phraseTask[0], phraseTask[1]));
 
                     str = ReadLineStreamReader(sr);
                 }
@@ -150,10 +174,39 @@ namespace TwoD_Game_RP
                 {
                     if (!inform.ContainsKey("systemName") || !inform.ContainsKey("text"))
                         throw new CustomException("Not find systemName or text");
+
+                    string text;
+                    try
+                    {
+                        text = GetStringInBkt(inform["text"]);
+                    }
+                    catch (CustomException)
+                    {
+                        text = GetStringInBktWithEnter(inform["text"]);
+                        bool IsRead = false;
+                        int i = 1;
+                        string newtext;
+                        while (!IsRead)
+                        {
+                            try
+                            {
+                                newtext = GetStringInBkt(inform[$"text{i}"]);
+                                text += newtext;
+                                IsRead = true;
+                            }
+                            catch (CustomException)
+                            {
+                                newtext = GetStringInBktWithEnter(inform[$"text{i}"]);
+                                text += newtext;
+                                i++;
+                            }
+                        }
+                    }
+
                     List<string> next = new List<string>();
                     if (inform.ContainsKey("nextSystemName"))
                     {
-                        foreach (var v in GetStringInBkt(inform["nextSystemName"]).Split(new char[] {' ' }, StringSplitOptions.RemoveEmptyEntries))
+                        foreach (var v in GetStringInBkt(inform["nextSystemName"]).Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries))
                         {
                             next.Add(v);
                         }
@@ -166,13 +219,13 @@ namespace TwoD_Game_RP
                             complite.Add(v);
                         }
                     }
-                    phrases.Add(DeleteSpace(inform["systemName"]), new Phrase(DeleteSpace(inform["systemName"]), CutString(DeleteSpace(inform["text"]), lengthDescription), next, complite));
+                    phrases.Add(DeleteSpace(inform["systemName"]), new Phrase(DeleteSpace(inform["systemName"]), CutString(text, lengthDescription), next, complite));
 
                     IsOk = ReadKeyValueInformation(sr, out inform);
                 }
             }
 
-            return (startedTasks, phrases);
+            return new DialogInform(startedTasksPerson, startedTasksPlayer, phrases);
         }
         private static string ReadLineStreamReader(StreamReader sr)
         {
@@ -209,6 +262,18 @@ namespace TwoD_Game_RP
                 if (str == null) return false;
             }
             return true;
+        }
+        private static string GetStringInBktWithEnter(string str)
+        {
+            string retur = "";
+            bool InBkt = false;
+            foreach (char c in str)
+            {
+                if (c == '<') InBkt = true;
+                else if (c == '>' || c == ']') return retur;
+                else if (InBkt) retur += c;
+            }
+            throw new CustomException("Not find simbol >");
         }
         private static string GetStringInBkt(string str)
         {

@@ -1,21 +1,89 @@
-/// -------  -------   startphrases  activetask
+/// -------  -------   startphrases person  activetask
+/// ...
+/// end
+/// -------  -------   startphrases player  activetask
 /// ...
 /// end
 
 /// systemName  ----- 
+
 /// text   <--->
+/// or
+/// text       <-----  ------  ------]
+/// text1      <-----  ------  ------]
+/// text2      <-----  ------  ------>
+
 /// nextSystemName   <-----  ------  ------>
 /// compliteTaskSystemName  <----  -----  ----->
 /// end
 
-startdialog   test
+startdialog0   test
+end
 end
 
-systemName  startdialog 
-text   <fhghfghfg>
-nextSystemName   <startdialog2>
+systemName  startdialog0 
+text       <Ну чтож, мой единственный внук. Из-за сурового сухого климата наша деревня вымирает.]
+text1      <Ей осталось недолго. Я считаю, здесь будущего нет, а твоя жизнь только]
+text2      <начинается. Многие жители уже разъехались кто куда.]
+text3      <У меня осталось старое письмо от наших родственников. ]
+text4      <Оно пришло где-то года два назад. ]
+text5      <В нём было сказано, что они поживают в городе ...(Оливер) хорошо. ]
+text6      <Там тебе будет лучше, так что отправляйся к ним. >
+nextSystemName      <startdialog1 startdialog2 startdialog3>
+end
+
+systemName  startdialog00
+text       <..>
+nextSystemName      <startdialog1 startdialog2 startdialog3>
+end
+
+systemName  startdialog1
+text       <Где этот (Оливер) находится?>
+nextSystemName      <startdialog1-1>
+end
+
+systemName  startdialog1-1
+text       <К сожалению этого не было написано в письме, да и сама я не знаю. ]
+text1      <Ближайшее поселение, которое я знаю, находится к югу от нас. Оно носит название]
+text2      <"Мурава". Иди к ним, может они могут сказать, где находится (Оливер).>
+nextSystemName      <startdialog1-2>
+end
+
+systemName  startdialog1-2
+text       <А что ты знаешь о Мураве?>
+nextSystemName      <startdialog1-3>
+end
+
+systemName  startdialog1-3
+text       <Раньше, когда наша деревня процветала, к нам приходили ]
+text1      <караванщики и торговцы. Они говорили, что Мурава обычная деревня, как и мы. ]
+text2      <В тот момент Мурава только зарождалась. Что сейчас там я не знаю, но надеюсь]
+text3      <что они ещё существуют.>
+nextSystemName      <startdialog1 startdialog2 startdialog3>
 end
 
 systemName  startdialog2
-text   <fhghasdasdfghfg>
+text       <А с тобой что будет?>
+nextSystemName      <startdialog2-1>
+end
+
+systemName  startdialog2-1
+text       <За меня не переживай. Справимся как-нибудь.>
+nextSystemName      <startdialog1 startdialog2 startdialog3>
+end
+
+systemName  startdialog3
+text       <... Ну ладно, раз ты так считаешь. Может ещё увидимся.>
+nextSystemName      <startdialog3-1>
+end
+
+systemName  startdialog3-1
+text       <Возьми в дорогу (это\рюкзак). И сходи к (дедушке), он много путешествовал и повидал ]
+text1      <многое. Он научит тебя выживать вне деревни. Ты ведь её ни разу не погидал. Удачи>
+nextSystemName      <startdialog3-2>
+end
+
+systemName  startdialog3-2
+text       <Спасибо>
+/// compliteTaskSystemName  <----  -----  ----->
 end

@@ -1,0 +1,67 @@
+/// -------  -------   startphrases person  activetask
+/// ...
+/// end
+/// -------  -------   startphrases player  activetask
+/// ...
+/// end
+
+/// systemName  ----- 
+
+/// text   <--->
+/// or
+/// text       <-----  ------  ------]
+/// text1      <-----  ------  ------]
+/// text2      <-----  ------  ------>
+
+/// nextSystemName   <-----  ------  ------>
+/// compliteTaskSystemName  <----  -----  ----->
+/// end
+
+end
+questfixdrawwelldialog    test
+complitequestfixdrawwelldialog  test
+end
+
+systemName  questfixdrawwelldialog 
+text   <Привет, (девушка). Вижу ты тоже собираешься уходить?>
+nextSystemName   <questfixdrawwelldialog2>
+end
+
+systemName  questfixdrawwelldialog2
+text   <Да вот, собираю вещи, почти всё. Только вот воду взять негде, в деревне колодец ]
+text1  <сломался. Вот думаю что делать.>
+nextSystemName   <questfixdrawwelldialog3  questfixdrawwelldialog4>
+end
+
+systemName  questfixdrawwelldialog3 
+text   <Куда ты собираешься идти?>
+nextSystemName   <questfixdrawwelldialog3-1>
+end
+
+systemName  questfixdrawwelldialog3-1
+text   <Думаю дойти до Муравы, а там видно будет.>
+nextSystemName   <questfixdrawwelldialog3  questfixdrawwelldialog4>
+end
+
+systemName  questfixdrawwelldialog4
+text   <Я могу как-нибудь помочь?>
+nextSystemName   <questfixdrawwelldialog4-1>
+end
+
+systemName  questfixdrawwelldialog4-1
+text   <Если у тебя получится его починить, буду благодарна.>
+/// compliteTaskSystemName  <----  -----  ----->
+end
+
+///============================================================
+
+systemName  complitequestfixdrawwelldialog
+text   <Колодец снова в рабочем состоянии. Мне удалось его починить.>
+nextSystemName   <complitequestfixdrawwelldialog1>
+end
+
+systemName  complitequestfixdrawwelldialog1
+text   <Спасибо тебе огромное! Ты не представляешь, как ты меня выручил. Сейчас мне тебя ]
+text1  <нечем отблагодарить, но если в будущем пересечёмся - за мной должок.>
+/// compliteTaskSystemName  <----  -----  ----->
+end
