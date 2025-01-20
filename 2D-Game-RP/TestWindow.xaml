@@ -12,5 +12,9 @@
             <Button Content="Выполнить задание" Width="200" x:Name="CompliteTaskBtn" Click="CompliteTaskBtn_Click" />
             <TextBox Width="500" x:Name="NameTaskTxt" />
         </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Перейти на локацию" Width="200" x:Name="TransiteLocBtn" Click="TransiteLocBtn_Click"/>
+            <TextBox Width="500" x:Name="NameLocTxt" />
+        </StackPanel>
     </StackPanel>
 </Window>

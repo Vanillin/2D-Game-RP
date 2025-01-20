@@ -48,5 +48,18 @@ namespace TwoD_Game_RP
                 MessageBox.Show(ce.Message);
             }
         }
+
+        private void TransiteLocBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string nameLoc = NameLocTxt.Text;
+            try
+            {
+                parent.GoToLocation(nameLoc);
+            }
+            catch (CustomException ce)
+            {
+                MessageBox.Show(ce.Message);
+            }
+        }
     }
 }

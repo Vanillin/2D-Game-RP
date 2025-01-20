@@ -7,18 +7,6 @@
 ///    -------------------
 ///   end
        
-///    Я    Object\bigBox   
-///    д    Object\krovat1     
-///    Д    Object\krovat2    
-///    В    Object\tableWindow   
-///    ы    Object\chair   
-///    б    Object\kitchenWindow       
-///    г    Object\podval1   
-///    ч    Object\часы
-///    к    Object\картина
-///    1    Object\ковер1
-///    2    Object\ковер2
-
     t    Object\tarelka
     b    Object\buttle
     :    Object\кость

@@ -118,7 +118,6 @@
 
                         <StackPanel Margin="20" Height="Auto" VerticalAlignment="Center">
                             <ProgressBar x:Name="HealthBar" Value="50" Height="40" Background="LightGreen" />
-                            <Button x:Name="SystemViewBtn" Height="50" Width="Auto" Click="SystemViewBtn_Click" FontSize="20" Visibility="Collapsed">Вкл-выкл круг видимости</Button>
                         </StackPanel>
                     </StackPanel>
                     <Grid Grid.Column="1">

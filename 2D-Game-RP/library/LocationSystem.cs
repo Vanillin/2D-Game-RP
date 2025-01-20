@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +17,8 @@ namespace TwoD_Game_RP
         private Graf _grafLocAll;
         private List<SystemSket> _lives;
         private DBDisplay _display;
+        private CustomDictionary<GamePoint, string> _transitGamePoint;
+        private CustomDictionary<string, List<GamePoint>> _spawnGamePoint;
         public CustomSortedEnum<GamePoint> IsBusy { get; set; }
         public int Height { get; }
         public int Width { get; }
@@ -26,7 +28,7 @@ namespace TwoD_Game_RP
         public List<GamePoint> CreatePath_OutOfPoint(GamePoint start, GamePoint finish, CustomSortedEnum<GamePoint> deletedpoints)
         {
             if (_grafLocToMove == null) { throw new CustomException("Граф не создан"); }
-             return _grafLocToMove.SearchWidth_OutOfPoint(start, finish, deletedpoints);
+            return _grafLocToMove.SearchWidth_OutOfPoint(start, finish, deletedpoints);
         }
         public CustomSortedEnum<GamePoint> GetWatchCirlce(GamePoint start, double count, int minX, int minY, int maxX, int maxY)
         {
@@ -37,7 +39,7 @@ namespace TwoD_Game_RP
             return _grafLocToWatch.SearchCircle_WithAngleOutOfPoint(start, count, minX, minY, maxX, maxY, deletedpoints);
         }
 
-        public Location(string name, string systemName, int height, int width, double compressH, double compressW)
+        public Location(string name, string systemName, int height, int width, double compressH, double compressW, List<(string, GamePoint)> transitPoint)
         {
             _maxDepth = 0;
             _cells = new LocationCell[height, width];
@@ -52,6 +54,17 @@ namespace TwoD_Game_RP
             _grafLocToWatch = null;
             _lives = new List<SystemSket>();
             _display = new DBDisplay(height, width, 6, compressH, compressW);
+
+            _transitGamePoint = new CustomDictionary<GamePoint, string>();
+            _spawnGamePoint = new CustomDictionary<string, List<GamePoint>>();
+            foreach (var pair in transitPoint)
+            {
+                if (!_spawnGamePoint.ContainsKey(pair.Item1))
+                    _spawnGamePoint.Add(pair.Item1,new List<GamePoint>());
+                _spawnGamePoint[pair.Item1].Add(pair.Item2);
+                _transitGamePoint.Add(pair.Item2, pair.Item1);
+            }
+
             IsBusy = new CustomSortedEnum<GamePoint>();
             Height = height;
             Width = width;
@@ -69,6 +82,23 @@ namespace TwoD_Game_RP
         public bool IsCellBusy(int heightInd, int weightInd)
         {
             return IsBusy.Contains(new GamePoint(heightInd, weightInd));
+        }
+        public GamePoint GetGamePointTransitSpawn(string nameLoc)
+        {
+            if (_spawnGamePoint.ContainsKey(nameLoc))
+            {
+                int i = new Random().Next(0, _spawnGamePoint[nameLoc].Count);
+                return _spawnGamePoint[nameLoc][i];
+            }
+            throw new CustomException($"Transit in Location {nameLoc} not find");
+        }
+        public string GetSystemNameLocTransitCell(int heinghtInd, int weightInd)
+        {
+            if (_transitGamePoint.ContainsKey(new GamePoint(heinghtInd, weightInd)))
+            {
+                return _transitGamePoint[new GamePoint(heinghtInd, weightInd)];
+            }
+            return null;
         }
         public bool GetIsBlockCell(int heightInd, int weightInd)
         {

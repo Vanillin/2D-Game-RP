@@ -18,18 +18,6 @@
     @    Floor\asphaltBad
     *    Floor\asphalt
 
-///    К    New\floorGrass  куст
-///    #    New\brickWall1
-///    Я    New\floorWood12   ящик
-///    ы    New\floorWood13    стул
-///    г    New\floorWood24   подвал
-///    В    New\floorWood4    стол
-///    б    New\floorWood3    раковина
-///    !    New\woodZaborWall1
-///    у    New\floorWood1     унитаз
-///    д    New\floorBeton     кровать
-///    х    New\brickWindow
-///    З    New\floorBeton12     колодец
 start
 	................................
 	....к...........................

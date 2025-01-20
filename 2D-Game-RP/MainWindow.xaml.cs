@@ -79,11 +79,9 @@ namespace TwoD_Game_RP
                 });
             player.GiveGunInHand(new Pistol());
 
-            GoToLocation("Eosha");
+            GoToLocationStart("Eosha");
             AnalyzeSizeGamePole();
             TimerAnimation_Tick(null, null);
-
-            // SystemViewBtn.Visibility = Visibility.Visible;
         }
         private void AnalyzeSizeGamePole()
         {
@@ -148,9 +146,38 @@ namespace TwoD_Game_RP
             DisplayPlayerInventory(InventoryPlayer, pixelSizeInvent);
             //переключение новой картинки для анимации
         }
-        private void GoToLocation(string name)
+        public void GoToLocationStart(string name)
         {
-            //сброс персонажа при переходе из локации
+            timerReloadAnimation.IsEnabled = false;
+            Location loc = Locations.Find(x => x.SystemName == name);
+            if (loc == null)
+            {
+                if (name == "Eosha")
+                {
+                    loc = MemoryLocations.GetEosha(player, compressH, compressW);
+                }
+                else if (name == "Mine")
+                {
+                    loc = MemoryLocations.GetMine(player, compressH, compressW);
+                }
+                else if (name == "UnderEosha")
+                {
+                    loc = MemoryLocations.GetUnderEosha(player, compressH, compressW);
+                }
+                else
+                {
+                    throw new CustomException($"Location {name} in not find");
+                }
+            }
+            CurrentLocation = loc;
+            timerReloadAnimation.IsEnabled = true;
+        }
+        public void GoToLocation(string name)
+        {
+            timerReloadAnimation.IsEnabled = false;
+
+            string nameCurrentLoc = CurrentLocation.SystemName;
+            CurrentLocation.RemoveFirstLayerWithCell(player);
 
             Location loc = Locations.Find(x => x.SystemName == name);
             if (loc == null)
@@ -159,11 +186,29 @@ namespace TwoD_Game_RP
                 {
                     loc = MemoryLocations.GetEosha(player, compressH, compressW);
                 }
-
-                //Location newLoc = MemoryLocations.GetGarden(player, sizeInventH, sizeInventW);
-                //CurrentLocation = newLoc;
+                else if (name == "Mine")
+                {
+                    loc = MemoryLocations.GetMine(player, compressH, compressW);
+                }
+                else if (name == "UnderEosha")
+                {
+                    loc = MemoryLocations.GetUnderEosha(player, compressH, compressW);
+                }
+                else
+                {
+                    throw new CustomException($"Location {name} in not find");
+                }
             }
             CurrentLocation = loc;
+            player.Cord = CurrentLocation.GetGamePointTransitSpawn(nameCurrentLoc);
+            CurrentLocation.AddFirstLayerWithCell(player);
+
+            if (SeeInCurcle)
+                ChangeSizeGamePole(oblwatch * 2 + 1, oblwatch * 2 + 1, player.Cord);
+            else
+                ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
+
+            timerReloadAnimation.IsEnabled = true;
         }
         private void DoActionAll()
         {
@@ -240,7 +285,13 @@ namespace TwoD_Game_RP
         private void KeyDownToMove(int H, int W)
         {
             if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
-            if (!CurrentLocation.GetIsBlockCell(H, W))
+
+            string nameloc = CurrentLocation.GetSystemNameLocTransitCell(H, W);
+            if (nameloc != null)
+            {
+                GoToLocation(nameloc);
+            }
+            else if (!CurrentLocation.GetIsBlockCell(H, W))
             {
                 player.ClearActions();
                 player.ClearGlobalActions();

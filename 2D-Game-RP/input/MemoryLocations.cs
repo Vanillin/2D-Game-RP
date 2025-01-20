@@ -6,58 +6,17 @@ namespace TwoD_Game_RP
 {
     public class MemoryLocations
     {
-        private static Location Garden;
-        private static Location GetGarden(Player player, int sizeInventH, int sizeInventW)
-        {
-            if (Garden == null)
-            {
-                Garden = new Location("Двор", "Garden", 21, 26, 1, 1);
-                Garden.CreateDarkPictCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"System/Dark.png"));
-                Garden.AddLocationCellsLayer(CreateLocation("GardenFloors"), 0);
-                Garden.AddLocationCellsLayer(CreateLocation("GardenFloors2"), 0);
-                Garden.AddLocationCellsLayer(CreateLocation("GardenFloors3"), 0);
-                Garden.AddLocationCellsLayer(CreateLocation("GardenWalls"), 0);
-                Garden.AddLocationCellsLayer(CreateLocation("GardenObject1"), 0);
-                Garden.AddLocationCellsLayer(CreateLocation("GardenAir"), 3);
-                Garden.CreateGrafWatch();
-                Garden.CreateGrafMove();
-                Garden.CreateGrafAll();
-
-                Garden.AddSecondLayerWithCell(new WoodDoor(new GamePoint(4, 14), 0, false));
-                Garden.AddSecondLayerWithCell(new WoodDoor(new GamePoint(7, 11), 90, false));
-                Garden.AddSecondLayerWithCell(new WoodDoor(new GamePoint(14, 15), 0, true));
-                Garden.AddSecondLayerWithCell(new WoodDoor(new GamePoint(16, 17), 90, false));
-
-                Garden.AddSecondLayerWithCell(new Trash(new GamePoint(10, 7), 270, sizeInventH, sizeInventW, new List<Item>()));
-                Garden.AddSecondLayerWithCell(new Trash(new GamePoint(13, 17), 90, sizeInventH, sizeInventW, new List<Item>()));
-                Garden.AddSecondLayerWithCell(new Trash(new GamePoint(15, 9), 0, sizeInventH, sizeInventW, new List<Item>()
-                    { new BloodPaper() }));
-
-                //var kristina = new Kristina(new GamePoint(7, 14), 0);
-                //kristina.EnqueueDownGlobalAction(new ActionWait(3, true));
-                //kristina.EnqueueDownGlobalAction(new ActionMove(new GamePoint(7, 12), true));
-                //kristina.EnqueueDownGlobalAction(new ActionMove(new GamePoint(7, 14), true));
-                //kristina.EnqueueDownGlobalAction(new ActionWait(3, true));
-                //kristina.EnqueueDownGlobalAction(new ActionMove(new GamePoint(5, 13), true));
-                //kristina.EnqueueDownGlobalAction(new ActionWait(4, true));
-                //kristina.EnqueueDownGlobalAction(new ActionMove(new GamePoint(7, 14), true));
-
-                //Garden.AddFirstLayerWithCell(player);
-                //Garden.AddFirstLayerWithCell(kristina);
-                //Garden.AddFirstLayerWithCell(new Nura(new GamePoint(14, 0), 0));
-                //Garden.AddFirstLayerWithCell(new Dead(new GamePoint(3, 5), 0));
-
-                Garden.UpdateDisplay();
-            }
-            return Garden;
-        }
-
         private static Location Eosha;
         public static Location GetEosha(Player player, double compressH, double compressW)
         {
             if (Eosha == null)
             {
-                Eosha = new Location("Посёлок Еоша", "Eosha", 23, 32, compressH, compressW);
+                List<(string, GamePoint)> transit = new List<(string, GamePoint)>()
+                {
+                    ("Mine", new GamePoint(11,0)),
+                    ("Mine", new GamePoint(12,0)),
+                };
+                Eosha = new Location("sdfsdfsdf", "Eosha", 23, 32, compressH, compressW, transit);
 
                 Eosha.AddLocationCellsLayer(CreateLocation("EoshaFloor1"), -1);
                 Eosha.AddLocationCellsLayer(CreateLocation("EoshaFloor2"), -1);
@@ -84,6 +43,49 @@ namespace TwoD_Game_RP
                 Eosha.UpdateDisplay();
             }
             return Eosha;
+        }
+        private static Location Mine;
+        public static Location GetMine(Player player, double compressH, double compressW)
+        {
+            if (Mine == null)
+            {
+                List<(string, GamePoint)> transit = new List<(string, GamePoint)>()
+                {
+                    ("Eosha", new GamePoint(33,26)),
+                    ("Eosha", new GamePoint(32,26)),
+                    ("Eosha", new GamePoint(31,26)),
+                };
+                Mine = new Location("sdfsdfsdf", "Mine", 34, 27, compressH, compressW, transit);
+
+                Mine.AddLocationCellsLayer(CreateLocation("MineFloor1"), -1);
+                Mine.AddLocationCellsLayer(CreateLocation("MineFloor2"), -1);
+                Mine.AddLocationCellsLayer(CreateLocation("MineWall1"), 0);
+                Mine.AddLocationCellsLayer(CreateLocation("MineWall2"), 0);
+                Mine.AddLocationCellsLayer(CreateLocation("MineObject1"), 0);
+
+                Mine.CreateGrafWatch();
+                Mine.CreateGrafMove();
+                Mine.CreateGrafAll();
+
+                Mine.UpdateDisplay();
+            }
+            return Mine;
+        }
+        private static Location UnderEosha;
+        public static Location GetUnderEosha(Player player, double compressH, double compressW)
+        {
+            if (UnderEosha == null)
+            {
+                List<(string, GamePoint)> transit = new List<(string, GamePoint)>()
+                {
+                };
+                UnderEosha = new Location("", "UnderEosha", 5, 7, compressH, compressW, transit);
+
+                UnderEosha.AddLocationCellsLayer(CreateLocation("UnderEoshaAll"), -1);
+
+                UnderEosha.UpdateDisplay();
+            }
+            return UnderEosha;
         }
         private static IPictureCell[,] CreateLocation(string nameloca)
         {

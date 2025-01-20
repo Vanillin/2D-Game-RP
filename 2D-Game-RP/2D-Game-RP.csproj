@@ -178,16 +178,6 @@
     <Folder Include="gamedata\configs\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\levels\GardenFloors.txt" />
-    <Resource Include="gamedata\levels\GardenFloors2.txt" />
-    <Resource Include="gamedata\levels\GardenFloors3.txt" />
-    <Resource Include="gamedata\levels\GardenWalls.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\levels\GardenAir.txt" />
-    <Resource Include="gamedata\levels\GardenObject1.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="gamedata\textures\items\bloodpaper.png" />
     <Resource Include="gamedata\textures\items\key.png" />
     <Resource Include="gamedata\textures\items\notebook.png" />
@@ -325,6 +315,41 @@
     <Resource Include="gamedata\textures\map\ObjectWindow\могила1.png" />
     <Resource Include="gamedata\textures\map\ObjectWindow\могила2.png" />
     <Resource Include="gamedata\textures\map\ObjectWindow\могила3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Wall\hill\00.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\01.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\10.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\11.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\30.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\31.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\50.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\51.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\70.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\71.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\90.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\91.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Floor\Rail\0.png" />
+    <Resource Include="gamedata\textures\map\Floor\Rail\1.png" />
+    <Resource Include="gamedata\textures\map\Floor\Rail\2.png" />
+    <Resource Include="gamedata\textures\map\Floor\Rail\3.png" />
+    <Resource Include="gamedata\textures\map\Floor\Rail\4.png" />
+    <Resource Include="gamedata\textures\map\Floor\Rail\5.png" />
+    <Resource Include="gamedata\textures\map\Floor\Rail\6.png" />
+    <Resource Include="gamedata\textures\map\Floor\Rail\7.png" />
+    <Resource Include="gamedata\textures\map\Floor\Rail\8.png" />
+    <Resource Include="gamedata\textures\map\Floor\Rail\9.png" />
+    <Resource Include="gamedata\textures\map\Floor\Rail\rail.png" />
+    <Resource Include="gamedata\textures\map\Floor\stone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\ObjectWindow\bigStone1.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\bigStone2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Wall\stone.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

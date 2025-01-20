@@ -39,7 +39,7 @@ namespace TwoD_Game_RP
                 str = ReadLineStreamReader(sr);
                 while (DeleteSpace(str) != "start")
                 {
-                    string[] desc = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] desc = str.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                     description.Add(desc[0][0], desc[1]);
 
                     str = ReadLineStreamReader(sr);
