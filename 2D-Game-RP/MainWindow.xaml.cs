@@ -70,14 +70,13 @@ namespace TwoD_Game_RP
             player = new PlayerFirst("Детектив", "playerm", new GamePoint(19, 5), sizeInventH, sizeInventW,
                 new List<Item>()
                 {
-                    new Telephone(), new NoteBook()
+                    new NoteBook()
                 },
                 new CustomSortedEnum<string>()
                 {
                     "start1Ep",
                     "test",
                 });
-            player.GiveGunInHand(new Pistol());
 
             GoToLocationStart("Eosha");
             AnalyzeSizeGamePole();
@@ -158,11 +157,11 @@ namespace TwoD_Game_RP
                 }
                 else if (name == "Mine")
                 {
-                    loc = MemoryLocations.GetMine(player, compressH, compressW);
+                    loc = MemoryLocations.GetMine(compressH, compressW);
                 }
                 else if (name == "UnderEosha")
                 {
-                    loc = MemoryLocations.GetUnderEosha(player, compressH, compressW);
+                    loc = MemoryLocations.GetUnderEosha(compressH, compressW);
                 }
                 else
                 {
@@ -188,11 +187,11 @@ namespace TwoD_Game_RP
                 }
                 else if (name == "Mine")
                 {
-                    loc = MemoryLocations.GetMine(player, compressH, compressW);
+                    loc = MemoryLocations.GetMine(compressH, compressW);
                 }
                 else if (name == "UnderEosha")
                 {
-                    loc = MemoryLocations.GetUnderEosha(player, compressH, compressW);
+                    loc = MemoryLocations.GetUnderEosha(compressH, compressW);
                 }
                 else
                 {
@@ -289,6 +288,8 @@ namespace TwoD_Game_RP
             string nameloc = CurrentLocation.GetSystemNameLocTransitCell(H, W);
             if (nameloc != null)
             {
+                player.ClearActions();
+                player.ClearGlobalActions();
                 GoToLocation(nameloc);
             }
             else if (!CurrentLocation.GetIsBlockCell(H, W))
@@ -313,6 +314,10 @@ namespace TwoD_Game_RP
             {
                 ClickOnDoor(people);
             }
+            else if (people is Box)
+            {
+                ClickOnBox(people as Box);
+            }
             else if (!(people is Player) && people is Skelet)
             {
                 ClickOnSkelet(people as Skelet);
@@ -323,8 +328,8 @@ namespace TwoD_Game_RP
             bool ShelterKey = false; //(CurrentLocation.GetIsWatchCell((int)people.Cord.X, (int)people.Cord.Y));
 
             StackPanel menu = new StackPanel();
-            Canvas.SetLeft(menu, pixelSizeGamePole * (door.Cord.Y + 1 - LeftUpCorner.Y));
-            Canvas.SetTop(menu, pixelSizeGamePole * (door.Cord.X - LeftUpCorner.X));
+            Canvas.SetLeft(menu, pixelSizeGamePole * compressW * (door.Cord.Y + 1 - LeftUpCorner.Y));
+            Canvas.SetTop(menu, pixelSizeGamePole * compressH * (door.Cord.X - LeftUpCorner.X));
 
             Button Open = new Button()
             {
@@ -356,8 +361,8 @@ namespace TwoD_Game_RP
             bool ShelterKey = false; //(CurrentLocation.GetIsWatchCell((int)people.Cord.X, (int)people.Cord.Y));
 
             StackPanel menu = new StackPanel();
-            Canvas.SetLeft(menu, pixelSizeGamePole * (people.Cord.Y + 1 - LeftUpCorner.Y));
-            Canvas.SetTop(menu, pixelSizeGamePole * (people.Cord.X - LeftUpCorner.X));
+            Canvas.SetLeft(menu, pixelSizeGamePole * compressW * (people.Cord.Y + 1 - LeftUpCorner.Y));
+            Canvas.SetTop(menu, pixelSizeGamePole * compressH * (people.Cord.X - LeftUpCorner.X));
 
             Button Attack = new Button()
             {
@@ -397,7 +402,7 @@ namespace TwoD_Game_RP
                 Check.IsEnabled = false;
                 Dialog.IsEnabled = false;
             }
-            if (/*people.HealthInf() <= 0 ||*/ people.Fraction == NPSGroup.Box)
+            if (!people.IsAlive)
             {
                 menu.Children.Add(Check);
             }
@@ -407,6 +412,33 @@ namespace TwoD_Game_RP
             }
             SystemObj.Add(menu);
 
+        }
+        private void ClickOnBox(Box people)
+        {
+            bool ShelterKey = false; //(CurrentLocation.GetIsWatchCell((int)people.Cord.X, (int)people.Cord.Y));
+
+            StackPanel menu = new StackPanel();
+            Canvas.SetLeft(menu, pixelSizeGamePole * compressW * (people.Cord.Y + 1 - LeftUpCorner.Y));
+            Canvas.SetTop(menu, pixelSizeGamePole * compressH * (people.Cord.X - LeftUpCorner.X));
+
+            Button Check = new Button()
+            {
+                Content = "Обыскать",
+                Opacity = 0.6,
+                FontSize = 20,
+            };
+            Check.Click += MenuPersonCheck_Click;
+            Check.Tag = people;
+
+            double dx = Math.Abs(people.Cord.X - player.Cord.X);
+            double dy = Math.Abs(people.Cord.Y - player.Cord.Y);
+            bool Near = (dx <= 2 && dy <= 1) || (dx <= 1 && dy <= 2);
+            if (ShelterKey || !Near)
+            {
+                Check.IsEnabled = false;
+            }
+            menu.Children.Add(Check);
+            SystemObj.Add(menu);
         }
 
         private void MenuDoorOpen_Click(object sender, RoutedEventArgs e)
@@ -431,7 +463,7 @@ namespace TwoD_Game_RP
             if (InventorySearchWindow.Visibility == Visibility.Collapsed)
             {
                 Button button = (Button)sender;
-                Skelet people = (Skelet)button.Tag;
+                IBox people = (IBox)button.Tag;
 
                 timerReloadAnimation.IsEnabled = false;
                 SystemObj = new List<UIElement>();
@@ -720,7 +752,7 @@ namespace TwoD_Game_RP
             InventorySearchWindow.Visibility = Visibility.Collapsed;
             timerReloadAnimation.IsEnabled = true;
         }
-        private void CreateInventoryWindow(Skelet skelet)
+        private void CreateInventoryWindow(IBox skelet)
         {
             InventoryCanvas.Tag = skelet;
             skelet.DisplayInventory(InventoryCanvas, pixelSizeInvent);
@@ -735,7 +767,7 @@ namespace TwoD_Game_RP
             {
                 if (InventorySearchWindow.Visibility != Visibility.Collapsed)
                 {
-                    Skelet skelet = (Skelet)InventoryCanvas.Tag;
+                    IBox skelet = (IBox)InventoryCanvas.Tag;
                     skelet.AddInBackpack(item);
                     player.RemoveInBackpack(item);
 
@@ -747,10 +779,6 @@ namespace TwoD_Game_RP
                     if (item is NoteBook)
                     {
                         MenuTask_Click(null, null);
-                    }
-                    else if (item is Telephone)
-                    {
-                        ClickOnTelephone(null, null);
                     }
                 }
             }
@@ -764,7 +792,7 @@ namespace TwoD_Game_RP
             Point pointMouse = e.GetPosition(InventoryCanvas);
             (int W, int H) = ((int)Math.Truncate((pointMouse.X) / pixelSizeInvent),
                 (int)Math.Truncate((pointMouse.Y) / pixelSizeInvent));
-            Skelet skelet = (Skelet)InventoryCanvas.Tag;
+            IBox skelet = (IBox)InventoryCanvas.Tag;
             Item item = skelet.SearchInBackpack(H, W);
             if (item != null)
             {

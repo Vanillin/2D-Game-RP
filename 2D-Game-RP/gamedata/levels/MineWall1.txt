@@ -20,7 +20,7 @@
         9    Wall/hill/90
         8    Wall/hill/91
 	=    Wall/stone
-	%    ObjectWindow/bigBox
+	%    Wall/balka
 
 start
 	......=====................

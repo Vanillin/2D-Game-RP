@@ -1,0 +1,36 @@
+///    -       -----
+///   start   
+///    -------------------
+///    -------------------
+///   end
+///    -------------------
+///    -------------------
+///   end
+
+        k     Object\krovat1
+        K     Object\krovat2
+///      V подъём
+        s     ObjectWindow\bigBox
+
+	0     Wall\underWood\00
+	O     Wall\underWood\01
+	1     Wall\underWood\11
+	3     Wall\underWood\31
+	5     Wall\underWood\50
+	S     Wall\underWood\51
+	7     Wall\underWood\70
+	9     Wall\underWood\91
+
+start
+	3SSSSS1
+	Os...V0
+	O.....0
+	OkK...0
+	9555557
+end
+	#######
+	#S...V#
+	#.....#
+	#kk...#
+	#######
+end

@@ -15,8 +15,9 @@ namespace TwoD_Game_RP
                 {
                     ("Mine", new GamePoint(11,0)),
                     ("Mine", new GamePoint(12,0)),
+                    ("UnderEosha", new GamePoint(3,13)),
                 };
-                Eosha = new Location("sdfsdfsdf", "Eosha", 23, 32, compressH, compressW, transit);
+                Eosha = new Location("Булгар", "Eosha", 23, 32, compressH, compressW, transit);
 
                 Eosha.AddLocationCellsLayer(CreateLocation("EoshaFloor1"), -1);
                 Eosha.AddLocationCellsLayer(CreateLocation("EoshaFloor2"), -1);
@@ -33,19 +34,29 @@ namespace TwoD_Game_RP
                 var girl = new Girl();
                 var grandma = new Grandma();
                 var grandpa = new Grandpa();
+                var perecati = new Perecati(new GamePoint(12, 30), 0);
+                perecati.EnqueueDownGlobalAction(new ActionMove(new GamePoint(12, 3), true));
+                perecati.EnqueueDownGlobalAction(new ActionMove(new GamePoint(12, 30), true));
+
+                Eosha.AddFirstLayerWithCell(new Box(new GamePoint(3, 18), 0, "", true, new List<Item>() { new Water() }, 2, 2));
+                Eosha.AddFirstLayerWithCell(new Box(new GamePoint(6, 13), 0, "", true, new List<Item>() {  }, 2, 2));
+                Eosha.AddFirstLayerWithCell(new Box(new GamePoint(9, 25), 0, "", true, new List<Item>() {  }, 2, 2));
+                Eosha.AddFirstLayerWithCell(new Box(new GamePoint(16, 3), 0, "", true, new List<Item>() { }, 2, 2));
+                Eosha.AddFirstLayerWithCell(new Box(new GamePoint(17, 3), 0, "", true, new List<Item>() {  }, 2, 2));
 
                 player.Cord = new GamePoint(8, 22);
                 Eosha.AddFirstLayerWithCell(player);
                 Eosha.AddFirstLayerWithCell(girl);
                 Eosha.AddFirstLayerWithCell(grandma);
                 Eosha.AddFirstLayerWithCell(grandpa);
+                Eosha.AddFirstLayerWithCell(perecati);
 
                 Eosha.UpdateDisplay();
             }
             return Eosha;
         }
         private static Location Mine;
-        public static Location GetMine(Player player, double compressH, double compressW)
+        public static Location GetMine(double compressH, double compressW)
         {
             if (Mine == null)
             {
@@ -63,6 +74,12 @@ namespace TwoD_Game_RP
                 Mine.AddLocationCellsLayer(CreateLocation("MineWall2"), 0);
                 Mine.AddLocationCellsLayer(CreateLocation("MineObject1"), 0);
 
+                Mine.AddFirstLayerWithCell(new Box(new GamePoint(4, 8), 0, "", true, new List<Item>() { new DatailDrawwell() }, 2, 2));
+                Mine.AddFirstLayerWithCell(new Box(new GamePoint(19, 25), 0, "", true, new List<Item>() {  }, 2, 2));
+                Mine.AddFirstLayerWithCell(new Box(new GamePoint(20, 23), 0, "", true, new List<Item>() { new Potato() }, 2, 2));
+                Mine.AddFirstLayerWithCell(new Box(new GamePoint(20, 1), 0, "", true, new List<Item>() {  }, 2, 2));
+                Mine.AddFirstLayerWithCell(new Box(new GamePoint(21, 1), 0, "", true, new List<Item>() {  }, 2, 2));
+
                 Mine.CreateGrafWatch();
                 Mine.CreateGrafMove();
                 Mine.CreateGrafAll();
@@ -72,16 +89,24 @@ namespace TwoD_Game_RP
             return Mine;
         }
         private static Location UnderEosha;
-        public static Location GetUnderEosha(Player player, double compressH, double compressW)
+        public static Location GetUnderEosha(double compressH, double compressW)
         {
             if (UnderEosha == null)
             {
                 List<(string, GamePoint)> transit = new List<(string, GamePoint)>()
                 {
+                    ("Eosha", new GamePoint(1,5)),
                 };
                 UnderEosha = new Location("", "UnderEosha", 5, 7, compressH, compressW, transit);
 
-                UnderEosha.AddLocationCellsLayer(CreateLocation("UnderEoshaAll"), -1);
+                UnderEosha.AddLocationCellsLayer(CreateLocation("UnderEoshaFloor1"), -1);
+                UnderEosha.AddLocationCellsLayer(CreateLocation("UnderEoshaWall1"), 0);
+
+                UnderEosha.AddFirstLayerWithCell(new Box(new GamePoint(1, 1), 0, "", true, new List<Item>() { new SmallToz() }, 2, 2));
+
+                UnderEosha.CreateGrafWatch();
+                UnderEosha.CreateGrafMove();
+                UnderEosha.CreateGrafAll();
 
                 UnderEosha.UpdateDisplay();
             }

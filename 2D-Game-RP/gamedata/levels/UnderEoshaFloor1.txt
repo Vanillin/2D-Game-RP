@@ -11,14 +11,16 @@
 ///      V подъём
 ///      S сундук
 
-	#     Wall\wood\0
-	.     Floor\sand
+///	#     Wall\wood\0
+	.     Floor\floorDarkWood
+	#     Floor\floorDarkWood
+	,     Object\podval2
 
 start
 	#######
-	#S...V#
+	#....,#
 	#.....#
-	#kk...#
+	#.....#
 	#######
 end
 	#######

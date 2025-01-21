@@ -66,6 +66,26 @@ namespace TwoD_Game_RP
             }
             return true;
         }
+        public void ClearGlobalActions() => _globalActions.Clear();
+        public void ClearActions() => _actions.Clear();
+        public void EnqueueUpGlobalAction(IAction action) => _globalActions.EnqueueInFront(action);
+        public void EnqueueDownGlobalAction(IAction action) => _globalActions.EnqueueInBack(action);
+        public void RemoveGlobalAction()
+        {
+            var v = _globalActions.Dequeue();
+            if (v.IsCycle)
+            {
+                _globalActions.EnqueueInBack(v);
+            }
+        }
+        private void RemoveAction() => _actions.RemoveUp();
+        private void CreateActions(IEnumerable<IAction> actions)
+        {
+            foreach (var v in actions)
+            {
+                _actions.EnqueueInBack(v);
+            }
+        }
         private IAction PeekGlobalAction()
         {
             if (_globalActions.Count == 0) return null;
@@ -76,43 +96,34 @@ namespace TwoD_Game_RP
             if (_actions.Count == 0) return null;
             return _actions.Peek();
         }
-        private void RemoveAction()
-        {
-            _actions.RemoveUp();
-        }
-        private void CreateActions(IEnumerable<IAction> actions)
-        {
-            foreach (var v in actions)
-            {
-                _actions.EnqueueInBack(v);
-            }
-        }
-        public void RemoveGlobalAction()
-        {
-            var v = _globalActions.Dequeue();
-            if (v.IsCycle)
-            {
-                _globalActions.EnqueueInBack(v);
-            }
-        }
-        public void ClearGlobalActions()
-        {
-            _globalActions.Clear();
-        }
-        public void ClearActions()
-        {
-            _actions.Clear();
-        }
-        public void EnqueueUpGlobalAction(IAction action)
-        {
-            _globalActions.EnqueueInFront(action);
-        }
-        public void EnqueueDownGlobalAction(IAction action)
-        {
-            _globalActions.EnqueueInBack(action);
-        }
     }
-    public class Skelet : SystemSket
+    public interface IBox
+    {
+        void DisplayInventory(Canvas canvas, double size);
+        bool AddInBackpack(Item item);
+        void RemoveInBackpack(Item item);
+        bool ContainsInBackpack(Item item);
+        Item SearchInBackpack(int h, int w);
+    }
+    public class Box : SystemSket, IBox
+    {
+        private DBDisplay _inventoryDisplay;
+        private Inventory _inventory;
+        public Box(GamePoint coord, int rotate, string systemname, bool isClarity, List<Item> inventoryList, int inventoryHeight, int inventoryWidth) 
+            : base(coord, rotate, systemname, isClarity)
+        {
+            _inventory = new Inventory(inventoryHeight, inventoryWidth, inventoryList);
+            _inventoryDisplay = new DBDisplay(1, 1);
+        }
+
+        //=================================== method Inventory ====================================
+        public void DisplayInventory(Canvas canvas, double size) => _inventoryDisplay.DisplayInventory(canvas, size, _inventory.ReferenceItem);
+        public bool AddInBackpack(Item item) => _inventory.AddInBackpack(item);
+        public void RemoveInBackpack(Item item) => _inventory.RemoveInBackpack(item);
+        public bool ContainsInBackpack(Item item) => _inventory.ContainsInBackpack(item);
+        public Item SearchInBackpack(int h, int w) => _inventory.SearchInBackpack(h, w);
+    }
+    public class Skelet : SystemSket, IBox
     {
         private NPSGroup _fraction;
         private NPSIntellect _intellect;

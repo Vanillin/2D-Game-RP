@@ -31,46 +31,11 @@ namespace TwoD_Game_RP
         {
             foreach (var task in window.player.Tasks.GetUsingTask())
             {
-                if (task.SystemName == "trainingButton")
-                {
-                    MessageBox.Show("Управление: \nКнопками: WASD для ходьбы \nМышкой: ЛКМ для ходьбы, ПКМ для взаимодействия с чем-либо");
-                    window.player.Tasks.ComplitedTask("trainingButton");
-                }
-
-                if (task.SystemName == "scriptstart")
-                {
-                    window.player.Tasks.ComplitedTask("scriptstart");
-                    //window.MenuPersonDialog_Click(new Agency(new GamePoint(0, 0), '0'));
-                }
-
-                if (task.SystemName == "findKey" && window.player.ContainsInBackpack(new Key()))
-                {
-                    window.player.Tasks.ComplitedTask("findKey");
-                }
-
-                if (task.SystemName == "findBloodPaper" && window.player.ContainsInBackpack(new BloodPaper()))
-                {
-                    window.player.Tasks.ComplitedTask("findBloodPaper");
-                }
-
-                if (task.SystemName == "scriptTime")
-                {
-                    ScriptTime(window);
-                }
-
-                if (task.SystemName == "scriptcantalkVanya")
-                {
-                    window.CanTalkVanya = true;
-                    window.player.Tasks.ComplitedTask("scriptcantalkVanya");
-                }
-
-                if (task.SystemName == "scriptFinal")
-                {
-                    MessageBox.Show("Работа здесь была закончена, но не дело. А значит для вас ещё найдётся работка. \nКонец демоверсии, спасибо за игру :3");
-
-                    window.player.Tasks.ComplitedTask("scriptFinal");
-                    window.Close();
-                }
+                //if (task.SystemName == "trainingButton")
+                //{
+                //    MessageBox.Show("Управление: \nКнопками: WASD для ходьбы \nМышкой: ЛКМ для ходьбы, ПКМ для взаимодействия с чем-либо");
+                //    window.player.Tasks.ComplitedTask("trainingButton");
+                //}
             }
         }
     }

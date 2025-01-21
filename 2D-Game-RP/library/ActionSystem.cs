@@ -173,7 +173,11 @@ namespace TwoD_Game_RP
         public IEnumerable<IAction> CreateActions(SystemSket skelet, Location location)
         {
             List<IAction> retur = new List<IAction>();
-            var path = location.CreatePath_OutOfPoint(skelet.Cord, GamePoint, location.IsBusy);
+            List<GamePoint> path;
+            if (skelet is Skelet)
+                path = location.CreatePath_OutOfPoint(skelet.Cord, GamePoint, location.IsBusy);
+            else
+                path = location.CreatePath_OutOfPoint(skelet.Cord, GamePoint, new CustomSortedEnum<GamePoint>());
             if (path != null)
                 foreach (var v in path)
                 {
@@ -184,7 +188,10 @@ namespace TwoD_Game_RP
         }
         public bool IsCanComplete(SystemSket skelet, Location location)
         {
-            return !location.IsCellBusy((int)GamePoint.X, (int)GamePoint.Y);
+            //  SystemSket can go in Skelet
+            if (skelet is Skelet)
+                return !location.IsCellBusy((int)GamePoint.X, (int)GamePoint.Y);
+            else return true;
         }
     }
 

@@ -1,19 +1,27 @@
 ﻿namespace TwoD_Game_RP
 {
-    public class Telephone : Item
-    {
-        public Telephone() : base("Телефон", "telephone", 0, 1, 1) { }
-    }
     public class NoteBook : Item
     {
         public NoteBook() : base("Записная книжка", "notebook", 0, 1, 1) { }
     }
-    public class Key : Item
+    public class Carrot : Item
     {
-        public Key() : base("Ключ", "key", 0, 1, 1) { }
+        public Carrot() : base("Морковь", "carrot", 0, 1, 1) { }
     }
-    public class BloodPaper : Item
+    public class Potato : Item
     {
-        public BloodPaper() : base("Окровавленная салфетка", "bloodpaper", 0, 1, 1) { }
+        public Potato() : base("Картошка", "potato", 0, 1, 1) { }
+    }
+    public class DatailDrawwell : Item
+    {
+        public DatailDrawwell() : base("Деталь от колодца", "detailDrawwell", 0, 1, 1) { }
+    }
+    public class ScorpionPart : Item
+    {
+        public ScorpionPart() : base("Жало", "partScorpion", 0, 1, 1) { }
+    }
+    public class Water : Item
+    {
+        public Water() : base("Вода", "water", 0, 1, 1) { }
     }
 }

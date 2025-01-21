@@ -1,7 +1,11 @@
 ﻿namespace TwoD_Game_RP
 {
-    public class Pistol : Gun
+    public class SmallToz : Gun
     {
-        public Pistol() : base("Пистолет", "pistol", 2, 3, 0, 1, 1)  { }
+        public SmallToz() : base("Ружьё", "smallToz", 2, 3, 0, 1, 2)  { }
+    }
+    public class Knife : Gun
+    {
+        public Knife() : base("Нож", "knife", 2, 1, 0, 1, 1) { }
     }
 }

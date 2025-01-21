@@ -11,7 +11,7 @@ namespace TwoD_Game_RP
     public class Girl : Skelet
     {
         public Girl() :
-            base("", "", NPSGroup.People, NPSIntellect.Non, new GamePoint(15, 10), 0, "girl", new List<Item> { }, 1, 1, false, 10)
+            base("", "", NPSGroup.People, NPSIntellect.Non, new GamePoint(15, 10), 0, "girl", new List<Item> { new Knife(), new Water() }, 2, 2, false, 10)
         { }
     }
     public class Grandma : Skelet
@@ -23,7 +23,7 @@ namespace TwoD_Game_RP
     public class Grandpa : Skelet
     {
         public Grandpa() :
-            base("", "", NPSGroup.People, NPSIntellect.Non, new GamePoint(3, 10), 0, "grandpa", new List<Item> { }, 1, 1, false, 10)
+            base("", "", NPSGroup.People, NPSIntellect.Non, new GamePoint(3, 10), 0, "grandpa", new List<Item> { new Knife() }, 2, 2 , false, 10)
         { }
     }
     public class WoodDoor : Door
@@ -32,16 +32,22 @@ namespace TwoD_Game_RP
             base("woodZaborDoorSkelet", coord, rotate, isLock)
         { }
     }
-    public class Trash : Skelet
+    //public class Trash : Skelet
+    //{
+    //    public Trash(GamePoint coord, int rotate, int heightInventory, int weightInventory, List<Item> inventoryList) :
+    //        base("Мусорка", "Мусорка", NPSGroup.Box, NPSIntellect.Non, coord, rotate, "trashSkelet", inventoryList, heightInventory, weightInventory, true, 1)
+    //    { }
+    //}
+    //public class Box : Skelet
+    //{
+    //    public Box(string name, string systemname, GamePoint coord, int rotate, int heightInventory, int weightInventory, List<Item> inventoryList) :
+    //        base(name, "", NPSGroup.Box, NPSIntellect.Non, coord, rotate, systemname, inventoryList, heightInventory, weightInventory, true, 1)
+    //    { }
+    //}
+    public class Perecati : SystemSket
     {
-        public Trash(GamePoint coord, int rotate, int heightInventory, int weightInventory, List<Item> inventoryList) :
-            base("Мусорка", "Мусорка", NPSGroup.Box, NPSIntellect.Non, coord, rotate, "trashSkelet", inventoryList, heightInventory, weightInventory, true, 1)
-        { }
-    }
-    public class Box : Skelet
-    {
-        public Box(string name, string systemname, GamePoint coord, int rotate, int heightInventory, int weightInventory, List<Item> inventoryList) :
-            base(name, "", NPSGroup.Box, NPSIntellect.Non, coord, rotate, systemname, inventoryList, heightInventory, weightInventory, true, 1)
+        public Perecati(GamePoint coord, int rotate) :
+            base(coord, rotate, "perecati", true)
         { }
     }
 }

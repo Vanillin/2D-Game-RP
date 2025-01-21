@@ -178,10 +178,7 @@
     <Folder Include="gamedata\configs\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gamedata\textures\items\bloodpaper.png" />
-    <Resource Include="gamedata\textures\items\key.png" />
     <Resource Include="gamedata\textures\items\notebook.png" />
-    <Resource Include="gamedata\textures\items\telephone.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\circle.png" />
@@ -195,9 +192,6 @@
     <Resource Include="gamedata\textures\map\Floor\asphalt.png" />
     <Resource Include="gamedata\textures\map\Floor\floorDarkWood.png" />
     <Resource Include="gamedata\textures\map\Floor\sand.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\items\pistol.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\Object\krovat1.png" />
@@ -350,6 +344,40 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\Wall\stone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Floor\bone1.png" />
+    <Resource Include="gamedata\textures\map\Floor\bone2.png" />
+    <Resource Include="gamedata\textures\map\Floor\bone3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\ObjectWindow\cart.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\cartBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Wall\balka.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\player\perecati-map.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Wall\underWood\00.png" />
+    <Resource Include="gamedata\textures\map\Wall\underWood\01.png" />
+    <Resource Include="gamedata\textures\map\Wall\underWood\11.png" />
+    <Resource Include="gamedata\textures\map\Wall\underWood\31.png" />
+    <Resource Include="gamedata\textures\map\Wall\underWood\50.png" />
+    <Resource Include="gamedata\textures\map\Wall\underWood\51.png" />
+    <Resource Include="gamedata\textures\map\Wall\underWood\70.png" />
+    <Resource Include="gamedata\textures\map\Wall\underWood\91.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\items\carrot.png" />
+    <Resource Include="gamedata\textures\items\detailDrawwell.png" />
+    <Resource Include="gamedata\textures\items\knife.png" />
+    <Resource Include="gamedata\textures\items\partScoption.png" />
+    <Resource Include="gamedata\textures\items\potato.png" />
+    <Resource Include="gamedata\textures\items\smallToz.png" />
+    <Resource Include="gamedata\textures\items\water.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

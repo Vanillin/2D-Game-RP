@@ -112,12 +112,22 @@ namespace TwoD_Game_RP
                 }
             }
         }
+        private void DisplayImageInventory(int i, int j, int k, double size, Canvas canvas, int shiftX, int shiftY)
+        {
+            _images[i, j, k].Item1.Width = size * _compressW + 1;
+            _images[i, j, k].Item1.Height = size * _compressH + 1;
+            _images[i, j, k].Item1.Stretch = Stretch.Fill;
+            Canvas.SetLeft(_images[i, j, k].Item1, size * _compressW * (j));
+            Canvas.SetTop(_images[i, j, k].Item1, (size * _compressH) * (i));
+            _images[i, j, k].Item1.RenderTransform = new RotateTransform(((KeyValuePair<string, int>)_images[i, j, k].Item1.Tag).Value, size / 2, size / 2);
+            canvas.Children.Add(_images[i, j, k].Item1);
+        }
         private void DisplayImage(int i, int j, int k, double size, Canvas canvas, int shiftX, int shiftY)
         {
             if (_images[i, j, k].Item2) //isFloor
             {
-                _images[i, j, k].Item1.Width = size * _compressW +1;
-                _images[i, j, k].Item1.Height = size * _compressH +1;
+                _images[i, j, k].Item1.Width = size * _compressW + 1;
+                _images[i, j, k].Item1.Height = size * _compressH + 1;
                 _images[i, j, k].Item1.Stretch = Stretch.Fill;
                 Canvas.SetLeft(_images[i, j, k].Item1, size * _compressW * (j - shiftY));
                 Canvas.SetTop(_images[i, j, k].Item1, (size * _compressH) * (i - shiftX + 1));
@@ -126,8 +136,8 @@ namespace TwoD_Game_RP
             }
             else
             {
-                _images[i, j, k].Item1.Width = size * _compressW +1;
-                _images[i, j, k].Item1.Height = size * _compressH*2 +1;
+                _images[i, j, k].Item1.Width = size * _compressW + 1;
+                _images[i, j, k].Item1.Height = size * _compressH * 2 + 1;
                 _images[i, j, k].Item1.Stretch = Stretch.Fill;
                 Canvas.SetLeft(_images[i, j, k].Item1, size * _compressW * (j - shiftY));
                 Canvas.SetTop(_images[i, j, k].Item1, (size * _compressH) * (i - shiftX));
@@ -151,6 +161,20 @@ namespace TwoD_Game_RP
                     for (int k = 0; k < _depths[i, j]; k++)
                     {
                         DisplayImage(i, j, k, size, canvas, 0, 0);
+                    }
+                }
+            }
+        }
+        public void DisplayInventory(Canvas canvas, double size)
+        {
+            canvas.Children.Clear();
+            for (int i = 0; i < _height; i++)
+            {
+                for (int j = 0; j < _wight; j++)
+                {
+                    for (int k = 0; k < _depths[i, j]; k++)
+                    {
+                        DisplayImageInventory(i, j, k, size, canvas, 0, 0);
                     }
                 }
             }
@@ -198,7 +222,7 @@ namespace TwoD_Game_RP
         }
         public void DisplayInventory(Canvas canvas, double size, CustomDictionary<Item, List<GamePoint>> Items)
         {
-            Display(canvas, size);
+            DisplayInventory(canvas, size);
             foreach (var pair in Items)
             {
                 foreach (var point in pair.Value)
@@ -206,8 +230,8 @@ namespace TwoD_Game_RP
                     Image image = new Image()
                     {
                         Source = new BitmapImage(new Uri(pair.Key.Picture.Picture(), UriKind.Relative)),
-                        Width = size,
-                        Height = size
+                        Width = size * pair.Key.SizeW,
+                        Height = size * pair.Key.SizeH
                     };
                     Canvas.SetLeft(image, size * point.Y);
                     Canvas.SetTop(image, size * point.X);
