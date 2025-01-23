@@ -8,10 +8,10 @@ namespace TwoD_Game_RP
 {
     public class DialogInform
     {
-        public List<(string, string)> StartedTasksPerson { get; }
+        public List<(string, string, bool)> StartedTasksPerson { get; }
         public List<(string, string)> StartedTasksPlayer { get; }
         public CustomDictionary<string, Phrase> Phrases { get; }
-        public DialogInform(List<(string, string)> startPers, List<(string, string)> startplayer, CustomDictionary<string, Phrase> phrases)
+        public DialogInform(List<(string, string, bool)> startPers, List<(string, string)> startplayer, CustomDictionary<string, Phrase> phrases)
         {
             StartedTasksPerson = startPers;
             StartedTasksPlayer = startplayer;
@@ -145,7 +145,7 @@ namespace TwoD_Game_RP
 
         public static DialogInform GetPhrasesPerson(string skeletSystemName, int lengthDescription)
         {
-            List<(string phrase, string task)> startedTasksPerson = new List<(string, string)>();
+            List<(string phrase, string task, bool IsBlock)> startedTasksPerson = new List<(string, string, bool)>();
             List<(string phrase, string task)> startedTasksPlayer = new List<(string, string)>();
             CustomDictionary<string, Phrase> phrases = new CustomDictionary<string, Phrase>();
             using (StreamReader sr = new StreamReader(Path.Combine(ConfigurationManager.AppSettings["Scripts"], $"Phrases_{skeletSystemName}.txt")))
@@ -155,7 +155,10 @@ namespace TwoD_Game_RP
                 while (DeleteSpace(str) != "end")
                 {
                     string[] phraseTask = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    startedTasksPerson.Add((phraseTask[0], phraseTask[1]));
+                    if (phraseTask.Length == 3)
+                        startedTasksPerson.Add((phraseTask[0], phraseTask[1], true));
+                    else
+                        startedTasksPerson.Add((phraseTask[0], phraseTask[1], false));
 
                     str = ReadLineStreamReader(sr);
                 }

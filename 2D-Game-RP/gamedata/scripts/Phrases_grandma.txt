@@ -1,4 +1,4 @@
-/// -------  -------   startphrases person  activetask
+/// -------  -------   startphrases person  activetask  isBlocked(any symbol)
 /// ...
 /// end
 /// -------  -------   startphrases player  activetask
@@ -17,7 +17,7 @@
 /// compliteTaskSystemName  <----  -----  ----->
 /// end
 
-startdialog0   test
+startdialog0   test    b
 end
 end
 

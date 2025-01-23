@@ -1,5 +1,6 @@
 /// prevTask  nextTask
 
+start1Ep   spawnPerecati
 start1Ep   talkStartQuestDrawwell
 start1Ep   findDetailDrawwell
 start1Ep   talkStartQuestKillScorpion

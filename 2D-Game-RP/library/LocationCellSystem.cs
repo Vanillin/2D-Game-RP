@@ -65,22 +65,48 @@ namespace TwoD_Game_RP
             _pictureCellOn1.Remove(pictureCell);
             RemoveCell(pictureCell);
         }
-        public void ChangeHavingDark(bool isHaveDark)
+        public void ChangeHavingDark(bool isHaveDark) 
         {
             if (isHaveDark == _isHaveDark) return;
             if (isHaveDark)
             {
                 _isHaveDark = true;
-                AddCell(DarkenPicCell.Taking(), 4);
+
                 foreach (var v in _pictureCellOn1)
                 {
                     RemoveCell(v);
+                }
+                AddCell(DarkenPicCell.Taking(), -1);
+
+                var start = _head;
+                while (start.Next != null)
+                {
+                    var next = start.Next;
+                    if (next.Index != -1 && next.Index != 4)
+                    {
+                        string name = next.PictureCell.Picture();
+                        next.PictureCell = new StaticPicCell($"{name.Substring(0, name.Length - 4)}_sD_.png");
+                    }
+                    start = next;
                 }
             }
             else
             {
                 _isHaveDark = false;
                 RemoveCell(DarkenPicCell.Taking());
+
+                var start = _head;
+                while (start.Next != null)
+                {
+                    var next = start.Next;
+                    if (SubstringSearch.Creating().CheckSubstring(next.PictureCell.Picture(), "_sD_"))
+                    {
+                        string name = next.PictureCell.Picture();
+                        next.PictureCell = new StaticPicCell($"{name.Substring(0, name.Length- 8)}.png");
+                    }
+                    start = next;
+                }
+
                 foreach (var v in _pictureCellOn1)
                 {
                     AddCell(v, 1);

@@ -27,6 +27,10 @@ class             Trigger
 systemName        start1Ep
 end
 
+class             TaskHid
+systemName        spawnPerecati
+end
+
 class             Task
 systemName        talkStartQuestDrawwell
 name              <talkStartQuestDrawwell>

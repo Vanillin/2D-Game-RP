@@ -379,5 +379,17 @@
     <Resource Include="gamedata\textures\items\smallToz.png" />
     <Resource Include="gamedata\textures\items\water.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Wall\wood\0_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\1_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\2_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\3_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\4_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\5_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\6_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\7_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\8_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\wood\9_sD_.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

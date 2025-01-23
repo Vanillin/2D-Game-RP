@@ -308,7 +308,15 @@ namespace TwoD_Game_RP
             (int W, int H) = FindPointClick(pointMouse);
             (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X);
             if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
-            SystemSket people = CurrentLocation.FindLives(H, W);
+            SystemSket people;
+            if (H+1 < CurrentLocation.Height && CurrentLocation.FindLives(H+1, W) != null)
+            {
+                people = CurrentLocation.FindLives(H+1, W);
+            }
+            else
+            {
+                people = CurrentLocation.FindLives(H, W);
+            }
             if (people == null) return;
             if (people is Door)
             {
@@ -534,11 +542,13 @@ namespace TwoD_Game_RP
             namePerson = Person.Name;
             DialogInform informPhrases = Information.GetPhrasesPerson(Person.SystemName, lengthPhrase);
 
-            string str = GetStartPhraseInDialog(informPhrases.StartedTasksPerson);
-            if (str != null)
+            var str = GetStartPhraseInDialog(informPhrases.StartedTasksPerson);
+            if (str.Item1 != null)
             {
                 phrases = informPhrases.Phrases;
-                CreateDialog(str);
+                if (str.Item2)
+                    ExitDialogBtn.IsEnabled = false;
+                CreateDialog(str.Item1);
             }
             else
             {
@@ -558,17 +568,17 @@ namespace TwoD_Game_RP
                 }
             }
         }
-        private string GetStartPhraseInDialog(List<(string, string)> startedPhrases)
+        private (string, bool) GetStartPhraseInDialog(List<(string, string, bool)> startedPhrases)
         {
             foreach (var phraseTask in startedPhrases)
             {
                 foreach (var task in player.Tasks.GetUsingTask())
                 {
                     if (task.SystemName == phraseTask.Item2)
-                        return phraseTask.Item1;
+                        return (phraseTask.Item1, phraseTask.Item3);
                 }
             }
-            return null;
+            return (null, false);
             //throw new Exception("Невозможно найти стартовый диалог");
         }
         private List<string> GetStartPhraseInDialogPlayer(List<(string, string)> startedPhrases)
@@ -629,6 +639,10 @@ namespace TwoD_Game_RP
         {
             AddDialog(index, "l");
 
+            if (phrases[index].NextSystemNames.Count == 0)
+            {
+                ExitDialogBtn.IsEnabled = true;
+            }
             foreach (var v in phrases[index].NextSystemNames)
             {
                 AddButton(v);
@@ -650,6 +664,10 @@ namespace TwoD_Game_RP
             if (phrases[index].NextSystemNames.Count == 1)
             {
                 CreateDialog(phrases[index].NextSystemNames[0]);
+            }
+            else
+            {
+                ExitDialogBtn.IsEnabled = true;
             }
             //throw new Exception("У фразы игрока должен быть только один последующий индекс диалога");
         }
