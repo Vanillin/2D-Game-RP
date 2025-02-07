@@ -8,22 +8,22 @@ namespace TwoD_Game_RP
             base(name, systemName, PlayerGender.Man, coord, inventoryHeight, inventoryWight, inventoryList, new TaskBoard(Information.GetTasks(70), Information.GetTaskConnection(), startTask))
         { }
     }
-    public class Girl : Skelet
+    public class Girl : Enemy
     {
-        public Girl() :
-            base("", "", NPSGroup.People, NPSIntellect.Non, new GamePoint(15, 10), 0, "girl", new List<Item> { new Knife(), new Water() }, 2, 2, false, 10)
+        public Girl(int lenWatch) :
+            base("", "", NPSGroup.People, NPSIntellect.Non, new GamePoint(15, 10), 0, "girl", new List<Item> { new Knife(), new Water() }, 2, 2, true, 4, lenWatch)
         { }
     }
-    public class Grandma : Skelet
+    public class Grandma : Enemy
     {
-        public Grandma() :
-            base("", "", NPSGroup.People, NPSIntellect.Non, new GamePoint(5, 22), 0, "grandma", new List<Item> { }, 1, 1, false, 10)
+        public Grandma(int lenWatch) :
+            base("", "", NPSGroup.People, NPSIntellect.Non, new GamePoint(5, 22), 0, "grandma", new List<Item> { }, 1, 1, true, 4, lenWatch)
         { }
     }
-    public class Grandpa : Skelet
+    public class Grandpa : Enemy
     {
-        public Grandpa() :
-            base("", "", NPSGroup.People, NPSIntellect.Non, new GamePoint(3, 10), 0, "grandpa", new List<Item> { new Knife() }, 2, 2 , false, 10)
+        public Grandpa(int lenWatch) :
+            base("", "", NPSGroup.People, NPSIntellect.Non, new GamePoint(3, 10), 0, "grandpa", new List<Item> { new Knife() }, 2, 2 , true, 4, lenWatch)
         { }
     }
     public class WoodDoor : Door
@@ -31,6 +31,14 @@ namespace TwoD_Game_RP
         public WoodDoor(GamePoint coord, int rotate, bool isLock) :
             base("woodZaborDoorSkelet", coord, rotate, isLock)
         { }
+    }
+    public class Scorpion : Enemy
+    {
+        public Scorpion(GamePoint point, int lenWatch) :
+            base("Scorpion", "", NPSGroup.Monster, NPSIntellect.Attack, point, 0, "scorpion", new List<Item>(), 1, 1, false, 6, lenWatch)
+        {
+            GiveGunInHand(new Knife());
+        }
     }
     //public class Trash : Skelet
     //{
@@ -44,7 +52,7 @@ namespace TwoD_Game_RP
     //        base(name, "", NPSGroup.Box, NPSIntellect.Non, coord, rotate, systemname, inventoryList, heightInventory, weightInventory, true, 1)
     //    { }
     //}
-    public class Perecati : SystemSket
+    public class Perecati : SystemSkelet
     {
         public Perecati(GamePoint coord, int rotate) :
             base(coord, rotate, "perecati", true)

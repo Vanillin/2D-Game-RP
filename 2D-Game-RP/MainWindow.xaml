@@ -17,22 +17,22 @@
                     <RowDefinition Height="1000"/>
                     <RowDefinition Height="200"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Background="Black">
+                <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <!--<Grid.Background>
+                    <Grid.Background>
                         <ImageBrush ImageSource="gamedata\textures\mainfon1.png" AlignmentX="Center" Stretch="Fill" />
-                    </Grid.Background>-->
+                    </Grid.Background>
 
                     <Grid Grid.Column="0">
 
                         <Canvas x:Name="Map" Height="900" Width="1800"
                             MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseRightButtonDown="Map_MouseRightButtonDown">
-                            <!--<Canvas.Background>
+                            <Canvas.Background>
                                 <ImageBrush ImageSource="gamedata\textures\circle.png" AlignmentX="Center" Stretch="Fill" />
-                            </Canvas.Background>-->
+                            </Canvas.Background>
                         </Canvas>
                     </Grid>
 
@@ -110,15 +110,35 @@
                             <ImageBrush ImageSource="gamedata\textures\mainleft.png" AlignmentX="Center" Stretch="Fill" />
                         </StackPanel.Background>
 
-                        <Border CornerRadius="10" Height="50" Margin="20" Background="AntiqueWhite" VerticalAlignment="Bottom" >
+                        <ProgressBar x:Name="HealthBar" Value="50" Height="40" Background="LightGreen" Margin="20,30,20,10"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="EBtn" CornerRadius="10" Height="50" Margin="20" Background="Tan">
+                                <Button Click="EBtn_Click" Background="Transparent">
+                                    <Label Content="E" FontSize="20" Margin="20,0"/>
+                                </Button>
+                            </Border>
+                            <Border x:Name="RBtn" CornerRadius="10" Height="50" Margin="20" Background="AntiqueWhite" >
+                                <Button Click="RBtn_Click" Background="Transparent">
+                                    <Label Content="R" FontSize="20" Margin="20,0"/>
+                                </Button>
+                            </Border>
+                            <Border x:Name="FBtn" CornerRadius="10" Height="50" Margin="20" Background="AntiqueWhite">
+                                <Button Click="FBtn_Click" Background="Transparent">
+                                    <Label Content="F" FontSize="20" Margin="20,0"/>
+                                </Button>
+                            </Border>
+                            <Border x:Name="QBtn" CornerRadius="10" Height="50" Margin="20" Background="AntiqueWhite" >
+                                <Button Click="QBtn_Click" Background="Transparent">
+                                    <Label Content="Q" FontSize="20" Margin="20,0"/>
+                                </Button>
+                            </Border>
+                        </StackPanel>
+                        
+                        <!--<Border CornerRadius="10" Height="50" Margin="20" Background="AntiqueWhite" VerticalAlignment="Bottom" >
                             <Button Click="Exit_Click" Background="Transparent">
                                 <Label Content="ВЫХОД" FontSize="20"/>
                             </Button>
-                        </Border>
-
-                        <StackPanel Margin="20" Height="Auto" VerticalAlignment="Center">
-                            <ProgressBar x:Name="HealthBar" Value="50" Height="40" Background="LightGreen" />
-                        </StackPanel>
+                        </Border>-->
                     </StackPanel>
                     <Grid Grid.Column="1">
                         <Grid.Background>
@@ -126,12 +146,15 @@
                         </Grid.Background>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
-                            <ColumnDefinition Width="auto"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Image x:Name="GunInHandImage" Grid.Column="0" />
-                        <Button x:Name="ReverseGunsBtn" Grid.Column="1" Width="50" Height="50" Click="ReverseGunsBtn_Click" />
-                        <Image x:Name="GunInBackImage" Grid.Column="2"/>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image x:Name="GunInHandImage" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Margin="20, 20, 20, 50"/>
+                        <Image x:Name="GunInBackImage" Grid.Row="1" Grid.Column="1" Margin="40,20"/>
+                        <Button x:Name="ReverseGunsBtn" Grid.Row="0" Grid.Column="1" Width="50" Height="50" Click="ReverseGunsBtn_Click" HorizontalAlignment="Right" Margin="0,0,40,0" />
                     </Grid>
                     <Grid Grid.Column="2">
                         <Grid.Background>

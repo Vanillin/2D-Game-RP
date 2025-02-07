@@ -15,7 +15,7 @@ namespace TwoD_Game_RP
         private Graf _grafLocToMove;
         private Graf _grafLocToWatch;
         private Graf _grafLocAll;
-        private List<SystemSket> _lives;
+        private List<SystemSkelet> _lives;
         private DBDisplay _display;
         private CustomDictionary<GamePoint, string> _transitGamePoint;
         private CustomDictionary<string, List<GamePoint>> _spawnGamePoint;
@@ -52,7 +52,7 @@ namespace TwoD_Game_RP
             }
             _grafLocToMove = null;
             _grafLocToWatch = null;
-            _lives = new List<SystemSket>();
+            _lives = new List<SystemSkelet>();
             _display = new DBDisplay(height, width, 6, compressH, compressW);
 
             _transitGamePoint = new CustomDictionary<GamePoint, string>();
@@ -71,11 +71,11 @@ namespace TwoD_Game_RP
             Name = name;
             SystemName = systemName;
         }
-        public List<SystemSket> GetLives()
+        public List<SystemSkelet> GetLives()
         {
             return _lives;
         }
-        public SystemSket FindLives(int heightInd, int weightInd)
+        public SystemSkelet FindLives(int heightInd, int weightInd)
         {
             return _lives.Find(x => x.Cord.CompareTo((heightInd, weightInd)) == 0);
         }
@@ -263,28 +263,28 @@ namespace TwoD_Game_RP
         {
             AddCell(cell, 4, heightInd, weightInd);
         }
-        public void AddSecondLayerWithCell(SystemSket skelet)
+        public void AddSecondLayerWithCell(SystemSkelet skelet)
         {
             AddCell(skelet.Picture, 2, (int)skelet.Cord.X, (int)skelet.Cord.Y);
             if (skelet is Skelet)
                 IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
             _lives.Add(skelet);
         }
-        public void AddFirstLayerWithCell(SystemSket skelet)
+        public void AddFirstLayerWithCell(SystemSkelet skelet)
         {
             AddCell(skelet.Picture, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
             if (skelet is Skelet)
                 IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
             _lives.Add(skelet);
         }
-        public void RemoveFirstLayerWithCell(SystemSket skelet)
+        public void RemoveFirstLayerWithCell(SystemSkelet skelet)
         {
             RemoveFirstLayerWithCell(skelet.Picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
             if (skelet is Skelet)
                 IsBusy.Remove(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
             _lives.Remove(skelet);
         }
-        public void MoveFirstLayerWithCell(SystemSket skelet, GamePoint newPoint)
+        public void MoveFirstLayerWithCell(SystemSkelet skelet, GamePoint newPoint)
         {
             if (skelet is Skelet)
             {

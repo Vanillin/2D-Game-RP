@@ -60,6 +60,10 @@ namespace TwoD_Game_RP
             T[] memory = _memory;
             _memory = new T[_capacity * 2];
             int num = 0;
+            if (_tail < 0)
+            {
+                _tail += _capacity;
+            }
             while (_head != _tail)
             {
                 _memory[num] = memory[_head];

@@ -46,9 +46,9 @@ namespace TwoD_Game_RP
         /// </summary>
         public List<GamePoint> SearchWidth_OutOfPoint(GamePoint start, GamePoint finish, CustomSortedEnum<GamePoint> deletedpoints)
         {
-            if (start.Equals(finish) || deletedpoints.Contains(finish))
+            if (start.Equals(finish))
             {
-                return null;
+                return new List<GamePoint>();
             }
             List<GamePoint> Retur = new List<GamePoint>();
             Vertex StartVert = Find(start);
@@ -74,7 +74,7 @@ namespace TwoD_Game_RP
                 Vertex Now = Que.Dequeue();
                 foreach (Vertex v in Now.Near)
                 {
-                    if (deletedpoints.Contains(v.Cord))
+                    if (!v.Cord.Equals(finish) && deletedpoints.Contains(v.Cord))
                     {
                         continue;
                     }
@@ -105,6 +105,10 @@ namespace TwoD_Game_RP
                         }
 
                         Retur.Remove(StartVert.Cord);
+                        if (deletedpoints.Contains(finish))
+                        {
+                            Retur.Remove(finish);
+                        }
                         return Retur;
                     }
                     else if (!PartStart.Contains(v) && !PartFinish.Contains(v))

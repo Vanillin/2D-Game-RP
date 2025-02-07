@@ -144,6 +144,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="gamedata\textures\map\Window\5_sD_.pdn" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -390,6 +391,87 @@
     <Resource Include="gamedata\textures\map\Wall\wood\7_sD_.png" />
     <Resource Include="gamedata\textures\map\Wall\wood\8_sD_.png" />
     <Resource Include="gamedata\textures\map\Wall\wood\9_sD_.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Object\Bush_sD_.png" />
+    <Resource Include="gamedata\textures\map\Object\buttle_sD_.png" />
+    <Resource Include="gamedata\textures\map\Object\chair_sD_.png" />
+    <Resource Include="gamedata\textures\map\Object\krovat1_sD_.png" />
+    <Resource Include="gamedata\textures\map\Object\krovat2_sD_.png" />
+    <Resource Include="gamedata\textures\map\Object\krovat3_sD_.png" />
+    <Resource Include="gamedata\textures\map\Object\krovat4_sD_.png" />
+    <Resource Include="gamedata\textures\map\Object\podval1_sD_.png" />
+    <Resource Include="gamedata\textures\map\Object\podval2_sD_.png" />
+    <Resource Include="gamedata\textures\map\Object\tarelka_sD_.png" />
+    <Resource Include="gamedata\textures\map\Object\картина_sD_.png" />
+    <Resource Include="gamedata\textures\map\Object\ковер1_sD_.png" />
+    <Resource Include="gamedata\textures\map\Object\ковер2_sD_.png" />
+    <Resource Include="gamedata\textures\map\Object\кость_sD_.png" />
+    <Resource Include="gamedata\textures\map\Object\часы_sD_.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\ObjectWall\stand1_sD_.png" />
+    <Resource Include="gamedata\textures\map\ObjectWall\stand2_sD_.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\ObjectWindow\bigBox_sD_.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\bigStone1_sD_.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\bigStone2_sD_.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\cartBox_sD_.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\cart_sD_.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\kitchen_sD_.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\table_sD_.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\могила1_sD_.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\могила2_sD_.png" />
+    <Resource Include="gamedata\textures\map\ObjectWindow\могила3_sD_.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Wall\balka_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\drawwell_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\stone_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\unitaz_sD_.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Wall\hill\00_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\01_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\10_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\11_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\30_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\31_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\50_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\51_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\70_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\71_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\90_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\hill\91_sD_.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Wall\underWood\00_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\underWood\01_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\underWood\11_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\underWood\31_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\underWood\50_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\underWood\51_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\underWood\70_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\underWood\91_sD_.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\02_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\08_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\0_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\1_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\2_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\3_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\4_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\5_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\6_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\7_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\8_sD_.png" />
+    <Resource Include="gamedata\textures\map\Wall\woodZabor\9_sD_.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\player\scorpion-map-dead.png" />
+    <Resource Include="gamedata\textures\player\scorpion-map.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

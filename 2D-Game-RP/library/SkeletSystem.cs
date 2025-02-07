@@ -9,12 +9,14 @@ namespace TwoD_Game_RP
         People,
         Box,
         Door,
+        Monster,
     }
     public enum NPSIntellect
     {
-        Non //стоит вкопанный не реагирует
+        Non, //стоит вкопанный не реагирует
+        Attack
     }
-    public class Door : SystemSket
+    public class Door : SystemSkelet
     {
         public bool IsLock;
         public Door(string systemName, GamePoint coord, int rotate, bool isLock) :
@@ -23,7 +25,7 @@ namespace TwoD_Game_RP
             IsLock = isLock;
         }
     }
-    public class SystemSket
+    public class SystemSkelet
     {
         internal CustomBilateralQueue<IAction> _globalActions;
         internal CustomBilateralQueue<IAction> _actions;
@@ -32,7 +34,7 @@ namespace TwoD_Game_RP
         public bool IsClarity { get; }
         public IPictureCell Picture { get; set; }
 
-        public SystemSket(GamePoint coord, int rotate, string systemname, bool isClarity)
+        public SystemSkelet(GamePoint coord, int rotate, string systemname, bool isClarity)
         {
             SystemName = systemname;
             Cord = coord;
@@ -45,7 +47,7 @@ namespace TwoD_Game_RP
         }
 
         //=================================== Actions ====================================
-        public bool DoAction(Location location)
+        public virtual bool DoAction(Location location)
         {
             if (PeekGlobalAction() == null) return false;
             if (PeekAction() == null) CreateActions(PeekGlobalAction().CreateActions(this, location));
@@ -97,7 +99,7 @@ namespace TwoD_Game_RP
             return _actions.Peek();
         }
     }
-    public interface IBox
+    public interface IBoxSkelet
     {
         void DisplayInventory(Canvas canvas, double size);
         bool AddInBackpack(Item item);
@@ -105,11 +107,11 @@ namespace TwoD_Game_RP
         bool ContainsInBackpack(Item item);
         Item SearchInBackpack(int h, int w);
     }
-    public class Box : SystemSket, IBox
+    public class Box : SystemSkelet, IBoxSkelet
     {
         private DBDisplay _inventoryDisplay;
         private Inventory _inventory;
-        public Box(GamePoint coord, int rotate, string systemname, bool isClarity, List<Item> inventoryList, int inventoryHeight, int inventoryWidth) 
+        public Box(GamePoint coord, int rotate, string systemname, bool isClarity, List<Item> inventoryList, int inventoryHeight, int inventoryWidth)
             : base(coord, rotate, systemname, isClarity)
         {
             _inventory = new Inventory(inventoryHeight, inventoryWidth, inventoryList);
@@ -123,7 +125,7 @@ namespace TwoD_Game_RP
         public bool ContainsInBackpack(Item item) => _inventory.ContainsInBackpack(item);
         public Item SearchInBackpack(int h, int w) => _inventory.SearchInBackpack(h, w);
     }
-    public class Skelet : SystemSket, IBox
+    public class Skelet : SystemSkelet, IBoxSkelet
     {
         private NPSGroup _fraction;
         private NPSIntellect _intellect;
@@ -136,7 +138,7 @@ namespace TwoD_Game_RP
         public NPSIntellect Intellect => _intellect;
         public List<NPSGroup> FriendFranction { get; set; }
 
-        public Skelet(string name, string secondname, NPSGroup fraction, NPSIntellect intellect, GamePoint coord, int rotate,
+        internal Skelet(string name, string secondname, NPSGroup fraction, NPSIntellect intellect, GamePoint coord, int rotate,
             string systemname, List<Item> inventoryList, int inventoryHeight, int inventoryWidth, bool isClarity, int health)
             : base(coord, rotate, systemname, isClarity)
         {
@@ -148,7 +150,7 @@ namespace TwoD_Game_RP
             _fraction = fraction;
             _health = new HealthSkelet(health, health);
 
-            FriendFranction = new List<NPSGroup> { NPSGroup.People };
+            FriendFranction = GetFriendFraction(fraction);
             _inventoryDisplay = new DBDisplay(1, 1);
 
             for (int i = 0; i < inventoryHeight; i++)
@@ -161,7 +163,14 @@ namespace TwoD_Game_RP
             }
             this._inventoryDisplay.Update(cell);
         }
-
+        private List<NPSGroup> GetFriendFraction(NPSGroup fraction)
+        {
+            switch (fraction)
+            {
+                case NPSGroup.Monster: return new List<NPSGroup>() { NPSGroup.Monster };
+                default: return new List<NPSGroup>() { NPSGroup.People };
+            }
+        }
         //=================================== method Inventory ====================================
         public void DisplayInventory(Canvas canvas, double size) => _inventoryDisplay.DisplayInventory(canvas, size, _inventory.ReferenceItem);
         public void ChangeGunInHandAndInBack() => _inventory.ChangeGunInHandAndInBack();

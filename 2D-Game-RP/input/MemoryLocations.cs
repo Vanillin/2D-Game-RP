@@ -7,7 +7,7 @@ namespace TwoD_Game_RP
     public class MemoryLocations
     {
         private static Location Eosha;
-        public static Location GetEosha(Player player, double compressH, double compressW)
+        public static Location GetEosha(Player player, int lenWatch, double compressH, double compressW)
         {
             if (Eosha == null)
             {
@@ -31,12 +31,9 @@ namespace TwoD_Game_RP
                 Eosha.CreateGrafMove();
                 Eosha.CreateGrafAll();
 
-                var girl = new Girl();
-                var grandma = new Grandma();
-                var grandpa = new Grandpa();
-                var perecati = new Perecati(new GamePoint(12, 30), 0);
-                perecati.EnqueueDownGlobalAction(new ActionMove(new GamePoint(12, 3), true));
-                perecati.EnqueueDownGlobalAction(new ActionMove(new GamePoint(12, 30), true));
+                var girl = new Girl(lenWatch);
+                var grandma = new Grandma(lenWatch);
+                var grandpa = new Grandpa(lenWatch);
 
                 Eosha.AddFirstLayerWithCell(new Box(new GamePoint(3, 18), 0, "", true, new List<Item>() { new Water() }, 2, 2));
                 Eosha.AddFirstLayerWithCell(new Box(new GamePoint(6, 13), 0, "", true, new List<Item>() {  }, 2, 2));
@@ -49,14 +46,13 @@ namespace TwoD_Game_RP
                 Eosha.AddFirstLayerWithCell(girl);
                 Eosha.AddFirstLayerWithCell(grandma);
                 Eosha.AddFirstLayerWithCell(grandpa);
-                Eosha.AddFirstLayerWithCell(perecati);
 
                 Eosha.UpdateDisplay();
             }
             return Eosha;
         }
         private static Location Mine;
-        public static Location GetMine(double compressH, double compressW)
+        public static Location GetMine(int lenWatch, double compressH, double compressW)
         {
             if (Mine == null)
             {
@@ -79,6 +75,10 @@ namespace TwoD_Game_RP
                 Mine.AddFirstLayerWithCell(new Box(new GamePoint(20, 23), 0, "", true, new List<Item>() { new Potato() }, 2, 2));
                 Mine.AddFirstLayerWithCell(new Box(new GamePoint(20, 1), 0, "", true, new List<Item>() {  }, 2, 2));
                 Mine.AddFirstLayerWithCell(new Box(new GamePoint(21, 1), 0, "", true, new List<Item>() {  }, 2, 2));
+
+                Mine.AddFirstLayerWithCell(new Scorpion(new GamePoint(15, 18), lenWatch));
+                Mine.AddFirstLayerWithCell(new Scorpion(new GamePoint(6, 9), lenWatch));
+                Mine.AddFirstLayerWithCell(new Scorpion(new GamePoint(7, 14), lenWatch));
 
                 Mine.CreateGrafWatch();
                 Mine.CreateGrafMove();
