@@ -47,12 +47,15 @@ namespace TwoD_Game_RP
     {
         public int Damage;
         public int Radius;
+        private IPictureCell _pictureAttack;
+        public IPictureCell PictureAttack => _pictureAttack;
 
-        public Gun(string name, string systemName, int damage, int radius, int cost, int sizeH, int sizeW)
+        public Gun(string name, string systemName, int damage, int radius, int cost, int sizeH, int sizeW, IPictureCell pictureAttack)
             : base(name, systemName, cost, sizeH, sizeW)
         {
             Damage = damage;
             Radius = radius;
+            _pictureAttack = pictureAttack;
         }
     }
 

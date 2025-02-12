@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,8 +20,18 @@ namespace TwoD_Game_RP
             E, Q, F, R   //r - attack, f - active, e - move, q - view
         }
         GameMode _activeGameMode = GameMode.E;
-        Brush active = Brushes.Tan;
-        Brush notactive = Brushes.AntiqueWhite;
+        ImageBrush active = new ImageBrush()
+        {
+            ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["Textures"], $"lampOn.png"), UriKind.Relative)),
+            Stretch = Stretch.Fill,
+        };
+        ImageBrush notactive = new ImageBrush()
+        {
+            ImageSource = new BitmapImage(new Uri(System.IO.Path.Combine(ConfigurationManager.AppSettings["Textures"], $"lampOff.png"), UriKind.Relative)),
+            Stretch = Stretch.Fill,
+        };
+        //Brush active = Brushes.Tan;
+        //Brush notactive = Brushes.AntiqueWhite;
         private void EBtn_Click(object sender, RoutedEventArgs e)
         {
             _activeGameMode = GameMode.E;
@@ -28,6 +39,7 @@ namespace TwoD_Game_RP
             QBtn.Background = notactive;
             RBtn.Background = notactive;
             FBtn.Background = notactive;
+            this.Cursor = null;
         }
         private void QBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -42,6 +54,7 @@ namespace TwoD_Game_RP
                 QBtn.Background = active;
                 RBtn.Background = notactive;
                 FBtn.Background = notactive;
+                this.Cursor = Cursors.Help;
             }
         }
         private void FBtn_Click(object sender, RoutedEventArgs e)
@@ -58,6 +71,7 @@ namespace TwoD_Game_RP
                 QBtn.Background = notactive;
                 RBtn.Background = notactive;
                 FBtn.Background = active;
+                this.Cursor = Cursors.Hand;
             }
         }
         private void RBtn_Click(object sender, RoutedEventArgs e)
@@ -74,6 +88,7 @@ namespace TwoD_Game_RP
                 QBtn.Background = notactive;
                 RBtn.Background = active;
                 FBtn.Background = notactive;
+                this.Cursor = Cursors.Cross;
             }
         }
 
@@ -97,19 +112,20 @@ namespace TwoD_Game_RP
         public Location CurrentLocation;
         public List<Location> Locations = new List<Location>();
         public Player player;
-        const int timeTimer = 200;
+        const int timeTimerSmall = 690/2;
+        const int timeTimerBig = 1150/2;
 
         private DispatcherTimer timerReloadAnimation = new DispatcherTimer()
         {
-            Interval = TimeSpan.FromMilliseconds(timeTimer)
+            Interval = TimeSpan.FromMilliseconds(timeTimerSmall)
         };
         private DispatcherTimer timerReloadAnalyzeTask = new DispatcherTimer()
         {
-            Interval = TimeSpan.FromMilliseconds(timeTimer)
+            Interval = TimeSpan.FromMilliseconds(timeTimerSmall)
         };
         private DispatcherTimer timerReloadDoAll = new DispatcherTimer()
         {
-            Interval = TimeSpan.FromMilliseconds(timeTimer)
+            Interval = TimeSpan.FromMilliseconds(timeTimerSmall)
         };
 
         public MainWindow()
@@ -120,17 +136,22 @@ namespace TwoD_Game_RP
         {
             CreateMainWindow();
         }
+        public MainWindow(string PlayerName, PlayerGender Gender, List<Actuals> actuals)
+        {
+            CreateMainWindow();
+        }
         private void CreateMainWindow()
         {
             //Information.Serialization();
 
             InitializeComponent();
+            EBtn_Click(null, null);
             SystemObj = new List<UIElement>();
             timerReloadAnimation.Tick += TimerAnimation_Tick;
             timerReloadAnimation.IsEnabled = true;
             //Thread.Sleep(20);
-            timerReloadAnalyzeTask.Tick += TimerAnalyzeTask_Tick;
-            timerReloadAnalyzeTask.IsEnabled = true;
+            //timerReloadAnalyzeTask.Tick += TimerAnalyzeTask_Tick;
+            //timerReloadAnalyzeTask.IsEnabled = true;
             //timerReloadDoAll.Tick += TimerReloadDoAll_Tick;
             //timerReloadDoAll.IsEnabled = true;
 
@@ -184,14 +205,23 @@ namespace TwoD_Game_RP
         }
         private void ChangeSizeInventoryPlayer()
         {
-            if (InventoryPlayer.ActualHeight == 0)
-                pixelSizeInvent = Math.Min(InventoryPlayer.Height / (sizeInventH), InventoryPlayer.Width / (sizeInventW));
-            else
-                pixelSizeInvent = Math.Min(InventoryPlayer.ActualHeight / (sizeInventH), InventoryPlayer.ActualWidth / (sizeInventW));
-            InventoryPlayer.Height = pixelSizeInvent * (sizeInventH);
-            InventoryPlayer.Width = pixelSizeInvent * (sizeInventW);
+            //if (InventoryPlayer.ActualHeight == 0)
+            //    pixelSizeInvent = Math.Min(InventoryPlayer.Height / (sizeInventH), InventoryPlayer.Width / (sizeInventW));
+            //else
+            //    pixelSizeInvent = Math.Min(InventoryPlayer.ActualHeight / (sizeInventH), InventoryPlayer.ActualWidth / (sizeInventW));
+            //InventoryPlayer.Height = pixelSizeInvent * (sizeInventH);
+            //InventoryPlayer.Width = pixelSizeInvent * (sizeInventW);
+
+            pixelSizeInvent = 70;
         }
 
+        private void ChangeTimerInterval() //не должен обнулять время
+        {
+            //if (player.IsEmptyAction())
+            //    timerReloadAnimation.Interval = TimeSpan.FromMilliseconds(timeTimerBig);
+            //else
+            //    timerReloadAnimation.Interval = TimeSpan.FromMilliseconds(timeTimerSmall);
+        }
         private void TimerAnalyzeTask_Tick(object sender, EventArgs e)
         {
             MainScripts.TimerAnalyze(this);
@@ -199,10 +229,13 @@ namespace TwoD_Game_RP
         private void TimerReloadDoAll_Tick(object sender, EventArgs e)
         {
             DoActionAll();
+            ChangeTimerInterval();
         }
         private void TimerAnimation_Tick(object sender, EventArgs e)
         {
+            TimerAnalyzeTask_Tick(null, null);
             TimerReloadDoAll_Tick(null, null);
+
             if (SeeInCurcle)
             {
                 ChangeLeftUpCornerGamePole(oblwatch * 2 + 1, oblwatch * 2 + 1, player.Cord);
@@ -227,7 +260,7 @@ namespace TwoD_Game_RP
             }
 
             ChangeSizeInventoryPlayer();
-            DisplayPlayerInventory(InventoryPlayer, pixelSizeInvent);
+            DisplayPlayerInventory(InventoryHotBar, pixelSizeInvent);
             //переключение новой картинки для анимации
         }
         public void GoToLocationStart(string name)
@@ -298,6 +331,15 @@ namespace TwoD_Game_RP
         private void DoActionAll()
         {
             List<SystemSkelet> list = new List<SystemSkelet>();
+
+            if (!(player).IsAlive && CurrentLocation.SystemName == "Mine")
+            {
+                player.ClearGlobalActions();
+                player.ClearActions();
+                player.EnqueueUpGlobalAction(new ActionTeleport(new GamePoint(32, 25), false));
+                player.PlusHealth(100);
+            }
+
             foreach (var v in CurrentLocation.GetLives())
             {
                 if (v is Skelet && (v as Skelet).IsAlive) list.Add(v);
@@ -320,7 +362,7 @@ namespace TwoD_Game_RP
                 GunInBackImage.Source = null;
 
             HealthBar.Value = player.HealthPercent * 100;
-            player.DisplayInventory(canvasInv, size);
+            //player.DisplayInventory(canvasInv, size);
         }
 
         //===============================================        Click      ===============================================
@@ -364,6 +406,8 @@ namespace TwoD_Game_RP
             (int W, int H) = FindPointClick(pointMouse);
             (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X);
 
+            if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
+
             if (_activeGameMode == GameMode.E)
             {
                 KeyDownToMove(H, W);
@@ -380,7 +424,7 @@ namespace TwoD_Game_RP
                     people = CurrentLocation.FindLives(H, W);
                 }
                 if (people == null) return;
-                if (people is Skelet) MenuPersonAttack_Click(people as Skelet);
+                if (people is Skelet && (people as Skelet).IsAlive && !(people is Player)) MenuPersonAttack_Click(people as Skelet);
             }
             else if (_activeGameMode == GameMode.F)
             {
@@ -399,7 +443,7 @@ namespace TwoD_Game_RP
             }
             else if (_activeGameMode == GameMode.Q)
             {
-                //реализовать осмотр
+                ClickOnWatch(H, W); 
             }
         }
         private void Map_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -408,7 +452,9 @@ namespace TwoD_Game_RP
             Point pointMouse = e.GetPosition(Map);
             (int W, int H) = FindPointClick(pointMouse);
             (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X);
-            //if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
+
+            if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
+
             SystemSkelet people;
             if (H + 1 < CurrentLocation.Height && CurrentLocation.FindLives(H + 1, W) != null)
             {
@@ -456,6 +502,15 @@ namespace TwoD_Game_RP
 
                 //случай перехода на новую локацию или застревания где-либо
             }
+            ChangeTimerInterval();
+        }
+        private void ClickOnWatch(int H, int W)
+        {
+            bool IsFind = CurrentLocation.IsDescriptionsCell(H, W, out string description);
+            if (IsFind)
+                WatchTextBlock.Text = description;
+            else
+                WatchTextBlock.Text = "";
         }
         private void ClickOnDoor(Door door)
         {
@@ -542,7 +597,7 @@ namespace TwoD_Game_RP
                 menu.Children.Add(Attack);
             }
 
-            if (player.FriendFranction.Contains(people.Fraction))
+            if (people.IsAlive && player.FriendFranction.Contains(people.Fraction))
             {
                 menu.Children.Add(Dialog);
             }
@@ -599,6 +654,7 @@ namespace TwoD_Game_RP
             player.ClearActions();
             player.ClearGlobalActions();
             player.EnqueueUpGlobalAction(new ActionAttack(people, false));
+            ChangeTimerInterval();
         }
         private void MenuPersonCheck_Click(object sender, RoutedEventArgs e)
         {
@@ -610,10 +666,7 @@ namespace TwoD_Game_RP
         {
             if (InventorySearchWindow.Visibility == Visibility.Collapsed)
             {
-                timerReloadAnimation.IsEnabled = false;
-                SystemObj = new List<UIElement>();
-                InventorySearchWindow.Visibility = Visibility.Visible;
-                CreateInventoryWindow(box);
+                OpenInventoryWindow(box);
             }
         }
         private void MenuPersonDialog_Click(object sender, RoutedEventArgs e)
@@ -902,19 +955,27 @@ namespace TwoD_Game_RP
         //====================================================================================================================
         //====================================================================================================================
 
+        private void InventoryBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenInventoryWindow(player);
+        }
         private void ExitInventorySearchBtn_Click(object sender, RoutedEventArgs e)
         {
             InventorySearchWindow.Visibility = Visibility.Collapsed;
             timerReloadAnimation.IsEnabled = true;
         }
-        private void CreateInventoryWindow(IBoxSkelet skelet)
+        private void OpenInventoryWindow(IBoxSkelet skelet)
         {
+            timerReloadAnimation.IsEnabled = false;
+            SystemObj = new List<UIElement>();
+            InventorySearchWindow.Visibility = Visibility.Visible;
+
             InventoryCanvas.Tag = skelet;
             skelet.DisplayInventory(InventoryCanvas, pixelSizeInvent);
         }
-        private void InventoryPlayer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void InventoryHotBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Point pointMouse = e.GetPosition(InventoryPlayer);
+            Point pointMouse = e.GetPosition(InventoryHotBar);
             (int W, int H) = ((int)Math.Truncate((pointMouse.X) / pixelSizeInvent),
                 (int)Math.Truncate((pointMouse.Y) / pixelSizeInvent));
             Item item = player.SearchInBackpack(H, W);
@@ -926,7 +987,7 @@ namespace TwoD_Game_RP
                     skelet.AddInBackpack(item);
                     player.RemoveInBackpack(item);
 
-                    player.DisplayInventory(InventoryPlayer, pixelSizeInvent);
+                    player.DisplayInventory(InventoryHotBar, pixelSizeInvent);
                     skelet.DisplayInventory(InventoryCanvas, pixelSizeInvent);
                 }
                 else
@@ -938,7 +999,7 @@ namespace TwoD_Game_RP
                 }
             }
         }
-        private void InventoryPlayer_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void InventoryHotBar_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
 
         }
@@ -954,8 +1015,8 @@ namespace TwoD_Game_RP
                 skelet.RemoveInBackpack(item);
                 player.AddInBackpack(item);
 
-                player.DisplayInventory(InventoryPlayer, pixelSizeInvent);
-                skelet.DisplayInventory(InventoryCanvas, pixelSizeInvent);
+                player.DisplayInventory(InventoryHotBar, pixelSizeInvent);
+                skelet.DisplayInventory(InventoryHotBar, pixelSizeInvent);
             }
         }
         private void InventoryCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)

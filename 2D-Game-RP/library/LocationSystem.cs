@@ -25,6 +25,11 @@ namespace TwoD_Game_RP
         public int MaxDepth => _maxDepth;
         public string Name { get; private set; }
         public string SystemName { get; private set; }
+        public int CreateLenghtPathVisible(GamePoint start, GamePoint finish)
+        {
+            if (_grafLocToWatch == null) { throw new CustomException("Граф не создан"); }
+            return _grafLocToWatch.SearchWidth(start, finish).Count;
+        }
         public List<GamePoint> CreatePath_OutOfPoint(GamePoint start, GamePoint finish, CustomSortedEnum<GamePoint> deletedpoints)
         {
             if (_grafLocToMove == null) { throw new CustomException("Граф не создан"); }
@@ -100,6 +105,19 @@ namespace TwoD_Game_RP
             }
             return null;
         }
+        public bool IsDescriptionsCell(int heightInd, int wightInd, out string description)
+        {
+            description = null;
+            foreach (var v in _cells[heightInd, wightInd])
+            {
+                bool Ok = Information.GetDescriptionToPicture(v.Item1.Picture(), out string currentdescription);
+                if (Ok) description = currentdescription;
+            }
+            if (description == null)
+                return false;
+            else
+                return true;
+        }
         public bool GetIsBlockCell(int heightInd, int weightInd)
         {
             if (_cells[heightInd, weightInd] == null) return true;
@@ -117,13 +135,13 @@ namespace TwoD_Game_RP
                 DarkenPicCell.Creating(path);
             }
         }
-        public void CreateShootPictCell(string path)
-        {
-            if (ShootPicCell.Taking() == null)
-            {
-                ShootPicCell.Creating(path);
-            }
-        }
+        //public void CreateShootPictCell(string path)
+        //{
+        //    if (ShootPicCell.Taking() == null)
+        //    {
+        //        ShootPicCell.Creating(path);
+        //    }
+        //}
         public void CreateGrafMove()
         {
             _grafLocToMove = new Graf();
@@ -265,21 +283,21 @@ namespace TwoD_Game_RP
         }
         public void AddSecondLayerWithCell(SystemSkelet skelet)
         {
-            AddCell(skelet.Picture, 2, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+            AddCell(skelet, 2, (int)skelet.Cord.X, (int)skelet.Cord.Y);
             if (skelet is Skelet)
                 IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
             _lives.Add(skelet);
         }
         public void AddFirstLayerWithCell(SystemSkelet skelet)
         {
-            AddCell(skelet.Picture, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+            AddCell(skelet, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
             if (skelet is Skelet)
                 IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
             _lives.Add(skelet);
         }
         public void RemoveFirstLayerWithCell(SystemSkelet skelet)
         {
-            RemoveFirstLayerWithCell(skelet.Picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+            RemoveFirstLayerWithCell(skelet, (int)skelet.Cord.X, (int)skelet.Cord.Y);
             if (skelet is Skelet)
                 IsBusy.Remove(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
             _lives.Remove(skelet);
@@ -288,17 +306,17 @@ namespace TwoD_Game_RP
         {
             if (skelet is Skelet)
             {
-                RemoveFirstLayerWithCell(skelet.Picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+                RemoveFirstLayerWithCell(skelet, (int)skelet.Cord.X, (int)skelet.Cord.Y);
                 IsBusy.Remove(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
                 skelet.Cord = newPoint;
-                AddCell(skelet.Picture, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+                AddCell(skelet, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
                 IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
             }
             else
             {
-                RemoveFirstLayerWithCell(skelet.Picture, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+                RemoveFirstLayerWithCell(skelet, (int)skelet.Cord.X, (int)skelet.Cord.Y);
                 skelet.Cord = newPoint;
-                AddCell(skelet.Picture, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+                AddCell(skelet, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
             }
         }
         //public IEnumerable<IPictureCell> GetEnumerableCell(int heightInd, int weightInd)

@@ -25,14 +25,31 @@ namespace TwoD_Game_RP
             IsLock = isLock;
         }
     }
-    public class SystemSkelet
+    public class SystemSkelet : IPictureCell
     {
         internal CustomBilateralQueue<IAction> _globalActions;
         internal CustomBilateralQueue<IAction> _actions;
+        private IPictureCell _picture;
         public string SystemName { get; }
         public GamePoint Cord { get; set; }
         public bool IsClarity { get; }
-        public IPictureCell Picture { get; set; }
+        public virtual string Picture()
+        {
+            return _picture.Picture();
+        }
+        public void NextPicture() { }
+        public void ReloadPictures() { }
+        public int Rotate
+        {
+            get
+            {
+                return _picture.Rotate;
+            }
+            set
+            {
+                _picture.Rotate = value;
+            }
+        }
 
         public SystemSkelet(GamePoint coord, int rotate, string systemname, bool isClarity)
         {
@@ -40,13 +57,30 @@ namespace TwoD_Game_RP
             Cord = coord;
             IsClarity = isClarity;
 
-            Picture = new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{SystemName}-map.png"));
-            Picture.Rotate = rotate;
+            _picture = new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{SystemName}-map.png"));
+            _picture.Rotate = rotate;
+            _globalActions = new CustomBilateralQueue<IAction>();
+            _actions = new CustomBilateralQueue<IAction>();
+        }
+        public SystemSkelet(GamePoint coord, int rotate, string systemname, bool isClarity, IPictureCell pictureCell)
+        {
+            SystemName = systemname;
+            Cord = coord;
+            IsClarity = isClarity;
+
+            _picture = pictureCell;
+            _picture.Rotate = rotate;
             _globalActions = new CustomBilateralQueue<IAction>();
             _actions = new CustomBilateralQueue<IAction>();
         }
 
         //=================================== Actions ====================================
+        public bool IsEmptyAction()
+        {
+            if (PeekGlobalAction() != null) return false;
+            if (PeekAction() != null) return false;
+            return true;
+        }
         public virtual bool DoAction(Location location)
         {
             if (PeekGlobalAction() == null) return false;
@@ -125,18 +159,25 @@ namespace TwoD_Game_RP
         public bool ContainsInBackpack(Item item) => _inventory.ContainsInBackpack(item);
         public Item SearchInBackpack(int h, int w) => _inventory.SearchInBackpack(h, w);
     }
-    public class Skelet : SystemSkelet, IBoxSkelet
+    public class Skelet : SystemSkelet, IBoxSkelet, IPictureCell
     {
         private NPSGroup _fraction;
         private NPSIntellect _intellect;
         private DBDisplay _inventoryDisplay;
         private Inventory _inventory;
         private HealthSkelet _health;
+        private IPictureCell _deadPictureCell;
         public string Name { get; }
         public string SecondName { get; }
         public NPSGroup Fraction => _fraction;
         public NPSIntellect Intellect => _intellect;
         public List<NPSGroup> FriendFranction { get; set; }
+        public override string Picture()
+        {
+            if (_health is null) return base.Picture();
+            if (IsAlive) return base.Picture();
+            return _deadPictureCell.Picture();
+        }
 
         internal Skelet(string name, string secondname, NPSGroup fraction, NPSIntellect intellect, GamePoint coord, int rotate,
             string systemname, List<Item> inventoryList, int inventoryHeight, int inventoryWidth, bool isClarity, int health)
@@ -150,6 +191,7 @@ namespace TwoD_Game_RP
             _fraction = fraction;
             _health = new HealthSkelet(health, health);
 
+            _deadPictureCell = new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{SystemName}-map-dead.png"));
             FriendFranction = GetFriendFraction(fraction);
             _inventoryDisplay = new DBDisplay(1, 1);
 

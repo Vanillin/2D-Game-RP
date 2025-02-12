@@ -13,8 +13,12 @@ namespace TwoD_Game_RP
             {
                 List<(string, GamePoint)> transit = new List<(string, GamePoint)>()
                 {
+                    ("Mine", new GamePoint(10,0)),
                     ("Mine", new GamePoint(11,0)),
                     ("Mine", new GamePoint(12,0)),
+                    ("Mine", new GamePoint(13,0)),
+                    ("Mine", new GamePoint(14,0)),
+                    ("Mine", new GamePoint(15,0)),
                     ("UnderEosha", new GamePoint(3,13)),
                 };
                 Eosha = new Location("Булгар", "Eosha", 23, 32, compressH, compressW, transit);
@@ -26,7 +30,7 @@ namespace TwoD_Game_RP
                 Eosha.AddLocationCellsLayer(CreateLocation("EoshaObject2"), 0);
 
                 Eosha.CreateDarkPictCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"System/Dark.png"));
-                Eosha.CreateShootPictCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"System/Shoot.png"));
+                //Eosha.CreateShootPictCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"System/Shoot.png"));
                 Eosha.CreateGrafWatch();
                 Eosha.CreateGrafMove();
                 Eosha.CreateGrafAll();
@@ -61,6 +65,7 @@ namespace TwoD_Game_RP
                     ("Eosha", new GamePoint(33,26)),
                     ("Eosha", new GamePoint(32,26)),
                     ("Eosha", new GamePoint(31,26)),
+                    ("Eosha", new GamePoint(30,26)),
                 };
                 Mine = new Location("sdfsdfsdf", "Mine", 34, 27, compressH, compressW, transit);
 

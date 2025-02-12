@@ -7,20 +7,20 @@
 ///    -------------------
 ///   end
  
-        0    Wall/hill/00
-        O    Wall/hill/01
-        1    Wall/hill/10
-        I    Wall/hill/11
-        3    Wall/hill/30
-        2    Wall/hill/31
-        5    Wall/hill/50
-        4    Wall/hill/51
-        7    Wall/hill/70
-        6    Wall/hill/71
-        9    Wall/hill/90
-        8    Wall/hill/91
-	=    Wall/stone
-	%    Wall/balka
+        0    Wall\hill\00
+        O    Wall\hill\01
+        1    Wall\hill\10
+        I    Wall\hill\11
+        3    Wall\hill\30
+        2    Wall\hill\31
+        5    Wall\hill\50
+        4    Wall\hill\51
+        7    Wall\hill\70
+        6    Wall\hill\71
+        9    Wall\hill\90
+        8    Wall\hill\91
+	=    Wall\stone
+	%    Wall\balka
 
 start
 	......=====................

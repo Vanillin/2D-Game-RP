@@ -7,12 +7,12 @@
 ///    -------------------
 ///   end
  
-	B    Object/Bush
-	s    ObjectWindow/bigStone1
-	S    ObjectWindow/bigStone2
-	t    ObjectWindow/cart
-	T    ObjectWindow/cartBox
-	Z    ObjectWindow/bigBox
+	B    Object\Bush
+	s    ObjectWindow\bigStone1
+	S    ObjectWindow\bigStone2
+	t    ObjectWindow\cart
+	T    ObjectWindow\cartBox
+	Z    ObjectWindow\bigBox
 
 start
 	......=====................

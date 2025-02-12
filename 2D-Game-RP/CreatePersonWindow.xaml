@@ -1,0 +1,16 @@
+﻿<Window x:Class="TwoD_Game_RP.CreatePersonWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TwoD_Game_RP"
+        mc:Ignorable="d"
+        Title="CreatePersonWindow" WindowState="Maximized" Height="1200" Width="1920" Icon="gamedata\textures\icon.png">
+    <StackPanel>
+        <TextBox x:Name="NamePerson" FontSize="30" />
+        <RadioButton x:Name="MechanicRB" FontSize="30" Content="Mechanic" GroupName="Actuals"/>
+        <RadioButton x:Name="SniperRB" FontSize="30" Content="Sniper" GroupName="Actuals"/>
+        <RadioButton x:Name="Gender" FontSize="30" Content="Мужской" GroupName="Gender"/>
+        <Button x:Name="CreatePerson" Content="Создать" FontSize="30" Click="CreatePerson_Click" />
+    </StackPanel>
+</Window>

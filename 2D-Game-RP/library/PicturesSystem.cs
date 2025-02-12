@@ -7,38 +7,38 @@
         void NextPicture();
         void ReloadPictures();
     }
-    internal class ShootPicCell : IPictureCell
-    {
-        string _picture;
-        private static ShootPicCell _shoot;
-        public int Rotate { get; set; }
+    //internal class ShootPicCell : IPictureCell
+    //{
+    //    string _picture;
+    //    private static ShootPicCell _shoot;
+    //    public int Rotate { get; set; }
 
-        private ShootPicCell(string picture)
-        {
-            _picture = picture;
-        }
-        public static ShootPicCell Creating(string picture)
-        {
-            if (_shoot == null)
-            {
-                _shoot = new ShootPicCell(picture);
-            }
-            return _shoot;
-        }
-        public static ShootPicCell Taking()
-        {
-            return _shoot;
-        }
+    //    private ShootPicCell(string picture)
+    //    {
+    //        _picture = picture;
+    //    }
+    //    public static ShootPicCell Creating(string picture)
+    //    {
+    //        if (_shoot == null)
+    //        {
+    //            _shoot = new ShootPicCell(picture);
+    //        }
+    //        return _shoot;
+    //    }
+    //    public static ShootPicCell Taking()
+    //    {
+    //        return _shoot;
+    //    }
 
-        public void NextPicture()
-        { }
-        public string Picture()
-        {
-            return _picture;
-        }
-        public void ReloadPictures()
-        { }
-    }
+    //    public void NextPicture()
+    //    { }
+    //    public string Picture()
+    //    {
+    //        return _picture;
+    //    }
+    //    public void ReloadPictures()
+    //    { }
+    //}
     internal class DarkenPicCell : IPictureCell
     {
         string _picture;

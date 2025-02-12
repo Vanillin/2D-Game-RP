@@ -1,4 +1,4 @@
-///    -       -----
+///    -       -----  (\)
 ///   start 
 ///    -------------------
 ///    -------------------
@@ -7,24 +7,24 @@
 ///    -------------------
 ///   end
  
-        0    Floor/stone
-        O    Floor/stone
-        1    Floor/stone
-        I    Floor/stone
-        3    Floor/stone
-        2    Floor/stone
-        5    Floor/stone
-        4    Floor/stone
-        7    Floor/stone
-        6    Floor/stone
-        9    Floor/stone
-        8    Floor/stone
-	.    Floor/stone
-	,    Floor/stone
-	=    Floor/stone
-	%    Floor/stone
-	'    Floor/sand
-	#    Floor/sand
+        0    Floor\stone
+        O    Floor\stone
+        1    Floor\stone
+        I    Floor\stone
+        3    Floor\stone
+        2    Floor\stone
+        5    Floor\stone
+        4    Floor\stone
+        7    Floor\stone
+        6    Floor\stone
+        9    Floor\stone
+        8    Floor\stone
+	.    Floor\stone
+	,    Floor\stone
+	=    Floor\stone
+	%    Floor\stone
+	'    Floor\sand
+	#    Floor\sand
 
 start
 	------O===0----------------

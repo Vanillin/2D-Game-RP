@@ -72,6 +72,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CreatePersonWindow.xaml.cs">
+      <DependentUpon>CreatePersonWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="input\Clothes.cs" />
     <Compile Include="input\Guns.cs" />
     <Compile Include="input\MemoryLocations.cs" />
@@ -104,6 +107,10 @@
     <Compile Include="TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="CreatePersonWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LessonsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -175,9 +182,7 @@
   <ItemGroup>
     <Resource Include="gamedata\textures\map\System\Dark.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="gamedata\configs\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="gamedata\textures\items\notebook.png" />
   </ItemGroup>
@@ -200,12 +205,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\System\Shoot.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\player\Shoot-map.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="gamedata\textures\player\Hit-map.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\map\Wall\unitaz.png" />
@@ -472,6 +471,38 @@
   <ItemGroup>
     <Resource Include="gamedata\textures\player\scorpion-map-dead.png" />
     <Resource Include="gamedata\textures\player\scorpion-map.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\player\girl-map-dead.png" />
+    <Resource Include="gamedata\textures\player\grandma-map-dead.png" />
+    <Resource Include="gamedata\textures\player\grandpa-map-dead.png" />
+    <Resource Include="gamedata\textures\player\playerg-map-dead.png" />
+    <Resource Include="gamedata\textures\player\playerm-map-dead.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\System\ShootGun.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\button.png" />
+    <Resource Include="gamedata\textures\lampOff.png" />
+    <Resource Include="gamedata\textures\lampOn.png" />
+    <Resource Include="gamedata\textures\screen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Floor\boneFallout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\levels\EoshaObject2.txt" />
+    <Resource Include="gamedata\levels\MineFloor1.txt" />
+    <Resource Include="gamedata\levels\MineFloor2.txt" />
+    <Resource Include="gamedata\levels\MineObject1.txt" />
+    <Resource Include="gamedata\levels\MineWall1.txt" />
+    <Resource Include="gamedata\levels\MineWall2.txt" />
+    <Resource Include="gamedata\levels\UnderEoshaFloor1.txt" />
+    <Resource Include="gamedata\levels\UnderEoshaWall1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\configs\ObjectText.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

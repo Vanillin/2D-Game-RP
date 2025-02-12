@@ -230,6 +230,108 @@ namespace TwoD_Game_RP
 
             return new DialogInform(startedTasksPerson, startedTasksPlayer, phrases);
         }
+        private static DescriptionTask FindDescriptionTask(string systemNameDesc)
+        {
+            foreach (var desc in _memoryDescTask)
+            {
+                if (desc.SystemName == systemNameDesc)
+                {
+                    return desc;
+                }
+            }
+            throw new CustomException("Not find DescriptionTask to systemNameDescription");
+        }
+        public static CustomSortedEnum<(string, string)> GetTaskConnection()
+        {
+            CustomSortedEnum<(string, string)> connect = new CustomSortedEnum<(string, string)>();
+            using (StreamReader sr = new StreamReader(Path.Combine(ConfigurationManager.AppSettings["Scripts"], "AllConnectionTask.txt")))
+            {
+                string str = ReadLineStreamReader(sr);
+                while (str != null)
+                {
+                    var pair = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    connect.Add((pair[0], pair[1]));
+
+                    str = ReadLineStreamReader(sr);
+                }
+            }
+            return connect;
+        }
+
+        //==================================================================================================
+        //============================     Descriptions Pictures     =======================================
+        //==================================================================================================
+
+        private static CustomDictionary<string, string> _descriptionsObject;
+        public static bool GetDescriptionToPicture(string pathPictureObject, out string description)
+        {
+            if (_descriptionsObject == null)
+            {
+                _descriptionsObject = ReadDescriptionObject();
+            }
+            foreach (var pair in _descriptionsObject)
+            {
+                if (SubstringSearch.Creating().CheckSubstring(pathPictureObject, pair.Key))
+                {
+                    description = pair.Value;
+                    return true;
+                }
+            }
+            description = null;
+            return false;            
+        }
+        private static CustomDictionary<string, string> ReadDescriptionObject()
+        {
+            var retur = new CustomDictionary<string, string>();
+            using (StreamReader sr = new StreamReader(Path.Combine(ConfigurationManager.AppSettings["Configs"], "ObjectText.txt")))
+            {
+                bool IsOk = ReadKeyValueInformation(sr, out CustomDictionary<string, string> inform);
+                while (IsOk)
+                {
+                    if (!inform.ContainsKey("systemName") || !inform.ContainsKey("text"))
+                        throw new CustomException("Not find systemName or text");
+
+                    string text;
+                    try
+                    {
+                        text = GetStringInBkt(inform["text"]);
+                    }
+                    catch (CustomException)
+                    {
+                        text = GetStringInBktWithEnter(inform["text"]);
+                        bool IsRead = false;
+                        int i = 1;
+                        string newtext;
+                        while (!IsRead)
+                        {
+                            try
+                            {
+                                newtext = GetStringInBkt(inform[$"text{i}"]);
+                                text += newtext;
+                                IsRead = true;
+                            }
+                            catch (CustomException)
+                            {
+                                newtext = GetStringInBktWithEnter(inform[$"text{i}"]);
+                                text += newtext;
+                                i++;
+                            }
+                        }
+                    }
+
+                    retur.Add(DeleteSpace( inform["systemName"]), text);
+
+                    IsOk = ReadKeyValueInformation(sr, out inform);
+                }
+            }
+
+            return retur;
+        }
+
+        //=====================================================================================================
+        //=====================================================================================================
+        //=====================================================================================================
+
         private static string ReadLineStreamReader(StreamReader sr)
         {
             while (!sr.EndOfStream)
@@ -294,38 +396,6 @@ namespace TwoD_Game_RP
         {
             return str.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries)[0];
         }
-        private static DescriptionTask FindDescriptionTask(string systemNameDesc)
-        {
-            foreach (var desc in _memoryDescTask)
-            {
-                if (desc.SystemName == systemNameDesc)
-                {
-                    return desc;
-                }
-            }
-            throw new CustomException("Not find DescriptionTask to systemNameDescription");
-        }
-        public static CustomSortedEnum<(string, string)> GetTaskConnection()
-        {
-            CustomSortedEnum<(string, string)> connect = new CustomSortedEnum<(string, string)>();
-            using (StreamReader sr = new StreamReader(Path.Combine(ConfigurationManager.AppSettings["Scripts"], "AllConnectionTask.txt")))
-            {
-                string str = ReadLineStreamReader(sr);
-                while (str != null)
-                {
-                    var pair = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    connect.Add((pair[0], pair[1]));
-
-                    str = ReadLineStreamReader(sr);
-                }
-            }
-            return connect;
-        }
-
-        //=====================================================================================================
-        //=====================================================================================================
-        //=====================================================================================================
-
         private static string CutString(string s, int length)
         {
             string retur = "";

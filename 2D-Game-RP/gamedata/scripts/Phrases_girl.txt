@@ -23,7 +23,7 @@ complitequestfixdrawwelldialog  test
 end
 
 systemName  questfixdrawwelldialog 
-text   <Привет, (девушка). Вижу ты тоже собираешься уходить?>
+text   <Привет, Вероника. Вижу ты тоже собираешься уходить?>
 nextSystemName   <questfixdrawwelldialog2>
 end
 

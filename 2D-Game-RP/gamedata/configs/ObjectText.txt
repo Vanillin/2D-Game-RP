@@ -1,0 +1,131 @@
+/// systemName   ----
+
+/// text   <--->
+/// or
+/// text       <-----  ------  ------]
+/// text1      <-----  ------  ------]
+/// text2      <-----  ------  ------>
+
+///end
+
+systemName        map\Floor\bone1
+text              <Этот скелет когда-то был человеком>
+end
+
+systemName        map\Floor\bone2
+text              <Вы видите скелет шахтёра>
+end
+
+systemName        map\Floor\bone3
+text              <Вы видите скелет шахтёра>
+end
+
+systemName        map\Floor\boneFallout
+text              <У этого скелета старый разорванный синий костюм. ]
+text1             <В руках он сжимает ржавую фляжку с еле разборчивым числом 13>
+end
+
+systemName        map\Object\Bush
+text              <Старый высохший куст>
+end
+
+systemName        map\Object\buttle
+text              <В грязной бутылке находится далеко не самая чистая вода>
+end
+
+systemName        map\Object\podval1
+text              <Лестница в подвал>
+end
+
+systemName        map\Object\podval2
+text              <Лестница, ведущая из подвала>
+end
+
+systemName        map\Object\tarelka
+text              <На тарелке находится кусок кактуса. Другой еды вы почти не знаете>
+end
+
+systemName        map\Object\картина
+text              <Чёрно-белая картина, на которой изображен дуб в поле, насколько я понял>
+end
+
+systemName        map\Object\ковер
+text              <Старый красный бабушкин ковёр>
+end
+
+systemName        map\Object\кость
+text              <Непонятно чья эта кость>
+end
+
+systemName        map\Object\часы
+text              <Эти часы давно не работают. Использую для украшения интерьера>
+end
+
+systemName        map\ObjectWall\stand
+text              <На табличке еле разборчиво написано "Деревня Булгар">
+end
+
+systemName        map\ObjectWindow\bigBox
+text              <Это деревянный ящик. Его можно открыть>
+end
+
+systemName        map\ObjectWindow\cart.
+text              <Прочная ржавая вагонетка>
+end
+
+systemName        map\ObjectWindow\cartBox
+text              <Вагонетка с ящиком>
+end
+
+systemName        map\ObjectWindow\kitchen
+text              <Ржавая раковина>
+end
+
+systemName        map\ObjectWindow\могила1
+text              <На деревянном кресту нацарапано "Неизвестный">
+end
+
+systemName        map\ObjectWindow\могила2
+text              <Надпись на этом гробу стёрлась>
+end
+
+systemName        map\ObjectWindow\могила3
+text              <На гробу написано "Григорий Соколов">
+end
+
+systemName        map\Wall\drawwell
+text              <Колодец>
+end
+
+systemName        map\Wall\stone
+text              <Каменный завал. Никак не разгребсти>
+end
+
+systemName        map\Wall\unitaz
+text              <Унитаз ужасного состояния>
+end
+
+systemName        map\Window\5
+text              <На стекле пулевое отверстие. Не знаю, что оно тут делает>
+end
+
+systemName        player\girl
+text              <Это Вероника. Живёт здесь с самого рождения>
+end
+
+systemName        player\grandpa
+text              <Это дед Валера. Повидал многое в жизни>
+end
+
+systemName        player\player
+text              <Это я>
+end
+
+systemName        player\scorpion
+text              <Раньше это был обычный скорпион, но радиация сделала своё дело>
+end
+
+systemName        player\perecati
+text              <Это перекати-поле. Оно повидало многое>
+end
+
