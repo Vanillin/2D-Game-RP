@@ -27,7 +27,7 @@
                         <ImageBrush ImageSource="gamedata\textures\mainfon1.png" Stretch="Fill" />
                     </Grid.Background>
 
-                    <Grid Grid.Column="1">
+                    <Grid Grid.Column="0" Grid.ColumnSpan="3">
 
                         <Canvas x:Name="Map" Height="900" Width="1800"
                             MouseLeftButtonDown="Map_MouseLeftButtonDown" MouseRightButtonDown="Map_MouseRightButtonDown">
@@ -56,7 +56,19 @@
                         </StackPanel>
                     </Grid>
 
-                    <Grid x:Name="InventorySearchWindow" Grid.Column="2" Width="640" Visibility="Collapsed">
+                    <Grid x:Name="InventoryPlayerWindow" Grid.Column="2" Width="640" Visibility="Collapsed">
+                        <Grid.Background>
+                            <ImageBrush ImageSource="gamedata\textures\maininvbig.png" AlignmentX="Center" Stretch="Fill" />
+                        </Grid.Background>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Canvas x:Name="InventoryPlayerCanvas" Grid.Row="1"  Height="Auto" Width="Auto" Margin="20"
+                            MouseLeftButtonDown="InventoryPlayerCanvas_MouseLeftButtonDown" MouseRightButtonDown="InventoryPlayerCanvas_MouseRightButtonDown"/>
+                    </Grid>
+                    <Grid x:Name="InventoryEnemyWindow" Grid.Column="0" Width="640" Visibility="Collapsed">
                         <Grid.Background>
                             <ImageBrush ImageSource="gamedata\textures\maininvbig.png" AlignmentX="Center" Stretch="Fill" />
                         </Grid.Background>
@@ -70,8 +82,8 @@
                                 <Label Content="Прекратить обыск" FontSize="20"/>
                             </Button>
                         </Border>
-                        <Canvas x:Name="InventoryCanvas" Grid.Row="1"  Height="Auto" Width="Auto" Margin="20"
-                            MouseLeftButtonDown="InventoryCanvas_MouseLeftButtonDown" MouseRightButtonDown="InventoryCanvas_MouseRightButtonDown"/>
+                        <Canvas x:Name="InventoryEnemyCanvas" Grid.Row="1"  Height="Auto" Width="Auto" Margin="20"
+                            MouseLeftButtonDown="InventoryEnemyCanvas_MouseLeftButtonDown" MouseRightButtonDown="InventoryEnemyCanvas_MouseRightButtonDown"/>
                     </Grid>
 
                     <Grid x:Name="DialogWindow" Grid.Column="2" Width="700" Margin="20" Visibility="Collapsed">
@@ -202,7 +214,7 @@
                         <Grid.Background>
                             <ImageBrush ImageSource="gamedata\textures\mainleft.png" Stretch="Fill" />
                         </Grid.Background>
-                        <Canvas Grid.Column="0" x:Name="InventoryHotBar" Margin="20"
+                        <Canvas Grid.Column="0" x:Name="InventoryHotBar" Margin="20,20,20,20"
                                     MouseLeftButtonDown="InventoryHotBar_MouseLeftButtonDown" MouseRightButtonDown="InventoryHotBar_MouseRightButtonDown">
                             <Canvas.Background>
                                 <ImageBrush ImageSource="gamedata\textures\screen.png" Stretch="Fill" />

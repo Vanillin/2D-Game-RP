@@ -260,7 +260,7 @@ namespace TwoD_Game_RP
             }
 
             ChangeSizeInventoryPlayer();
-            DisplayPlayerInventory(InventoryHotBar, pixelSizeInvent);
+            //DisplayPlayerInventory(InventoryHotBar, pixelSizeInvent);
             //переключение новой картинки для анимации
         }
         public void GoToLocationStart(string name)
@@ -664,7 +664,7 @@ namespace TwoD_Game_RP
         }
         private void MenuPersonCheck_Click(IBoxSkelet box)
         {
-            if (InventorySearchWindow.Visibility == Visibility.Collapsed)
+            if (InventoryEnemyWindow.Visibility == Visibility.Collapsed)
             {
                 OpenInventoryWindow(box);
             }
@@ -957,69 +957,104 @@ namespace TwoD_Game_RP
 
         private void InventoryBtn_Click(object sender, RoutedEventArgs e)
         {
-            OpenInventoryWindow(player);
+            if (InventoryPlayerWindow.Visibility == Visibility.Collapsed)
+            {
+                timerReloadAnimation.IsEnabled = false;
+                SystemObj = new List<UIElement>();
+                InventoryPlayerWindow.Visibility = Visibility.Visible;
+                player.DisplayInventory(InventoryPlayerCanvas, pixelSizeInvent);
+            }
+            else
+            {
+                timerReloadAnimation.IsEnabled = true;
+                InventoryPlayerWindow.Visibility = Visibility.Collapsed;
+            }
         }
         private void ExitInventorySearchBtn_Click(object sender, RoutedEventArgs e)
         {
-            InventorySearchWindow.Visibility = Visibility.Collapsed;
+            InventoryEnemyWindow.Visibility = Visibility.Collapsed;
             timerReloadAnimation.IsEnabled = true;
         }
         private void OpenInventoryWindow(IBoxSkelet skelet)
         {
             timerReloadAnimation.IsEnabled = false;
             SystemObj = new List<UIElement>();
-            InventorySearchWindow.Visibility = Visibility.Visible;
+            InventoryEnemyWindow.Visibility = Visibility.Visible;
 
-            InventoryCanvas.Tag = skelet;
-            skelet.DisplayInventory(InventoryCanvas, pixelSizeInvent);
+            InventoryEnemyCanvas.Tag = skelet;
+            skelet.DisplayInventory(InventoryEnemyCanvas, pixelSizeInvent);
         }
         private void InventoryHotBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Point pointMouse = e.GetPosition(InventoryHotBar);
-            (int W, int H) = ((int)Math.Truncate((pointMouse.X) / pixelSizeInvent),
-                (int)Math.Truncate((pointMouse.Y) / pixelSizeInvent));
-            Item item = player.SearchInBackpack(H, W);
-            if (item != null)
-            {
-                if (InventorySearchWindow.Visibility != Visibility.Collapsed)
-                {
-                    IBoxSkelet skelet = (IBoxSkelet)InventoryCanvas.Tag;
-                    skelet.AddInBackpack(item);
-                    player.RemoveInBackpack(item);
+            //Point pointMouse = e.GetPosition(InventoryHotBar);
+            //(int W, int H) = ((int)Math.Truncate((pointMouse.X) / pixelSizeInvent),
+            //    (int)Math.Truncate((pointMouse.Y) / pixelSizeInvent));
+            //Item item = player.SearchInBackpack(H, W);
+            //if (item != null)
+            //{
+            //    if (InventorySearchWindow.Visibility != Visibility.Collapsed)
+            //    {
+            //        IBoxSkelet skelet = (IBoxSkelet)InventoryCanvas.Tag;
+            //        skelet.AddInBackpack(item);
+            //        player.RemoveInBackpack(item);
 
-                    player.DisplayInventory(InventoryHotBar, pixelSizeInvent);
-                    skelet.DisplayInventory(InventoryCanvas, pixelSizeInvent);
-                }
-                else
-                {
-                    if (item is NoteBook)
-                    {
-                        MenuTask_Click(null, null);
-                    }
-                }
-            }
+            //        player.DisplayInventory(InventoryHotBar, pixelSizeInvent);
+            //        skelet.DisplayInventory(InventoryCanvas, pixelSizeInvent);
+            //    }
+            //    else
+            //    {
+            //        if (item is NoteBook)
+            //        {
+            //            MenuTask_Click(null, null);
+            //        }
+            //    }
+            //}
         }
         private void InventoryHotBar_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
 
         }
-        private void InventoryCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void InventoryPlayerCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Point pointMouse = e.GetPosition(InventoryCanvas);
+            if (InventoryEnemyWindow.Visibility != Visibility.Collapsed)
+            {
+                Point pointMouse = e.GetPosition(InventoryPlayerCanvas);
+                (int W, int H) = ((int)Math.Truncate((pointMouse.X) / pixelSizeInvent),
+                    (int)Math.Truncate((pointMouse.Y) / pixelSizeInvent));
+                Item item = player.SearchInBackpack(H, W);
+
+                IBoxSkelet skelet = (IBoxSkelet)InventoryEnemyCanvas.Tag;
+                if (item != null)
+                {
+                    player.RemoveInBackpack(item);
+                    skelet.AddInBackpack(item);
+
+                    player.DisplayInventory(InventoryPlayerCanvas, pixelSizeInvent);
+                    skelet.DisplayInventory(InventoryEnemyCanvas, pixelSizeInvent);
+                }
+            }
+        }
+        private void InventoryPlayerCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        private void InventoryEnemyCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Point pointMouse = e.GetPosition(InventoryEnemyCanvas);
             (int W, int H) = ((int)Math.Truncate((pointMouse.X) / pixelSizeInvent),
                 (int)Math.Truncate((pointMouse.Y) / pixelSizeInvent));
-            IBoxSkelet skelet = (IBoxSkelet)InventoryCanvas.Tag;
+            IBoxSkelet skelet = (IBoxSkelet)InventoryEnemyCanvas.Tag;
             Item item = skelet.SearchInBackpack(H, W);
             if (item != null)
             {
                 skelet.RemoveInBackpack(item);
                 player.AddInBackpack(item);
 
-                player.DisplayInventory(InventoryHotBar, pixelSizeInvent);
-                skelet.DisplayInventory(InventoryHotBar, pixelSizeInvent);
+                player.DisplayInventory(InventoryPlayerCanvas, pixelSizeInvent);
+                skelet.DisplayInventory(InventoryEnemyCanvas, pixelSizeInvent);
             }
         }
-        private void InventoryCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void InventoryEnemyCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
 
         }
