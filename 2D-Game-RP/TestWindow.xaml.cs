@@ -31,9 +31,9 @@ namespace TwoD_Game_RP
             parent.SeeInCurcle = !parent.SeeInCurcle;
 
             if (parent.SeeInCurcle)
-                parent.ChangeSizeGamePole(parent.oblwatch * 2 + 1, parent.oblwatch * 2 + 1, parent.player.Cord);
+                parent.ChangeSizeGamePole(parent.oblwatch * 2 + 1, parent.oblwatch * 2 + 1, parent.player.GPoint);
             else
-                parent.ChangeSizeGamePole(parent.CurrentLocation.Height, parent.CurrentLocation.Width, parent.player.Cord);
+                parent.ChangeSizeGamePole(parent.CurrentLocation.Height, parent.CurrentLocation.Width, parent.player.GPoint);
         }
 
         private void CompliteTaskBtn_Click(object sender, RoutedEventArgs e)

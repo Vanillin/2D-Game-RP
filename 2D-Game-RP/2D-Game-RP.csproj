@@ -75,6 +75,11 @@
     <Compile Include="CreatePersonWindow.xaml.cs">
       <DependentUpon>CreatePersonWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="library\picturesSystem\ISomePicture.cs" />
+    <Compile Include="library\IBoxElement.cs" />
+    <Compile Include="library\IFractionElement.cs" />
+    <Compile Include="library\IHaveGun.cs" />
+    <Compile Include="library\IMemoryAction.cs" />
     <Compile Include="input\Clothes.cs" />
     <Compile Include="input\Guns.cs" />
     <Compile Include="input\MemoryLocations.cs" />
@@ -84,25 +89,31 @@
     <Compile Include="LessonsWindow.xaml.cs">
       <DependentUpon>LessonsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="library\ActionSystem.cs" />
+    <Compile Include="library\IAction.cs" />
     <Compile Include="library\customStorage\CustomBilateralQueue.cs" />
     <Compile Include="library\customStorage\CustomException.cs" />
-    <Compile Include="library\HealthSystem.cs" />
-    <Compile Include="library\InventorySystem.cs" />
-    <Compile Include="library\Phrase.cs" />
+    <Compile Include="library\IAliveElement.cs" />
+    <Compile Include="library\picturesSystem\IPictureList.cs" />
+    <Compile Include="library\IMemorySmartAction.cs" />
+    <Compile Include="library\IMemoryTask.cs" />
+    <Compile Include="Phrase.cs" />
     <Compile Include="library\customStorage\CustomDictionary.cs" />
-    <Compile Include="library\DisplaySystem.cs" />
-    <Compile Include="library\BackpackSystem.cs" />
-    <Compile Include="library\ItemSystem.cs" />
-    <Compile Include="library\LocationCellSystem.cs" />
-    <Compile Include="library\PicturesSystem.cs" />
-    <Compile Include="library\PlayerSystem.cs" />
-    <Compile Include="library\LocationSystem.cs" />
-    <Compile Include="library\MovementSystem.cs" />
-    <Compile Include="library\SkeletSystem.cs" />
+    <Compile Include="library\picturesSystem\IDisplayCanvas.cs" />
+    <Compile Include="library\IStorageItem.cs" />
+    <Compile Include="library\Item-s.cs" />
+    <Compile Include="library\picturesSystem\IPictureMapList.cs" />
+    <Compile Include="library\picturesSystem\IPicture.cs" />
+    <Compile Include="library\skeletSystem\EnemySkelet.cs" />
+    <Compile Include="library\Location.cs" />
+    <Compile Include="library\Movement.cs" />
     <Compile Include="library\customStorage\CustomSortedEnum.cs" />
     <Compile Include="library\customStorage\SubstringSearch.cs" />
-    <Compile Include="library\TaskSystem.cs" />
+    <Compile Include="library\skeletSystem\AliveSkelet.cs" />
+    <Compile Include="library\skeletSystem\DoorSkelet.cs" />
+    <Compile Include="library\skeletSystem\PlayerSkelet.cs" />
+    <Compile Include="library\skeletSystem\StorageSkelet.cs" />
+    <Compile Include="library\skeletSystem\SystemSkelet.cs" />
+    <Compile Include="library\Task-s.cs" />
     <Compile Include="input\MainScripts.cs" />
     <Compile Include="TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>

@@ -5,18 +5,15 @@ using System.Windows.Controls;
 
 namespace TwoD_Game_RP
 {
-    /// <summary>
-    /// Разделение по слоям: -1 - ужатая земля, 0 - земля, 1 - люди, 2 - аномалии ящики, 3 - деревья, 4 - системные знаки
-    /// </summary>
     public class Location
     {
         private int _maxDepth;
-        private LocationCell[,] _cells;
         private Graf _grafLocToMove;
         private Graf _grafLocToWatch;
         private Graf _grafLocAll;
+        private IPictureMapList[,] _cells;
         private List<SystemSkelet> _lives;
-        private DBDisplay _display;
+        private IDisplayCanvas _display;
         private CustomDictionary<GamePoint, string> _transitGamePoint;
         private CustomDictionary<string, List<GamePoint>> _spawnGamePoint;
         public CustomSortedEnum<GamePoint> IsBusy { get; set; }
@@ -47,18 +44,18 @@ namespace TwoD_Game_RP
         public Location(string name, string systemName, int height, int width, double compressH, double compressW, List<(string, GamePoint)> transitPoint)
         {
             _maxDepth = 0;
-            _cells = new LocationCell[height, width];
+            _cells = new IPictureMapList[height, width];
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
-                    _cells[i, j] = new LocationCell();
+                    _cells[i, j] = new MemoryPictureLocation();
                 }
             }
             _grafLocToMove = null;
             _grafLocToWatch = null;
             _lives = new List<SystemSkelet>();
-            _display = new DBDisplay(height, width, 6, compressH, compressW);
+            _display = new MemoryImage(height, width, 6, compressH, compressW);
 
             _transitGamePoint = new CustomDictionary<GamePoint, string>();
             _spawnGamePoint = new CustomDictionary<string, List<GamePoint>>();
@@ -82,7 +79,7 @@ namespace TwoD_Game_RP
         }
         public SystemSkelet FindLives(int heightInd, int weightInd)
         {
-            return _lives.Find(x => x.Cord.CompareTo((heightInd, weightInd)) == 0);
+            return _lives.Find(x => x.GPoint.CompareTo((heightInd, weightInd)) == 0);
         }
         public bool IsCellBusy(int heightInd, int weightInd)
         {
@@ -110,7 +107,7 @@ namespace TwoD_Game_RP
             description = null;
             foreach (var v in _cells[heightInd, wightInd])
             {
-                bool Ok = Information.GetDescriptionToPicture(v.Item1.Picture(), out string currentdescription);
+                bool Ok = Information.GetDescriptionToPicture(v.Picture(), out string currentdescription);
                 if (Ok) description = currentdescription;
             }
             if (description == null)
@@ -135,13 +132,6 @@ namespace TwoD_Game_RP
                 DarkenPicCell.Creating(path);
             }
         }
-        //public void CreateShootPictCell(string path)
-        //{
-        //    if (ShootPicCell.Taking() == null)
-        //    {
-        //        ShootPicCell.Creating(path);
-        //    }
-        //}
         public void CreateGrafMove()
         {
             _grafLocToMove = new Graf();
@@ -227,46 +217,54 @@ namespace TwoD_Game_RP
 
         public void UpdateDisplay()
         {
-            _display.Update(_cells);
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    _display.UpdateCell(_cells[i, j], i, j, _cells[i, j].GetSizes());
+                }
+            }
         }
         public void Display(Canvas canvas, double size, List<UIElement> systemObj)
         {
-            foreach (var v in _cells)
+            for (int i = 0; i < Height; i++)
             {
-                v.ChangeHavingDark(false);
+                for (int j = 0; j < Width; j++)
+                {
+                    _cells[i, j].ChangeHavingDark(false);
+                    _display.UpdateCell(_cells[i, j], i, j, _cells[i, j].GetSizes());
+                }
             }
-            _display.Update(_cells);
-            _display.Display(canvas, size, systemObj);
+            _display.Display(canvas, size);
+            _display.AdditionDisplayUIElement(canvas, systemObj);
         }
-        //public void DisplayPoints(SortedEnum<GamePoint> displayPoints, Canvas canvas, double size, List<UIElement> systemObj)
-        //{
-        //    _display.DisplayPoints(displayPoints, canvas, size, systemObj);
-        //}
-        //public void DisplayPointsForCorner(SortedEnum<GamePoint> displayPoints, GamePoint LeftUpCorner, Canvas canvas, double size, List<UIElement> systemObj)
-        //{
-        //    _display.DisplayPointsForCorner(displayPoints, LeftUpCorner, canvas, size, systemObj);
-        //}
         public void DisplayPointsForCornerAndDark(CustomSortedEnum<GamePoint> displayPointsView, CustomSortedEnum<GamePoint> displayPointsAll, GamePoint LeftUpCorner, Canvas canvas, double size, List<UIElement> systemObj)
         {
+            canvas.Children.Clear();
+
             foreach (var v in displayPointsAll)
             {
                 if (displayPointsView.Contains(v))
                 {
-                    _cells[(int)v.X, (int)v.Y].ChangeHavingDark(false);
-                    _cells[(int)v.X, (int)v.Y].IsWasView = true;
-                    _display.Update(_cells, (int)v.X, (int)v.Y);
+                    _cells[v.X, v.Y].ChangeHavingDark(false);
+                    _cells[v.X, v.Y].IsWasView = true;
                 }
                 else if (_cells[(int)v.X, (int)v.Y].IsWasView)
                 {
                     displayPointsView.Add(v);
-                    _cells[(int)v.X, (int)v.Y].ChangeHavingDark(true);
-                    _display.Update(_cells, (int)v.X, (int)v.Y);
+                    _cells[v.X, v.Y].ChangeHavingDark(true);
                 }
+                else
+                {
+                    continue;
+                }
+                _display.UpdateCell(_cells[v.X, v.Y], v.X, v.Y, _cells[v.X, v.Y].GetSizes());
+                _display.AdditionDisplayCell(canvas, size, v.X, v.Y, LeftUpCorner.X, LeftUpCorner.Y);
             }
-            _display.DisplayPointsForCorner(displayPointsView, LeftUpCorner, canvas, size, systemObj);
+            _display.AdditionDisplayUIElement(canvas, systemObj);
         }
 
-        public void AddLocationCellsLayer(IPictureCell[,] cells, int index)
+        public void AddLocationCellsLayer(IPicture[,] cells, int index)
         {
             for (int i = 0; i < Height; i++)
             {
@@ -277,69 +275,57 @@ namespace TwoD_Game_RP
                 }
             }
         }
-        public void AddFourthLayerWithCell(IPictureCell cell, int heightInd, int weightInd)
+        public void AddFourthLayerWithCell(IPicture cell, int heightInd, int weightInd)
         {
             AddCell(cell, 4, heightInd, weightInd);
         }
         public void AddSecondLayerWithCell(SystemSkelet skelet)
         {
-            AddCell(skelet, 2, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-            if (skelet is Skelet)
-                IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+            AddCell(skelet.GetPicture(), 2, (int)skelet.GPoint.X, (int)skelet.GPoint.Y);
+            if (skelet is AliveSkelet)
+                IsBusy.Add(new GamePoint(skelet.GPoint.X, skelet.GPoint.Y));
             _lives.Add(skelet);
         }
         public void AddFirstLayerWithCell(SystemSkelet skelet)
         {
-            AddCell(skelet, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-            if (skelet is Skelet)
-                IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+            AddCell(skelet.GetPicture(), 1, (int)skelet.GPoint.X, (int)skelet.GPoint.Y);
+            if (skelet is AliveSkelet)
+                IsBusy.Add(new GamePoint(skelet.GPoint.X, skelet.GPoint.Y));
             _lives.Add(skelet);
         }
         public void RemoveFirstLayerWithCell(SystemSkelet skelet)
         {
-            RemoveFirstLayerWithCell(skelet, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-            if (skelet is Skelet)
-                IsBusy.Remove(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+            RemoveCell(skelet.GetPicture(), (int)skelet.GPoint.X, (int)skelet.GPoint.Y);
+            if (skelet is AliveSkelet)
+                IsBusy.Remove(new GamePoint(skelet.GPoint.X, skelet.GPoint.Y));
             _lives.Remove(skelet);
         }
         public void MoveFirstLayerWithCell(SystemSkelet skelet, GamePoint newPoint)
         {
-            if (skelet is Skelet)
+            if (skelet is AliveSkelet)
             {
-                RemoveFirstLayerWithCell(skelet, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-                IsBusy.Remove(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
-                skelet.Cord = newPoint;
-                AddCell(skelet, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-                IsBusy.Add(new GamePoint(skelet.Cord.X, skelet.Cord.Y));
+                RemoveCell(skelet.GetPicture(), (int)skelet.GPoint.X, (int)skelet.GPoint.Y);
+                IsBusy.Remove(new GamePoint(skelet.GPoint.X, skelet.GPoint.Y));
+                skelet.GPoint = newPoint;
+                AddCell(skelet.GetPicture(), 1, (int)skelet.GPoint.X, (int)skelet.GPoint.Y);
+                IsBusy.Add(new GamePoint(skelet.GPoint.X, skelet.GPoint.Y));
             }
             else
             {
-                RemoveFirstLayerWithCell(skelet, (int)skelet.Cord.X, (int)skelet.Cord.Y);
-                skelet.Cord = newPoint;
-                AddCell(skelet, 1, (int)skelet.Cord.X, (int)skelet.Cord.Y);
+                RemoveCell(skelet.GetPicture(), (int)skelet.GPoint.X, (int)skelet.GPoint.Y);
+                skelet.GPoint = newPoint;
+                AddCell(skelet.GetPicture(), 1, (int)skelet.GPoint.X, (int)skelet.GPoint.Y);
             }
         }
-        //public IEnumerable<IPictureCell> GetEnumerableCell(int heightInd, int weightInd)
-        //{
-        //    return _cells[heightInd, weightInd];
-        //}
-        private void AddCell(IPictureCell cell, int index, int heightInd, int weightInd)
+        private void AddCell(IPicture cell, int index, int heightInd, int weightInd)
         {
-            if (index == 1)
-                _cells[heightInd, weightInd].AddFirstLayerWithCell(cell);
-            else
-                _cells[heightInd, weightInd].AddCell(cell, index);
-            _display.Update(_cells, heightInd, weightInd);
+            _cells[heightInd, weightInd].AddCell(cell, index);
+            _display.UpdateCell(_cells[heightInd, weightInd], heightInd, weightInd, _cells[heightInd, weightInd].GetSizes());
         }
-        private void RemoveFirstLayerWithCell(IPictureCell cell, int heightInd, int weightInd)
-        {
-            _cells[heightInd, weightInd].RemoveFirstLayerWithCell(cell);
-            _display.Update(_cells, heightInd, weightInd);
-        }
-        private void RemoveCell(IPictureCell cell, int heightInd, int weightInd)
+        private void RemoveCell(IPicture cell, int heightInd, int weightInd)
         {
             _cells[heightInd, weightInd].RemoveCell(cell);
-            _display.Update(_cells, heightInd, weightInd);
+            _display.UpdateCell(_cells[heightInd, weightInd], heightInd, weightInd, _cells[heightInd, weightInd].GetSizes());
         }
     }
 }

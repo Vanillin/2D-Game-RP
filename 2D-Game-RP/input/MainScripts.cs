@@ -11,7 +11,7 @@
                     //task
                     case "spawnPerecati":
                         {
-                            if (window.player.Cord.Equals((10, 23)))
+                            if (window.player.GPoint.Equals((10, 23)))
                             {
                                 var perecati = new Perecati(new GamePoint(12, 30), 0);
                                 perecati.EnqueueDownGlobalAction(new ActionMove(new GamePoint(12, 3), true));

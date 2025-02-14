@@ -2,7 +2,21 @@
 
 namespace TwoD_Game_RP
 {
-    internal class Backpack
+    internal interface IStorageItem
+    {
+        CustomDictionary<Item, List<GamePoint>> ReferenceItem { get; }
+        int MaxSizeH { get; }
+        int MaxSizeW { get; }
+        Item SearchItem(int H, int W);
+        bool Add(Item item);
+        void Remove(Item item);
+        bool Contains(Item item);
+        //private static bool CheckSquareInInventory(int x1, int y1, int x2, int y2, bool[,] Contein);
+        //private static List<Item> ToListItem(CustomDictionary<Item, List<GamePoint>> dict);
+        //private static bool IsInclude(int sizeH, int sizeW, CustomDictionary<Item, List<GamePoint>> oldReference, out CustomDictionary<Item, List<GamePoint>> newReference);
+        //private static bool IsInclude(int sizeH, int sizeW, List<Item> list, out CustomDictionary<Item, List<GamePoint>> newReference);
+    }
+    internal class Backpack : IStorageItem
     {
         int _maxSizeH;
         int _maxSizeW;

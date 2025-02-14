@@ -3,38 +3,14 @@ using System.Collections.Generic;
 
 namespace TwoD_Game_RP
 {
-    /*
-    internal class ActionClear : IActions //(прозрачности)
+    public interface IAction
     {
-        public int Count { get; set; }
-        public ActionClear(int count)
-        {
-            Count = count;
-        }
+        bool IsCycle { get; }
+        bool IsSystem { get; }
+        bool IsCanComplete(SystemSkelet skelet, Location location);
+        void CompleteAction(SystemSkelet skelet, Location location);
+        IEnumerable<IAction> CreateActions(SystemSkelet skelet, Location location);
     }
-    internal class ActionWatch : IActions
-    {
-        public double Angle { get; set; }
-        public ActionWatch(double angle)
-        {
-            if (angle < 0) angle += 360;
-            else if (angle >= 360) angle -= 360;
-            Angle = angle;
-        }
-    }
-    internal class ActionTeleport : IActions
-    {
-        public GamePoint GamePoint { get; set; }
-        public GamePoint PointOnGraf { get; set; }
-        public double Angle { get; set; }
-        public ActionTeleport(GamePoint point, GamePoint pointOnGraf, double angle)
-        {
-            GamePoint = point;
-            Angle = angle;
-            PointOnGraf = pointOnGraf;
-        }
-    }
-    */
     internal class ActionSelfDelete : IAction
     {
         public bool IsCycle { get; }
@@ -47,26 +23,24 @@ namespace TwoD_Game_RP
         {
             return new List<IAction>() { this };
         }
-        public bool IsCanComplete(SystemSkelet skelet, Location location)
-        {
-            return true;
-        }
+        public bool IsCanComplete(SystemSkelet skelet, Location location) => true;
     }
-    public class ActionAttack : IAction
+    internal class ActionAttack : IAction
     {
         public bool IsCycle { get; }
         public bool IsSystem => false;
-        public Skelet EnemySkelet { get; }
-        public ActionAttack(Skelet enemySkelet, bool iscycle)
+        public AliveSkelet EnemySkelet { get; }
+        public ActionAttack(AliveSkelet enemySkelet, bool iscycle)
         {
             IsCycle = iscycle;
             EnemySkelet = enemySkelet;
         }
         public void CompleteAction(SystemSkelet skelet, Location location)
         {
-            if (!(skelet is Skelet)) throw new CustomException("Skelet not a class Skelet");
-            var rotate = -(int)Math.Truncate(Math.Atan2(-EnemySkelet.Cord.X + skelet.Cord.X, EnemySkelet.Cord.Y - skelet.Cord.Y) * (180 / Math.PI)) + 90;
-            var shootSkelet = new SystemSkelet(skelet.Cord, rotate, "Shoot", true, (skelet as Skelet).GetGunInHand().PictureAttack);
+            if (!(skelet is AliveSkelet)) throw new CustomException("Skelet not a class Skelet");
+            var rotate = -(int)Math.Truncate(Math.Atan2(-EnemySkelet.GPoint.X + skelet.GPoint.X, EnemySkelet.GPoint.Y - skelet.GPoint.Y) * (180 / Math.PI)) + 90;
+            var shootSkelet = new SimpleElement("Shoot", (skelet as AliveSkelet).GetGunInHand().PictureAttack, skelet.GPoint, true);
+            shootSkelet.Rotate = rotate;
             shootSkelet.EnqueueUpGlobalAction(new ActionWait(1, false));
             shootSkelet.EnqueueUpGlobalAction(new ActionSelfDelete());
 
@@ -74,18 +48,19 @@ namespace TwoD_Game_RP
             //hitSkelet.EnqueueUpGlobalAction(new ActionWait(1, false));
             //hitSkelet.EnqueueUpGlobalAction(new ActionSelfDelete());
 
-            location.AddSecondLayerWithCell(shootSkelet);
             //location.AddSecondLayerWithCell(hitSkelet);
-            EnemySkelet.MinusHealth((skelet as Skelet).GetGunInHand().Damage);
+
+            location.AddSecondLayerWithCell(shootSkelet);
+            EnemySkelet.MinusHealth((skelet as AliveSkelet).GetGunInHand().Damage);
         }
         public IEnumerable<IAction> CreateActions(SystemSkelet skelet, Location location)
         {
-            if (!(skelet is Skelet)) throw new CustomException("Skelet not a class Skelet");
+            if (!(skelet is AliveSkelet)) throw new CustomException("Skelet not a class Skelet");
             List<IAction> actions = new List<IAction>();
-            var lenPathVisible = location.CreateLenghtPathVisible(skelet.Cord, EnemySkelet.Cord);
-            if (lenPathVisible >= (skelet as Skelet).GetGunInHand().Radius)
+            var lenPathVisible = location.CreateLenghtPathVisible(skelet.GPoint, EnemySkelet.GPoint);
+            if (lenPathVisible >= (skelet as AliveSkelet).GetGunInHand().Radius)
             {
-                var path = location.CreatePath_OutOfPoint(skelet.Cord, EnemySkelet.Cord, location.IsBusy);
+                var path = location.CreatePath_OutOfPoint(skelet.GPoint, EnemySkelet.GPoint, location.IsBusy);
                 actions.Add(new ActionMove(path[0], false));
             }
             actions.Add(new ActionAttack(EnemySkelet, false));
@@ -94,9 +69,9 @@ namespace TwoD_Game_RP
         }
         public bool IsCanComplete(SystemSkelet skelet, Location location)
         {
-            if (!(skelet is Skelet)) throw new CustomException("Skelet not a class Skelet");
-            var lenPathVisible = location.CreateLenghtPathVisible(skelet.Cord, EnemySkelet.Cord);
-            if (lenPathVisible <= (skelet as Skelet).GetGunInHand().Radius)
+            if (!(skelet is AliveSkelet)) throw new CustomException("Skelet not a class Skelet");
+            var lenPathVisible = location.CreateLenghtPathVisible(skelet.GPoint, EnemySkelet.GPoint);
+            if (lenPathVisible <= (skelet as AliveSkelet).GetGunInHand().Radius)
                 return true;
             return false;
         }
@@ -113,12 +88,9 @@ namespace TwoD_Game_RP
         {
             throw new CustomException("Its not Global Action");
         }
-        public bool IsCanComplete(SystemSkelet skelet, Location location)
-        {
-            return true;
-        }
+        public bool IsCanComplete(SystemSkelet skelet, Location location) => true;
     }
-    public class ActionWait : IAction
+    internal class ActionWait : IAction
     {
         public int Count { get; set; }
         public bool IsCycle { get; }
@@ -132,7 +104,7 @@ namespace TwoD_Game_RP
         public bool IsCanComplete(SystemSkelet skelet, Location location) => true;
         public void CompleteAction(SystemSkelet skelet, Location location)
         {
-            //waiting
+            //waiting (empty)
         }
         public IEnumerable<IAction> CreateActions(SystemSkelet skelet, Location location)
         {
@@ -145,7 +117,7 @@ namespace TwoD_Game_RP
             return actions;
         }
     }
-    public class ActionMove : IAction
+    internal class ActionMove : IAction
     {
         public GamePoint GamePoint { get; set; }
         public bool IsSystem => false;
@@ -164,10 +136,10 @@ namespace TwoD_Game_RP
         {
             List<IAction> retur = new List<IAction>();
             List<GamePoint> path;
-            if (skelet is Skelet)
-                path = location.CreatePath_OutOfPoint(skelet.Cord, GamePoint, location.IsBusy);
+            if (skelet is AliveSkelet)
+                path = location.CreatePath_OutOfPoint(skelet.GPoint, GamePoint, location.IsBusy);
             else
-                path = location.CreatePath_OutOfPoint(skelet.Cord, GamePoint, new CustomSortedEnum<GamePoint>());
+                path = location.CreatePath_OutOfPoint(skelet.GPoint, GamePoint, new CustomSortedEnum<GamePoint>());
             if (path != null)
                 foreach (var v in path)
                 {
@@ -179,12 +151,12 @@ namespace TwoD_Game_RP
         public bool IsCanComplete(SystemSkelet skelet, Location location)
         {
             //  SystemSket can go in Skelet
-            if (skelet is Skelet)
+            if (skelet is AliveSkelet)
                 return !location.IsCellBusy((int)GamePoint.X, (int)GamePoint.Y);
             else return true;
         }
     }
-    public class ActionTeleport : IAction
+    internal class ActionTeleport : IAction
     {
         public GamePoint GamePoint { get; set; }
         public bool IsSystem => false;
@@ -206,17 +178,9 @@ namespace TwoD_Game_RP
         public bool IsCanComplete(SystemSkelet skelet, Location location)
         {
             //  SystemSket can go in Skelet
-            if (skelet is Skelet)
+            if (skelet is AliveSkelet)
                 return !location.IsCellBusy((int)GamePoint.X, (int)GamePoint.Y);
             else return true;
         }
-    }
-    public interface IAction
-    {
-        bool IsCycle { get; }
-        bool IsSystem { get; }
-        bool IsCanComplete(SystemSkelet skelet, Location location);
-        void CompleteAction(SystemSkelet skelet, Location location);
-        IEnumerable<IAction> CreateActions(SystemSkelet skelet, Location location);
     }
 }

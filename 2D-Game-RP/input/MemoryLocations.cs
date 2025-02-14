@@ -7,7 +7,7 @@ namespace TwoD_Game_RP
     public class MemoryLocations
     {
         private static Location Eosha;
-        public static Location GetEosha(Player player, int lenWatch, double compressH, double compressW)
+        public static Location GetEosha(PlayerSkelet player, int lenWatch, double compressH, double compressW)
         {
             if (Eosha == null)
             {
@@ -39,13 +39,13 @@ namespace TwoD_Game_RP
                 var grandma = new Grandma(lenWatch);
                 var grandpa = new Grandpa(lenWatch);
 
-                Eosha.AddFirstLayerWithCell(new Box(new GamePoint(3, 18), 0, "", true, new List<Item>() { new Water() }, 2, 2));
-                Eosha.AddFirstLayerWithCell(new Box(new GamePoint(6, 13), 0, "", true, new List<Item>() {  }, 2, 2));
-                Eosha.AddFirstLayerWithCell(new Box(new GamePoint(9, 25), 0, "", true, new List<Item>() {  }, 2, 2));
-                Eosha.AddFirstLayerWithCell(new Box(new GamePoint(16, 3), 0, "", true, new List<Item>() { }, 2, 2));
-                Eosha.AddFirstLayerWithCell(new Box(new GamePoint(17, 3), 0, "", true, new List<Item>() {  }, 2, 2));
+                Eosha.AddFirstLayerWithCell(new BoxSkelet("", new GamePoint(3, 18), true, 2, 2, new List<Item>() { new Water() }));
+                Eosha.AddFirstLayerWithCell(new BoxSkelet("", new GamePoint(6, 13), true, 2, 2));
+                Eosha.AddFirstLayerWithCell(new BoxSkelet("", new GamePoint(9, 25), true, 2, 2));
+                Eosha.AddFirstLayerWithCell(new BoxSkelet("", new GamePoint(16, 3), true, 2, 2));
+                Eosha.AddFirstLayerWithCell(new BoxSkelet("", new GamePoint(17, 3), true, 2, 2));
 
-                player.Cord = new GamePoint(8, 22);
+                player.GPoint = new GamePoint(8, 22);
                 Eosha.AddFirstLayerWithCell(player);
                 Eosha.AddFirstLayerWithCell(girl);
                 Eosha.AddFirstLayerWithCell(grandma);
@@ -75,11 +75,11 @@ namespace TwoD_Game_RP
                 Mine.AddLocationCellsLayer(CreateLocation("MineWall2"), 0);
                 Mine.AddLocationCellsLayer(CreateLocation("MineObject1"), 0);
 
-                Mine.AddFirstLayerWithCell(new Box(new GamePoint(4, 8), 0, "", true, new List<Item>() { new DatailDrawwell() }, 2, 2));
-                Mine.AddFirstLayerWithCell(new Box(new GamePoint(19, 25), 0, "", true, new List<Item>() {  }, 2, 2));
-                Mine.AddFirstLayerWithCell(new Box(new GamePoint(20, 23), 0, "", true, new List<Item>() { new Potato() }, 2, 2));
-                Mine.AddFirstLayerWithCell(new Box(new GamePoint(20, 1), 0, "", true, new List<Item>() {  }, 2, 2));
-                Mine.AddFirstLayerWithCell(new Box(new GamePoint(21, 1), 0, "", true, new List<Item>() {  }, 2, 2));
+                Mine.AddFirstLayerWithCell(new BoxSkelet("", new GamePoint(4, 8), true, 2, 2, new List<Item>() { new DatailDrawwell() }));
+                Mine.AddFirstLayerWithCell(new BoxSkelet("", new GamePoint(20, 23), true, 2, 2, new List<Item>() { new Potato() }));
+                Mine.AddFirstLayerWithCell(new BoxSkelet("", new GamePoint(19, 25), true, 2, 2));
+                Mine.AddFirstLayerWithCell(new BoxSkelet("", new GamePoint(20, 1), true, 2, 2));
+                Mine.AddFirstLayerWithCell(new BoxSkelet("", new GamePoint(21, 1), true, 2, 2));
 
                 Mine.AddFirstLayerWithCell(new Scorpion(new GamePoint(15, 18), lenWatch));
                 Mine.AddFirstLayerWithCell(new Scorpion(new GamePoint(6, 9), lenWatch));
@@ -107,7 +107,7 @@ namespace TwoD_Game_RP
                 UnderEosha.AddLocationCellsLayer(CreateLocation("UnderEoshaFloor1"), -1);
                 UnderEosha.AddLocationCellsLayer(CreateLocation("UnderEoshaWall1"), 0);
 
-                UnderEosha.AddFirstLayerWithCell(new Box(new GamePoint(1, 1), 0, "", true, new List<Item>() { new SmallToz() }, 2, 2));
+                UnderEosha.AddFirstLayerWithCell(new BoxSkelet("", new GamePoint(1, 1), true, 2, 2, new List<Item>() { new SmallToz() }));
 
                 UnderEosha.CreateGrafWatch();
                 UnderEosha.CreateGrafMove();
@@ -117,10 +117,10 @@ namespace TwoD_Game_RP
             }
             return UnderEosha;
         }
-        private static IPictureCell[,] CreateLocation(string nameloca)
+        private static IPicture[,] CreateLocation(string nameloca) //change creating ISomePicture on ISomePicture\IPicture, because not some dark texture _sD_. Example Floor textures
         {
             ReadLocation rl = Information.GetLocation(nameloca);
-            IPictureCell[,] retur = new IPictureCell[rl.Height, rl.Wight];
+            IPicture[,] retur = new IPicture[rl.Height, rl.Wight];
             for (int i = 0; i < rl.Height; i++)
             {
                 for (int j = 0; j < rl.Wight; j++)
@@ -128,7 +128,7 @@ namespace TwoD_Game_RP
                     char pict = rl.Location[i][j];
                     if (rl.Description.ContainsKey(pict))
                     {
-                        retur[i, j] = new StaticPicCell(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"{rl.Description[pict]}.png"));
+                        retur[i, j] = new MapPicture(Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"{rl.Description[pict]}.png"));
                         switch (rl.Rotation[i][j])
                         {
                             case '1': retur[i, j].Rotate = 90; break;

@@ -111,7 +111,7 @@ namespace TwoD_Game_RP
 
         public Location CurrentLocation;
         public List<Location> Locations = new List<Location>();
-        public Player player;
+        public PlayerSkelet player;
         const int timeTimerSmall = 690/2;
         const int timeTimerBig = 1150/2;
 
@@ -164,7 +164,8 @@ namespace TwoD_Game_RP
                 {
                     "start1Ep",
                     "test",
-                });
+                }, 
+                200);
             player.GiveGunInHand(new SmallToz());
 
             GoToLocationStart("Eosha");
@@ -175,9 +176,9 @@ namespace TwoD_Game_RP
         private void AnalyzeSizeGamePole()
         {
             if (SeeInCurcle)
-                ChangeSizeGamePole(oblwatch * 2 + 1, oblwatch * 2 + 1, player.Cord);
+                ChangeSizeGamePole(oblwatch * 2 + 1, oblwatch * 2 + 1, player.GPoint);
             else
-                ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
+                ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.GPoint);
         }
         internal void ChangeSizeGamePole(int height, int wight, GamePoint player)
         {
@@ -238,19 +239,19 @@ namespace TwoD_Game_RP
 
             if (SeeInCurcle)
             {
-                ChangeLeftUpCornerGamePole(oblwatch * 2 + 1, oblwatch * 2 + 1, player.Cord);
+                ChangeLeftUpCornerGamePole(oblwatch * 2 + 1, oblwatch * 2 + 1, player.GPoint);
                 CustomSortedEnum<GamePoint> deleted = new CustomSortedEnum<GamePoint>();
                 foreach (var v in CurrentLocation.GetLives())
                 {
-                    if (!v.IsClarity) deleted.Add(v.Cord);
+                    if (!v.IsClarity) deleted.Add(v.GPoint);
                 }
-                var OblSee = CurrentLocation.GetWatchCircle_WithAngleOutOfPoint(player.Cord, oblsee - 0.1,
-                    Math.Max((int)player.Cord.X - oblsee, 0), Math.Max((int)player.Cord.Y - oblsee, 0),
-                    Math.Min((int)player.Cord.X + oblsee + 1, CurrentLocation.Height), Math.Min((int)player.Cord.Y + oblsee + 1, CurrentLocation.Width),
+                var OblSee = CurrentLocation.GetWatchCircle_WithAngleOutOfPoint(player.GPoint, oblsee - 0.1,
+                    Math.Max((int)player.GPoint.X - oblsee, 0), Math.Max((int)player.GPoint.Y - oblsee, 0),
+                    Math.Min((int)player.GPoint.X + oblsee + 1, CurrentLocation.Height), Math.Min((int)player.GPoint.Y + oblsee + 1, CurrentLocation.Width),
                     deleted);
-                var OblWatch = CurrentLocation.GetWatchCirlce(player.Cord, oblwatch - 0.1,
-                    Math.Max((int)player.Cord.X - oblwatch, 0), Math.Max((int)player.Cord.Y - oblwatch, 0),
-                    Math.Min((int)player.Cord.X + oblwatch + 1, CurrentLocation.Height), Math.Min((int)player.Cord.Y + oblwatch + 1, CurrentLocation.Width));
+                var OblWatch = CurrentLocation.GetWatchCirlce(player.GPoint, oblwatch - 0.1,
+                    Math.Max((int)player.GPoint.X - oblwatch, 0), Math.Max((int)player.GPoint.Y - oblwatch, 0),
+                    Math.Min((int)player.GPoint.X + oblwatch + 1, CurrentLocation.Height), Math.Min((int)player.GPoint.Y + oblwatch + 1, CurrentLocation.Width));
 
                 CurrentLocation.DisplayPointsForCornerAndDark(OblSee, OblWatch, LeftUpCorner, Map, pixelSizeGamePole, SystemObj);
             }
@@ -318,13 +319,13 @@ namespace TwoD_Game_RP
                 }
             }
             CurrentLocation = loc;
-            player.Cord = CurrentLocation.GetGamePointTransitSpawn(nameCurrentLoc);
+            player.GPoint = CurrentLocation.GetGamePointTransitSpawn(nameCurrentLoc);
             CurrentLocation.AddFirstLayerWithCell(player);
 
             if (SeeInCurcle)
-                ChangeSizeGamePole(oblwatch * 2 + 1, oblwatch * 2 + 1, player.Cord);
+                ChangeSizeGamePole(oblwatch * 2 + 1, oblwatch * 2 + 1, player.GPoint);
             else
-                ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.Cord);
+                ChangeSizeGamePole(CurrentLocation.Height, CurrentLocation.Width, player.GPoint);
 
             timerReloadAnimation.IsEnabled = true;
         }
@@ -342,8 +343,8 @@ namespace TwoD_Game_RP
 
             foreach (var v in CurrentLocation.GetLives())
             {
-                if (v is Skelet && (v as Skelet).IsAlive) list.Add(v);
-                else if (!(v is Skelet)) list.Add(v);
+                if (v is AliveSkelet && (v as AliveSkelet).IsAlive) list.Add(v);
+                else if (!(v is AliveSkelet)) list.Add(v);
             }
             foreach (var v in list)
             {
@@ -376,13 +377,13 @@ namespace TwoD_Game_RP
                 switch (e.Key)
                 {
                     case System.Windows.Input.Key.W:
-                        { KeyDownToMove((int)player.Cord.X - 1, (int)player.Cord.Y); break; }
+                        { KeyDownToMove((int)player.GPoint.X - 1, (int)player.GPoint.Y); break; }
                     case System.Windows.Input.Key.A:
-                        { KeyDownToMove((int)player.Cord.X, (int)player.Cord.Y - 1); break; }
+                        { KeyDownToMove((int)player.GPoint.X, (int)player.GPoint.Y - 1); break; }
                     case System.Windows.Input.Key.S:
-                        { KeyDownToMove((int)player.Cord.X + 1, (int)player.Cord.Y); break; }
+                        { KeyDownToMove((int)player.GPoint.X + 1, (int)player.GPoint.Y); break; }
                     case System.Windows.Input.Key.D:
-                        { KeyDownToMove((int)player.Cord.X, (int)player.Cord.Y + 1); break; }
+                        { KeyDownToMove((int)player.GPoint.X, (int)player.GPoint.Y + 1); break; }
                     case System.Windows.Input.Key.Q:
                         { QBtn_Click(null, null); break; }
                     case System.Windows.Input.Key.E:
@@ -404,7 +405,7 @@ namespace TwoD_Game_RP
             SystemObj = new List<UIElement>();
             Point pointMouse = e.GetPosition(Map);
             (int W, int H) = FindPointClick(pointMouse);
-            (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X);
+            (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X + 1);
 
             if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
 
@@ -424,7 +425,7 @@ namespace TwoD_Game_RP
                     people = CurrentLocation.FindLives(H, W);
                 }
                 if (people == null) return;
-                if (people is Skelet && (people as Skelet).IsAlive && !(people is Player)) MenuPersonAttack_Click(people as Skelet);
+                if (people is AliveSkelet && (people as AliveSkelet).IsAlive && !(people is PlayerSkelet)) MenuPersonAttack_Click(people as AliveSkelet);
             }
             else if (_activeGameMode == GameMode.F)
             {
@@ -438,8 +439,8 @@ namespace TwoD_Game_RP
                     people = CurrentLocation.FindLives(H, W);
                 }
                 if (people == null) return;
-                if (people is Door) MenuDoorOpen_Click(people as Door);
-                if (people is IBoxSkelet) MenuPersonCheck_Click(people as IBoxSkelet);
+                if (people is DoorSkelet) MenuDoorOpen_Click(people as DoorSkelet);
+                if (people is StorageSkelet) MenuPersonCheck_Click(people as StorageSkelet);
             }
             else if (_activeGameMode == GameMode.Q)
             {
@@ -451,7 +452,7 @@ namespace TwoD_Game_RP
             SystemObj = new List<UIElement>();
             Point pointMouse = e.GetPosition(Map);
             (int W, int H) = FindPointClick(pointMouse);
-            (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X);
+            (W, H) = (W + (int)LeftUpCorner.Y, H + (int)LeftUpCorner.X + 1);
 
             if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
 
@@ -466,17 +467,17 @@ namespace TwoD_Game_RP
             }
             if (people == null) return;
 
-            if (people is Door)
+            if (people is DoorSkelet)
             {
-                ClickOnDoor(people as Door);
+                ClickOnDoor(people as DoorSkelet);
             }
-            else if (people is Box)
+            else if (people is StorageSkelet)
             {
-                ClickOnBox(people as Box);
+                ClickOnBox(people as StorageSkelet);
             }
-            else if (!(people is Player) && people is Skelet)
+            else if (!(people is PlayerSkelet) && people is AliveSkelet)
             {
-                ClickOnSkelet(people as Skelet);
+                ClickOnSkelet(people as AliveSkelet);
             }
         }
         private (int, int) FindPointClick(Point point)
@@ -512,13 +513,13 @@ namespace TwoD_Game_RP
             else
                 WatchTextBlock.Text = "";
         }
-        private void ClickOnDoor(Door door)
+        private void ClickOnDoor(DoorSkelet door)
         {
             bool ShelterKey = false; //(CurrentLocation.GetIsWatchCell((int)people.Cord.X, (int)people.Cord.Y));
 
             StackPanel menu = new StackPanel();
-            Canvas.SetLeft(menu, pixelSizeGamePole * compressW * (door.Cord.Y + 1 - LeftUpCorner.Y));
-            Canvas.SetTop(menu, pixelSizeGamePole * compressH * (door.Cord.X - LeftUpCorner.X));
+            Canvas.SetLeft(menu, pixelSizeGamePole * compressW * (door.GPoint.Y + 1 - LeftUpCorner.Y));
+            Canvas.SetTop(menu, pixelSizeGamePole * compressH * (door.GPoint.X - LeftUpCorner.X));
 
             Button Open = new Button()
             {
@@ -529,8 +530,8 @@ namespace TwoD_Game_RP
             Open.Click += MenuDoorOpen_Click;
             Open.Tag = door;
 
-            double dx = Math.Abs(door.Cord.X - player.Cord.X);
-            double dy = Math.Abs(door.Cord.Y - player.Cord.Y);
+            double dx = Math.Abs(door.GPoint.X - player.GPoint.X);
+            double dy = Math.Abs(door.GPoint.Y - player.GPoint.Y);
             bool Near = (dx <= 2 && dy <= 1) || (dx <= 1 && dy <= 2);
             if (ShelterKey || !Near)
             {
@@ -545,13 +546,13 @@ namespace TwoD_Game_RP
             SystemObj.Add(menu);
 
         }
-        private void ClickOnSkelet(Skelet people)
+        private void ClickOnSkelet(AliveSkelet people)
         {
             bool ShelterKey = false; //(CurrentLocation.GetIsWatchCell((int)people.Cord.X, (int)people.Cord.Y));
 
             StackPanel menu = new StackPanel();
-            Canvas.SetLeft(menu, pixelSizeGamePole * compressW * (people.Cord.Y + 1 - LeftUpCorner.Y));
-            Canvas.SetTop(menu, pixelSizeGamePole * compressH * (people.Cord.X - LeftUpCorner.X));
+            Canvas.SetLeft(menu, pixelSizeGamePole * compressW * (people.GPoint.Y + 1 - LeftUpCorner.Y));
+            Canvas.SetTop(menu, pixelSizeGamePole * compressH * (people.GPoint.X - LeftUpCorner.X));
 
             Button Attack = new Button()
             {
@@ -580,8 +581,8 @@ namespace TwoD_Game_RP
             Check.Click += MenuPersonCheck_Click;
             Check.Tag = people;
 
-            double dx = Math.Abs(people.Cord.X - player.Cord.X);
-            double dy = Math.Abs(people.Cord.Y - player.Cord.Y);
+            double dx = Math.Abs(people.GPoint.X - player.GPoint.X);
+            double dy = Math.Abs(people.GPoint.Y - player.GPoint.Y);
             bool Near = (dx <= 2 && dy <= 1) || (dx <= 1 && dy <= 2);
             if (ShelterKey || !Near)
             {
@@ -604,13 +605,13 @@ namespace TwoD_Game_RP
             SystemObj.Add(menu);
 
         }
-        private void ClickOnBox(Box people)
+        private void ClickOnBox(StorageSkelet people)
         {
             bool ShelterKey = false; //(CurrentLocation.GetIsWatchCell((int)people.Cord.X, (int)people.Cord.Y));
 
             StackPanel menu = new StackPanel();
-            Canvas.SetLeft(menu, pixelSizeGamePole * compressW * (people.Cord.Y + 1 - LeftUpCorner.Y));
-            Canvas.SetTop(menu, pixelSizeGamePole * compressH * (people.Cord.X - LeftUpCorner.X));
+            Canvas.SetLeft(menu, pixelSizeGamePole * compressW * (people.GPoint.Y + 1 - LeftUpCorner.Y));
+            Canvas.SetTop(menu, pixelSizeGamePole * compressH * (people.GPoint.X - LeftUpCorner.X));
 
             Button Check = new Button()
             {
@@ -621,8 +622,8 @@ namespace TwoD_Game_RP
             Check.Click += MenuPersonCheck_Click;
             Check.Tag = people;
 
-            double dx = Math.Abs(people.Cord.X - player.Cord.X);
-            double dy = Math.Abs(people.Cord.Y - player.Cord.Y);
+            double dx = Math.Abs(people.GPoint.X - player.GPoint.X);
+            double dy = Math.Abs(people.GPoint.Y - player.GPoint.Y);
             bool Near = (dx <= 2 && dy <= 1) || (dx <= 1 && dy <= 2);
             if (ShelterKey || !Near)
             {
@@ -636,20 +637,20 @@ namespace TwoD_Game_RP
         {
             SystemObj = new List<UIElement>();
             Button button = (Button)sender;
-            Door door = (Door)button.Tag;
+            DoorSkelet door = (DoorSkelet)button.Tag;
             MenuDoorOpen_Click(door);
         }
-        private void MenuDoorOpen_Click(Door door)
+        private void MenuDoorOpen_Click(DoorSkelet door)
         {
             CurrentLocation.RemoveFirstLayerWithCell(door);
         }
         private void MenuPersonAttack_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            Skelet people = (Skelet)button.Tag;
+            AliveSkelet people = (AliveSkelet)button.Tag;
             MenuPersonAttack_Click(people);
         }
-        private void MenuPersonAttack_Click(Skelet people)
+        private void MenuPersonAttack_Click(AliveSkelet people)
         {
             player.ClearActions();
             player.ClearGlobalActions();
@@ -659,10 +660,10 @@ namespace TwoD_Game_RP
         private void MenuPersonCheck_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            IBoxSkelet box = (IBoxSkelet)button.Tag;
+            StorageSkelet box = (StorageSkelet)button.Tag;
             MenuPersonCheck_Click(box);
         }
-        private void MenuPersonCheck_Click(IBoxSkelet box)
+        private void MenuPersonCheck_Click(StorageSkelet box)
         {
             if (InventoryEnemyWindow.Visibility == Visibility.Collapsed)
             {
@@ -672,10 +673,10 @@ namespace TwoD_Game_RP
         private void MenuPersonDialog_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            Skelet people = (Skelet)button.Tag;
+            AliveSkelet people = (AliveSkelet)button.Tag;
             MenuPersonDialog_Click(people);
         }
-        public void MenuPersonDialog_Click(Skelet people)
+        public void MenuPersonDialog_Click(AliveSkelet people)
         {
             if (DialogWindow.Visibility == Visibility.Collapsed)
             {
@@ -727,7 +728,7 @@ namespace TwoD_Game_RP
             DialogBtn.Children.Clear();
             timerReloadAnimation.IsEnabled = true;
         }
-        private void CreateWindowDialog(Skelet Person)
+        private void CreateWindowDialog(AliveSkelet Person)
         {
             namePerson = Person.Name;
             DialogInform informPhrases = Information.GetPhrasesPerson(Person.SystemName, lengthPhrase);
@@ -975,7 +976,7 @@ namespace TwoD_Game_RP
             InventoryEnemyWindow.Visibility = Visibility.Collapsed;
             timerReloadAnimation.IsEnabled = true;
         }
-        private void OpenInventoryWindow(IBoxSkelet skelet)
+        private void OpenInventoryWindow(StorageSkelet skelet)
         {
             timerReloadAnimation.IsEnabled = false;
             SystemObj = new List<UIElement>();
@@ -1023,14 +1024,14 @@ namespace TwoD_Game_RP
                     (int)Math.Truncate((pointMouse.Y) / pixelSizeInvent));
                 Item item = player.SearchInBackpack(H, W);
 
-                IBoxSkelet skelet = (IBoxSkelet)InventoryEnemyCanvas.Tag;
+                var skelet = InventoryEnemyCanvas.Tag;
                 if (item != null)
                 {
                     player.RemoveInBackpack(item);
-                    skelet.AddInBackpack(item);
+                    (skelet as IBoxElement).AddInBackpack(item);
 
                     player.DisplayInventory(InventoryPlayerCanvas, pixelSizeInvent);
-                    skelet.DisplayInventory(InventoryEnemyCanvas, pixelSizeInvent);
+                    (skelet as IDisplayCanvas).Display(InventoryEnemyCanvas, pixelSizeInvent);
                 }
             }
         }
@@ -1043,15 +1044,15 @@ namespace TwoD_Game_RP
             Point pointMouse = e.GetPosition(InventoryEnemyCanvas);
             (int W, int H) = ((int)Math.Truncate((pointMouse.X) / pixelSizeInvent),
                 (int)Math.Truncate((pointMouse.Y) / pixelSizeInvent));
-            IBoxSkelet skelet = (IBoxSkelet)InventoryEnemyCanvas.Tag;
-            Item item = skelet.SearchInBackpack(H, W);
+            var skelet = InventoryEnemyCanvas.Tag;
+            Item item = (skelet as IBoxElement).SearchInBackpack(H, W);
             if (item != null)
             {
-                skelet.RemoveInBackpack(item);
+                (skelet as IBoxElement).RemoveInBackpack(item);
                 player.AddInBackpack(item);
 
                 player.DisplayInventory(InventoryPlayerCanvas, pixelSizeInvent);
-                skelet.DisplayInventory(InventoryEnemyCanvas, pixelSizeInvent);
+                (skelet as IDisplayCanvas).Display(InventoryEnemyCanvas, pixelSizeInvent);
             }
         }
         private void InventoryEnemyCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -1065,7 +1066,7 @@ namespace TwoD_Game_RP
         private void MenuCall_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            Skelet people = (Skelet)button.Tag;
+            AliveSkelet people = (AliveSkelet)button.Tag;
 
             timerReloadAnimation.IsEnabled = false;
             SystemObj = new List<UIElement>();

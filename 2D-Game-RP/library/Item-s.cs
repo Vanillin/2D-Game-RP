@@ -10,7 +10,7 @@ namespace TwoD_Game_RP
         public int SizeH { get; private set; }
         public int SizeW { get; private set; }
         public int Cost { get; set; }
-        public IPictureCell Picture { get; set; }
+        internal IPicture Picture { get; set; }
 
         public Item(string name, string systemName, int cost, int sizeH, int sizeW)
         {
@@ -47,10 +47,10 @@ namespace TwoD_Game_RP
     {
         public int Damage;
         public int Radius;
-        private IPictureCell _pictureAttack;
-        public IPictureCell PictureAttack => _pictureAttack;
+        private IPicture _pictureAttack;
+        public IPicture PictureAttack => _pictureAttack;
 
-        public Gun(string name, string systemName, int damage, int radius, int cost, int sizeH, int sizeW, IPictureCell pictureAttack)
+        public Gun(string name, string systemName, int damage, int radius, int cost, int sizeH, int sizeW, IPicture pictureAttack)
             : base(name, systemName, cost, sizeH, sizeW)
         {
             Damage = damage;
@@ -58,19 +58,16 @@ namespace TwoD_Game_RP
             _pictureAttack = pictureAttack;
         }
     }
+    //public abstract class Cloth : Item
+    //{
+    //    public int Armor;
+    //    public NPSGroup FractionCloth;
 
-    #region Closed
-    public abstract class Cloth : Item
-    {
-        public int Armor;
-        public NPSGroup FractionCloth;
-
-        public Cloth(string name, string systemName, int cost, int armor, NPSGroup fractioncloth, int sizeH, int sizeW)
-            : base(name, systemName, cost, sizeH, sizeW)
-        {
-            Armor = armor;
-            FractionCloth = fractioncloth;
-        }
-    }
-    #endregion
+    //    public Cloth(string name, string systemName, int cost, int armor, NPSGroup fractioncloth, int sizeH, int sizeW)
+    //        : base(name, systemName, cost, sizeH, sizeW)
+    //    {
+    //        Armor = armor;
+    //        FractionCloth = fractioncloth;
+    //    }
+    //}
 }

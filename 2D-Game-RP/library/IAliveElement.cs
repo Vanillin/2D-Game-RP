@@ -1,6 +1,14 @@
 ﻿namespace TwoD_Game_RP
 {
-    internal class HealthSkelet
+    internal interface IAliveElement
+    {
+        int Health { get; }
+        double HealthPercent { get; }
+        bool IsAlive { get; }
+        void MinusHealth(int health);
+        void PlusHealth(int health);
+    }
+    internal class HealthSkelet : IAliveElement
     {
         private int _health;
         private int _maxHealth;

@@ -1,61 +1,51 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
 
 namespace TwoD_Game_RP
 {
     public class PlayerFirst : Player
     {
-        public PlayerFirst(string name, string systemName, GamePoint coord, int inventoryHeight, int inventoryWight, List<Item> inventoryList, CustomSortedEnum<string> startTask) :
-            base(name, systemName, PlayerGender.Man, coord, inventoryHeight, inventoryWight, inventoryList, new TaskBoard(Information.GetTasks(70), Information.GetTaskConnection(), startTask))
+        public PlayerFirst(string name, string systemNamePicture, GamePoint point, int inventoryHeight, int inventoryWight, List<Item> items, CustomSortedEnum<string> startTask, int health) :
+            base(systemNamePicture, point, false, inventoryHeight, inventoryWight, items, health, NPSGroup.People, name, "", PlayerGender.Man, startTask)
         { }
     }
     public class Girl : Enemy
     {
         public Girl(int lenWatch) :
-            base("", "", NPSGroup.People, NPSIntellect.Non, new GamePoint(15, 10), 0, "girl", new List<Item> { new Knife(), new Water() }, 2, 2, true, 4, lenWatch)
+            base("girl", new GamePoint(15, 10), true,  2, 2, new List<Item> { new Knife(), new Water() }, 4, NPSGroup.People,"", "", lenWatch)
         { }
     }
     public class Grandma : Enemy
     {
         public Grandma(int lenWatch) :
-            base("", "", NPSGroup.People, NPSIntellect.Non, new GamePoint(5, 22), 0, "grandma", new List<Item> { }, 1, 1, true, 4, lenWatch)
+            base("grandma", new GamePoint(5,22), true, 1, 1, new List<Item>(0), 4, NPSGroup.People, "", "", lenWatch)
         { }
     }
     public class Grandpa : Enemy
     {
         public Grandpa(int lenWatch) :
-            base("", "", NPSGroup.People, NPSIntellect.Non, new GamePoint(3, 10), 0, "grandpa", new List<Item> { new Knife() }, 2, 2 , true, 4, lenWatch)
+            base("grandpa", new GamePoint(3, 10), true, 2, 2, new List<Item> { new Knife() }, 4, NPSGroup.People, "", "", lenWatch)
         { }
     }
-    public class WoodDoor : Door
-    {
-        public WoodDoor(GamePoint coord, int rotate, bool isLock) :
-            base("woodZaborDoorSkelet", coord, rotate, isLock)
-        { }
-    }
+    //public class WoodDoor : Door
+    //{
+    //    public WoodDoor(GamePoint coord, int rotate, bool isLock) :
+    //        base("woodZaborDoorSkelet", coord, rotate, isLock)
+    //    { }
+    //}
     public class Scorpion : Enemy
     {
         public Scorpion(GamePoint point, int lenWatch) :
-            base("Scorpion", "", NPSGroup.Monster, NPSIntellect.Attack, point, 0, "scorpion", new List<Item>(), 1, 1, false, 6, lenWatch)
+            base("scorpion", point, false, 1, 1, new List<Item>(0), 6, NPSGroup.Monster, "Scorpion", "", lenWatch)
         {
             GiveGunInHand(new Knife());
         }
     }
-    //public class Trash : Skelet
-    //{
-    //    public Trash(GamePoint coord, int rotate, int heightInventory, int weightInventory, List<Item> inventoryList) :
-    //        base("Мусорка", "Мусорка", NPSGroup.Box, NPSIntellect.Non, coord, rotate, "trashSkelet", inventoryList, heightInventory, weightInventory, true, 1)
-    //    { }
-    //}
-    //public class Box : Skelet
-    //{
-    //    public Box(string name, string systemname, GamePoint coord, int rotate, int heightInventory, int weightInventory, List<Item> inventoryList) :
-    //        base(name, "", NPSGroup.Box, NPSIntellect.Non, coord, rotate, systemname, inventoryList, heightInventory, weightInventory, true, 1)
-    //    { }
-    //}
-    public class Perecati : SystemSkelet
+    public class Perecati : SimpleElement
     {
         public Perecati(GamePoint coord, int rotate) :
-            base(coord, rotate, "perecati", true)
+            base("perecati", coord, true)
         { }
     }
 }

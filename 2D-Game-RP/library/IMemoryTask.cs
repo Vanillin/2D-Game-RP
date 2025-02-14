@@ -1,65 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace TwoD_Game_RP
 {
-    public class DescriptionTask : IComparable<DescriptionTask>
+    public interface IMemoryTask
     {
-        public string SystemName { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public DescriptionTask(string systemName, string name, string description)
-        {
-            Name = name;
-            Description = description;
-            SystemName = systemName;
-        }
-        public int CompareTo(DescriptionTask other)
-        {
-            return Name.CompareTo(other.Name);
-        }
+        //private void CreateNextPrevSystemTask(CustomSortedEnum<(string prev, string next)> connect);
+        //private void AddNewUsingTask(string SysNameTask);
+        //private GeneralTask FindTask(string systemnametask);
+        CustomSortedEnum<GeneralTask> GetUsingTask();
+        List<DescriptionTask> GetDescriptionUsingTask();
+        void ComplitedTask(string SysNameTask);
     }
-    abstract public class GeneralTask : IComparable<GeneralTask>
-    {
-        internal List<string> _nextSystemTask;
-        internal List<string> _prevSystemTask;
-        internal List<string> _eachOtherExclusive;
-        public string SystemName { get; }
-        public DescriptionTask DescriptionTask { get; }
-        public GeneralTask(string systemName, List<string> eachOtherExclusive, DescriptionTask descriptionTask, List<string> nextSystemTask, List<string> prevSystemTask)
-        {
-            _nextSystemTask = nextSystemTask;
-            _prevSystemTask = prevSystemTask;
-            _eachOtherExclusive = eachOtherExclusive;
-            SystemName = systemName;
-            DescriptionTask = descriptionTask;
-        }
-        public int CompareTo(GeneralTask other)
-        {
-            return SystemName.CompareTo(other.SystemName);
-        }
-    }
-    public class Trigger : GeneralTask
-    {
-        public Trigger(string systemName) : base(systemName, null, null, new List<string>(), new List<string>())
-        { }
-    }
-    public class TriggerImp : GeneralTask
-    {
-        public TriggerImp(string systemName) : base(systemName, null, null, new List<string>(), new List<string>())
-        { }
-    }
-    public class Task : GeneralTask
-    {
-        public Task(string systemName, DescriptionTask descriptionTask, List<string> eachOtherExclusive) : base(systemName, eachOtherExclusive, descriptionTask, new List<string>(), new List<string>())
-        { }
-    }
-    public class TaskHid : GeneralTask
-    {
-        public TaskHid(string systemName, List<string> eachOtherExclusive) : base(systemName, eachOtherExclusive, null, new List<string>(), new List<string>())
-        { }
-    }
-    public class TaskBoard
+    internal class TaskBoard : IMemoryTask
     {
         private CustomSortedEnum<string> _blockedTasks;
         private CustomSortedEnum<string> _complitedTasks;
