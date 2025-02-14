@@ -22,6 +22,7 @@ namespace TwoD_Game_RP
         public NPSGroup Fraction => _fraction;
         public MemoryFraction(NPSGroup fraction)
         {
+            _fraction = fraction;
             FriendFranction = GetFriendFraction(fraction);
         }
         public List<NPSGroup> FriendFranction { get; set; }

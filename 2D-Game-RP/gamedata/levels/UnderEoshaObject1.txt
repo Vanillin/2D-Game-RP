@@ -7,21 +7,15 @@
 ///    -------------------
 ///   end
 
-///      k кровать
-///      V подъём
-///      S сундук
-
-///	#     Wall\wood\0
-	.     Floor\floorDarkWood
-	#     Floor\floorDarkWood
-	,     Object\podval2
+        C     Object\chuchelo
+	V     Object\podval2
 
 start
-	#######
-	#.....#
-	#.....#
-	#.....#
-	#######
+	3SCSSS1
+	Os...V0
+	O.....0
+	OkK...0
+	9555557
 end
 	#######
 	#S...V#

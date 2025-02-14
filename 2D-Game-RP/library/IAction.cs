@@ -58,7 +58,7 @@ namespace TwoD_Game_RP
             if (!(skelet is AliveSkelet)) throw new CustomException("Skelet not a class Skelet");
             List<IAction> actions = new List<IAction>();
             var lenPathVisible = location.CreateLenghtPathVisible(skelet.GPoint, EnemySkelet.GPoint);
-            if (lenPathVisible >= (skelet as AliveSkelet).GetGunInHand().Radius)
+            if (lenPathVisible >= (skelet as AliveSkelet).GetGunInHand().Radius && lenPathVisible != 1)
             {
                 var path = location.CreatePath_OutOfPoint(skelet.GPoint, EnemySkelet.GPoint, location.IsBusy);
                 actions.Add(new ActionMove(path[0], false));

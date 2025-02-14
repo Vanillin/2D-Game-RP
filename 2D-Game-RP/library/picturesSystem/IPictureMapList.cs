@@ -160,7 +160,7 @@ namespace TwoD_Game_RP
         private void SystemAddCell(IPicture pictureCell, int indexlayer)
         {
             Layer layer = TranslateIntoLayer(indexlayer);
-            if (indexlayer == 0 || indexlayer == 2 || indexlayer == 3)
+            if (indexlayer == 0 ||/* indexlayer == 2 ||*/ indexlayer == 3)
             {
                 if (!(pictureCell is ISomePicture))
                     throw new CustomException("PictureCell is not ISomePicture");

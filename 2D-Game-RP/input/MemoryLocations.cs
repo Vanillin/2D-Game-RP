@@ -106,6 +106,7 @@ namespace TwoD_Game_RP
 
                 UnderEosha.AddLocationCellsLayer(CreateLocation("UnderEoshaFloor1"), -1);
                 UnderEosha.AddLocationCellsLayer(CreateLocation("UnderEoshaWall1"), 0);
+                UnderEosha.AddLocationCellsLayer(CreateLocation("UnderEoshaObject1"), 0);
 
                 UnderEosha.AddFirstLayerWithCell(new BoxSkelet("", new GamePoint(1, 1), true, 2, 2, new List<Item>() { new SmallToz() }));
 

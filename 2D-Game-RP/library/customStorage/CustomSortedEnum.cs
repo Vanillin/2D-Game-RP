@@ -142,6 +142,16 @@ namespace TwoD_Game_RP
         {
             return GetEnumerator();
         }
+
+        public List<T> ToList()
+        {
+            List<T> retur = new List<T>();
+            foreach (var v in this)
+            {
+                retur.Add(v);
+            }
+            return retur;
+        }
     }
     internal class NodeSortedEnum<T> : IEnumerable<T>
     {

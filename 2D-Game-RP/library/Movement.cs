@@ -324,6 +324,11 @@ namespace TwoD_Game_RP
             Y = pair.y;
         }
 
+        public override string ToString()
+        {
+            return base.ToString() + $"  {X}_{Y}";
+        }
+
         public int CompareTo(GamePoint other)
         {
             return CompareTo((other.X, other.Y));

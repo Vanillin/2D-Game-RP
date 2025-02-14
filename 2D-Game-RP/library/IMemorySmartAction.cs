@@ -18,12 +18,13 @@ namespace TwoD_Game_RP
             var OblWatch = location.GetWatchCirlce(cord, lenWatch - 0.1,
                 Math.Max((int)cord.X - lenWatch, 0), Math.Max((int)cord.Y - lenWatch, 0),
                 Math.Min((int)cord.X + lenWatch + 1, location.Height), Math.Min((int)cord.Y + lenWatch + 1, location.Width));
+            var list = OblWatch.ToList();
             foreach (SystemSkelet enemyskelet in location.GetLives())
             {
-                if (enemyskelet is EnemySkelet && OblWatch.Contains(skelet.GPoint))
-                    if (!skelet.FriendFranction.Contains((enemyskelet as EnemySkelet).Fraction))
+                if (enemyskelet is AliveSkelet && OblWatch.Contains(enemyskelet.GPoint))
+                    if (!skelet.FriendFranction.Contains((enemyskelet as AliveSkelet).Fraction))
                     {
-                        EnqueueUpGlobalAction(new ActionAttack(enemyskelet as EnemySkelet, false));
+                        EnqueueUpGlobalAction(new ActionAttack(enemyskelet as AliveSkelet, false));
                         break;
                     }
             }

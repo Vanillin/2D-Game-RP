@@ -193,7 +193,10 @@
   <ItemGroup>
     <Resource Include="gamedata\textures\map\System\Dark.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="gamedata\textures\map\Object\chuchelo.png" />
+    <Resource Include="gamedata\textures\map\Object\chuchelo_sD_.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\textures\items\notebook.png" />
   </ItemGroup>
