@@ -22,6 +22,8 @@ namespace TwoD_Game_RP
         public CreatePersonWindow()
         {
             InitializeComponent();
+            StartTextHistoryLb.Text = Information.GetTexts("textStart1");
+            StartTextPersonLb.Text = Information.GetTexts("textStart2");
         }
         private void CreatePerson_Click(object sender, RoutedEventArgs e)
         {
@@ -31,6 +33,21 @@ namespace TwoD_Game_RP
             MainWindow mainWindow = new MainWindow(NamePerson.Text, PlayerGender.Man, actuals);
             this.Close();
             mainWindow.Show();
+        }
+
+        private void NextBtn_Click(object sender, RoutedEventArgs e)
+        {
+            WindowHistoryWorld.Visibility = Visibility.Collapsed;
+            WindowCreatePerson.Visibility = Visibility.Visible;
+        }
+
+        private void GenderM_Click(object sender, RoutedEventArgs e)
+        {
+            PicturePlayerImg.Source = new BitmapImage( new Uri("gamedata/textures/player/playerm-map.png", UriKind.RelativeOrAbsolute));
+        }
+        private void GenderG_Click(object sender, RoutedEventArgs e)
+        {
+            PicturePlayerImg.Source = new BitmapImage(new Uri("gamedata/textures/player/playerg-map.png", UriKind.RelativeOrAbsolute));
         }
     }
 }

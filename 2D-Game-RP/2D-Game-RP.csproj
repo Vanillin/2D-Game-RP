@@ -309,7 +309,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\scripts\AllConnectionTask.txt" />
-    <Resource Include="gamedata\scripts\AllPhrases.txt" />
     <Resource Include="gamedata\scripts\AllTask.txt" />
     <Resource Include="gamedata\scripts\Phrases_grandma.txt" />
   </ItemGroup>
@@ -517,6 +516,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="gamedata\configs\ObjectText.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\fonHistory.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\fonCreatePlayer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

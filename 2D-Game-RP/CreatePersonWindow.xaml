@@ -6,11 +6,63 @@
         xmlns:local="clr-namespace:TwoD_Game_RP"
         mc:Ignorable="d"
         Title="CreatePersonWindow" WindowState="Maximized" Height="1200" Width="1920" Icon="gamedata\textures\icon.png">
-    <StackPanel>
-        <TextBox x:Name="NamePerson" FontSize="30" />
-        <RadioButton x:Name="MechanicRB" FontSize="30" Content="Mechanic" GroupName="Actuals"/>
-        <RadioButton x:Name="SniperRB" FontSize="30" Content="Sniper" GroupName="Actuals"/>
-        <RadioButton x:Name="Gender" FontSize="30" Content="Мужской" GroupName="Gender"/>
-        <Button x:Name="CreatePerson" Content="Создать" FontSize="30" Click="CreatePerson_Click" />
-    </StackPanel>
+    <Grid>
+        <Grid x:Name="WindowHistoryWorld" Visibility="Visible" >
+            <Grid.Background>
+                <ImageBrush ImageSource="/gamedata/textures/fonHistory.png" Stretch="Fill" />
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="StartTextHistoryLb" Grid.Column="1" Margin="60" FontSize="30" TextWrapping="Wrap" TextAlignment="Center"
+                     Background="Transparent" Foreground="White" BorderThickness="0" Text="ываываьтыиватьиывьтаиытьваи ываьиыва ывтьаиывьтаи" IsReadOnly="True"/>
+
+            <Border Grid.Column="1" x:Name="RBtn" CornerRadius="20" Width="250" Height="80" Margin="40" 
+                    VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="LightGray">
+                <Button x:Name="NextBtn" Click="NextBtn_Click" Background="Transparent" BorderThickness="0" >
+                    <Label Content="Далее" FontSize="30" Foreground="Black"/>
+                </Button>
+            </Border>
+        </Grid>
+        <Grid x:Name="WindowCreatePerson" Visibility="Collapsed">
+            <Grid.Background>
+                <ImageBrush ImageSource="/gamedata/textures/fonCreatePlayer.png" Stretch="Fill" />
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Grid.Column="1" Margin="50, 80, 0 ,0">
+                <Label  Height="50" Background="Transparent" Foreground="White" Content="Введите имя:" BorderThickness="0" FontSize="30" />
+                <TextBox  Height="50" Background="Transparent" Foreground="White" Text="Игрок" x:Name="NamePerson" BorderThickness="0" FontSize="30" />
+            </StackPanel>
+            <TextBox Grid.Row="1" Grid.Column="1" x:Name="StartTextPersonLb" Margin="50" TextWrapping="Wrap" Text="asadasdadasddsagd" TextAlignment="Center"
+                     FontSize="30"  Background="Transparent" Foreground="White" BorderThickness="0" IsReadOnly="True"/>
+            <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Margin="40" Orientation="Horizontal">
+                <Image x:Name="PicturePlayerImg" Width="400" Height="400" VerticalAlignment="Top" Source="gamedata/textures/player/playerm-map.png" />
+                <StackPanel Margin="20,40">
+                    <RadioButton x:Name="GenderM" IsChecked="True" FontSize="30" Margin="5" Content="Мужской" Foreground="White" GroupName="Gender" Click="GenderM_Click"/>
+                    <RadioButton x:Name="GenderG" FontSize="30" Margin="5" Content="Женский" Foreground="White" GroupName="Gender" Click="GenderG_Click"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Grid.Column="0" Margin="80,0,0,0">
+                <Label Content="Выберите способность:" FontSize="30" Foreground="White" Margin="20, 20"/>
+                <RadioButton x:Name="MechanicRB" FontSize="30" Content="Механик"  Margin="20, 5"  GroupName="Actuals" Foreground="White"/>
+                <RadioButton x:Name="SniperRB" FontSize="30" Content="Стрелок"  Margin="20, 5"  GroupName="Actuals" Foreground="White"/>
+            </StackPanel>
+
+            <Border Grid.Row="2" Grid.Column="1" CornerRadius="20" Width="250" Height="80" Margin="40" 
+                    VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="LightGray">
+                <Button x:Name="CreatePerson"  Click="CreatePerson_Click" Background="Transparent" BorderThickness="0" >
+                    <Label Content="Создать" FontSize="30" Foreground="Black"/>
+                </Button>
+            </Border>
+        </Grid>
+    </Grid>
 </Window>

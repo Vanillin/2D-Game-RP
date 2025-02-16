@@ -1,0 +1,62 @@
+/// -------  -------   startphrases person  activetask isBlocked(any symbol)
+/// ...
+/// end
+/// -------  -------   startphrases player  activetask
+/// ...
+/// end
+
+/// systemName  ----- 
+
+/// text   <--->
+/// or
+/// text       <-----  ------  ------]
+/// text1      <-----  ------  ------]
+/// text2      <-----  ------  ------>
+
+/// nextSystemName   <-----  ------  ------>
+/// compliteTaskSystemName  <----  -----  ----->
+/// end
+
+thoughtdialog1   start1Ep   d
+end
+end
+
+systemName  thoughtdialog1
+text   <Нельзя сидеть на месте пора действовать. Надо всё хорошенько обдумать.>
+nextSystemName   <questt1 questt2 questt3 questt4>
+end
+
+systemName  questt1
+text   <А что, если остаться?>
+nextSystemName   <questt1-1>
+end
+
+systemName  questt1-1
+text   <Еды пости не осталось. Я здесь просто умру с голоду. Будущего здесь нет.>
+nextSystemName   <questt1 questt2 questt3 questt4>
+end
+
+systemName  questt2
+text   <А как мне добраться до родственников?>
+nextSystemName   <questt2-1>
+end
+
+systemName  questt2-1
+text   <Я никогда не путешествовал и не знаю, как добраться до Нового Оливера. Может сосед дядь Валера знает.>
+nextSystemName   <questt1 questt2 questt3 questt4>
+end
+
+systemName  questt3
+text   <Что мне может пригодиться?>
+nextSystemName   <questt3-1>
+end
+
+systemName  questt3-1
+text   <Мне точно пригодится еда и вода. Дядь Валера много путешествовал надо с ним посоветоваться.>
+nextSystemName   <questt1 questt2 questt3 questt4>
+end
+
+systemName  questt4
+text   <Ладно пойду собираться.>
+compliteTaskSystemName  <start1Ep>
+end

@@ -36,7 +36,7 @@ namespace TwoD_Game_RP
                 Eosha.CreateGrafAll();
 
                 var girl = new Girl(lenWatch);
-                var grandma = new Grandma(lenWatch);
+                //var grandma = new Grandma(lenWatch);
                 var grandpa = new Grandpa(lenWatch);
 
                 Eosha.AddFirstLayerWithCell(new BoxSkelet("", new GamePoint(3, 18), true, 2, 2, new List<Item>() { new Water() }));
@@ -48,7 +48,7 @@ namespace TwoD_Game_RP
                 player.GPoint = new GamePoint(8, 22);
                 Eosha.AddFirstLayerWithCell(player);
                 Eosha.AddFirstLayerWithCell(girl);
-                Eosha.AddFirstLayerWithCell(grandma);
+                //Eosha.AddFirstLayerWithCell(grandma);
                 Eosha.AddFirstLayerWithCell(grandpa);
 
                 Eosha.UpdateDisplay();

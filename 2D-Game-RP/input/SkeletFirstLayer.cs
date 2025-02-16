@@ -6,8 +6,8 @@ namespace TwoD_Game_RP
 {
     public class PlayerFirst : Player
     {
-        public PlayerFirst(string name, string systemNamePicture, GamePoint point, int inventoryHeight, int inventoryWight, List<Item> items, CustomSortedEnum<string> startTask, int health) :
-            base(systemNamePicture, point, false, inventoryHeight, inventoryWight, items, health, NPSGroup.People, name, "", PlayerGender.Man, startTask)
+        public PlayerFirst(string name, string systemNamePicture, int inventoryHeight, int inventoryWight, List<Item> items, CustomSortedEnum<string> startTask, int health) :
+            base(systemNamePicture, new GamePoint(5, 22), false, inventoryHeight, inventoryWight, items, health, NPSGroup.People, name, "", PlayerGender.Man, startTask)
         { }
     }
     public class Girl : Enemy

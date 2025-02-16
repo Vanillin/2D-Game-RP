@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Xml.Serialization;
 
 namespace TwoD_Game_RP
@@ -58,6 +59,63 @@ namespace TwoD_Game_RP
                 }
             }
             return new ReadLocation(location.Count, location[0].Length, description, location, rotation);
+        }
+
+        //==================================================================================================
+        //===================================       Texts     ==============================================
+        //==================================================================================================
+
+        static CustomDictionary<string, string> Texts;
+        public static string GetTexts(string systemName  /*, int lengthText*/)
+        {
+            if (Texts == null)
+            {
+                Texts = new CustomDictionary<string, string>();
+                using (StreamReader sr = new StreamReader(Path.Combine(ConfigurationManager.AppSettings["Scripts"], $"AllText.txt")))
+                {
+                    bool IsOk = ReadKeyValueInformation(sr, out CustomDictionary<string, string> inform);
+                    while (IsOk)
+                    {
+                        if (!inform.ContainsKey("systemName") || !inform.ContainsKey("text"))
+                            throw new CustomException("Not find systemName or text");
+
+                        string text;
+                        try
+                        {
+                            text = GetStringInBkt(inform["text"]);
+                        }
+                        catch (CustomException)
+                        {
+                            text = GetStringInBktWithEnter(inform["text"]);
+                            bool IsRead = false;
+                            int i = 1;
+                            string newtext;
+                            while (!IsRead)
+                            {
+                                try
+                                {
+                                    newtext = GetStringInBkt(inform[$"text{i}"]);
+                                    text += newtext;
+                                    IsRead = true;
+                                }
+                                catch (CustomException)
+                                {
+                                    newtext = GetStringInBktWithEnter(inform[$"text{i}"]);
+                                    text += newtext;
+                                    i++;
+                                }
+                            }
+                        }
+
+                        Texts.Add(DeleteSpace(inform["systemName"]), text);
+                        IsOk = ReadKeyValueInformation(sr, out inform);
+                    }
+                }
+            }
+            if (!Texts.ContainsKey(systemName))
+                throw new CustomException("SystemName is not find");
+
+            return Texts[systemName];
         }
 
         //==================================================================================================
@@ -278,7 +336,7 @@ namespace TwoD_Game_RP
                 }
             }
             description = null;
-            return false;            
+            return false;
         }
         private static CustomDictionary<string, string> ReadDescriptionObject()
         {
@@ -319,7 +377,7 @@ namespace TwoD_Game_RP
                         }
                     }
 
-                    retur.Add(DeleteSpace( inform["systemName"]), text);
+                    retur.Add(DeleteSpace(inform["systemName"]), text);
 
                     IsOk = ReadKeyValueInformation(sr, out inform);
                 }

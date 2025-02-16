@@ -61,6 +61,10 @@ systemName        map\Object\часы
 text              <Эти часы давно не работают. Использую для украшения интерьера>
 end
 
+systemName        map\Object\chuchelo
+text              <Это чучело собакоподобного мутанта>
+end
+
 systemName        map\ObjectWall\stand
 text              <На табличке еле разборчиво написано "Деревня Булгар">
 end

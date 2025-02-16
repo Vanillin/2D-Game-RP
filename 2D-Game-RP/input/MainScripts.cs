@@ -40,7 +40,7 @@
                     case "talkEndQuestKillScorpion": break;
 
                     //trigger
-                    case "start1Ep": window.player.Tasks.ComplitedTask("start1Ep"); break;
+                    case "start1Ep": window.MenuPersonDialog_Click(window.player); break;
                     case "final0": Final(window); break;
                     case "final1": Final(window); break;
                     case "final2": Final(window); break;

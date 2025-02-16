@@ -145,6 +145,8 @@ namespace TwoD_Game_RP
             //Information.Serialization();
 
             InitializeComponent();
+            MessageBox.Show("Глава 1: Начало пути");
+
             EBtn_Click(null, null);
             SystemObj = new List<UIElement>();
             timerReloadAnimation.Tick += TimerAnimation_Tick;
@@ -155,7 +157,7 @@ namespace TwoD_Game_RP
             //timerReloadDoAll.Tick += TimerReloadDoAll_Tick;
             //timerReloadDoAll.IsEnabled = true;
 
-            player = new PlayerFirst("Детектив", "playerm", new GamePoint(19, 5), sizeInventH, sizeInventW,
+            player = new PlayerFirst("Детектив", "playerm", sizeInventH, sizeInventW,
                 new List<Item>()
                 {
                     new NoteBook()
