@@ -27,6 +27,14 @@ class             Trigger
 systemName        start1Ep
 end
 
+class             Trigger
+systemName        checkActualMechanik
+end
+
+class             Trigger
+systemName        checkActualSniper
+end
+
 class             TaskHid
 systemName        spawnPerecati
 end
@@ -56,7 +64,7 @@ end
 class                    Task
 systemName               fixWithoutDetailDrawwell
 systemNameDescription    descriptionfixDrawwell
-eachOtherName            fixDrawwell
+eachOtherName            fixDrawwell  findDetailDrawwell
 end
 
 class             TriggerImp
@@ -71,6 +79,7 @@ end
 
 class             TaskHid
 systemName        takeGunInQuestKillScorpion
+eachOtherName     go2Ep
 end
 
 class             Task
@@ -88,10 +97,12 @@ end
 
 class             TaskHid
 systemName        kill1People
+eachOtherName     go2EpWithGun   go2Ep  
 end
 
 class             TaskHid
 systemName        killAllPeople
+eachOtherName     go2Ep     go2EpWithGun   go2Epkill1
 end
 
 class             Description
@@ -103,25 +114,25 @@ end
 class                    Task
 systemName               go2Ep
 systemNameDescription    descriptiongo2Ep
-eachOtherName            go2EpWithGun   go2Epkill1    go2EpkillAll
+///eachOtherName            go2EpWithGun   go2Epkill1    go2EpkillAll
 end
 
 class                    Task
 systemName               go2EpWithGun
 systemNameDescription    descriptiongo2Ep
-eachOtherName            killOneScorpion     go2Ep
+///eachOtherName            killOneScorpion     go2Ep
 end
 
 class                    Task
 systemName               go2Epkill1
 systemNameDescription    descriptiongo2Ep
-eachOtherName            go2Ep    go2EpkillAll
+///eachOtherName            go2Ep    go2EpkillAll
 end
 
 class                    Task
 systemName               go2EpkillAll
 systemNameDescription    descriptiongo2Ep
-eachOtherName            go2Ep    go2Epkill1
+///eachOtherName            go2Ep    go2Epkill1
 end
 
 class             TriggerImp

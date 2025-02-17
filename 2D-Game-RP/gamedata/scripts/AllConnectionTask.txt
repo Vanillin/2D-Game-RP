@@ -10,6 +10,7 @@ start1Ep   kill1People
 start1Ep   killAllPeople
 
 talkStartQuestDrawwell      fixDrawwell  
+checkActualMechanik         fixWithoutDetailDrawwell
 talkStartQuestDrawwell      fixWithoutDetailDrawwell
 talkStartQuestDrawwell      talkEndQuestDrawwell
 findDetailDrawwell          fixDrawwell

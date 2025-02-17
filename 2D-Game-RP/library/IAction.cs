@@ -52,6 +52,11 @@ namespace TwoD_Game_RP
 
             location.AddSecondLayerWithCell(shootSkelet);
             EnemySkelet.MinusHealth((skelet as AliveSkelet).GetGunInHand().Damage);
+            if (skelet is PlayerSkelet && !EnemySkelet.IsAlive)
+            {
+                MainScripts.EventKillEnyone(location, skelet as AliveSkelet, EnemySkelet);
+                location.UpdateDisplay(EnemySkelet.GPoint.X, EnemySkelet.GPoint.Y);
+            }
         }
         public IEnumerable<IAction> CreateActions(SystemSkelet skelet, Location location)
         {

@@ -97,7 +97,7 @@ namespace TwoD_Game_RP
             {
                 foreach (var prev in FindTask(task)._prevSystemTask)
                 {
-                    if (!_complitedTasks.Contains(prev))
+                    if (!_complitedTasks.Contains(prev) && !_blockedTasks.Contains(prev))
                     {
                         NotComplited.Add(task);
                         break;

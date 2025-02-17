@@ -1,0 +1,85 @@
+/// -------  -------   startphrases person  activetask isBlocked(any symbol)
+/// ...
+/// end
+/// -------  -------   startphrases player  activetask
+/// ...
+/// end
+
+/// systemName  ----- 
+
+/// text   <--->
+/// or
+/// text       <-----  ------  ------]
+/// text1      <-----  ------  ------]
+/// text2      <-----  ------  ------>
+
+/// nextSystemName   <-----  ------  ------>
+/// compliteTaskSystemName  <----  -----  ----->
+/// end
+
+fixwithoutdialog1   fixWithoutDetailDrawwell
+watchdialog1   findDetailDrawwell
+fixdialog1   fixDrawwell
+end
+end
+
+systemName  fixwithoutdialog1
+text   <Вы видите сломанный колодец.>
+nextSystemName   <fixwithoutdialog2>
+end
+
+systemName  fixwithoutdialog2
+text   <(Механик) Осмотреть>
+nextSystemName   <fixwithoutdialog3>
+end
+
+systemName  fixwithoutdialog3
+text   <У колодца сломан механизм подъёма. Любой бы сказал, что нужна замена деталей, ]
+text1   <но у вас появляется идея, как починить колодец без этого. ]
+text2   <Вы забираете у колодца некоторые детали без функционала и делаете из них механизм подъёма. ]
+text3   <Теперь всё работает исправно.>
+compliteTaskSystemName  <fixWithoutDetailDrawwell>
+end
+
+///======================================================
+
+systemName  watchdialog1
+text   <Вы видите сломанный колодец.>
+nextSystemName   <watchdialog2>
+end
+
+systemName  watchdialog2
+text   <Осмотреть>
+nextSystemName   <watchdialog3>
+end
+
+systemName  watchdialog3
+text   <У колодца сломан механизм подъёма. Без замены деталей не обойтись.>
+end
+
+///=======================================================
+
+systemName  fixdialog1   
+text   <Вы видите сломанный колодец.>
+nextSystemName   <fixdialog2>
+end
+
+systemName  fixdialog2
+text   <Осмотреть>
+nextSystemName   <fixdialog3>
+end
+
+systemName  fixdialog3
+text   <У колодца сломан механизм подъёма. Без замены деталей не обойтись.>
+nextSystemName   <fixdialog4>
+end
+
+systemName  fixdialog4
+text   <Заменить деталь>
+nextSystemName   <fixdialog5>
+end
+
+systemName  fixdialog5
+text   <Вы меняете деталь, предварительно разобрав часть колодца. Теперь всё работает исправно>
+compliteTaskSystemName  <fixDrawwell>
+end

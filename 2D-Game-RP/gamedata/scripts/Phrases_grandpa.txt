@@ -18,8 +18,8 @@
 /// end
 
 end
-questkillscorpiondialog   test
-complitedquestks  test
+questkillscorpiondialog   talkStartQuestKillScorpion
+complitedquestks  talkEndQuestKillScorpion
 end
 
 systemName  questkillscorpiondialog 
@@ -74,7 +74,7 @@ end
 
 systemName  questks5-2
 text   <Хорошо, возьму ружьё.>
-/// compliteTaskSystemName  <----  -----  ----->
+compliteTaskSystemName  <talkStartQuestKillScorpion>
 end
 
 ///==============================================
@@ -87,5 +87,5 @@ end
 systemName  complitedquestks1
 text   <Я в тебе и не сомневался. Оставь ружьё себе, оно тебе пригодится. Умение стрелять ]
 text1  <довольно важно. Удачи.>
-/// compliteTaskSystemName  <----  -----  ----->
+compliteTaskSystemName  <talkEndQuestKillScorpion>
 end

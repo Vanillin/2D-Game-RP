@@ -13,7 +13,7 @@ namespace TwoD_Game_RP
         int MaxSizeH { get; }
         int MaxSizeW { get; }
         bool AddInBackpack(Item item);
-        void RemoveInBackpack(Item item);
+        GamePoint RemoveInBackpack(Item item);
         bool ContainsInBackpack(Item item);
         Item SearchInBackpack(int h, int w);
     }
@@ -88,9 +88,9 @@ namespace TwoD_Game_RP
         {
             return _backpack.Add(item);
         }
-        public void RemoveInBackpack(Item item)
+        public GamePoint RemoveInBackpack(Item item)
         {
-            _backpack.Remove(item);
+            return _backpack.Remove(item);
         }
         public bool ContainsInBackpack(Item item)
         {

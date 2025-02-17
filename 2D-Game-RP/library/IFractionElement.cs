@@ -30,8 +30,8 @@ namespace TwoD_Game_RP
         {
             switch (fraction)
             {
-                case NPSGroup.Monster: return new List<NPSGroup>() { NPSGroup.Monster };
-                default: return new List<NPSGroup>() { NPSGroup.People };
+                case NPSGroup.Monster: return new List<NPSGroup>() { NPSGroup.Monster, NPSGroup.Box };
+                default: return new List<NPSGroup>() { NPSGroup.People, NPSGroup.Box };
             }
         }
         public void AddFriendFraction(NPSGroup friend)

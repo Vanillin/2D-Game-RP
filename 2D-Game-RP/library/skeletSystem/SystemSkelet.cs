@@ -5,7 +5,7 @@ namespace TwoD_Game_RP
     public abstract class SystemSkelet
     {
         private IMemoryAction _memoryAction;
-        private IPicture _picture;
+        protected IPicture _picture;
         public string SystemName { get; }
         public GamePoint GPoint { get; set; }
         public bool IsClarity { get; set; }

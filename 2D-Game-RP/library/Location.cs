@@ -214,14 +214,17 @@ namespace TwoD_Game_RP
                 }
             }
         }
-
+        public void UpdateDisplay(int indexH, int indexW)
+        {
+            _display.UpdateCell(_cells[indexH, indexW], indexH, indexW, _cells[indexH, indexW].GetParameters());
+        }
         public void UpdateDisplay()
         {
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    _display.UpdateCell(_cells[i, j], i, j, _cells[i, j].GetSizes());
+                    _display.UpdateCell(_cells[i, j], i, j, _cells[i, j].GetParameters());
                 }
             }
         }
@@ -232,7 +235,7 @@ namespace TwoD_Game_RP
                 for (int j = 0; j < Width; j++)
                 {
                     _cells[i, j].ChangeHavingDark(false);
-                    _display.UpdateCell(_cells[i, j], i, j, _cells[i, j].GetSizes());
+                    _display.UpdateCell(_cells[i, j], i, j, _cells[i, j].GetParameters());
                 }
             }
             _display.Display(canvas, size);
@@ -258,7 +261,7 @@ namespace TwoD_Game_RP
                 {
                     continue;
                 }
-                _display.UpdateCell(_cells[v.X, v.Y], v.X, v.Y, _cells[v.X, v.Y].GetSizes());
+                _display.UpdateCell(_cells[v.X, v.Y], v.X, v.Y, _cells[v.X, v.Y].GetParameters());
                 _display.AdditionDisplayCell(canvas, size, v.X, v.Y, LeftUpCorner.X, LeftUpCorner.Y);
             }
             _display.AdditionDisplayUIElement(canvas, systemObj);
@@ -320,12 +323,12 @@ namespace TwoD_Game_RP
         private void AddCell(IPicture cell, int index, int heightInd, int weightInd)
         {
             _cells[heightInd, weightInd].AddCell(cell, index);
-            _display.UpdateCell(_cells[heightInd, weightInd], heightInd, weightInd, _cells[heightInd, weightInd].GetSizes());
+            _display.UpdateCell(_cells[heightInd, weightInd], heightInd, weightInd, _cells[heightInd, weightInd].GetParameters());
         }
         private void RemoveCell(IPicture cell, int heightInd, int weightInd)
         {
             _cells[heightInd, weightInd].RemoveCell(cell);
-            _display.UpdateCell(_cells[heightInd, weightInd], heightInd, weightInd, _cells[heightInd, weightInd].GetSizes());
+            _display.UpdateCell(_cells[heightInd, weightInd], heightInd, weightInd, _cells[heightInd, weightInd].GetParameters());
         }
     }
 }

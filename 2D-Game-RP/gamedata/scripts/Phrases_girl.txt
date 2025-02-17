@@ -18,8 +18,8 @@
 /// end
 
 end
-questfixdrawwelldialog    test
-complitequestfixdrawwelldialog  test
+questfixdrawwelldialog    talkStartQuestDrawwell
+complitequestfixdrawwelldialog  talkEndQuestDrawwell
 end
 
 systemName  questfixdrawwelldialog 
@@ -50,7 +50,7 @@ end
 
 systemName  questfixdrawwelldialog4-1
 text   <Если у тебя получится его починить, буду благодарна.>
-/// compliteTaskSystemName  <----  -----  ----->
+compliteTaskSystemName  <talkStartQuestDrawwell>
 end
 
 ///============================================================
@@ -63,5 +63,5 @@ end
 systemName  complitequestfixdrawwelldialog1
 text   <Спасибо тебе огромное! Ты не представляешь, как ты меня выручил. Сейчас мне тебя ]
 text1  <нечем отблагодарить, но если в будущем пересечёмся - за мной должок.>
-/// compliteTaskSystemName  <----  -----  ----->
+compliteTaskSystemName  <talkEndQuestDrawwell>
 end

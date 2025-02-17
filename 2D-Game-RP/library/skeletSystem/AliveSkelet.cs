@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
+using System.Reflection;
 
 namespace TwoD_Game_RP
 {
     public abstract class AliveSkelet : StorageSkelet
     {
         private IAliveElement _health;
-        private ISomePicture _alivePicture;
         private IFractionElement _fractionElement;
         private IHaveGun _inventoryGun;
         public string Name { get; }
@@ -16,9 +16,16 @@ namespace TwoD_Game_RP
         public double HealthPercent => _health.HealthPercent;
         public NPSGroup Fraction => _fractionElement.Fraction;
         public List<NPSGroup> FriendFranction => _fractionElement.FriendFranction;
-        public void MinusHealth(int health) => _health.MinusHealth(health);
-        public void PlusHealth(int health) => _health.PlusHealth(health);
-        public void ChangeIndexPicture(int index) => _alivePicture.ChangeIndexPicture(index);
+        public void MinusHealth(int health)
+        {
+            _health.MinusHealth(health);
+            if (!IsAlive) (_picture as ISomePicture).ChangeIndexPicture(1);
+        }
+        public void PlusHealth(int health)
+        {
+            _health.PlusHealth(health);
+            if (IsAlive) (_picture as ISomePicture).ChangeIndexPicture(0);
+        }
         public void AddFriendFraction(NPSGroup friend) => _fractionElement.AddFriendFraction(friend);
         public void RemoveFriendFraction(NPSGroup friend) => _fractionElement.RemoveFriendFraction(friend);
         public void ChangeGunInHandAndInBack() => _inventoryGun.ChangeGunInHandAndInBack();
@@ -71,7 +78,6 @@ namespace TwoD_Game_RP
             : base(systemName, alivePicture, point, isClarity, memoryAction, boxElement)
         {
             _health = new HealthSkelet(health, health);
-            _alivePicture = alivePicture;
             _fractionElement = fractionElement;
             _inventoryGun = inventoryGun;
             Name = name;
@@ -85,9 +91,6 @@ namespace TwoD_Game_RP
             point, isClarity, memoryAction, boxElement)
         {
             _health = new HealthSkelet(health, health);
-            _alivePicture = new AlivePicture(
-                System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{systemNamePicture}-map.png"),
-                System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesPlayer"], $"{systemNamePicture}-map-dead.png"));
             _fractionElement = fractionElement;
             _inventoryGun = inventoryGun;
             Name = name;

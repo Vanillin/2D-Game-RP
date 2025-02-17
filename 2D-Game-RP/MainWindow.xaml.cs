@@ -112,8 +112,8 @@ namespace TwoD_Game_RP
         public Location CurrentLocation;
         public List<Location> Locations = new List<Location>();
         public PlayerSkelet player;
-        const int timeTimerSmall = 690/2;
-        const int timeTimerBig = 1150/2;
+        const int timeTimerSmall = 690 / 2;
+        const int timeTimerBig = 1150 / 2;
 
         private DispatcherTimer timerReloadAnimation = new DispatcherTimer()
         {
@@ -165,14 +165,25 @@ namespace TwoD_Game_RP
                 new CustomSortedEnum<string>()
                 {
                     "start1Ep",
-                    "test",
-                }, 
+                    //"test",
+                },
                 200);
             player.GiveGunInHand(new SmallToz());
+
+            //player.Actuals.Add(Actuals.Mechanic); //временно
+            foreach (var v in player.Actuals)
+            {
+                switch (v)
+                {
+                    case Actuals.Mechanic: { player.Tasks.ComplitedTask("checkActualMechanik"); break; }
+                    case Actuals.Sniper: { player.Tasks.ComplitedTask("checkActualSniper"); break; }
+                }
+            }
 
             GoToLocationStart("Eosha");
             AnalyzeSizeGamePole();
             TimerAnimation_Tick(null, null);
+            ChangeSizeInventoryPlayer();
         }
 
         private void AnalyzeSizeGamePole()
@@ -208,12 +219,12 @@ namespace TwoD_Game_RP
         }
         private void ChangeSizeInventoryPlayer()
         {
-            //if (InventoryPlayer.ActualHeight == 0)
-            //    pixelSizeInvent = Math.Min(InventoryPlayer.Height / (sizeInventH), InventoryPlayer.Width / (sizeInventW));
+            //if (InventoryPlayerCanvas.ActualHeight == 0)
+            //    pixelSizeInvent = Math.Min(InventoryPlayerCanvas.Height / (sizeInventH), InventoryPlayerCanvas.Width / (sizeInventW));
             //else
-            //    pixelSizeInvent = Math.Min(InventoryPlayer.ActualHeight / (sizeInventH), InventoryPlayer.ActualWidth / (sizeInventW));
-            //InventoryPlayer.Height = pixelSizeInvent * (sizeInventH);
-            //InventoryPlayer.Width = pixelSizeInvent * (sizeInventW);
+            //    pixelSizeInvent = Math.Min(InventoryPlayerCanvas.ActualHeight / (sizeInventH), InventoryPlayerCanvas.ActualWidth / (sizeInventW));
+            //InventoryPlayerCanvas.Height = pixelSizeInvent * (sizeInventH);
+            //InventoryPlayerCanvas.Width = pixelSizeInvent * (sizeInventW);
 
             pixelSizeInvent = 70;
         }
@@ -262,8 +273,9 @@ namespace TwoD_Game_RP
                 CurrentLocation.Display(Map, pixelSizeGamePole, SystemObj);
             }
 
-            ChangeSizeInventoryPlayer();
-            //DisplayPlayerInventory(InventoryHotBar, pixelSizeInvent);
+            //ChangeSizeInventoryPlayer();
+            DisplayPlayerInventory();
+            //DisplayPlayerHotBar(InventoryHotBar, pixelSizeInvent)
             //переключение новой картинки для анимации
         }
         public void GoToLocationStart(string name)
@@ -353,7 +365,7 @@ namespace TwoD_Game_RP
                 v.DoAction(CurrentLocation);
             }
         }
-        private void DisplayPlayerInventory(Canvas canvasInv, double size)
+        private void DisplayPlayerInventory()
         {
             if (player.GetGunInHand() != null)
                 GunInHandImage.Source = new BitmapImage(new Uri(player.GetGunInHand().Picture.Picture(), UriKind.Relative));
@@ -365,6 +377,9 @@ namespace TwoD_Game_RP
                 GunInBackImage.Source = null;
 
             HealthBar.Value = player.HealthPercent * 100;
+        }
+        private void DisplayPlayerHotBar(Canvas canvasInv, double size)
+        {
             //player.DisplayInventory(canvasInv, size);
         }
 
@@ -394,6 +409,9 @@ namespace TwoD_Game_RP
                         { RBtn_Click(null, null); break; }
                     case System.Windows.Input.Key.F:
                         { FBtn_Click(null, null); break; }
+
+                    case Key.P:
+                        { MenuTask_Click(null, null); break; }
                 }
                 IsDown = true;
             }
@@ -446,7 +464,7 @@ namespace TwoD_Game_RP
             }
             else if (_activeGameMode == GameMode.Q)
             {
-                ClickOnWatch(H, W); 
+                ClickOnWatch(H, W);
             }
         }
         private void Map_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -468,18 +486,22 @@ namespace TwoD_Game_RP
                 people = CurrentLocation.FindLives(H, W);
             }
             if (people == null) return;
+            if (people is PlayerSkelet) return;
 
             if (people is DoorSkelet)
             {
                 ClickOnDoor(people as DoorSkelet);
             }
+            else if (people is AliveSkelet)
+            {
+                if ((people as AliveSkelet).Fraction == NPSGroup.Box)
+                    ClickToDialogBox(people);
+                else
+                    ClickOnSkelet(people as AliveSkelet);
+            }
             else if (people is StorageSkelet)
             {
                 ClickOnBox(people as StorageSkelet);
-            }
-            else if (!(people is PlayerSkelet) && people is AliveSkelet)
-            {
-                ClickOnSkelet(people as AliveSkelet);
             }
         }
         private (int, int) FindPointClick(Point point)
@@ -506,6 +528,28 @@ namespace TwoD_Game_RP
                 //случай перехода на новую локацию или застревания где-либо
             }
             ChangeTimerInterval();
+        }
+        private void ClickToDialogBox(SystemSkelet skelet)
+        {
+            StackPanel menu = new StackPanel();
+            Canvas.SetLeft(menu, pixelSizeGamePole * compressW * (skelet.GPoint.Y + 1 - LeftUpCorner.Y));
+            Canvas.SetTop(menu, pixelSizeGamePole * compressH * (skelet.GPoint.X - LeftUpCorner.X));
+
+            Button Dialog = new Button()
+            {
+                Content = "Осмотреть",
+                Opacity = 0.6,
+                FontSize = 20,
+            };
+            Dialog.Click += MenuPersonDialog_Click;
+            Dialog.Tag = skelet;
+
+            double dx = Math.Abs(skelet.GPoint.X - player.GPoint.X);
+            double dy = Math.Abs(skelet.GPoint.Y - player.GPoint.Y);
+            bool Near = (dx <= 2 && dy <= 1) || (dx <= 1 && dy <= 2);
+
+            menu.Children.Add(Dialog);
+            SystemObj.Add(menu);
         }
         private void ClickOnWatch(int H, int W)
         {
@@ -1019,7 +1063,7 @@ namespace TwoD_Game_RP
         }
         private void InventoryPlayerCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (InventoryEnemyWindow.Visibility != Visibility.Collapsed)
+            if (InventoryEnemyWindow.Visibility != Visibility.Collapsed) //hand over on enemy
             {
                 Point pointMouse = e.GetPosition(InventoryPlayerCanvas);
                 (int W, int H) = ((int)Math.Truncate((pointMouse.X) / pixelSizeInvent),
@@ -1030,10 +1074,10 @@ namespace TwoD_Game_RP
                 if (item != null)
                 {
                     player.RemoveInBackpack(item);
-                    (skelet as IBoxElement).AddInBackpack(item);
+                    (skelet as StorageSkelet).AddInBackpack(item);
 
                     player.DisplayInventory(InventoryPlayerCanvas, pixelSizeInvent);
-                    (skelet as IDisplayCanvas).Display(InventoryEnemyCanvas, pixelSizeInvent);
+                    (skelet as StorageSkelet).DisplayInventory(InventoryEnemyCanvas, pixelSizeInvent);
                 }
             }
         }
@@ -1047,33 +1091,20 @@ namespace TwoD_Game_RP
             (int W, int H) = ((int)Math.Truncate((pointMouse.X) / pixelSizeInvent),
                 (int)Math.Truncate((pointMouse.Y) / pixelSizeInvent));
             var skelet = InventoryEnemyCanvas.Tag;
-            Item item = (skelet as IBoxElement).SearchInBackpack(H, W);
+            Item item = (skelet as StorageSkelet).SearchInBackpack(H, W);
             if (item != null)
             {
-                (skelet as IBoxElement).RemoveInBackpack(item);
+                (skelet as StorageSkelet).RemoveInBackpack(item);
                 player.AddInBackpack(item);
+                MainScripts.EventAddItemInBackpack(item);
 
                 player.DisplayInventory(InventoryPlayerCanvas, pixelSizeInvent);
-                (skelet as IDisplayCanvas).Display(InventoryEnemyCanvas, pixelSizeInvent);
+                (skelet as StorageSkelet).DisplayInventory(InventoryEnemyCanvas, pixelSizeInvent);
             }
         }
         private void InventoryEnemyCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
 
-        }
-        public bool CanTalkVanya = false;
-        private void ClickOnTelephone(object sender, MouseButtonEventArgs e)
-        {
-        }
-        private void MenuCall_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)sender;
-            AliveSkelet people = (AliveSkelet)button.Tag;
-
-            timerReloadAnimation.IsEnabled = false;
-            SystemObj = new List<UIElement>();
-            DialogWindow.Visibility = Visibility.Visible;
-            CreateWindowDialog(people);
         }
 
         //====================================================================================================================
@@ -1119,6 +1150,22 @@ namespace TwoD_Game_RP
                         FontSize = 16,
                         Background = Brushes.Transparent,
                     }
+                });
+            }
+            foreach (var task in player.Tasks.GetUsingTask())
+            {
+                ListTasks.Children.Add(new Border()
+                {
+                    CornerRadius = new CornerRadius(10),
+                    Background = Brushes.DarkGray,
+                    Padding = new Thickness(3),
+                    Margin = new Thickness(0, 2, 0, 0),
+                    Child = new Label()
+                    {
+                        Content = task.SystemName,
+                        FontSize = 22,
+                        Background = Brushes.Transparent,
+                    },
                 });
             }
         }

@@ -9,7 +9,7 @@ namespace TwoD_Game_RP
         int MaxSizeW { get; }
         Item SearchItem(int H, int W);
         bool Add(Item item);
-        void Remove(Item item);
+        GamePoint Remove(Item item);
         bool Contains(Item item);
         //private static bool CheckSquareInInventory(int x1, int y1, int x2, int y2, bool[,] Contein);
         //private static List<Item> ToListItem(CustomDictionary<Item, List<GamePoint>> dict);
@@ -88,21 +88,26 @@ namespace TwoD_Game_RP
                 return false;
             }
         }
-        public void Remove(Item item)
+        public GamePoint Remove(Item item)
         {
-            if (!_referenceItem.ContainsKey(item))
+            GamePoint retur = null;
+            foreach (var pair in _referenceItem)
             {
-                return;
+                if (pair.Key == item)
+                {
+                    retur = _referenceItem[pair.Key][0];
+                    if (_referenceItem[pair.Key].Count == 1)
+                    {
+                        _referenceItem.Remove(pair.Key);
+                    }
+                    else
+                    {
+                        _referenceItem[pair.Key].RemoveAt(0);
+                    }
+                    break;
+                }
             }
-            else if (_referenceItem[item].Count == 1)
-            {
-                _referenceItem.Remove(item);
-            }
-            else
-            {
-                _referenceItem[item].RemoveAt(0);
-            }
-            IsInclude(_maxSizeH, _maxSizeW, _referenceItem, out _referenceItem);
+            return retur;
         }
         public bool Contains(Item item)
         {

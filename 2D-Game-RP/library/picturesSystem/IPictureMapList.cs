@@ -8,7 +8,7 @@ namespace TwoD_Game_RP
         bool IsWatch { get; }
         bool IsWasView { get; set; }
         void ChangeHavingDark(bool isHaveDark);
-        (double sizeh, double sizew)[] GetSizes();
+        (int index, double sizeh, double sizew)[] GetParameters();
     }
     internal class MemoryPictureLocation : IPictureMapList
     {
@@ -85,7 +85,7 @@ namespace TwoD_Game_RP
                 while (start.Next != null)
                 {
                     var next = start.Next;
-                    if (next.Index != Layer.Earth && next.Index != Layer.System && next.Index != Layer.Skelet)
+                    if (next.Index == Layer.Wall)
                     {
                         //Its over DANDER !!! Check its in adding pictures
                         (next.PictureCell as ISomePicture).ChangeIndexPicture(1);
@@ -102,7 +102,7 @@ namespace TwoD_Game_RP
                 while (start.Next != null)
                 {
                     var next = start.Next;
-                    if (next.Index != Layer.Earth && next.Index != Layer.System && next.Index != Layer.Skelet)
+                    if (next.Index == Layer.Wall)
                     {
                         //Its over DANDER !!! Check its in adding pictures
                         (next.PictureCell as ISomePicture).ChangeIndexPicture(0);
@@ -258,9 +258,9 @@ namespace TwoD_Game_RP
                 current = current.Next;
             }
         }
-        public (double sizeh, double sizew)[] GetSizes()
+        public (int index, double sizeh, double sizew)[] GetParameters()
         {
-            (double sizeh, double sizew)[] sizes = new (double sizeh, double sizew)[_count];
+            (int index, double sizeh, double sizew)[] sizes = new (int index, double sizeh, double sizew)[_count];
             if (_count == 0) return sizes;
             var current = _head;
             int i = 0;
@@ -268,8 +268,12 @@ namespace TwoD_Game_RP
             {
                 switch (current.Index)
                 {
-                    case Layer.Earth: sizes[i] = (1, 1); break;
-                    default: sizes[i] = (2, 1); break;
+                    case Layer.Earth: sizes[i] = (1, 1, 1); break;
+                    case Layer.Wall: sizes[i] = (2, 2, 1); break;
+                    case Layer.Skelet: sizes[i] = (3, 2, 1); break;
+                    case Layer.BoxAnomaly: sizes[i] = (4, 2, 1); break;
+                    case Layer.Sky: sizes[i] = (5, 2, 1); break;
+                    case Layer.System: sizes[i] = (6, 2, 1); break;
                 }
                 current = current.Next;
                 i++;
