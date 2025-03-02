@@ -77,8 +77,11 @@ namespace TwoD_Game_RP
             {
                 foreach (var exclusion in task._eachOtherExclusive)
                 {
-                    _blockedTasks.Add(exclusion);
-                    _usingTask.Remove(exclusion);
+                    if (!_blockedTasks.Contains(exclusion))
+                    {
+                        _blockedTasks.Add(exclusion);
+                        _usingTask.Remove(exclusion);
+                    }
                 }
             }
 

@@ -38,7 +38,8 @@ namespace TwoD_Game_RP
         int _maxdepth;
         ImageParameters[,,] _images;
         int[,] _depths;
-        public MemoryImage(int Height, int Wight, int Depth, double compressH, double compressW)
+        bool _isIndexPicture;
+        public MemoryImage(bool isIndexPicture, int Height, int Wight, int Depth, double compressH, double compressW)
         {
             _height = Height;
             _wight = Wight;
@@ -47,8 +48,9 @@ namespace TwoD_Game_RP
             _compressW = compressW;
             _images = new ImageParameters[_height, _wight, _maxdepth];
             _depths = new int[_height, _wight];
+            _isIndexPicture = isIndexPicture;
         }
-        public MemoryImage(double compressH, double compressW)
+        public MemoryImage(bool isIndexPicture, double compressH, double compressW)
         {
             _height = 10;
             _wight = 10;
@@ -57,6 +59,7 @@ namespace TwoD_Game_RP
             _compressW = compressW;
             _images = new ImageParameters[_height, _wight, _maxdepth];
             _depths = new int[_height, _wight];
+            _isIndexPicture = isIndexPicture;
         }
         private void Resize(int height, int wight, int depth)
         {
@@ -135,7 +138,8 @@ namespace TwoD_Game_RP
             _images[i, j, k].Image.RenderTransform = new RotateTransform(((KeyValuePair<string, int>)_images[i, j, k].Image.Tag).Value, size * 0.5, size * 0.5);
             Canvas.SetLeft(_images[i, j, k].Image, size * _compressW * positionW);
             Canvas.SetTop(_images[i, j, k].Image, size * _compressH * positionH);
-            //Canvas.SetZIndex(_images[i, j, k].Image, _images[i, j, k].Index);
+            if (_isIndexPicture)
+                Canvas.SetZIndex(_images[i, j, k].Image, _images[i, j, k].Index);
             canvas.Children.Add(_images[i, j, k].Image);
         }
 

@@ -109,14 +109,14 @@ namespace TwoD_Game_RP
             : base(systemName, picture, point, isClarity, memoryAction)
         {
             _inventory = boxElement;
-            _inventoryDisplay = new MemoryImage(1, 1);
+            _inventoryDisplay = new MemoryImage(true, 1, 1);
             CreateBackBackpack();
         }
         internal StorageSkelet(string systemNamePicture, GamePoint point, bool isClarity, IMemoryAction memoryAction, IBoxElement boxElement)
             : base(systemNamePicture, point, isClarity, memoryAction)
         {
             _inventory = boxElement;
-            _inventoryDisplay = new MemoryImage(1, 1);
+            _inventoryDisplay = new MemoryImage(true, 1, 1);
             CreateBackBackpack();
         }
     }

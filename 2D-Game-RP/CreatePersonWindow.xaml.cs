@@ -28,9 +28,14 @@ namespace TwoD_Game_RP
         private void CreatePerson_Click(object sender, RoutedEventArgs e)
         {
             var actuals = new List<Actuals>();
-            if (SniperRB.IsEnabled) actuals.Add(Actuals.Sniper);
-            if (MechanicRB.IsEnabled) actuals.Add(Actuals.Mechanic);
-            MainWindow mainWindow = new MainWindow(NamePerson.Text, PlayerGender.Man, actuals);
+            if (SniperRB.IsChecked == true) actuals.Add(Actuals.Sniper);
+            if (MechanicRB.IsChecked == true) actuals.Add(Actuals.Mechanic);
+            PlayerGender gender = PlayerGender.Man;
+            if (GenderG.IsChecked == true)
+            {
+                gender = PlayerGender.Woman;
+            }
+            MainWindow mainWindow = new MainWindow(NamePerson.Text, gender, actuals);
             this.Close();
             mainWindow.Show();
         }

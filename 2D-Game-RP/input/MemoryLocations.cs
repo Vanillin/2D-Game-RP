@@ -12,14 +12,7 @@ namespace TwoD_Game_RP
             if (Eosha == null)
             {
                 List<(string, GamePoint)> transit = new List<(string, GamePoint)>()
-                {
-                    ("Mine", new GamePoint(10,0)),
-                    ("Mine", new GamePoint(11,0)),
-                    ("Mine", new GamePoint(12,0)),
-                    ("Mine", new GamePoint(13,0)),
-                    ("Mine", new GamePoint(14,0)),
-                    ("Mine", new GamePoint(15,0)),
-                    ("UnderEosha", new GamePoint(3,13)),
+                {                
                 };
                 Eosha = new Location("Булгар", "Eosha", 23, 32, compressH, compressW, transit);
 
@@ -36,6 +29,10 @@ namespace TwoD_Game_RP
                 Eosha.CreateGrafAll();
 
                 var girl = new Girl(lenWatch);
+                girl.EnqueueUpGlobalAction(new ActionMove(new GamePoint(16, 11), true));
+                girl.EnqueueUpGlobalAction(new ActionWait(5, true));
+                girl.EnqueueUpGlobalAction(new ActionMove(new GamePoint(15, 10), true));
+                girl.EnqueueUpGlobalAction(new ActionWait(5, true));
                 //var grandma = new Grandma(lenWatch);
                 var grandpa = new Grandpa(lenWatch);
 
@@ -45,7 +42,7 @@ namespace TwoD_Game_RP
                 Eosha.AddFirstLayerWithCell(new BoxSkelet("", new GamePoint(16, 3), true, 2, 2));
                 Eosha.AddFirstLayerWithCell(new BoxSkelet("", new GamePoint(17, 3), true, 2, 2));
 
-                player.GPoint = new GamePoint(8, 22);
+                player.GPoint = new GamePoint(5, 22);
                 Eosha.AddFirstLayerWithCell(player);
                 Eosha.AddFirstLayerWithCell(girl);
                 //Eosha.AddFirstLayerWithCell(grandma);

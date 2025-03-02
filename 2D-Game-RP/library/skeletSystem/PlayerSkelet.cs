@@ -20,9 +20,9 @@ namespace TwoD_Game_RP
         public void AddActual(Actuals actuals) => Actuals.Add(actuals);
 
         internal PlayerSkelet(string systemNamePicture, GamePoint point, bool isClarity, IMemoryAction memoryAction, IBoxElement boxElement,
-            int health, IFractionElement fractionElement, IHaveGun inventoryGun, string name, string secondName, PlayerGender gender, IMemoryTask tasks)
+            int health, IFractionElement fractionElement, IHaveGun inventoryGun, Gun defaultGun, string name, string secondName, PlayerGender gender, IMemoryTask tasks)
             : base(systemNamePicture, point, isClarity, memoryAction, boxElement,
-                health, fractionElement, inventoryGun, name, secondName)
+                health, fractionElement, inventoryGun, defaultGun, name, secondName)
         {
             Gender = gender;
             Tasks = tasks;
@@ -32,10 +32,10 @@ namespace TwoD_Game_RP
     }
     public class Player : PlayerSkelet
     {
-        public Player(string systemNamePicture, GamePoint point, bool isClarity, int inventoryHeight, int inventoryWight, List<Item> items,
+        public Player(string systemNamePicture, GamePoint point, bool isClarity, int inventoryHeight, int inventoryWight, List<Item> items, Gun defaultGun,
                 int health, NPSGroup fraction, string name, string secondName, PlayerGender gender, CustomSortedEnum<string> startTask)
             : base(systemNamePicture, point, isClarity, new MemoryAction(), new Inventory(inventoryHeight, inventoryWight, items),
-                health, new MemoryFraction(fraction), new InventoryGun(), name, secondName, gender, new TaskBoard(Information.GetTasks(70), Information.GetTaskConnection(), startTask))
+                health, new MemoryFraction(fraction), new InventoryGun(), defaultGun, name, secondName, gender, new TaskBoard(Information.GetTasks(70), Information.GetTaskConnection(), startTask))
         { }
 
     }

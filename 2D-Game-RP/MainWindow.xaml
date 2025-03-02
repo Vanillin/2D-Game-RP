@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Game_STALKER_Exclusion_Zone"
         mc:Ignorable="d"
-        Title="Game STALKER" WindowState="Maximized" Height="1200" Width="1920" Icon="gamedata\textures\icon.png" KeyUp="Window_KeyUp" KeyDown="Window_KeyDown">
+        Title="Game" WindowState="Maximized" Height="1200" Width="1920" Icon="gamedata\textures\icon.png" KeyUp="Window_KeyUp" KeyDown="Window_KeyDown">
 
     <Viewbox>        <!--Stretch="Uniform"-->
         <StackPanel>
-            <Menu Height="Auto">
+            <Menu Height="Auto" Visibility="Collapsed">
                 <MenuItem Header="Отладчик тестера" Click="TestWindow_Click" FontSize="20"/>
             </Menu>
             <Grid Height="1200" Width="1920">
@@ -39,7 +39,7 @@
 
                     <Grid x:Name="TaskWindow" Grid.Column="2" Width="640" Visibility="Collapsed">
                         <Grid.Background>
-                            <ImageBrush ImageSource="gamedata\textures\dialogfon.png" AlignmentX="Center" Stretch="Fill" />
+                            <ImageBrush ImageSource="gamedata\textures\maininvbig.png" AlignmentX="Center" Stretch="Fill" />
                         </Grid.Background>
 
                         <Grid.RowDefinitions>
@@ -48,7 +48,7 @@
                         </Grid.RowDefinitions>
                         <Border CornerRadius="10" Grid.Row="0" Height="70" Width="300" Margin="20,20,0,0" Background="AntiqueWhite" HorizontalAlignment="Left"  >
                             <Button x:Name="ExitTaskBtn" Background="Transparent"  Click="ExitTaskBtn_Click">
-                                <Label Content="Выйти из записной книжки" FontSize="20"/>
+                                <Label Content="Выйти" FontSize="20"/>
                             </Button>
                         </Border>
                         <StackPanel x:Name="ListTasks" Grid.Row="1" Margin="20">
@@ -68,7 +68,7 @@
                         <Canvas x:Name="InventoryPlayerCanvas" Grid.Row="1"  Height="Auto" Width="Auto" Margin="20"
                             MouseLeftButtonDown="InventoryPlayerCanvas_MouseLeftButtonDown" MouseRightButtonDown="InventoryPlayerCanvas_MouseRightButtonDown"/>
                     </Grid>
-                    <Grid x:Name="InventoryEnemyWindow" Grid.Column="0" Width="640" Visibility="Collapsed">
+                    <Grid x:Name="InventoryEnemyWindow" Grid.Column="0" Width="640"  Visibility="Collapsed">
                         <Grid.Background>
                             <ImageBrush ImageSource="gamedata\textures\maininvbig.png" AlignmentX="Center" Stretch="Fill" />
                         </Grid.Background>
@@ -78,8 +78,8 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Border CornerRadius="10" Grid.Row="0" Height="70" Width="300" Margin="20,20,0,0" Background="AntiqueWhite" HorizontalAlignment="Left"  >
-                            <Button x:Name="ExitInventorySearchBtn" Background="Transparent"  Click="ExitInventorySearchBtn_Click">
-                                <Label Content="Прекратить обыск" FontSize="20"/>
+                            <Button x:Name="ExitInventorySearchBtn" Background="Transparent"  Click="ExitInventorySearchBtn_Click" BorderThickness="0" Margin="5">
+                                <Label Content="Закрыть" FontSize="20"/>
                             </Button>
                         </Border>
                         <Canvas x:Name="InventoryEnemyCanvas" Grid.Row="1"  Height="Auto" Width="Auto" Margin="20"
@@ -88,7 +88,7 @@
 
                     <Grid x:Name="DialogWindow" Grid.Column="2" Width="700" Margin="20" Visibility="Collapsed">
                         <Grid.Background>
-                            <ImageBrush ImageSource="gamedata\textures\dialogfon.png" AlignmentX="Center" Stretch="Fill" />
+                            <ImageBrush ImageSource="gamedata\textures\maininvbig.png" AlignmentX="Center" Stretch="Fill" />
                         </Grid.Background>
 
                         <Grid.RowDefinitions>
@@ -97,8 +97,8 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Border CornerRadius="10" Height="70" Width="300" Margin="20,20,0,0" Background="AntiqueWhite" HorizontalAlignment="Left"  >
-                            <Button x:Name="ExitDialogBtn" Grid.Row="0"  Background="Transparent"  Click="ExitDialogBtn_Click">
-                                <Label Content="Выйти из диалога" FontSize="20"/>
+                            <Button x:Name="ExitDialogBtn" Grid.Row="0"  Background="Transparent"  Click="ExitDialogBtn_Click" BorderThickness="0" Margin="5">
+                                <Label Content="Выйти" FontSize="20"/>
                             </Button>
                         </Border>
 
@@ -139,24 +139,28 @@
                                 <ImageBrush ImageSource="gamedata\textures\screen.png" Stretch="Fill" />
                             </ProgressBar.Background>
                         </ProgressBar>
-                        <Border Grid.Row="1" Grid.Column="0" x:Name="EBtn" CornerRadius="10" Height="50" Width="80" VerticalAlignment="Top" Background="Tan">
+                        <Label Grid.Row="1" Grid.Column="0" Content="E" FontSize="20" Margin="0,50,0,0" HorizontalAlignment="Center" Foreground="White"/>
+                        <Border Grid.Row="1" Grid.Column="0" x:Name="EBtn" CornerRadius="10" Height="50" Width="80" VerticalAlignment="Top" Background="IndianRed">
                             <Button Click="EBtn_Click" Background="Transparent">
-                                <Label Content="E" FontSize="20" Margin="20,0" Foreground="White"/>
+                                <Image Source="gamedata/textures/lampGo.png" />
                             </Button>
                         </Border>
-                        <Border Grid.Row="1" Grid.Column="1" x:Name="RBtn" CornerRadius="10" Height="50" Width="80" VerticalAlignment="Top"  Background="AntiqueWhite">
+                        <Label Grid.Row="1" Grid.Column="1" Content="R" FontSize="20" Margin="0,50,0,0" HorizontalAlignment="Center" Foreground="White"/>
+                        <Border Grid.Row="1" Grid.Column="1" x:Name="RBtn" CornerRadius="10" Height="50" Width="80" VerticalAlignment="Top"  Background="DarkRed">
                             <Button Click="RBtn_Click" Background="Transparent">
-                                <Label Content="R" FontSize="20" Margin="20,0" Foreground="White"/>
+                                <Image Source="gamedata/textures/lampAttack.png" />
                             </Button>
                         </Border>
-                        <Border Grid.Row="1" Grid.Column="2" x:Name="FBtn" CornerRadius="10" Height="50" Width="80" VerticalAlignment="Top"  Background="AntiqueWhite">
+                        <Label Grid.Row="1" Grid.Column="2" Content="F" FontSize="20" Margin="0,50,0,0" HorizontalAlignment="Center" Foreground="White"/>
+                        <Border Grid.Row="1" Grid.Column="2" x:Name="FBtn" CornerRadius="10" Height="50" Width="80" VerticalAlignment="Top"  Background="DarkRed">
                             <Button Click="FBtn_Click" Background="Transparent">
-                                <Label Content="F" FontSize="20" Margin="20,0" Foreground="White"/>
+                                <Image Source="gamedata/textures/lampActive.png" />
                             </Button>
                         </Border>
-                        <Border Grid.Row="1" Grid.Column="3" x:Name="QBtn" CornerRadius="10" Height="50" Width="80" VerticalAlignment="Top"  Background="AntiqueWhite" >
+                        <Label Grid.Row="1" Grid.Column="3" Content="Q" FontSize="20" Margin="0,50,0,0" HorizontalAlignment="Center" Foreground="White"/>
+                        <Border Grid.Row="1" Grid.Column="3" x:Name="QBtn" CornerRadius="10" Height="50" Width="80" VerticalAlignment="Top"  Background="DarkRed" >
                             <Button Click="QBtn_Click" Background="Transparent">
-                                <Label Content="Q" FontSize="20" Margin="20,0" Foreground="White"/>
+                                <Image Source="gamedata/textures/lampWatch.png" />
                             </Button>
                         </Border>
 
@@ -170,7 +174,7 @@
                         <Grid.Background>
                             <ImageBrush ImageSource="gamedata\textures\mainleft.png" Stretch="Fill" />
                         </Grid.Background>
-                        <TextBox x:Name="WatchTextBlock" FontSize="22" Margin="20" Padding="10" TextWrapping="Wrap" Foreground="LightGreen">
+                        <TextBox x:Name="WatchTextBlock" FontSize="22" Margin="20" Padding="10" TextWrapping="Wrap" Foreground="LightGreen" IsReadOnly="True">
                             <TextBox.Background>
                                 <ImageBrush ImageSource="gamedata\textures\screen.png" Stretch="Fill" />
                             </TextBox.Background>
@@ -200,10 +204,11 @@
                             </Border.Background>
                             <Image x:Name="GunInBackImage"/>
                         </Border>
-                        <Button x:Name="ReverseGunsBtn" Grid.Row="0" Grid.Column="1" Width="50" Height="50" Click="ReverseGunsBtn_Click" HorizontalAlignment="Right" Margin="0,0,40,0">
+                        <Button x:Name="ReverseGunsBtn" Grid.Row="0" Grid.Column="1" Width="50" Height="50" Click="ReverseGunsBtn_Click" HorizontalAlignment="Right" Margin="0,0,40,0" BorderThickness="0">
                             <Button.Background>
                                 <ImageBrush ImageSource="gamedata\textures\button.png" Stretch="Fill" />
                             </Button.Background>
+                            <Image Source="gamedata/textures/buttonReloadGun.png" />
                         </Button>
                     </Grid>
                     <Grid Grid.Column="3">
@@ -220,10 +225,11 @@
                                 <ImageBrush ImageSource="gamedata\textures\screen.png" Stretch="Fill" />
                             </Canvas.Background>
                         </Canvas>
-                        <Button x:Name="InventoryBtn" Click="InventoryBtn_Click" Grid.Column="1" Margin="0, 20 ,20,20" VerticalAlignment="Top" Width="100" Height="100">
+                        <Button x:Name="InventoryBtn" Click="InventoryBtn_Click" Grid.Column="1" Margin="0, 20 ,20,20" VerticalAlignment="Top" Width="100" Height="100" BorderThickness="0">
                             <Button.Background>
                                 <ImageBrush ImageSource="gamedata\textures\button.png" Stretch="Fill" />
                             </Button.Background>
+                            <Image Source="gamedata/textures/buttonInventory.png" />
                         </Button>
                     </Grid>
                 </Grid>

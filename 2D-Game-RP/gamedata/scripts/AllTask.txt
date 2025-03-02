@@ -39,10 +39,10 @@ class             TaskHid
 systemName        spawnPerecati
 end
 
-class             Task
+class             TaskHid
 systemName        talkStartQuestDrawwell
-name              <talkStartQuestDrawwell>
-description       <talkStartQuestDrawwell>
+///name              <talkStartQuestDrawwell>
+///description       <talkStartQuestDrawwell>
 end
 
 class             TaskHid
@@ -51,8 +51,8 @@ end
 
 class             Description
 systemName        descriptionfixDrawwell
-name              <fixDrawwell>
-description       <fixDrawwell>
+name              <Вода>
+description       <Найдите способ починить колодец для Вероники.>
 end
 
 class                    Task
@@ -73,26 +73,28 @@ end
 
 class             Task
 systemName        talkStartQuestKillScorpion
-name              <talkStartQuestKillScorpion>
-description       <talkStartQuestKillScorpion>
+name              <Должен знать каждый>
+description       <Поговорите с Хулио по поводу выживания в пустыне.>
 end
 
-class             TaskHid
+class             Task
 systemName        takeGunInQuestKillScorpion
+name              <Должен знать каждый>
+description       <Возьмите ружьё Хулио в его подвале.>
 eachOtherName     go2Ep
 end
 
 class             Task
 systemName        killOneScorpion
-name              <killOneScorpion>
-description       <killOneScorpion>
-eachOtherName     go2EpWithGun
+name              <Должен знать каждый>
+description       <Потренируйтесь в стрельбе на скорпионах в заброшенной шахте на западе.>
+///eachOtherName     go2EpWithGun
 end
 
 class             Task
 systemName        talkEndQuestKillScorpion
-name              <talkEndQuestKillScorpion>
-description       <talkEndQuestKillScorpion>
+name              <Должен знать каждый>
+description       <Сообщите о своих успехах Хулио.>
 end
 
 class             TaskHid
@@ -107,8 +109,8 @@ end
 
 class             Description
 systemName        descriptiongo2Ep
-name              <go2Ep>
-description       <gotoMurava>
+name              <Нелёгкий путь>
+description       <Отправляйтесь в посёлок Мурава на востоке и расспросите о местоположении города Новый Оливер.>
 end
 
 class                    Task

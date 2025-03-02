@@ -6,6 +6,8 @@ namespace TwoD_Game_RP
     internal class MainScripts
     {
         static bool IsSpawnDrawwellDialog = false;
+        static bool IsSpawnTransitEosha = false;
+        static bool IsCreateManual = false;
         static List<string> ComplitedToEvent = new List<string>();
         public static void EventKillEnyone(Location location, AliveSkelet who, AliveSkelet whom)
         {
@@ -15,6 +17,14 @@ namespace TwoD_Game_RP
                 {
                     ComplitedToEvent.Add("killOneScorpion");
                 }
+            }
+            if (location.SystemName == "Eosha" && whom is Grandpa)
+            {
+                ComplitedToEvent.Add("kill1People");
+            }
+            if (location.SystemName == "Eosha" && whom is Girl)
+            {
+                ComplitedToEvent.Add("killAllPeople");
             }
         }
         public static void EventAddItemInBackpack(Item item)
@@ -46,7 +56,25 @@ namespace TwoD_Game_RP
                     case "kill1People": break;
                     case "killAllPeople": break;
                     case "findDetailDrawwell": break;
-                    case "takeGunInQuestKillScorpion": break;
+                    case "takeGunInQuestKillScorpion":
+                        {
+                            if (!IsSpawnTransitEosha)
+                            {
+                                IsSpawnTransitEosha = true;
+                                List<(string, GamePoint)> transit = new List<(string, GamePoint)>()
+                                {
+                                    ("Mine", new GamePoint(10,0)),
+                                    ("Mine", new GamePoint(11,0)),
+                                    ("Mine", new GamePoint(12,0)),
+                                    ("Mine", new GamePoint(13,0)),
+                                    ("Mine", new GamePoint(14,0)),
+                                    ("Mine", new GamePoint(15,0)),
+                                    ("UnderEosha", new GamePoint(3,13)),
+                                };
+                                window.Locations.Find(x => x.SystemName == "Eosha").AddTransitPoint(transit);
+                            }
+                            break;
+                        }
 
                     //task
                     case "spawnPerecati":
@@ -64,6 +92,16 @@ namespace TwoD_Game_RP
                         }
                     case "go2Ep":
                         {
+                            if (!IsCreateManual)
+                            {
+                                IsCreateManual = true;
+                                string manual = "Обучение: \n" +
+                                    "В игре есть 4 режима активностей: Движение, Взаимодействие, Атака, Изучение. \n" +
+                                    "Их переключение происходит при помощи кнопок в нижнем левом углу. Их активация происходит при нажатии левой кнопки мыши. \n" +
+                                    "Посмотреть все взаимодействия с объектом можно при помощи правой кнопки мыши. \n" +
+                                    "Передвижение происходит при помощи левой кнопки мыши в режиме передвижение или с помощью WASD. \n";
+                                MessageBox.Show(manual);
+                            }
                             if (window.CurrentLocation.SystemName == "Eosha" && window.player.GPoint.Y == 31)
                             {
                                 if (window.player.GPoint.X <= 13 && window.player.GPoint.X >= 10)
@@ -127,18 +165,18 @@ namespace TwoD_Game_RP
                         }
                     case "talkStartQuestKillScorpion": break;
                     case "talkEndQuestKillScorpion": break;
-                    case "talkEndQuestDrawwell": break;
 
                     //trigger
                     case "checkActualMechanik": break;
                     case "checkActualSniper": break;
                     case "start1Ep": window.MenuPersonDialog_Click(window.player); break;
-                    case "final0": Final(window, "1"); break;
-                    case "final1": Final(window, "2"); break;
-                    case "final2": Final(window, "3"); break;
-                    case "final3": Final(window, "4"); break;
+                    case "final0": Final(window, "Вы покинули родной Сан Пабло. Неизвестно вернётесь ли вы сюда."); break;
+                    case "final1": Final(window, "Вы покинули родной Сан Пабло. Неизвестно вернётесь ли вы сюда. На вашей спине висит ружьё, которое даёт вам увереность."); break;
+                    case "final2": Final(window, "Вы покинули родной Сан Пабло, добив её своеручно. Вы никогда больше сюда не вернётесь. Вероника это запомнила."); break;
+                    case "final3": Final(window, "Вы покинули родной Сан Пабло. Что-то вам подсказывает, что вы больше не увидете его жителей."); break;
 
                     //triggerimp
+                    case "talkEndQuestDrawwell": break;
                     case "triggerGo2EpWithGun": window.player.Tasks.ComplitedTask("triggerGo2EpWithGun"); break;
                     case "triggerkill1People": window.player.Tasks.ComplitedTask("triggerkill1People"); break;
                     case "triggerkillAllPeople": window.player.Tasks.ComplitedTask("triggerkillAllPeople"); break;
@@ -151,6 +189,7 @@ namespace TwoD_Game_RP
         private static void Final(MainWindow window, string message)
         {
             MessageBox.Show(message);
+            MessageBox.Show("Спасибо за прохождение первой главы. В скором времени выйдет вторая. Если у вас есть мысли, как улучшить игру, или вы нашли ошибку - напишите нам (vk.com/evan_from_yav)");
             window.Close();
         }
     }

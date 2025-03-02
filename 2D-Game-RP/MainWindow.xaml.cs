@@ -130,17 +130,13 @@ namespace TwoD_Game_RP
 
         public MainWindow()
         {
-            CreateMainWindow();
-        }
-        public MainWindow(string PlayerName, PlayerGender Gender)
-        {
-            CreateMainWindow();
+            CreateMainWindow("name", PlayerGender.Man, new List<Actuals>(0));
         }
         public MainWindow(string PlayerName, PlayerGender Gender, List<Actuals> actuals)
         {
-            CreateMainWindow();
+            CreateMainWindow(PlayerName, Gender, actuals);
         }
-        private void CreateMainWindow()
+        private void CreateMainWindow(string playerName, PlayerGender gender, List<Actuals> actuals)
         {
             //Information.Serialization();
 
@@ -156,8 +152,10 @@ namespace TwoD_Game_RP
             //timerReloadAnalyzeTask.IsEnabled = true;
             //timerReloadDoAll.Tick += TimerReloadDoAll_Tick;
             //timerReloadDoAll.IsEnabled = true;
+            string systemname = "playerm";
+            if (gender == PlayerGender.Woman) systemname = "playerg";
 
-            player = new PlayerFirst("Детектив", "playerm", sizeInventH, sizeInventW,
+            player = new PlayerFirst(playerName, systemname, sizeInventH, sizeInventW,
                 new List<Item>()
                 {
                     new NoteBook()
@@ -168,9 +166,9 @@ namespace TwoD_Game_RP
                     //"test",
                 },
                 200);
-            player.GiveGunInHand(new SmallToz());
 
-            //player.Actuals.Add(Actuals.Mechanic); //временно
+            foreach (var v in actuals)
+                player.Actuals.Add(v);
             foreach (var v in player.Actuals)
             {
                 switch (v)
@@ -240,10 +238,23 @@ namespace TwoD_Game_RP
         {
             MainScripts.TimerAnalyze(this);
         }
+        bool _IsCanTransitLocation = true;
         private void TimerReloadDoAll_Tick(object sender, EventArgs e)
         {
             DoActionAll();
             ChangeTimerInterval();
+
+            if (_IsCanTransitLocation)
+            {
+                string nameloc = CurrentLocation.GetSystemNameLocTransitCell(player.GPoint);
+                if (nameloc != null)
+                {
+                    player.ClearActions();
+                    player.ClearGlobalActions();
+                    GoToLocation(nameloc);
+                    _IsCanTransitLocation = false;
+                }
+            }
         }
         private void TimerAnimation_Tick(object sender, EventArgs e)
         {
@@ -352,7 +363,7 @@ namespace TwoD_Game_RP
                 player.ClearGlobalActions();
                 player.ClearActions();
                 player.EnqueueUpGlobalAction(new ActionTeleport(new GamePoint(32, 25), false));
-                player.PlusHealth(100);
+                player.PlusHealth(1000);
             }
 
             foreach (var v in CurrentLocation.GetLives())
@@ -436,7 +447,7 @@ namespace TwoD_Game_RP
             else if (_activeGameMode == GameMode.R)
             {
                 SystemSkelet people;
-                if (H + 1 < CurrentLocation.Height && CurrentLocation.FindLives(H + 1, W) != null)
+                if (H + 1 < CurrentLocation.Height && CurrentLocation.FindLives(H + 1, W) != null && !(CurrentLocation.FindLives(H + 1, W) is PlayerSkelet))
                 {
                     people = CurrentLocation.FindLives(H + 1, W);
                 }
@@ -459,8 +470,19 @@ namespace TwoD_Game_RP
                     people = CurrentLocation.FindLives(H, W);
                 }
                 if (people == null) return;
-                if (people is DoorSkelet) MenuDoorOpen_Click(people as DoorSkelet);
-                if (people is StorageSkelet) MenuPersonCheck_Click(people as StorageSkelet);
+
+                double dx = Math.Abs(people.GPoint.X - player.GPoint.X);
+                double dy = Math.Abs(people.GPoint.Y - player.GPoint.Y);
+                bool Near = (dx <= 2 && dy <= 1) || (dx <= 1 && dy <= 2);
+                if (!Near) 
+                { 
+                    Map_MouseRightButtonDown(sender, e);
+                    return;
+                }
+
+                if (people is AliveSkelet && (people as AliveSkelet).IsAlive) MenuPersonDialog_Click(people as AliveSkelet);
+                else if (people is DoorSkelet) MenuDoorOpen_Click(people as DoorSkelet);
+                else if (people is StorageSkelet) MenuPersonCheck_Click(people as StorageSkelet);
             }
             else if (_activeGameMode == GameMode.Q)
             {
@@ -511,15 +533,9 @@ namespace TwoD_Game_RP
         private void KeyDownToMove(int H, int W)
         {
             if (W < 0 || W >= CurrentLocation.Width || H < 0 || H >= CurrentLocation.Height) return;
+            _IsCanTransitLocation = true;
 
-            string nameloc = CurrentLocation.GetSystemNameLocTransitCell(H, W);
-            if (nameloc != null)
-            {
-                player.ClearActions();
-                player.ClearGlobalActions();
-                GoToLocation(nameloc);
-            }
-            else if (!CurrentLocation.GetIsBlockCell(H, W))
+            if (!CurrentLocation.GetIsBlockCell(H, W))
             {
                 player.ClearActions();
                 player.ClearGlobalActions();
@@ -913,6 +929,7 @@ namespace TwoD_Game_RP
             Button b = new Button()
             {
                 Tag = index,
+                BorderThickness = new Thickness(0),
                 Content = phrases[index].Text,
                 Background = Brushes.Transparent,
                 FontSize = 20,
@@ -1080,6 +1097,25 @@ namespace TwoD_Game_RP
                     (skelet as StorageSkelet).DisplayInventory(InventoryEnemyCanvas, pixelSizeInvent);
                 }
             }
+            else
+            {
+                Point pointMouse = e.GetPosition(InventoryPlayerCanvas);
+                (int W, int H) = ((int)Math.Truncate((pointMouse.X) / pixelSizeInvent),
+                    (int)Math.Truncate((pointMouse.Y) / pixelSizeInvent));
+                Item item = player.SearchInBackpack(H, W);
+
+                if (item is Gun)
+                {
+                    player.RemoveInBackpack((Gun)item);
+                    player.GiveGunInHand((Gun)item);
+                    InventoryBtn_Click(null, null);
+                }
+                else if (item is NoteBook)
+                {
+                    InventoryBtn_Click(null, null);
+                    MenuTask_Click(null, null);
+                }
+            }
         }
         private void InventoryPlayerCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -1152,22 +1188,22 @@ namespace TwoD_Game_RP
                     }
                 });
             }
-            foreach (var task in player.Tasks.GetUsingTask())
-            {
-                ListTasks.Children.Add(new Border()
-                {
-                    CornerRadius = new CornerRadius(10),
-                    Background = Brushes.DarkGray,
-                    Padding = new Thickness(3),
-                    Margin = new Thickness(0, 2, 0, 0),
-                    Child = new Label()
-                    {
-                        Content = task.SystemName,
-                        FontSize = 22,
-                        Background = Brushes.Transparent,
-                    },
-                });
-            }
+            //foreach (var task in player.Tasks.GetUsingTask())
+            //{
+            //    ListTasks.Children.Add(new Border()
+            //    {
+            //        CornerRadius = new CornerRadius(10),
+            //        Background = Brushes.DarkGray,
+            //        Padding = new Thickness(3),
+            //        Margin = new Thickness(0, 2, 0, 0),
+            //        Child = new Label()
+            //        {
+            //            Content = task.SystemName,
+            //            FontSize = 22,
+            //            Background = Brushes.Transparent,
+            //        },
+            //    });
+            //}
         }
 
         //============================================ Test System ========================================

@@ -523,5 +523,13 @@
   <ItemGroup>
     <Resource Include="gamedata\textures\fonCreatePlayer.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\buttonInventory.png" />
+    <Resource Include="gamedata\textures\buttonReloadGun.png" />
+    <Resource Include="gamedata\textures\lampActive.png" />
+    <Resource Include="gamedata\textures\lampAttack.png" />
+    <Resource Include="gamedata\textures\lampGo.png" />
+    <Resource Include="gamedata\textures\lampWatch.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

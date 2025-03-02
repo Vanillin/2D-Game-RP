@@ -55,23 +55,29 @@ namespace TwoD_Game_RP
             _grafLocToMove = null;
             _grafLocToWatch = null;
             _lives = new List<SystemSkelet>();
-            _display = new MemoryImage(height, width, 6, compressH, compressW);
+            _display = new MemoryImage(false, height, width, 6, compressH, compressW);
 
             _transitGamePoint = new CustomDictionary<GamePoint, string>();
             _spawnGamePoint = new CustomDictionary<string, List<GamePoint>>();
-            foreach (var pair in transitPoint)
-            {
-                if (!_spawnGamePoint.ContainsKey(pair.Item1))
-                    _spawnGamePoint.Add(pair.Item1,new List<GamePoint>());
-                _spawnGamePoint[pair.Item1].Add(pair.Item2);
-                _transitGamePoint.Add(pair.Item2, pair.Item1);
-            }
+            AddTransitPoint(transitPoint);
 
             IsBusy = new CustomSortedEnum<GamePoint>();
             Height = height;
             Width = width;
             Name = name;
             SystemName = systemName;
+        }
+        public void AddTransitPoint(List<(string, GamePoint)> transitPoint)
+        {
+            foreach (var pair in transitPoint)
+            {
+                if (!_spawnGamePoint.ContainsKey(pair.Item1))
+                    _spawnGamePoint.Add(pair.Item1, new List<GamePoint>());
+                _spawnGamePoint[pair.Item1].Add(pair.Item2);
+                if (_transitGamePoint.ContainsKey(pair.Item2))
+                    throw new CustomException("Transit point has been create");
+                _transitGamePoint.Add(pair.Item2, pair.Item1);
+            }
         }
         public List<SystemSkelet> GetLives()
         {
@@ -94,13 +100,17 @@ namespace TwoD_Game_RP
             }
             throw new CustomException($"Transit in Location {nameLoc} not find");
         }
-        public string GetSystemNameLocTransitCell(int heinghtInd, int weightInd)
+        public string GetSystemNameLocTransitCell(GamePoint point)
         {
-            if (_transitGamePoint.ContainsKey(new GamePoint(heinghtInd, weightInd)))
+            if (_transitGamePoint.ContainsKey(point))
             {
-                return _transitGamePoint[new GamePoint(heinghtInd, weightInd)];
+                return _transitGamePoint[point];
             }
             return null;
+        }
+        public string GetSystemNameLocTransitCell(int heinghtInd, int weightInd)
+        {
+            return GetSystemNameLocTransitCell(new GamePoint(heinghtInd, weightInd));
         }
         public bool IsDescriptionsCell(int heightInd, int wightInd, out string description)
         {
