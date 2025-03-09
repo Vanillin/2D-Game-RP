@@ -28,8 +28,8 @@ nextSystemName   <questfixdrawwelldialog2>
 end
 
 systemName  questfixdrawwelldialog2
-text   <Да вот, собираю вещи, почти всё. Только вот воду взять негде, в деревне колодец ]
-text1  <сломался. Вот думаю что делать.>
+text   <Да, почти все вещи собрала. Только вот воду взять негде, в деревне колодец ]
+text1  <сломался. Теперь думаю что делать.>
 nextSystemName   <questfixdrawwelldialog3  questfixdrawwelldialog4>
 end
 
@@ -61,7 +61,7 @@ nextSystemName   <complitequestfixdrawwelldialog1>
 end
 
 systemName  complitequestfixdrawwelldialog1
-text   <Спасибо тебе огромное! Ты не представляешь, как ты меня выручил. Сейчас мне тебя ]
+text   <Спасибо тебе огромное! Ты не представляешь, как меня выручил. Сейчас мне тебя ]
 text1  <нечем отблагодарить, но если в будущем пересечёмся - за мной должок.>
 compliteTaskSystemName  <talkEndQuestDrawwell>
 end

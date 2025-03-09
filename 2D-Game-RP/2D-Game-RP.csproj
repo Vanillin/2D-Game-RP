@@ -387,7 +387,7 @@
     <Resource Include="gamedata\textures\items\carrot.png" />
     <Resource Include="gamedata\textures\items\detailDrawwell.png" />
     <Resource Include="gamedata\textures\items\knife.png" />
-    <Resource Include="gamedata\textures\items\partScoption.png" />
+    <Resource Include="gamedata\textures\items\partScorpion.png" />
     <Resource Include="gamedata\textures\items\potato.png" />
     <Resource Include="gamedata\textures\items\smallToz.png" />
     <Resource Include="gamedata\textures\items\water.png" />
@@ -530,6 +530,12 @@
     <Resource Include="gamedata\textures\lampAttack.png" />
     <Resource Include="gamedata\textures\lampGo.png" />
     <Resource Include="gamedata\textures\lampWatch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\items\hand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamedata\textures\buttonTask.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

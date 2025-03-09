@@ -165,7 +165,7 @@ namespace TwoD_Game_RP
                     "start1Ep",
                     //"test",
                 },
-                200);
+                70);
 
             foreach (var v in actuals)
                 player.Actuals.Add(v);
@@ -174,7 +174,7 @@ namespace TwoD_Game_RP
                 switch (v)
                 {
                     case Actuals.Mechanic: { player.Tasks.ComplitedTask("checkActualMechanik"); break; }
-                    case Actuals.Sniper: { player.Tasks.ComplitedTask("checkActualSniper"); break; }
+                    case Actuals.Sniper: { player.Tasks.ComplitedTask("checkActualSniper"); oblwatch+=2; oblsee+=2; break; }
                 }
             }
 
@@ -422,7 +422,7 @@ namespace TwoD_Game_RP
                         { FBtn_Click(null, null); break; }
 
                     case Key.P:
-                        { MenuTask_Click(null, null); break; }
+                        { QuestionBtn_Click(null, null); break; }
                 }
                 IsDown = true;
             }
@@ -748,16 +748,6 @@ namespace TwoD_Game_RP
                 CreateWindowDialog(people);
             }
         }
-        private void MenuTask_Click(object sender, RoutedEventArgs e)
-        {
-            if (TaskWindow.Visibility == Visibility.Collapsed)
-            {
-                timerReloadAnimation.IsEnabled = false;
-                SystemObj = new List<UIElement>();
-                TaskWindow.Visibility = Visibility.Visible;
-                CreateTaskWindow();
-            }
-        }
         private void SystemViewBtn_Click(object sender, RoutedEventArgs e)
         {
             SeeInCurcle = !SeeInCurcle;
@@ -1023,6 +1013,8 @@ namespace TwoD_Game_RP
         {
             if (InventoryPlayerWindow.Visibility == Visibility.Collapsed)
             {
+                ExitTaskBtn_Click(null, null);
+
                 timerReloadAnimation.IsEnabled = false;
                 SystemObj = new List<UIElement>();
                 InventoryPlayerWindow.Visibility = Visibility.Visible;
@@ -1031,13 +1023,17 @@ namespace TwoD_Game_RP
             else
             {
                 timerReloadAnimation.IsEnabled = true;
-                InventoryPlayerWindow.Visibility = Visibility.Collapsed;
+                ExitInventoryPlayerBtn_Click(null, null);
             }
+        }
+        private void ExitInventoryPlayerBtn_Click(object sender, RoutedEventArgs e)
+        {
+            InventoryPlayerWindow.Visibility = Visibility.Collapsed;
         }
         private void ExitInventorySearchBtn_Click(object sender, RoutedEventArgs e)
         {
-            InventoryEnemyWindow.Visibility = Visibility.Collapsed;
             timerReloadAnimation.IsEnabled = true;
+            InventoryEnemyWindow.Visibility = Visibility.Collapsed;
         }
         private void OpenInventoryWindow(StorageSkelet skelet)
         {
@@ -1109,11 +1105,19 @@ namespace TwoD_Game_RP
                     player.RemoveInBackpack((Gun)item);
                     player.GiveGunInHand((Gun)item);
                     InventoryBtn_Click(null, null);
+                    player.DisplayInventory(InventoryPlayerCanvas, pixelSizeInvent);
                 }
                 else if (item is NoteBook)
                 {
                     InventoryBtn_Click(null, null);
-                    MenuTask_Click(null, null);
+                    QuestionBtn_Click(null, null);
+                }
+                else if (item is ItemMedicine)
+                {
+                    player.RemoveInBackpack(item);
+                    (item as ItemMedicine).CureSkelet(player);
+                    InventoryBtn_Click(null, null);
+                    player.DisplayInventory(InventoryPlayerCanvas, pixelSizeInvent);
                 }
             }
         }
@@ -1150,12 +1154,27 @@ namespace TwoD_Game_RP
         //====================================================================================================================
         //====================================================================================================================
         //====================================================================================================================
+        private void QuestionBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (TaskWindow.Visibility == Visibility.Collapsed)
+            {
+                ExitInventoryPlayerBtn_Click(null, null);
 
+                timerReloadAnimation.IsEnabled = false;
+                SystemObj = new List<UIElement>();
+                TaskWindow.Visibility = Visibility.Visible;
+                CreateTaskWindow();
+            }
+            else
+            {
+                timerReloadAnimation.IsEnabled = true;
+                ExitTaskBtn_Click(null, null);
+            }
+        }
         private void ExitTaskBtn_Click(object sender, RoutedEventArgs e)
         {
             TaskWindow.Visibility = Visibility.Collapsed;
             ListTasks.Children.Clear();
-            timerReloadAnimation.IsEnabled = true;
         }
         private void CreateTaskWindow()
         {

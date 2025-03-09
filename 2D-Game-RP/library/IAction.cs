@@ -157,7 +157,7 @@ namespace TwoD_Game_RP
         {
             //  SystemSket can go in Skelet
             if (skelet is AliveSkelet)
-                return !location.IsCellBusy((int)GamePoint.X, (int)GamePoint.Y);
+                return !location.IsCellBusy((int)GamePoint.X, (int)GamePoint.Y) && !location.GetIsBlockCell((int)GamePoint.X, (int)GamePoint.Y);
             else return true;
         }
     }

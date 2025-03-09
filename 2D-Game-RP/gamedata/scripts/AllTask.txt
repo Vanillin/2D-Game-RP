@@ -80,7 +80,7 @@ end
 class             Task
 systemName        takeGunInQuestKillScorpion
 name              <Должен знать каждый>
-description       <Возьмите ружьё Хулио в его подвале.>
+description       <Возьмите ружьё в подвале Хулио.>
 eachOtherName     go2Ep
 end
 

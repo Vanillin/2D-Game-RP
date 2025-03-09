@@ -46,11 +46,11 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Border CornerRadius="10" Grid.Row="0" Height="70" Width="300" Margin="20,20,0,0" Background="AntiqueWhite" HorizontalAlignment="Left"  >
+                        <!--<Border CornerRadius="10" Grid.Row="0" Height="70" Width="300" Margin="20,20,0,0" Background="AntiqueWhite" HorizontalAlignment="Left"  >
                             <Button x:Name="ExitTaskBtn" Background="Transparent"  Click="ExitTaskBtn_Click">
                                 <Label Content="Выйти" FontSize="20"/>
                             </Button>
-                        </Border>
+                        </Border>-->
                         <StackPanel x:Name="ListTasks" Grid.Row="1" Margin="20">
 
                         </StackPanel>
@@ -215,6 +215,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions >
                         <Grid.Background>
                             <ImageBrush ImageSource="gamedata\textures\mainleft.png" Stretch="Fill" />
@@ -230,6 +231,12 @@
                                 <ImageBrush ImageSource="gamedata\textures\button.png" Stretch="Fill" />
                             </Button.Background>
                             <Image Source="gamedata/textures/buttonInventory.png" />
+                        </Button>
+                        <Button x:Name="QuestionBtn" Click="QuestionBtn_Click" Grid.Column="2" Margin="0, 20 ,20,20" VerticalAlignment="Top" Width="100" Height="100" BorderThickness="0">
+                            <Button.Background>
+                                <ImageBrush ImageSource="gamedata\textures\button.png" Stretch="Fill" />
+                            </Button.Background>
+                            <Image Source="gamedata/textures/buttonTask.png" />
                         </Button>
                     </Grid>
                 </Grid>

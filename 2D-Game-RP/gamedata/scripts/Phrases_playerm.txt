@@ -54,7 +54,7 @@ nextSystemName   <questt3-1>
 end
 
 systemName  questt3-1
-text   <Мне точно пригодится еда и вода. Хулио много путешествовал надо с ним посоветоваться.>
+text   <Мне точно пригодится еда и вода. Хулио много путешествовал - надо с ним посоветоваться.>
 nextSystemName   <questt1 questt2 questt3 questt4>
 end
 

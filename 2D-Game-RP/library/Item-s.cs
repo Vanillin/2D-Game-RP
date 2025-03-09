@@ -42,7 +42,19 @@ namespace TwoD_Game_RP
             return SystemName == other.SystemName;
         }
     }
-
+    public abstract class ItemMedicine : Item
+    {
+        private int _healthPlus;
+        public ItemMedicine(string name, string systemName, int cost, int sizeH, int sizeW, int healthPlus)
+            : base (name, systemName, cost, sizeH, sizeW)
+        {
+            _healthPlus = healthPlus;
+        }
+        public void CureSkelet(AliveSkelet skelet)
+        {
+            skelet.PlusHealth(_healthPlus);
+        }
+    }
     public abstract class Gun : Item
     {
         public int Damage;

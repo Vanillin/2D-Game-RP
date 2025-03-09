@@ -22,7 +22,7 @@ namespace TwoD_Game_RP
     }
     public class Hand : Gun
     {
-        public Hand() : base("", "", 1, 1, 0, 1, 1,
+        public Hand() : base("Кулаки", "hand", 1, 1, 0, 1, 1,
             new StaticPicCell(System.IO.Path.Combine(ConfigurationManager.AppSettings["TexturesMap"], $"System/Shoot.png")))
         { }
     }
